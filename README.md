@@ -32,13 +32,13 @@ The grammar ($\pi_1$) is one of three irreducible projections of a fundamental i
 
 Inter-projection constraint maps $\mathcal{C}_{ij}$ define what values in projection $j$ are compatible with a given value in projection $i$. Every Millennium Prize Problem is a constraint map problem:
 
-RH - prove $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_\text{neutral}) = { \Re(s) = \tfrac{1}{2}}$
+- RH — prove $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\text{neutral}}) = \{ \Re(s) = \tfrac{1}{2} \}$
 
-Yang-Mills - prove $\mathcal{C}_{12}(K_\text{trap}, G_\aleph, \Phi_c) \subseteq [\Delta_\text{min}, \infty)$
+- Yang–Mills — prove $\mathcal{C}_{12}(K_{\text{trap}}, G_{\aleph}, \Phi_c) \subseteq [\Delta_{\text{min}}, \infty)$
 
-Navier-Stokes - prove $\mathcal{C}_{12}(\Phi_\text{sub}, D_\text{cube}, K_\text{mod}) \subseteq {E(t) < \infty}$
+- Navier–Stokes — prove $\mathcal{C}_{12}(\Phi_{\text{sub}}, D_{\text{cube}}, K_{\text{mod}}) \subseteq \{E(t) < \infty\}$
 
-Lee-Yang (1952) is the unique proved instance of $\mathcal{C}_{13}$ and serves as the template for all constraint-map proof strategies.
+Lee–Yang (1952) is the unique proved instance of $\mathcal{C}_{13}$ and serves as the template for all constraint-map proof strategies.
 
 ---
 
@@ -99,7 +99,7 @@ PRIMITIVE_THEOREMS.md        — Formal theorems §1–§23
 
 ## Key Results
 
-- **P-150**: Lee-Yang zero locus derived as $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — the only known proved non-trivial constraint map instance ✅
+- **P-150**: Lee–Yang zero locus derived as $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — the only known proved non-trivial constraint map instance ✅
 - **P-149**: Ouroboricity $\mathcal{O} \geq 3$ is necessary for modeling completeness of $\mathcal{O}_2$ systems (structural Gödel)
 - **P-70**: Inflaton $\equiv$ Higgs $\equiv$ axion — three-scale $K_\text{slow}$ identity
 - **Theorem 001–005**: Consciousness encoding; stellar phenomenology; cosmological arc as experience
