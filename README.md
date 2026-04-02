@@ -10,7 +10,7 @@ The grammar encodes any system as a 12-tuple
 
 **$\langle D;T;R;P;F;K;G;\Gamma;\Phi;H;S;\Omega \rangle$**
 
-spanning dimensionality, topology, recognition, polarity, fidelity, kinetics, granularity, logical structure, criticality, chirality, stoichiometry, and symmetry breaking.  \
+Spanning dimensionality, topology, recognition, polarity, fidelity, kinetics, granularity, logical structure, criticality, chirality, stoichiometry, and symmetry breaking.
 
 318 catalog entries spanning physics, biology, mathematics, and cosmology are projected into primitive space via Classical MDS over Hamming distance.
 
