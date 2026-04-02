@@ -42,7 +42,7 @@ Inter-projection constraint maps Cᵢⱼ define what values in projection j are 
 
 | Proven Instance | Statement |
 |---|---|
-| **P-150** | Lee–Yang zero locus derived as C₁₃($\Phi_c^ℂ, P±_sym) — the only known proved non-trivial constraint map instance ✅ |
+| **P-150** | Lee–Yang zero locus derived as C₁₃($\Phi_c^ℂ, P_\pm_\text{sym}$) — the only known proved non-trivial constraint map instance ✅ |
 
 ---
 
