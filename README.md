@@ -1,6 +1,6 @@
 # SynthOmnicon
 
-**A 12-primitive constraint grammar for the structural encoding of physical, mathematical, and biological systems.**
+**A Holographic Type Theory**
 
 ---
 
