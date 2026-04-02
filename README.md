@@ -34,9 +34,9 @@ Inter-projection constraint maps Cᵢⱼ define what values in projection j are 
 
 | Problem | Constraint Map Statement |
 |---|---|
-| Riemann Hypothesis (RH) | C₁₃(Φ_c^ℂ, P_neutral) = { Re(s) = 1/2 } |
-| Yang–Mills | C₁₂(K_trap, G_ℵ, Φ_c) ⊆ [Δ_min, ∞) |
-| Navier–Stokes | C₁₂(Φ_sub, D_cube, K_mod) ⊆ {E(t) < ∞} |
+| Riemann Hypothesis (RH) | C₁₃(${\Phi_c}^ℂ, P_\text{neutral}$) = { Re(s) = 1/2 } |
+| Yang–Mills | C₁₂($K_\text{trap}, G_\aleph, \Phi_c$) ⊆ [$\Delta_\text{min}, \infty$) |
+| Navier–Stokes | C₁₂($\Phi_\text{sub}, D_\cube, K_\text{mod}$) ⊆ {$E(t) < \infty$} |
 
 **Lee–Yang (1952)** is the unique proved instance of C₁₃ and serves as the template for all constraint-map proof strategies.
 
