@@ -34,7 +34,7 @@ Inter-projection constraint maps Cᵢⱼ define what values in projection j are 
 
 | Problem | Constraint Map Statement |
 |---|---|
-| Riemann Hypothesis (RH) | C₁₃(${\Phi_c}^ℂ, P_\text{neutral}$) = { $Re(s) = {1/2}$ } |
+| Riemann Hypothesis (RH) | C₁₃($\Phi_c^ℂ, P_\text{neutral}$) = { $Re(s) = {1/2}$ } |
 | Yang–Mills | C₁₂( $K_\text{trap}, G_\aleph, \Phi_c$ ) ⊆ ( $\Delta_\text{min}, \infty$ ) |
 | Navier–Stokes | C₁₂( $\Phi_\text{sub}, D_\text{cube}, K_\text{mod}$ ) ⊆ { $E(t) < \infty$ } |
 
@@ -42,7 +42,7 @@ Inter-projection constraint maps Cᵢⱼ define what values in projection j are 
 
 | Proven Instance | Statement |
 |---|---|
-| **P-150** | Lee–Yang zero locus derived as C₁₃(Φ_c^ℂ, P±_sym) — the only known proved non-trivial constraint map instance ✅ |
+| **P-150** | Lee–Yang zero locus derived as C₁₃($\Phi_c^ℂ, P±_sym) — the only known proved non-trivial constraint map instance ✅ |
 
 ---
 
