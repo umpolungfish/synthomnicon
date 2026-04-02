@@ -104,11 +104,11 @@ Mills, L. (https://orcid.org/0000-0003-0003-0552).
 
 | ID | Statement |
 |---|---|
-| **P-150** | Lee–Yang zero locus derived as C₁₃(Φ_c^ℂ, P±_sym) — the only known proved non-trivial constraint map instance ✅ |
-| **P-149** | Ouroboricity O ≥ 3 is necessary for modeling completeness of O₂ systems (structural Gödel) |
+| **P-150** | Lee–Yang zero locus derived as C₁₃($\Phi_c^ℂ, P_\pm^{\text{sym}}$) — the only known proved non-trivial constraint map instance ✅ |
+| **P-149** | Ouroboricity $O ≥ 3$ is necessary for modeling completeness of $O₂$ systems (structural Gödel) |
 | **P-70** | Inflaton ≡ Higgs ≡ axion — three-scale K_slow identity |
 | **Theorem 001–005** | Consciousness encoding; stellar phenomenology; cosmological arc as experience |
-| **RH–Lee-Yang correspondence** | (machine-checked in Lean): shared Φ_c^ℂ encoding; structural distance 5; P mismatch identified as the key gap |
+| **RH–Lee-Yang correspondence** | (machine-checked in Lean): shared $\Phi_c^ℂ$ encoding; structural distance 5; P mismatch identified as the key gap |
 
 *See `PRIMITIVE_PREDICTIONS.md` for the full prediction archive.*
 
