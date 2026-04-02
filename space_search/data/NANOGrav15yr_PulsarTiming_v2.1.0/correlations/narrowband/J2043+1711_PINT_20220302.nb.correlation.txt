@@ -1,0 +1,10 @@
+FD2        FD1        -0.987555296896636
+M2         A1         -0.981453301172631
+Offset     FD1        -0.977400859969418
+Offset     FD2        +0.944470241226565
+SINI       M2         -0.903817490547005
+EPS1       A1         +0.903057309943055
+DMX_*      DMX_*       19837 correlations larger than 0.9
+DMX_*      FD1           198 correlations larger than 0.9
+DMX_*      FD2           162 correlations larger than 0.9
+DMX_*      Offset        200 correlations larger than 0.9

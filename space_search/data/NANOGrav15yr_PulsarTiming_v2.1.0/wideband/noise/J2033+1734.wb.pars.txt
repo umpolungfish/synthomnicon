@@ -1,0 +1,10 @@
+J2033+1734_430_PUPPI_dmefac
+J2033+1734_430_PUPPI_efac
+J2033+1734_430_PUPPI_log10_dmequad
+J2033+1734_430_PUPPI_log10_t2equad
+J2033+1734_L-wide_PUPPI_dmefac
+J2033+1734_L-wide_PUPPI_efac
+J2033+1734_L-wide_PUPPI_log10_dmequad
+J2033+1734_L-wide_PUPPI_log10_t2equad
+J2033+1734_red_noise_gamma
+J2033+1734_red_noise_log10_A

@@ -1,0 +1,10 @@
+J1843-1113_Rcvr1_2_GUPPI_dmefac
+J1843-1113_Rcvr1_2_GUPPI_efac
+J1843-1113_Rcvr1_2_GUPPI_log10_dmequad
+J1843-1113_Rcvr1_2_GUPPI_log10_t2equad
+J1843-1113_Rcvr_800_GUPPI_dmefac
+J1843-1113_Rcvr_800_GUPPI_efac
+J1843-1113_Rcvr_800_GUPPI_log10_dmequad
+J1843-1113_Rcvr_800_GUPPI_log10_t2equad
+J1843-1113_red_noise_gamma
+J1843-1113_red_noise_log10_A

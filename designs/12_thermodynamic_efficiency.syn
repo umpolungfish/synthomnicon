@@ -1,0 +1,37 @@
+# Design 12: Thermodynamic Efficiency Optimization — Cost Minimization
+# =====================================================================
+# Demonstrates: Thermodynamic cost tracking, efficiency optimization,
+# lambda parameter tuning, mutual information maximization
+
+version: "1.0"
+start: nitroso_radical_crown_ether_host_guest_synthon
+
+strategies:
+  # High mutual information assembly (both are similar cage systems)
+  efficient_assembly:
+    - tensor: nitroso_radical_cucurbituril_anion_rotaxane_synthon
+      lambda: 0.7  # High lambda = expect high mutual information
+
+do:
+  # Execute efficient assembly
+  - bind: efficient_assembly
+  
+  # Assert cost is reasonable (high MI should reduce cost)
+  - assert:
+      expr: fidelity == F_eth
+      message: "Fidelity bottleneck expected"
+  
+  # Assert topology promoted
+  - assert:
+      expr: topology == T_cage
+      message: "Topology should promote to cage"
+  
+  # Note: We don't attempt join/lift here due to D/T mismatch
+  # This demonstrates pure tensor thermodynamics
+
+output:
+  format: text
+  save: results/12_thermodynamic_efficiency.json
+  assert:
+    - total_delta_xi < 20.0
+    - steps <= 6

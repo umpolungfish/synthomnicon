@@ -1,0 +1,8 @@
+J0610-2100_Rcvr1_2_GUPPI_efac
+J0610-2100_Rcvr1_2_GUPPI_log10_ecorr
+J0610-2100_Rcvr1_2_GUPPI_log10_equad
+J0610-2100_Rcvr_800_GUPPI_efac
+J0610-2100_Rcvr_800_GUPPI_log10_ecorr
+J0610-2100_Rcvr_800_GUPPI_log10_equad
+J0610-2100_red_noise_gamma
+J0610-2100_red_noise_log10_A

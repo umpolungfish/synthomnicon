@@ -1,0 +1,9 @@
+This directory contains clock correction files appropriate for the NANOGrav
+15-year dataset. Note that PINT uses clock corrections from the global 
+pulsar-clock-corrections repository: 
+
+    https://ipta.github.io/pulsar-clock-corrections/
+
+To install these files manually, see PINT documentation:
+
+    https://nanograv-pint.readthedocs.io/en/latest/explanation.html#clock-corrections.

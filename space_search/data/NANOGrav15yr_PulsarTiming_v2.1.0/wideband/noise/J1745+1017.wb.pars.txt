@@ -1,0 +1,10 @@
+J1745+1017_L-wide_PUPPI_dmefac
+J1745+1017_L-wide_PUPPI_efac
+J1745+1017_L-wide_PUPPI_log10_dmequad
+J1745+1017_L-wide_PUPPI_log10_t2equad
+J1745+1017_S-wide_PUPPI_dmefac
+J1745+1017_S-wide_PUPPI_efac
+J1745+1017_S-wide_PUPPI_log10_dmequad
+J1745+1017_S-wide_PUPPI_log10_t2equad
+J1745+1017_red_noise_gamma
+J1745+1017_red_noise_log10_A

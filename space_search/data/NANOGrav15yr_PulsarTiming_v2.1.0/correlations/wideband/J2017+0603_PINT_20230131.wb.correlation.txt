@@ -1,0 +1,10 @@
+M2         A1         -0.983785664407822
+JUMP2      DMJUMP1    +0.955332318418136
+JUMP1      DMJUMP1    -0.941672729175874
+SINI       M2         -0.924240851988836
+JUMP2      JUMP1      -0.923120648382987
+EPS1       A1         +0.915016358639433
+DMX_*      DMJUMP1         7 correlations larger than 0.9
+DMX_*      DMX_*          15 correlations larger than 0.9
+DMX_*      JUMP1           6 correlations larger than 0.9
+DMX_*      JUMP2           6 correlations larger than 0.9

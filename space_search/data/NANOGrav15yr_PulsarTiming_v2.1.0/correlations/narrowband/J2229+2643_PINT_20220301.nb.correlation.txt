@@ -1,0 +1,8 @@
+OM         T0         +0.999999994766144
+FD2        FD1        -0.987321877631412
+Offset     FD1        -0.964926872071272
+Offset     FD2        +0.932436059578701
+DMX_*      DMX_*        2194 correlations larger than 0.9
+DMX_*      FD1            65 correlations larger than 0.9
+DMX_*      FD2            34 correlations larger than 0.9
+DMX_*      Offset         66 correlations larger than 0.9

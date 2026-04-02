@@ -1,0 +1,25 @@
+OM         T0         +0.999999999869497
+FD2        FD1        -0.999989041305639
+Offset     FD1        -0.999939804914763
+Offset     FD2        +0.999933604580796
+FD3        FD2        -0.999429439116444
+Offset     FD3        -0.999299916435023
+FD3        FD1        +0.999292353097782
+FD4        FD3        -0.996537618731027
+FD4        FD2        +0.993215239668342
+Offset     FD4        +0.992980097330547
+FD4        FD1        -0.992814434300605
+M2         A1         -0.990050251114111
+KIN        M2         +0.967443162584642
+KOM        PB         -0.966523070155827
+KIN        A1         -0.937017619049302
+T0         A1         -0.930580909289468
+OM         A1         -0.930580567116529
+M2         T0         +0.919184393938173
+M2         OM         +0.919183857182558
+DMX_*      DMX_*       45451 correlations larger than 0.9
+DMX_*      FD1           302 correlations larger than 0.9
+DMX_*      FD2           302 correlations larger than 0.9
+DMX_*      FD3           302 correlations larger than 0.9
+DMX_*      FD4           302 correlations larger than 0.9
+DMX_*      Offset        302 correlations larger than 0.9

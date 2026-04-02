@@ -1,0 +1,41 @@
+# Design 07: Supramolecular Cage Assembly — Multi-Tensor Design
+# ===============================================================
+# Demonstrates: Sequential tensor products, ensemble growth,
+# topology promotion tracking, mutual information accumulation
+
+version: "1.0"
+start: nitroso_radical_crown_ether_host_guest_synthon
+
+strategies:
+  # Build a hierarchical ensemble through sequential tensor products
+  assemble_cage:
+    # First tensor: form initial cage
+    - tensor: nitroso_radical_cucurbituril_anion_rotaxane_synthon
+      lambda: 0.5
+    # Second tensor: add another component (same D/T class)
+    - tensor: nitroso_radical_anion_π_cryptand_cage_synthon
+      lambda: 0.3
+
+do:
+  # Execute the assembly pipeline
+  - bind: assemble_cage
+  
+  # Assert topology promoted to cage
+  - assert:
+      expr: topology == T_cage
+      message: "Final topology must be T_cage"
+  
+  # Assert fidelity bottleneck (should be F_eth from starting material)
+  - assert:
+      expr: fidelity == F_eth
+      message: "Fidelity bottlenecked by weakest partner"
+  
+  # Note: We don't attempt criticality lift here since F=F_eth
+  # This demonstrates that tensor preserves fidelity bottleneck
+
+output:
+  format: json
+  save: results/07_supramolecular_cage_assembly.json
+  assert:
+    - total_delta_xi < 35.0
+    - steps <= 6

@@ -1,0 +1,13 @@
+JUMP1      DMJUMP2    -0.990089399614834
+M2         A1         -0.983288802197926
+JUMP1      DMJUMP1    -0.980663323012809
+OMDOT      PB         +0.978763541731813
+DMJUMP2    DMJUMP1    +0.972003956043984
+OM         T0         +0.971730654284125
+ECC        A1         +0.956661484515073
+M2         ECC        -0.917019341668807
+SINI       M2         -0.905426181585642
+DMX_*      DMJUMP1        79 correlations larger than 0.9
+DMX_*      DMJUMP2        79 correlations larger than 0.9
+DMX_*      DMX_*        2845 correlations larger than 0.9
+DMX_*      JUMP1          79 correlations larger than 0.9

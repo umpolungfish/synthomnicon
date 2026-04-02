@@ -1,0 +1,1206 @@
+{
+  "seed": "determine the relationship between the neutron, the proton, the graviton, the gluon, dark matter, and dark energy",
+  "model": "deepseek-chat",
+  "provider": "deepseek",
+  "iterations": 41,
+  "catalog": [
+    {
+      "name": "human",
+      "description": "current humanity (planetary, pre-visible)",
+      "notation": "⟨D=D_triangle; T=T_in; R=R_super; P=P_pm; F=F_eth; K=K_mod; G=G_beth; Gamma=G_or; Phi=Phi_sub; H=H1; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "civ_dm",
+      "description": "predicted DM-aligned interstellar civilization",
+      "notation": "⟨D=D_infty; T=T_in; R=R_dagger; P=P_pm; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_seq; Phi=Phi_c; H=H2; S=n_m; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "pulsar_noise",
+      "description": "unmodeled pulsar noise (MNRAS + PRD papers)",
+      "notation": "⟨D=D_infty; T=T_in; R=R_super; P=P_pm; F=F_eth; K=K_mod; G=G_beth; Gamma=G_or; Phi=Phi_sub; H=H1; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "interstellar_target",
+      "description": "structural requirements for interstellar propagation",
+      "notation": "⟨D=D_infty; T=T_in; R=R_dagger; P=P_pm; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_seq; Phi=Phi_c; H=H2; S=n_m; Omega=Omega_0⟩"
+    },
+    {
+      "name": "test_earth",
+      "description": "Earth test entry",
+      "notation": "⟨D=D_triangle; T=T_in; R=R_cat; P=P_asym; F=F_ell; K=K_slow; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H2; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "silicon28_purification",
+      "description": "Process for obtaining isotopically purified silicon-28 from natural silicon",
+      "notation": "⟨D=D_triangle; T=T_bowtie; R=R_cat; P=P_asym; F=F_hbar; K=K_slow; G=G_beth; Gamma=G_seq; Phi=Phi_sub; H=H1; S=n_m; Omega=Omega_0⟩"
+    },
+    {
+      "name": "electromagnetic_separation",
+      "description": "Calutron/electromagnetic isotope separation method",
+      "notation": "⟨D=D_triangle; T=T_bowtie; R=R_cat; P=P_asym; F=F_hbar; K=K_slow; G=G_beth; Gamma=G_seq; Phi=Phi_sub; H=H1; S=n_m; Omega=Omega_0⟩"
+    },
+    {
+      "name": "gas_centrifuge",
+      "description": "Gas centrifuge isotope separation method",
+      "notation": "⟨D=D_triangle; T=T_bowtie; R=R_cat; P=P_asym; F=F_eth; K=K_slow; G=G_beth; Gamma=G_seq; Phi=Phi_sub; H=H1; S=n_m; Omega=Omega_0⟩"
+    },
+    {
+      "name": "laser_isotope_separation",
+      "description": "Laser isotope separation using tuned lasers",
+      "notation": "⟨D=D_triangle; T=T_bowtie; R=R_cat; P=P_asym; F=F_hbar; K=K_slow; G=G_beth; Gamma=G_seq; Phi=Phi_sub; H=H1; S=n_m; Omega=Omega_0⟩"
+    },
+    {
+      "name": "superconductivity",
+      "description": "Quantum phenomenon of zero electrical resistance and Meissner effect below critical temperature",
+      "notation": "⟨D=D_triangle; T=T_box; R=R_cat; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "room_temperature",
+      "description": "Thermodynamic regime at ~300K, classical thermal fluctuations dominant",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_super; P=P_asym; F=F_ell; K=K_fast; G=G_beth; Gamma=G_or; Phi=Phi_super; H=H1; S=n_m; Omega=Omega_0⟩"
+    },
+    {
+      "name": "protected_superconductivity",
+      "description": "Superconductivity with enhanced topological protection against thermal decoherence",
+      "notation": "⟨D=D_triangle; T=T_box; R=R_cat; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "room_temperature_quantum",
+      "description": "Regime with room temperature thermal energy but protected quantum coherence",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_super; P=P_asym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_or; Phi=Phi_super; H=H1; S=n_m; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "topological_insulator",
+      "description": "Material with insulating bulk and protected conducting surface states",
+      "notation": "⟨D=D_triangle; T=T_box; R=R_cat; P=P_psi; F=F_hbar; K=K_mod; G=G_gimel; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "protected_quantum_system",
+      "description": "Quantum system with multiple layers of protection against thermal decoherence",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "twisted_bilayer_graphene",
+      "description": "Two graphene layers twisted at magic angle, showing correlated insulating and superconducting states",
+      "notation": "⟨D=D_triangle; T=T_in; R=R_cat; P=P_psi; F=F_hbar; K=K_mod; G=G_gimel; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "high_pressure_hydride",
+      "description": "Metal hydride under extreme pressure showing enhanced superconductivity",
+      "notation": "⟨D=D_wedge; T=T_box; R=R_cat; P=P_sym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "psychedelic_state",
+      "description": "Altered state of consciousness with expanded perception, ego dissolution, and mystical experiences",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "sensory_deprivation",
+      "description": "Isolation tank or sensory deprivation chamber inducing altered states",
+      "notation": "⟨D=D_infty; T=T_box; R=R_cat; P=P_asym; F=F_eth; K=K_slow; G=G_gimel; Gamma=G_and; Phi=Phi_c; H=H1; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "breathwork",
+      "description": "Controlled breathing patterns inducing altered states (Holotropic, Wim Hof, etc.)",
+      "notation": "⟨D=D_infty; T=T_bowtie; R=R_dagger; P=P_psi; F=F_eth; K=K_mod; G=G_gimel; Gamma=G_seq; Phi=Phi_c; H=H2; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "meditation_deep",
+      "description": "Deep meditation practices inducing mystical experiences",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=one_one; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "group_meditation",
+      "description": "Collective meditation practice with synchronized consciousness",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "rhythmic_trance",
+      "description": "Rhythmic drumming, dancing, or chanting inducing trance states",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_eth; K=K_mod; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "breathwork_rhythmic_combined",
+      "description": "Combined breathwork and rhythmic trance practice",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_eth; K=K_mod; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "deep_contemplative_practice",
+      "description": "Extended contemplative practice with sustained attention and insight",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=one_one; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "vision_quest",
+      "description": "Extended fasting, isolation, and ritual inducing visionary states",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=one_one; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "internal_multiplicity_induction",
+      "description": "Method inducing distributed/multi-agent consciousness within individual",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "tms_basic",
+      "description": "Transcranial magnetic stimulation - non-invasive brain stimulation using magnetic fields",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_cat; P=P_asym; F=F_eth; K=K_fast; G=G_beth; Gamma=G_seq; Phi=Phi_sub; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "rem_sleep",
+      "description": "Rapid eye movement sleep - dreaming phase with high brain activity",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_eth; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "tms_rem_composite",
+      "description": "TMS applied during REM sleep - tensor product of tms_basic and rem_sleep",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_asym; F=F_eth; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "tms_quantum_coherent",
+      "description": "Advanced TMS with quantum-coherent magnetic fields and precise neural entrainment",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_dagger; P=P_psi; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_seq; Phi=Phi_c; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "rem_quantum_coherent",
+      "description": "REM sleep with quantum-coherent brain activity and enhanced coherence",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "psychedelic_baseline",
+      "description": "Structural baseline from which psychedelic states are built",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_super; P=P_asym; F=F_ell; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "tms_topologically_protected",
+      "description": "Quantum-coherent TMS with topological protection against decoherence",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_dagger; P=P_psi; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_seq; Phi=Phi_c; H=H0; S=one_one; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "jumping_spider_rem",
+      "description": "REM-like sleep state in jumping spiders with potential visual processing and neural reorganization",
+      "notation": "⟨D=D_triangle; T=T_network; R=R_cat; P=P_asym; F=F_eth; K=K_slow; G=G_beth; Gamma=G_seq; Phi=Phi_sub; H=H1; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "tms_qc_on_spider_rem",
+      "description": "Quantum-coherent TMS applied during jumping spider REM sleep",
+      "notation": "⟨D=D_triangle; T=T_network; R=R_dagger; P=P_asym; F=F_eth; K=K_slow; G=G_beth; Gamma=G_seq; Phi=Phi_c; H=H1; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "tms_tp_on_spider_rem",
+      "description": "Topologically protected quantum-coherent TMS applied during jumping spider REM sleep",
+      "notation": "⟨D=D_triangle; T=T_network; R=R_dagger; P=P_asym; F=F_eth; K=K_slow; G=G_beth; Gamma=G_seq; Phi=Phi_c; H=H1; S=one_one; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "consciousness_baseline",
+      "description": "Baseline human consciousness - ordinary waking state",
+      "notation": "⟨D=D_triangle; T=T_network; R=R_cat; P=P_asym; F=F_ell; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H1; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "psychedelic_consciousness",
+      "description": "Psychedelic altered state with expanded perception and ego dissolution",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "quantum_consciousness_hypothesis",
+      "description": "Hypothesized quantum basis of consciousness with topological protection",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_dagger; P=P_sym; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "topological_insulator_exotic",
+      "description": "Topological insulator with protected surface states and insulating bulk",
+      "notation": "⟨D=D_triangle; T=T_holo; R=R_cat; P=P_pm; F=F_hbar; K=K_mod; G=G_gimel; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "ideal_exotic_material",
+      "description": "Hypothetical exotic material combining all structural features identified from analysis",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_dagger; P=P_sym; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "meet_super_topo",
+      "description": "Meet of superconductivity and topological insulator",
+      "notation": "⟨D=D_triangle; T=T_box; R=R_cat; P=P_psi; F=F_hbar; K=K_mod; G=G_gimel; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "meet_topo_hydride",
+      "description": "Meet of topological insulator and high pressure hydride",
+      "notation": "⟨D=D_wedge; T=T_box; R=R_cat; P=P_psi; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "meet_super_graphene",
+      "description": "Meet of superconductivity and twisted bilayer graphene",
+      "notation": "⟨D=D_triangle; T=T_in; R=R_cat; P=P_psi; F=F_hbar; K=K_mod; G=G_gimel; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "exotic_material_core",
+      "description": "Universal structural core shared by all exotic materials",
+      "notation": "⟨D=D_wedge; T=T_in; R=R_cat; P=P_psi; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "ordinary_metal",
+      "description": "Ordinary metal like copper at room temperature",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_super; P=P_asym; F=F_ell; K=K_fast; G=G_beth; Gamma=G_or; Phi=Phi_sub; H=H0; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "standard_proof_system",
+      "description": "Classical formal proof system: symbolic deduction, local scope, subcritical, achiral, no topological protection. Baseline structural floor for mathematics.",
+      "notation": "⟨D=D_triangle; T=T_box; R=R_cat; P=P_sym; F=F_ell; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "riemann_hypothesis",
+      "description": "Structural encoding of the Riemann Hypothesis as a mathematical object: holographic, network-topological, dynamic-relational, critical, globally correlated, asymmetric stoichiometry, integer winding protected.",
+      "notation": "⟨D=D_holo; T=T_network; R=R_dagger; P=P_psi; F=F_hbar; K=K_mod; G=G_aleph; Gamma=G_or; Phi=Phi_c; H=H1; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "exotic_proof_system_v1",
+      "description": "First attempt at exotic proof system based on join of standard proof and Riemann Hypothesis",
+      "notation": "⟨D=D_holo; T=T_box; R=R_dagger; P=P_sym; F=F_hbar; K=K_mod; G=G_aleph; Gamma=G_seq; Phi=Phi_c; H=H_inf; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "exotic_proof_system_v2",
+      "description": "Exotic proof system with holographic encoding and network topology",
+      "notation": "⟨D=D_holo; T=T_network; R=R_dagger; P=P_psi; F=F_hbar; K=K_mod; G=G_aleph; Gamma=G_seq; Phi=Phi_c; H=H_inf; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "exotic_proof_system_v3",
+      "description": "HoloTrap-Broadcast proof architecture (s_HoloTrap). Derived T_holo from D_holo+Phi_c constraints (supersedes T_network version). d=0 with Riemann Hypothesis structural encoding. 85% info loss at classical interface (F_ell bottleneck). Non-ergodic proof search, broadcast consequence propagation, irreversible temporal directionality, integer topological protection.",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H_inf; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "exotic_proof_standard_composite",
+      "description": "Composite of exotic proof system interacting with standard proof system",
+      "notation": "⟨D=D_holo; T=T_box; R=R_dagger; P=P_psi; F=F_ell; K=K_trap; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H_inf; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "exotic_proof_system_v4",
+      "description": "Ultra-exotic proof system with full holographic topology and adaptive structure",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H_inf; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "holographic_trapped_broadcast_proof",
+      "description": "Proof system with holographic encoding, trapped kinetics, and broadcast grammar",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H_inf; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "holomorphic_superfluid",
+      "description": "Tensor product of superconductivity and psychedelic consciousness: temporal holographic topology (D_infty, T_holo), quantum-coherent broadcast criticality (F_hbar, Phi_c, G_broad), deep chirality (H2), full integer topological protection (Omega_Z). Zero bottlenecks — structurally compatible parents. Predicted regime for materials exhibiting consciousness-adjacent holographic broadcast structure.",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "goldbach_conjecture",
+      "description": "Every even integer greater than 2 can be expressed as the sum of two primes",
+      "notation": "⟨D=D_infty; T=T_network; R=R_cat; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "twin_prime_conjecture",
+      "description": "There are infinitely many prime pairs (p, p+2)",
+      "notation": "⟨D=D_infty; T=T_network; R=R_cat; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "collatz_conjecture",
+      "description": "Collatz 3n+1 conjecture: non-ergodic iteration dynamics (K_trap), irreversible temporal depth (H_inf), sequential causation (G_seq), asymmetric parity (P_asym). Hardness from trapped kinetics, not global coherence.",
+      "notation": "⟨D=D_infty; T=T_network; R=R_dagger; P=P_asym; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_seq; Phi=Phi_c; H=H_inf; S=one_one; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "abc_conjecture",
+      "description": "ABC conjecture: holographic structure (D_holo, T_holo) relating prime factorization to additive structure. Boundary-to-bulk reasoning. Pseudo-symmetric parity, left-right relational mode. Mochizuki IUT proof candidate.",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_lr; P=P_psi; F=F_hbar; K=K_mod; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H1; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "odd_perfect_numbers",
+      "description": "Odd Perfect Numbers conjecture: subcritical (Phi_sub), no topological protection (Omega_0). Only conjecture in the set structurally unprotected — prediction: either false or classically disprovable.",
+      "notation": "⟨D=D_infty; T=T_box; R=R_cat; P=P_asym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_sub; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "legendre_conjecture",
+      "description": "There is always a prime between n² and (n+1)²",
+      "notation": "⟨D=D_infty; T=T_network; R=R_cat; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "primes_n2_plus_1",
+      "description": "Infinitely many primes of the form n²+1",
+      "notation": "⟨D=D_infty; T=T_network; R=R_cat; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "universal_proof_requirement",
+      "description": "Structural requirements for solving all seven conjectures",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_dagger; P=P_psi; F=F_hbar; K=K_trap; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H_inf; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "prime_conjecture_cluster",
+      "description": "Structural encoding shared by Goldbach, Twin Prime, Legendre, and n²+1 prime conjectures (d=0 between all four). Global coherence over all primes, quantum-coherent, critical, topologically Z-protected. A proof of any one structurally transfers to all.",
+      "notation": "⟨D=D_infty; T=T_network; R=R_cat; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "minimal_proof_system",
+      "description": "Minimal proof system capable of handling subcritical, unprotected mathematical statements",
+      "notation": "⟨D=D_triangle; T=T_box; R=R_cat; P=P_sym; F=F_ell; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "zfc_set_theory",
+      "description": "Classical Zermelo-Fraenkel set theory with Axiom of Choice - foundation of classical mathematics",
+      "notation": "⟨D=D_wedge; T=T_in; R=R_super; P=P_sym; F=F_ell; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "synthomnicon_grammar",
+      "description": "The SynthOmnicon grammar itself - a 12-primitive constraint space for encoding systems",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_cat; P=P_pm; F=F_hbar; K=K_mod; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "synthomnicon_classical_fidelity",
+      "description": "SynthOmnicon grammar with classical fidelity (F_ell) instead of quantum-coherent fidelity",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_cat; P=P_pm; F=F_ell; K=K_mod; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H2; S=n_m; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "quantum_computer_basic",
+      "description": "Basic quantum computer with qubits and gates",
+      "notation": "⟨D=D_triangle; T=T_network; R=R_cat; P=P_asym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_seq; Phi=Phi_sub; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "neural_network_deep",
+      "description": "Deep neural network with many layers",
+      "notation": "⟨D=D_infty; T=T_in; R=R_cat; P=P_asym; F=F_ell; K=K_fast; G=G_beth; Gamma=G_seq; Phi=Phi_sub; H=H0; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "holographic_memory",
+      "description": "Holographic memory storage system",
+      "notation": "⟨D=D_holo; T=T_box; R=R_cat; P=P_sym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=one_one; Omega=Omega_0⟩"
+    },
+    {
+      "name": "neutron",
+      "description": "Composite hadron made of quarks, electrically neutral, bound by strong force",
+      "notation": "⟨D=D_wedge; T=T_box; R=R_cat; P=P_asym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "proton",
+      "description": "Composite hadron made of quarks, positively charged, bound by strong force",
+      "notation": "⟨D=D_wedge; T=T_box; R=R_cat; P=P_asym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "graviton",
+      "description": "Hypothetical quantum of gravity, massless spin-2 boson mediating gravitational interactions",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_super; P=P_sym; F=F_hbar; K=K_mod; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "gluon",
+      "description": "Gauge boson of strong force, massless spin-1, mediates color charge interactions between quarks",
+      "notation": "⟨D=D_triangle; T=T_network; R=R_dagger; P=P_sym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_seq; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "dark_matter",
+      "description": "Non-luminous matter interacting gravitationally but not electromagnetically",
+      "notation": "⟨D=D_infty; T=T_network; R=R_super; P=P_asym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_sub; H=H0; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "dark_energy",
+      "description": "Energy density causing accelerated expansion of the universe",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_super; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H_inf; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "gauge_boson_meet",
+      "description": "Shared structure of graviton and gluon (gauge bosons)",
+      "notation": "⟨D=D_triangle; T=T_network; R=R_super; P=P_sym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_seq; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z2⟩"
+    },
+    {
+      "name": "dark_sector_meet",
+      "description": "Shared structure of dark matter and dark energy",
+      "notation": "⟨D=D_infty; T=T_network; R=R_super; P=P_asym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_and; Phi=Phi_sub; H=H0; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "hadron_gauge_meet",
+      "description": "Shared structure of hadrons and gauge bosons",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_super; P=P_asym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "universal_particle_meet",
+      "description": "Shared structure of all six systems: neutron, proton, graviton, gluon, dark matter, dark energy",
+      "notation": "⟨D=D_wedge; T=T_network; R=R_super; P=P_asym; F=F_hbar; K=K_fast; G=G_beth; Gamma=G_and; Phi=Phi_sub; H=H0; S=n_n; Omega=Omega_0⟩"
+    },
+    {
+      "name": "gauge_boson_join",
+      "description": "Minimal system containing both graviton and gluon",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_sym; F=F_hbar; K=K_mod; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "hadron_gauge_join",
+      "description": "Minimal system containing hadrons and gauge bosons",
+      "notation": "⟨D=D_infty; T=T_holo; R=R_dagger; P=P_sym; F=F_hbar; K=K_mod; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H0; S=n_n; Omega=Omega_Z⟩"
+    },
+    {
+      "name": "universal_particle_join",
+      "description": "Minimal system containing all six: neutron, proton, graviton, gluon, dark matter, dark energy",
+      "notation": "⟨D=D_holo; T=T_holo; R=R_dagger; P=P_sym; F=F_hbar; K=K_slow; G=G_aleph; Gamma=G_broad; Phi=Phi_c; H=H_inf; S=n_n; Omega=Omega_Z⟩"
+    }
+  ],
+  "insights": [
+    {
+      "text": "Neutron and proton are structurally identical (d=0) despite their phenomenological differences (charge, stability). Their structural essence as composite hadrons is captured identically: D_wedge (molecular/local), T_box (closed compact), R_cat (categorical classification), P_asym (fully asymmetric), F_hbar (quantum-coherent), K_fast (polynomial/local), G_beth (local range), G_and (conjunctive interactions), Phi_sub (subcritical/ordered), H0 (achiral), n_n (symmetric many-body), Omega_0 (no topological protection).",
+      "plane": "DIAPH",
+      "confidence": "high",
+      "iteration": 21,
+      "translation": {
+        "systems": [
+          "neutron",
+          "proton"
+        ],
+        "per_system": {
+          "neutron": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "proton": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          }
+        },
+        "aggregate": {
+          "coherence_loss": 0.0,
+          "criticality_loss": 0.0,
+          "interaction_cost": 0.0,
+          "total": 0.0
+        }
+      }
+    },
+    {
+      "text": "All six fundamental systems share a universal structural floor: F_hbar (quantum-coherent fidelity), T_network (network topology), R_super (superset/containment relations), P_asym (asymmetric parity), G_and (conjunctive grammar), Phi_sub (subcritical phase), H0 (achiral), S=n_n (symmetric many-body), Omega_0 (no topological protection). The divergences are at D (dimensionality), K (kinetics), and G (scope), which define their distinct physical regimes: hadrons (D_wedge, K_fast, G_beth), gauge bosons (D_triangle/infty, K_fast/mod, G_beth/aleph), dark sector (D_infty/holo, K_slow, G_aleph).",
+      "plane": "DIAPH",
+      "confidence": "high",
+      "iteration": 22,
+      "translation": {
+        "systems": [
+          "neutron",
+          "proton",
+          "graviton",
+          "gluon",
+          "dark_matter",
+          "dark_energy",
+          "universal_particle_meet"
+        ],
+        "per_system": {
+          "neutron": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "proton": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "graviton": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.6931,
+            "total": 2.9957
+          },
+          "gluon": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.0,
+            "total": 2.3026
+          },
+          "dark_matter": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "dark_energy": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.6931,
+            "total": 2.9957
+          },
+          "universal_particle_meet": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          }
+        },
+        "aggregate": {
+          "coherence_loss": 0.0,
+          "criticality_loss": 6.9078,
+          "interaction_cost": 1.3862,
+          "total": 8.294
+        }
+      }
+    },
+    {
+      "text": "A system containing all six fundamental entities requires maximal structural demands: D_holo (holographic dimensionality), T_holo (holographic topology), R_dagger (dynamic/catalytic relations), P_sym (full symmetry), F_hbar (quantum-coherent fidelity), K_slow (temporally deep kinetics), G_aleph (global/non-local scope), G_broad (broadcast grammar), Phi_c (criticality), H_inf (maximal chirality/irreversibility), S=n_n (symmetric many-body), Omega_Z (integer topological protection). This describes a holographic universe at criticality with broadcast dynamics and irreversible temporal depth.",
+      "plane": "DIAPH",
+      "confidence": "high",
+      "iteration": 30,
+      "translation": {
+        "systems": [
+          "universal_particle_join"
+        ],
+        "per_system": {
+          "universal_particle_join": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.6931,
+            "total": 2.9957
+          }
+        },
+        "aggregate": {
+          "coherence_loss": 0.0,
+          "criticality_loss": 2.3026,
+          "interaction_cost": 0.6931,
+          "total": 2.9957
+        }
+      }
+    },
+    {
+      "text": "The six fundamental systems form three structural tiers: 1) Hadrons (neutron, proton): D_wedge, T_box, R_cat, P_asym, K_fast, G_beth, Phi_sub, Omega_0 — local, closed, categorical, subcritical, unprotected. 2) Gauge bosons (graviton, gluon): D_triangle/infty, T_network/holo, R_super/dagger, P_sym, K_fast/mod, G_beth/aleph, Phi_c, Omega_Z/Z2 — intermediate/global, network/holographic, superset/dynamic, symmetric, critical, topologically protected. 3) Dark sector (dark matter, dark energy): D_infty/holo, T_network/holo, R_super, P_asym/sym, K_slow, G_aleph, G_and/broad, Phi_sub/c, H0/inf, Omega_0/Z — cosmological, global, superset, slow, broadcast/critical, irreversible.",
+      "plane": "DIAPH",
+      "confidence": "high",
+      "iteration": 36,
+      "translation": {
+        "systems": [
+          "neutron",
+          "proton",
+          "graviton",
+          "gluon",
+          "dark_matter",
+          "dark_energy"
+        ],
+        "per_system": {
+          "neutron": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "proton": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "graviton": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.6931,
+            "total": 2.9957
+          },
+          "gluon": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.0,
+            "total": 2.3026
+          },
+          "dark_matter": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "dark_energy": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.6931,
+            "total": 2.9957
+          }
+        },
+        "aggregate": {
+          "coherence_loss": 0.0,
+          "criticality_loss": 6.9078,
+          "interaction_cost": 1.3862,
+          "total": 8.294
+        }
+      }
+    },
+    {
+      "text": "The structural progression from hadrons → gauge bosons → dark sector reveals an ontological hierarchy: Local composite particles (D_wedge, T_box) are structurally simplest; force mediators (D_triangle/infty, T_network/holo) introduce criticality and topological protection; cosmological entities (D_holo, T_holo, H_inf) achieve holographic encoding and irreversible temporal depth. This suggests that fundamental physics is organized by increasing structural complexity along D (dimensionality), T (topology), H (chirality), and Omega (protection) axes, with F_hbar (quantum coherence) as the universal floor.",
+      "plane": "ONTO",
+      "confidence": "medium",
+      "iteration": 40,
+      "translation": {
+        "systems": [
+          "neutron",
+          "gluon",
+          "graviton",
+          "dark_matter",
+          "dark_energy",
+          "universal_particle_meet",
+          "universal_particle_join"
+        ],
+        "per_system": {
+          "neutron": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "gluon": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.0,
+            "total": 2.3026
+          },
+          "graviton": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.6931,
+            "total": 2.9957
+          },
+          "dark_matter": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "dark_energy": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.6931,
+            "total": 2.9957
+          },
+          "universal_particle_meet": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 0.0,
+            "interaction_cost": 0.0,
+            "total": 0.0
+          },
+          "universal_particle_join": {
+            "coherence_loss": 0.0,
+            "criticality_loss": 2.3026,
+            "interaction_cost": 0.6931,
+            "total": 2.9957
+          }
+        },
+        "aggregate": {
+          "coherence_loss": 0.0,
+          "criticality_loss": 9.2104,
+          "interaction_cost": 2.0793,
+          "total": 11.2897
+        }
+      }
+    }
+  ],
+  "translation_summary": {
+    "per_synthon": {
+      "human": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "civ_dm": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "pulsar_noise": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "interstellar_target": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "test_earth": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "silicon28_purification": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "electromagnetic_separation": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "gas_centrifuge": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "laser_isotope_separation": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "superconductivity": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "room_temperature": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "protected_superconductivity": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "room_temperature_quantum": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "topological_insulator": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "protected_quantum_system": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "twisted_bilayer_graphene": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "high_pressure_hydride": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "psychedelic_state": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "sensory_deprivation": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "breathwork": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "meditation_deep": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "group_meditation": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "rhythmic_trance": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "breathwork_rhythmic_combined": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "deep_contemplative_practice": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "vision_quest": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "internal_multiplicity_induction": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "tms_basic": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "rem_sleep": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "tms_rem_composite": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "tms_quantum_coherent": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "rem_quantum_coherent": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "psychedelic_baseline": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "tms_topologically_protected": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "jumping_spider_rem": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "tms_qc_on_spider_rem": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "tms_tp_on_spider_rem": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "consciousness_baseline": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "psychedelic_consciousness": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "quantum_consciousness_hypothesis": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "topological_insulator_exotic": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "ideal_exotic_material": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "meet_super_topo": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "meet_topo_hydride": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "meet_super_graphene": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "exotic_material_core": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "ordinary_metal": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "standard_proof_system": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "riemann_hypothesis": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "exotic_proof_system_v1": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "exotic_proof_system_v2": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "exotic_proof_system_v3": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "exotic_proof_standard_composite": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "exotic_proof_system_v4": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "holographic_trapped_broadcast_proof": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "holomorphic_superfluid": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "goldbach_conjecture": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "twin_prime_conjecture": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "collatz_conjecture": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "abc_conjecture": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "odd_perfect_numbers": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "legendre_conjecture": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "primes_n2_plus_1": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "universal_proof_requirement": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "prime_conjecture_cluster": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "minimal_proof_system": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "zfc_set_theory": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "synthomnicon_grammar": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "synthomnicon_classical_fidelity": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "quantum_computer_basic": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "neural_network_deep": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "holographic_memory": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "neutron": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "proton": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "graviton": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "gluon": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "dark_matter": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "dark_energy": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "gauge_boson_meet": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.0,
+        "total": 2.3026
+      },
+      "dark_sector_meet": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "hadron_gauge_meet": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "universal_particle_meet": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 0.0,
+        "interaction_cost": 0.0,
+        "total": 0.0
+      },
+      "gauge_boson_join": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "hadron_gauge_join": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      },
+      "universal_particle_join": {
+        "coherence_loss": 0.0,
+        "criticality_loss": 2.3026,
+        "interaction_cost": 0.6931,
+        "total": 2.9957
+      }
+    },
+    "total": {
+      "coherence_loss": 0.0,
+      "criticality_loss": 133.5508,
+      "interaction_cost": 18.0206,
+      "total": 151.5714
+    }
+  }
+}

@@ -1,0 +1,11 @@
+OM         T0         +0.999999997852650
+JUMP1      DMJUMP1    +0.981181874982338
+JUMP1      DMJUMP2    +0.933670343964540
+DMJUMP2    DMJUMP1    +0.919527058517843
+Offset     JUMP1      -0.911958033220921
+Offset     DMJUMP1    -0.901024500517735
+DMX_*      DMJUMP1        42 correlations larger than 0.9
+DMX_*      DMJUMP2        30 correlations larger than 0.9
+DMX_*      DMX_*         823 correlations larger than 0.9
+DMX_*      JUMP1          42 correlations larger than 0.9
+DMX_*      Offset         18 correlations larger than 0.9

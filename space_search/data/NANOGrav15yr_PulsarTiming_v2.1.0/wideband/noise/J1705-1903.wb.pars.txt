@@ -1,0 +1,10 @@
+J1705-1903_Rcvr1_2_GUPPI_dmefac
+J1705-1903_Rcvr1_2_GUPPI_efac
+J1705-1903_Rcvr1_2_GUPPI_log10_dmequad
+J1705-1903_Rcvr1_2_GUPPI_log10_t2equad
+J1705-1903_Rcvr_800_GUPPI_dmefac
+J1705-1903_Rcvr_800_GUPPI_efac
+J1705-1903_Rcvr_800_GUPPI_log10_dmequad
+J1705-1903_Rcvr_800_GUPPI_log10_t2equad
+J1705-1903_red_noise_gamma
+J1705-1903_red_noise_log10_A

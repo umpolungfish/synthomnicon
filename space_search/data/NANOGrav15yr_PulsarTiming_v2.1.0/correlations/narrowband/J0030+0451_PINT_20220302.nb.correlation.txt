@@ -1,0 +1,29 @@
+FD2        FD1        -0.999935971327793
+JUMP2      JUMP1      +0.999808858633813
+FD3        FD1        +0.999676209094347
+FD3        FD2        -0.999412778386083
+Offset     FD4        +0.999070322072937
+Offset     FD3        -0.998384506807013
+Offset     FD1        -0.996958313764974
+FD4        FD3        -0.996261078913978
+Offset     FD2        +0.996119639772336
+FD4        FD1        -0.994203934833681
+FD4        FD2        +0.992995106068411
+JUMP2      FD2        -0.984196598218796
+JUMP1      FD2        -0.984185474602796
+JUMP1      FD1        +0.982346337201136
+JUMP2      FD1        +0.982329925389178
+JUMP2      FD3        +0.977929427051423
+JUMP1      FD3        +0.977807192375419
+Offset     JUMP2      -0.965172593413661
+Offset     JUMP1      -0.965102566465028
+JUMP1      FD4        -0.957424383568085
+JUMP2      FD4        -0.957289472329200
+DMX_*      DMX_*       41616 correlations larger than 0.9
+DMX_*      FD1           289 correlations larger than 0.9
+DMX_*      FD2           289 correlations larger than 0.9
+DMX_*      FD3           289 correlations larger than 0.9
+DMX_*      FD4           289 correlations larger than 0.9
+DMX_*      JUMP1         289 correlations larger than 0.9
+DMX_*      JUMP2         289 correlations larger than 0.9
+DMX_*      Offset        289 correlations larger than 0.9

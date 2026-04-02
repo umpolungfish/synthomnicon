@@ -1,0 +1,70 @@
+source: J2317+1439
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J2317+1439_PINT_20230131.wb.par
+compare-model: archive/J2317+1439_PINT_20230125.wb.par
+toas:
+- J2317+1439.327.ASP.15y.x.wb.tim
+- J2317+1439.327.PUPPI.15y.x.wb.tim
+- J2317+1439.430.ASP.15y.x.wb.tim
+- J2317+1439.430.PUPPI.15y.x.wb.tim
+- J2317+1439.L-wide.PUPPI.15y.x.wb.tim
+
+free-params: [PX, ELONG, ELAT, PMELONG, PMELAT, F0, F1, PB, A1, TASC, EPS1, EPS2,
+  H3, JUMP1, JUMP2, DMJUMP1, DMJUMP2, DMJUMP3]
+free-dmx: Yes
+toa-type: WB
+fitter: WidebandDownhillFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+
+intermediate-results: # use results from previous runs
+  noise-dir: ../15yr-intermediate/20230131.Noise.wb.2868fa95/
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20230125.Noise.wb.4b355601/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220913.Outlier.wb.281b67cb/J2317+1439.wb/J2317+1439.wb_excise.tim
+  no-corner: true
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 25
+  bad-range:
+  - [57984, 58447, PUPPI]
+  bad-file:
+  - [puppi_58895_J2317+1439_0221.15y.x.ff, rfi]
+  - [puppi_58601_J2317+1439_0348.15y.x.ff, rfi]
+  - [puppi_57937_J2317+1439_0208.15y.x.ff, smeared]
+  - [puppi_57866_J2317+1439_0736.15y.x.ff, snr]
+  - [puppi_57773_J2317+1439_0052.15y.x.ff, rfi]
+  - [puppi_57958_J2317+1439_0395.15y.x.ff, unknown]
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+changelog:
+- '2021-01-06 joe.swiggum INIT: YAML created'
+- '2021-01-18 joe.swiggum READY_FOR: v0'
+- '2021-02-26 scott.ransom CURATE: large_residuals(fo, 3)'
+- '2021-02-28 scott.ransom NOISE: added noise model, nan BF for rednoise, unlike nb  analysis'
+- '2021-03-02 scott.ransom READY_FOR: v0.9'
+- '2021-08-21 joe.swiggum CURATE: assigned reasons after inspecting .ff files'
+- '2021-09-04 deborah.good NOTE: Timing looks pretty good.'
+- '2021-09-13 deborah.good NOISE: EFAC for 430 PUPPI, DMEFAC 430 ASP are high.'
+- '2021-09-13 deborah.good NOISE: DMEQUAD and EQUAD are looking high. There are some
+  funny DMX points that may be leading to this.'
+- '2021-09-09 deborah.good READY_FOR: v1.0'
+
+
+- '2021-09-24 joe.swiggum NOTE: updated AO/GBO coords (pint v0.8.3) and refit'
+- '2021-09-30 joe.swiggum NOTE: par file handed off to DWG for v1.0 is J2317+1439_PINT_20210928.wb.par'
+- '2022-08-30 thankful.cromartie NOISE: changed to 20220822.Noise.wb.a77c37bb'
+- '2023-02-07 joe.swiggum READY_FOR: v1.2'

@@ -1,0 +1,10 @@
+J2302+4442_Rcvr1_2_GUPPI_dmefac
+J2302+4442_Rcvr1_2_GUPPI_efac
+J2302+4442_Rcvr1_2_GUPPI_log10_dmequad
+J2302+4442_Rcvr1_2_GUPPI_log10_t2equad
+J2302+4442_Rcvr_800_GUPPI_dmefac
+J2302+4442_Rcvr_800_GUPPI_efac
+J2302+4442_Rcvr_800_GUPPI_log10_dmequad
+J2302+4442_Rcvr_800_GUPPI_log10_t2equad
+J2302+4442_red_noise_gamma
+J2302+4442_red_noise_log10_A

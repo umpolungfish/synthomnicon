@@ -1,0 +1,4 @@
+MODE 1
+FORMAT 1
+puppi_56250_1741+1351_1361.15y.x.ff 341.062000 56250.745641341826106   1.039  ao  -fe 327 -be PUPPI -f 327_PUPPI -bw 1.562 -tobs 1232.4 -tmplt J1741+1351.327.PUPPI.15y.x.sum.sm -gof 1.14 -nbin 2048 -nch 1 -chan 41 -subint 0 -snr 61.205 -wt 0.078266 -flux 34.9768 -fluxe 0.57 -proc 15y -pta NANOGrav -ver TEMP 
+puppi_56250_1741+1351_1361.15y.x.ff 355.125000 56250.745641369569759 866.226  ao  -fe 327 -be PUPPI -f 327_PUPPI -bw 1.562 -tobs 1232.4 -tmplt J1741+1351.327.PUPPI.15y.x.sum.sm -gof 1.14 -nbin 2048 -nch 1 -chan 50 -subint 0 -snr 2.1895 -wt 0.30247 -flux 0.256134 -fluxe 0.11 -proc 15y -pta NANOGrav -ver TEMP 

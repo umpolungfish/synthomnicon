@@ -1,0 +1,10 @@
+J2124-3358_Rcvr1_2_GUPPI_dmefac
+J2124-3358_Rcvr1_2_GUPPI_efac
+J2124-3358_Rcvr1_2_GUPPI_log10_dmequad
+J2124-3358_Rcvr1_2_GUPPI_log10_t2equad
+J2124-3358_Rcvr_800_GUPPI_dmefac
+J2124-3358_Rcvr_800_GUPPI_efac
+J2124-3358_Rcvr_800_GUPPI_log10_dmequad
+J2124-3358_Rcvr_800_GUPPI_log10_t2equad
+J2124-3358_red_noise_gamma
+J2124-3358_red_noise_log10_A

@@ -1,0 +1,10 @@
+J0931-1902_Rcvr1_2_GUPPI_dmefac
+J0931-1902_Rcvr1_2_GUPPI_efac
+J0931-1902_Rcvr1_2_GUPPI_log10_dmequad
+J0931-1902_Rcvr1_2_GUPPI_log10_t2equad
+J0931-1902_Rcvr_800_GUPPI_dmefac
+J0931-1902_Rcvr_800_GUPPI_efac
+J0931-1902_Rcvr_800_GUPPI_log10_dmequad
+J0931-1902_Rcvr_800_GUPPI_log10_t2equad
+J0931-1902_red_noise_gamma
+J0931-1902_red_noise_log10_A

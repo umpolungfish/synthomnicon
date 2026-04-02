@@ -1,0 +1,42 @@
+name = "synthomnicon-lean"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["SynthomniconLean"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.28.0"
+
+[[lean_lib]]
+name = "SynthomniconLean"
+
+[[lean_lib]]
+name = "SynthOmnicon"
+globs = [
+  "SynthOmnicon.Primitives.Core",
+  "SynthOmnicon.Primitives.OPN_2adic",
+  "SynthOmnicon.Primitives.BSD_2adic",
+  "SynthOmnicon.Primitives.Synthon",
+  "SynthOmnicon.Primitives.TierCrossing"
+]
+
+[[lean_lib]]
+name = "Millennium"
+globs = [
+  "SynthOmnicon.Millennium.RH",
+  "SynthOmnicon.Millennium.YM",
+  "SynthOmnicon.Millennium.Hodge",
+  "SynthOmnicon.Millennium.NS",
+  "SynthOmnicon.Millennium.PvsNP",
+  "SynthOmnicon.Millennium.OPN",
+  "SynthOmnicon.Millennium.BSD",
+  "SynthOmnicon.Millennium.Barriers",
+  "SynthOmnicon.Millennium.PrimitiveBridge"
+]

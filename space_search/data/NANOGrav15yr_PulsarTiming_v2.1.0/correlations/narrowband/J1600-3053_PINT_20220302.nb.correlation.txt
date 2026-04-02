@@ -1,0 +1,20 @@
+OM         T0         +0.999999999701799
+OMDOT      PB         +0.999999995295309
+FD2        FD1        -0.998458192729784
+FD3        FD2        -0.995981261876973
+M2         A1         -0.994617394808479
+FD3        FD1        +0.990797460066632
+SINI       M2         -0.978626107086310
+SINI       A1         +0.954928810326882
+T0         A1         -0.950673080960456
+OM         A1         -0.950672204074445
+Offset     FD1        -0.946004372850635
+Offset     FD2        +0.943402541868208
+Offset     FD3        -0.938048768485156
+M2         T0         +0.931730016830719
+M2         OM         +0.931728946615025
+DMX_*      DMX_*       12057 correlations larger than 0.9
+DMX_*      FD1           166 correlations larger than 0.9
+DMX_*      FD2           166 correlations larger than 0.9
+DMX_*      FD3           160 correlations larger than 0.9
+DMX_*      Offset        145 correlations larger than 0.9

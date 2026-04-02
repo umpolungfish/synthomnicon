@@ -1,0 +1,42 @@
+# Design 06: Multi-Stage Catalytic Cycle Optimization
+# =====================================================
+# Demonstrates: Path-based fidelity upgrade, criticality ascent,
+# thermodynamic efficiency tracking
+
+version: "1.0"
+start: proline_aldol_cycle
+
+strategies:
+  # Stage 1: Path to high-fidelity temporal partner
+  upgrade_fidelity:
+    - path: nitroso_radical_redox_synthon_pair
+      xi_tolerance: 3.0
+      max_hops: 8
+  
+  # Stage 2: Criticality ascent
+  ascend_to_criticality:
+    - lift: critical
+  
+  # Stage 3: Thermodynamic validation
+  validate_thermo:
+    - assert:
+        expr: phi_c_score > 0.3
+        message: "Critical system must have meaningful phi_c"
+
+do:
+  # Execute the optimization pipeline
+  - bind: upgrade_fidelity
+  - bind: ascend_to_criticality
+  - bind: validate_thermo
+  
+  # Final assertion: we have a validated critical catalytic cycle
+  - assert:
+      expr: criticality_phase == Phi_c
+      message: "Final system must be critical"
+
+output:
+  format: text
+  save: results/06_catalytic_cycle_optimization.json
+  assert:
+    - total_delta_xi < 5.0
+    - steps <= 10

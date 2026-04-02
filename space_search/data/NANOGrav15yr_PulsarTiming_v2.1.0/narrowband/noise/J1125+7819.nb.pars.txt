@@ -1,0 +1,8 @@
+J1125+7819_Rcvr1_2_GUPPI_efac
+J1125+7819_Rcvr1_2_GUPPI_log10_ecorr
+J1125+7819_Rcvr1_2_GUPPI_log10_equad
+J1125+7819_Rcvr_800_GUPPI_efac
+J1125+7819_Rcvr_800_GUPPI_log10_ecorr
+J1125+7819_Rcvr_800_GUPPI_log10_equad
+J1125+7819_red_noise_gamma
+J1125+7819_red_noise_log10_A

@@ -1,0 +1,61 @@
+source: J0610-2100
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J0610-2100_PINT_20220301.nb.par
+compare-model: archive/J0610-2100_PINT_20220223.nb.par
+toas:
+- J0610-2100.Rcvr1_2.GUPPI.15y.x.nb.tim
+- J0610-2100.Rcvr_800.GUPPI.15y.x.nb.tim
+
+free-params: [ELONG, ELAT, PMELONG, PMELAT, PX, F0, F1, A1, PB, TASC, EPS1, EPS2,
+  FD1, FD2, FD3, FD4, JUMP1]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J0610-2100.nb/J0610-2100.nb_excise.tim
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220222.Noise.nb.4e07003/
+  no-corner: true
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  bad-range:
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+
+changelog:
+- '2020-11-10 brent.shapiro-albert INIT: YAML created (as J0610-2100.yaml)'
+- '2021-01-16 jing.luo UPDATE:  update parfile and add FD1'
+- '2021-03-08 joe.swiggum READY_FOR: v0.9'
+- '2021-08-03 thankful.cromartie CURATE: no manual cuts to inspect'
+- '2021-09-14 matthew.kerr ADD: FD2, FD3, FD4'
+- '2021-09-14 matthew.kerr READY_FOR: v1.0'
+- '2021-09-24 joe.swiggum NOTE: updated AO/GBO coords (pint v0.8.3) and refit'
+- '2021-09-30 joe.swiggum NOTE: par file handed off to DWG for v1.0 is J0610-2100_PINT_20210928.nb.par'
+- '2021-12-10 joe.swiggum NOTE: large PX (3.9 mas), but also large uncertainty (1.4
+  mas), probably ok for now.'
+- '2021-12-13 joe.swiggum NOTE: RN significant in 15 yr (new MSP)'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

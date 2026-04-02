@@ -1,0 +1,12 @@
+FD2        FD1        -0.999490763984709
+FD3        FD2        -0.998322560422118
+FD3        FD1        +0.996527859651810
+JUMP1      FD3        +0.955692665038151
+JUMP1      FD2        -0.952836156941585
+M2         A1         -0.949907037158432
+JUMP1      FD1        +0.944429520564157
+DMX_*      DMX_*       10731 correlations larger than 0.9
+DMX_*      FD1           147 correlations larger than 0.9
+DMX_*      FD2           147 correlations larger than 0.9
+DMX_*      FD3           147 correlations larger than 0.9
+DMX_*      JUMP1         146 correlations larger than 0.9

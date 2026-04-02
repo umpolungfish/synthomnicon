@@ -1,0 +1,10 @@
+J2234+0944_L-wide_PUPPI_dmefac
+J2234+0944_L-wide_PUPPI_efac
+J2234+0944_L-wide_PUPPI_log10_dmequad
+J2234+0944_L-wide_PUPPI_log10_t2equad
+J2234+0944_S-wide_PUPPI_dmefac
+J2234+0944_S-wide_PUPPI_efac
+J2234+0944_S-wide_PUPPI_log10_dmequad
+J2234+0944_S-wide_PUPPI_log10_t2equad
+J2234+0944_red_noise_gamma
+J2234+0944_red_noise_log10_A

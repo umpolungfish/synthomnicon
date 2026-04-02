@@ -1,0 +1,2 @@
+DMX_*      DMX_*           2 correlations larger than 0.9
+DMX_*      Offset          1 correlations larger than 0.9

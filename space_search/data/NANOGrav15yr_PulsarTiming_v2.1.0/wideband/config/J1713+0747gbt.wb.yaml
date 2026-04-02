@@ -1,0 +1,55 @@
+source: J1713+0747gbt
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J1713+0747gbt_PINT_20221111.wb.par
+compare-model: archive/J1713+0747gbt_PINT_20221014_prenoise.wb.par
+toas:
+- J1713+0747.Rcvr1_2.GASP.15y.x.wb.tim
+- J1713+0747.Rcvr1_2.GUPPI.15y.x.wb.tim
+- J1713+0747.Rcvr_800.GASP.15y.x.wb.tim
+- J1713+0747.Rcvr_800.GUPPI.15y.x.wb.tim
+
+free-params: [PX, ELONG, ELAT, PMELONG, PMELAT, F0, F1, PB, A1, ECC, T0, OM, M2, KIN,
+  KOM, FD1, FD2, FD3, JUMP1, DMJUMP1, DMJUMP2]
+free-dmx: Yes
+toa-type: WB
+fitter: WidebandDownhillFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+
+intermediate-results: # use results from previous runs
+  no-corner: true
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20221111.Noise.wb.1fc43499/
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220822.Noise.wb.a77c37bb/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220913.Outlier.wb.281b67cb/J1713+0747gbt.wb/J1713+0747gbt.wb_excise.tim
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 25
+  bad-range:
+  bad-file:
+  - [guppi_56739_J1713+0747_0004.15y.x.ff, rfi]
+  - [guppi_57902_J1713+0747_0002.15y.x.ff, few_chans]
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  - latest noise run failed
+  cleared: false 
+
+changelog:
+- '2021-10-13 joe.swiggum INIT: YAML copied/modified version of J1713+0747.wb.yaml'
+- '2021-10-13 joe.swiggum NOTE: this YAML is for telescope-specific analysis (gbt)'
+- '2021-10-14 joe.swiggum REMOVE: OMDOT due to F-test significance'
+- '2021-11-05 joe.swiggum CURATE: new outlier results, existing reasons apply'
+- '2022-08-25 thankful.cromartie NOISE: changed to 20220822.Noise.wb.a77c37bb'
+- '2022-09-02 thankful.cromartie ADD: Added FD1-3 according to F-test'

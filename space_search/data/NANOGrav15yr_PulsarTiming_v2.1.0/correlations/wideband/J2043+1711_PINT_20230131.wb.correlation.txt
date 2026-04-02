@@ -1,0 +1,5 @@
+M2         A1         -0.981718364775224
+EPS1       A1         +0.908911646042671
+SINI       M2         -0.904094588439429
+DMX_*      DMX_*       13596 correlations larger than 0.9
+DMX_*      JUMP1         187 correlations larger than 0.9

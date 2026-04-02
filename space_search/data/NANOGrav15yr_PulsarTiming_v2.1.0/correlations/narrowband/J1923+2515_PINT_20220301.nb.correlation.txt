@@ -1,0 +1,2 @@
+DMX_*      DMX_*        1860 correlations larger than 0.9
+DMX_*      JUMP1          63 correlations larger than 0.9

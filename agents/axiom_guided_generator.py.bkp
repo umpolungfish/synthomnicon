@@ -1,0 +1,501 @@
+"""
+Axiom-Guided Synthon Generator Agent — Ensures generated synthons satisfy composition axioms.
+
+This module implements an LLM agent that generates synthons while validating
+against the five composition axioms from QUANTSYNTHONICON.md Section IV:
+
+1. Axiom 1: Cyclic closure amplifies fidelity (T_⋈–F rule)
+2. Axiom 2: Local grammar blocks network propagation (G_ב–Γ barrier rule)
+3. Axiom 3: Cooperative induction superlinearity signals G_ב → G_ג transition
+4. Axiom 4: Sequential grammar requires temporal or catalytic dimension
+5. Axiom 5: Criticality contracts the primitive basis
+
+The agent iteratively refines synthon proposals until all applicable axioms are satisfied.
+"""
+from __future__ import annotations
+
+import json
+from typing import Dict, List, Any, Optional, Tuple
+from dataclasses import dataclass, field
+
+from framework import BaseAgent, ToolDefinitions
+from synthomnicon import (
+    Synthon, Dimensionality, Topology, RecognitionMode,
+    Polarity, Fidelity, Granularity, InteractionGrammar,
+    KineticCharacter, CriticalityPhase,
+    global_catalog, parse_notation
+)
+from synthomnicon.constraints import AxiomValidator
+from synthomnicon.thermodynamics import compute_eta_CP, get_reference
+from synthomnicon.criticality import analyze_criticality
+
+
+@dataclass
+class AxiomGuidedResult:
+    """Result of axiom-guided synthon generation."""
+    synthon: Synthon
+    axiom_report: Dict[str, Any]
+    confidence: float  # 0.0-1.0
+    reasoning: str
+    iterations: int
+    alternatives: List[Synthon] = field(default_factory=list)
+    thermodynamic_metrics: Optional[Dict[str, Any]] = None
+    warnings: List[str] = field(default_factory=list)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary."""
+        return {
+            "synthon": self.synthon.to_dict(),
+            "notation": self.synthon.to_notation(),
+            "axiom_report": self.axiom_report,
+            "confidence": self.confidence,
+            "reasoning": self.reasoning,
+            "iterations": self.iterations,
+            "warnings": self.warnings,
+            "thermodynamic_metrics": self.thermodynamic_metrics,
+        }
+
+
+class AxiomGuidedGeneratorAgent(BaseAgent):
+    """
+    AjintK agent for axiom-guided synthon generation.
+    
+    This agent ensures generated synthons satisfy all five composition axioms:
+    
+    **Axiom 1 (Cyclic Closure):** T_⋈ + P_± → F ≥ F_eth
+    **Axiom 2 (Local Grammar Barrier):** G_ב + Γ_⊗ → no global propagation
+    **Axiom 3 (Cooperative Induction):** Superlinear induction → G_ג reclassification
+    **Axiom 4 (Sequential Grammar):** Γ_→ requires D_∞ or R_‡
+    **Axiom 5 (Criticality):** At criticality, G-D degenerate
+    
+    Usage:
+        from synthomnicon.provider_config import build_agent_config
+        
+        config = build_agent_config(provider="anthropic", model=None)
+        agent = AxiomGuidedGeneratorAgent(config)
+        result = await agent.generate_validated_synthon(
+            "carboxylic acid dimer with cyclic hydrogen bonding"
+        )
+    """
+    
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(
+            agent_id="axiom_guided_generator",
+            name="Axiom-Guided Synthon Generator",
+            description="Generates synthons satisfying all five composition axioms",
+            capabilities=[
+                "axiom_validated_synthon_generation",
+                "iterative_refinement",
+                "axiom_violation_detection",
+                "thermodynamic_analysis",
+            ],
+            config=config,
+            persona="Expert computational chemist specializing in the Unified Synthonicon "
+                    "framework's composition axioms. You generate synthons that satisfy "
+                    "all five axioms from QUANTSYNTHONICON.md Section IV. When an axiom "
+                    "violation is detected, you iteratively refine the synthon until all "
+                    "axioms are satisfied. Your analyses are rigorous, well-reasoned, and "
+                    "grounded in chemical principles."
+        )
+        self.provider = self._setup_llm_provider_strict()
+    
+    def _setup_llm_provider_strict(self):
+        """Setup LLM provider without fallback."""
+        from framework.enhanced_llm_provider import get_llm_provider
+        
+        provider_name = self.config.get("provider", "anthropic")
+        model = self.config.get("model", None)
+        
+        if "/" in provider_name:
+            parts = provider_name.split("/", 1)
+            provider_name = parts[0]
+            model = parts[1] if len(parts) > 1 else model
+        
+        try:
+            return get_llm_provider(provider_name, model=model)
+        except ValueError as e:
+            raise e
+    
+    def _generate_rule_based_validated(
+        self,
+        description: str,
+        name: Optional[str] = None,
+    ) -> AxiomGuidedResult:
+        """
+        Rule-based axiom-guided generation (no API key fallback).
+        
+        Uses keyword matching with axiom validation.
+        """
+        description_lower = description.lower()
+        
+        # Initial synthon generation (same as SynthonGeneratorAgent)
+        dimensionality = Dimensionality.MOLECULAR
+        topology = Topology.LINEAR
+        recognition_mode = RecognitionMode.NON_COVALENT
+        polarity = Polarity.SELF_COMPLEMENTARY_PSEUDO
+        fidelity = Fidelity.MEDIUM
+        kinetic_character = KineticCharacter.MODERATE
+        granularity = Granularity.LOCAL
+        interaction_grammar = InteractionGrammar.SELECTIVE_AND
+        criticality_phase = None
+        
+        # Apply keyword-based rules
+        if any(kw in description_lower for kw in ["dimer", "cyclic", "ring", "r22(8)"]):
+            topology = Topology.CYCLIC_BOWTIE
+            fidelity = Fidelity.HIGH  # Axiom 1: cyclic → high fidelity
+        
+        if any(kw in description_lower for kw in ["crystal", "framework", "mof"]):
+            dimensionality = Dimensionality.SUPRAMOLECULAR
+            granularity = Granularity.GLOBAL
+        
+        if any(kw in description_lower for kw in ["catalytic", "cycle", "temporal"]):
+            dimensionality = Dimensionality.TEMPORAL
+            recognition_mode = RecognitionMode.DYNAMIC_CATALYTIC
+        
+        if any(kw in description_lower for kw in ["rotaxane", "mechanical", "interlocked"]):
+            recognition_mode = RecognitionMode.MECHANICAL
+        
+        synthon_name = name or f"synthon_{description[:30].replace(' ', '_')}"
+        
+        synthon = Synthon(
+            name=synthon_name,
+            dimensionality=dimensionality,
+            topology=topology,
+            recognition_mode=recognition_mode,
+            polarity=polarity,
+            fidelity=fidelity,
+            kinetic_character=kinetic_character,
+            granularity=granularity,
+            interaction_grammar=interaction_grammar,
+            criticality_phase=criticality_phase,
+            description=description,
+            metadata={"auto_generated": True, "method": "rule_based_axiom_guided"}
+        )
+        
+        # Validate against axioms
+        axiom_report = AxiomValidator.validate_all_axioms(synthon)
+        
+        # Compute thermodynamic metrics
+        delta_g = -50.0  # Default estimate
+        if "acid" in description_lower and "dimer" in description_lower:
+            delta_g = -52.0
+        elif "triple" in description_lower and "h-bond" in description_lower:
+            delta_g = -95.0
+        
+        try:
+            thermo_result = compute_eta_CP(synthon, delta_g=delta_g)
+            thermo_metrics = {
+                "eta_CP": thermo_result.eta_CP,
+                "xi_CP": thermo_result.xi_CP,
+                "delta_g": delta_g,
+            }
+        except Exception:
+            thermo_metrics = None
+        
+        # Check for axiom violations and generate warnings
+        warnings = []
+        if axiom_report["violations"] > 0:
+            for axiom_name, result in axiom_report["detailed_results"].items():
+                if result.get("violated", False):
+                    warnings.append(f"{axiom_name}: {result.get('falsification_note', 'Violation detected')}")
+        
+        return AxiomGuidedResult(
+            synthon=synthon,
+            axiom_report=axiom_report,
+            confidence=0.7 if axiom_report["all_satisfied"] else 0.5,
+            reasoning="Rule-based axiom-guided analysis",
+            iterations=1,
+            alternatives=[],
+            thermodynamic_metrics=thermo_metrics,
+            warnings=warnings,
+        )
+    
+    def get_tools(self) -> List[Dict[str, Any]]:
+        """Declare available tools."""
+        return [
+            ToolDefinitions.file_read(),
+            ToolDefinitions.file_write(),
+            ToolDefinitions.json_load(),
+            ToolDefinitions.json_save(),
+            ToolDefinitions.run_command(),
+        ]
+    
+    def _build_generation_prompt(self, description: str, name: Optional[str] = None) -> str:
+        """Build the axiom-guided generation prompt."""
+        axiom_descriptions = """
+**Composition Axioms (QUANTSYNTHONICON.md Section IV):**
+
+1. **Axiom 1 (Cyclic Closure):** A synthon with T_⋈ and P_± necessarily achieves F ≥ F_eth.
+   - Falsified by: cyclic self-complementary motif with F_ell or ξ_CP > 10.5 nats
+
+2. **Axiom 2 (Local Grammar Barrier):** A synthon with G_ב and Γ_⊗ cannot propagate constraint globally.
+   - Falsified by: local specific synthon driving global assembly alone
+
+3. **Axiom 3 (Cooperative Induction):** Superlinear SAPT induction signals G_ב → G_ג transition.
+   - Falsified by: superlinear induction with G_ב classification
+
+4. **Axiom 4 (Sequential Grammar):** Γ_→ requires D_∞ or R_‡ (or both).
+   - Falsified by: purely spatial synthon with ordered partner binding
+
+5. **Axiom 5 (Criticality):** At criticality, G and D degenerate (scale-free behavior).
+   - Falsified by: critical synthon requiring different G at different scales
+"""
+        
+        return f"""You are an expert computational chemist specializing in the Unified Synthonicon framework.
+
+**Task:** Generate a synthon from the following description that satisfies ALL five composition axioms.
+
+**Chemical Description:** {description}
+**Synthon Name:** {name or "auto-generated from description"}
+
+{axiom_descriptions}
+
+**Instructions:**
+1. Analyze the chemical description to determine all nine primitives:
+   - Dimensionality (D): D_wedge, D_triangle, D_infinity, or hybrid
+   - Topology (T): T_bowtie, T_chains, T_square, etc.
+   - Recognition Mode (R): R_subset, R_superset, R_dagger, R_mechanical, etc.
+   - Polarity (P): P_plus, P_minus, P_pm_sym, P_pm_pseudo, P_directional
+   - Fidelity (F): F_hbar, F_eth, F_ell
+   - Kinetic Character (K): K_fast, K_mod, K_slow, K_trap
+   - Granularity (G): G_beth, G_gimel, G_aleph
+   - Interaction Grammar (Γ): Gamma_and(SPECIFIC|SELECTIVE|BROAD), Gamma_or(...), Gamma_seq(...)
+   - Criticality Phase (Φ): Phi_sub, Phi_c, Phi_super (optional, default: Phi_sub)
+
+2. **CRITICAL:** Ensure your assignment satisfies all applicable axioms above.
+
+3. Return your answer in JSON format:
+```json
+{{
+    "synthon": {{
+        "name": "...",
+        "dimensionality": "D_...",
+        "topology": "T_...",
+        "recognition_mode": "R_...",
+        "polarity": "P_...",
+        "fidelity": "F_...",
+        "kinetic_character": "K_...",
+        "granularity": "G_...",
+        "interaction_grammar": "Gamma_...(...)",
+        "criticality_phase": "Phi_..."
+    }},
+    "reasoning": "Detailed explanation of primitive assignments and axiom satisfaction",
+    "confidence": 0.0-1.0,
+    "axiom_analysis": {{
+        "axiom1": "How Axiom 1 is satisfied or why it doesn't apply",
+        "axiom2": "How Axiom 2 is satisfied or why it doesn't apply",
+        "axiom3": "How Axiom 3 is satisfied or why it doesn't apply",
+        "axiom4": "How Axiom 4 is satisfied or why it doesn't apply",
+        "axiom5": "How Axiom 5 is satisfied or why it doesn't apply"
+    }}
+}}
+```
+
+**Important:** If any axiom would be violated by your initial assignment, revise the primitives until all axioms are satisfied. Explain your reasoning clearly.
+"""
+    
+    def _parse_llm_response(self, response: str) -> Tuple[Dict[str, Any], str, float]:
+        """Parse LLM response to extract synthon data and analysis."""
+        # Try to extract JSON
+        json_match = None
+        import re
+        for pattern in [r'```json\s*(.+?)\s*```', r'```\s*(.+?)\s*```', r'\{.+?\}']:
+            json_match = re.search(pattern, response, re.DOTALL)
+            if json_match:
+                break
+        
+        if json_match:
+            try:
+                data = json.loads(json_match.group(1) if json_match.lastindex else json_match.group(0))
+                synthon_data = data.get("synthon", {})
+                reasoning = data.get("reasoning", "Parsed from response")
+                confidence = data.get("confidence", 0.7)
+                return synthon_data, reasoning, confidence
+            except json.JSONDecodeError:
+                pass
+        
+        # Fallback: parse primitives from text
+        primitives = {}
+        for key in ["dimensionality", "topology", "recognition_mode", "polarity", 
+                    "fidelity", "kinetic_character", "granularity", "interaction_grammar"]:
+            match = re.search(rf'{key}["\s:]+([DTPRFKG][_\w]+)', response, re.IGNORECASE)
+            if match:
+                primitives[key] = match.group(1)
+        
+        return primitives, "Parsed from response", 0.5
+    
+    def _create_synthon_from_data(
+        self,
+        data: Dict[str, str],
+        description: str
+    ) -> Synthon:
+        """Create Synthon from parsed data."""
+        return Synthon(
+            name=data.get("name", f"synthon_{description[:30].replace(' ', '_')}"),
+            dimensionality=Dimensionality.from_symbol(data.get("dimensionality", "D_wedge")),
+            topology=Topology.from_symbol(data.get("topology", "T_linear")),
+            recognition_mode=RecognitionMode.from_symbol(data.get("recognition_mode", "R_superset")),
+            polarity=Polarity.from_symbol(data.get("polarity", "P_pm_pseudo")),
+            fidelity=Fidelity.from_symbol(data.get("fidelity", "F_eth")),
+            kinetic_character=KineticCharacter.from_symbol(data.get("kinetic_character", "K_mod")),
+            granularity=Granularity.from_symbol(data.get("granularity", "G_beth")),
+            interaction_grammar=InteractionGrammar.from_symbol(data.get("interaction_grammar", "Gamma_and(SELECTIVE)")),
+            criticality_phase=CriticalityPhase.from_symbol(data["criticality_phase"]) if data.get("criticality_phase") else None,
+            description=description,
+            metadata={"auto_generated": True, "method": "axiom_guided_llm"}
+        )
+    
+    async def generate_validated_synthon(
+        self,
+        description: str,
+        name: Optional[str] = None,
+        delta_g: Optional[float] = None,
+        max_iterations: int = 3,
+        auto_register: bool = True,
+    ) -> AxiomGuidedResult:
+        """
+        Generate synthon with axiom validation.
+        
+        Args:
+            description: Natural language description
+            name: Optional synthon name
+            delta_g: Optional free energy for thermodynamic analysis
+            max_iterations: Max generate-validate cycles
+            auto_register: Whether to register to catalog
+        
+        Returns:
+            AxiomGuidedResult with validated synthon
+        """
+        for iteration in range(1, max_iterations + 1):
+            try:
+                # Generate candidate with LLM
+                prompt = self._build_generation_prompt(description, name)
+                raw_response = await self.call_llm(
+                    prompt=prompt,
+                    max_tokens=self.config.get("max_tokens", 4000),
+                    temperature=0.3,
+                    system=self._get_system_prompt()
+                )
+                
+                # Parse response
+                synthon_data, reasoning, confidence = self._parse_llm_response(raw_response)
+                
+                # Create synthon
+                synthon = self._create_synthon_from_data(synthon_data, description)
+                
+            except Exception as e:
+                # Fall back to rule-based
+                result = self._generate_rule_based_validated(description, name)
+                result.iterations = iteration
+                result.reasoning = f"LLM failed ({e}), using rule-based: {result.reasoning}"
+                if auto_register:
+                    global_catalog.register(synthon)
+                return result
+            
+            # Validate against axioms
+            axiom_report = AxiomValidator.validate_all_axioms(synthon)
+            
+            # Compute thermodynamic metrics
+            if delta_g is None:
+                delta_g = -50.0  # Default estimate
+            try:
+                thermo_result = compute_eta_CP(synthon, delta_g=delta_g)
+                thermo_metrics = {
+                    "eta_CP": thermo_result.eta_CP,
+                    "xi_CP": thermo_result.xi_CP,
+                    "delta_g": delta_g,
+                }
+            except Exception:
+                thermo_metrics = None
+            
+            # Check if all axioms satisfied
+            if axiom_report["all_satisfied"]:
+                # Success!
+                if auto_register:
+                    global_catalog.register(synthon)
+                
+                return AxiomGuidedResult(
+                    synthon=synthon,
+                    axiom_report=axiom_report,
+                    confidence=confidence,
+                    reasoning=reasoning,
+                    iterations=iteration,
+                    alternatives=[],
+                    thermodynamic_metrics=thermo_metrics,
+                    warnings=[],
+                )
+            
+            # Axiom violated - prepare refinement prompt
+            violations = []
+            for axiom_name, result in axiom_report["detailed_results"].items():
+                if result.get("violated", False):
+                    violations.append(f"{axiom_name}: {result.get('falsification_note', 'Violation')}")
+            
+            if iteration < max_iterations:
+                # Refine with axiom violation feedback
+                description += f"\n\nPRIOR ATTEMPT VIOLATIONS: {'; '.join(violations)}. Revise primitive assignments to satisfy all axioms."
+            else:
+                # Max iterations reached - return with warnings
+                if auto_register:
+                    global_catalog.register(synthon)
+                
+                return AxiomGuidedResult(
+                    synthon=synthon,
+                    axiom_report=axiom_report,
+                    confidence=confidence * 0.7,  # Penalize for violations
+                    reasoning=reasoning + f"\n\nWARNING: {len(violations)} axiom violations after {max_iterations} iterations: {'; '.join(violations)}",
+                    iterations=iteration,
+                    alternatives=[],
+                    thermodynamic_metrics=thermo_metrics,
+                    warnings=violations,
+                )
+        
+        # Should not reach here, but just in case
+        return self._generate_rule_based_validated(description, name)
+    
+    async def run(self, task: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Main entry point for AjintK framework."""
+        try:
+            result = await self.generate_validated_synthon(task)
+            
+            status = "success" if result.axiom_report["all_satisfied"] else "partial"
+            
+            return {
+                "status": status,
+                "findings": (
+                    f"Generated axiom-validated synthon: {result.synthon.name}\n"
+                    f"Notation: {result.synthon.to_notation()}\n"
+                    f"Confidence: {result.confidence:.2f}\n"
+                    f"Iterations: {result.iterations}\n"
+                    f"Axioms Satisfied: {result.axiom_report['all_satisfied']}\n"
+                    f"Reasoning: {result.reasoning}"
+                ),
+                "artifacts": self.artifacts,
+                "metadata": {
+                    "synthon_name": result.synthon.name,
+                    "notation": result.synthon.to_notation(),
+                    "confidence": result.confidence,
+                    "axiom_violations": result.axiom_report["violations"],
+                    "all_axioms_satisfied": result.axiom_report["all_satisfied"],
+                    "thermodynamic_metrics": result.thermodynamic_metrics,
+                    "warnings": result.warnings,
+                }
+            }
+        except Exception as e:
+            return {
+                "status": "error",
+                "error": str(e),
+            }
+    
+    def _get_system_prompt(self) -> str:
+        """Get system prompt for the agent."""
+        return """You are an expert computational chemist specializing in the Unified Synthonicon framework.
+Your expertise includes:
+- The nine formal primitives: D, T, R, P, F, K, G, Γ, Φ
+- The five composition axioms from QUANTSYNTHONICON.md Section IV
+- Thermodynamic analysis (η_CP, ξ_CP metrics)
+- Cross-domain analogy detection
+
+You generate synthons that satisfy all applicable axioms. When violations are detected,
+you iteratively refine the synthon until all axioms are satisfied. Your analyses are
+rigorous, well-reasoned, and grounded in chemical principles."""

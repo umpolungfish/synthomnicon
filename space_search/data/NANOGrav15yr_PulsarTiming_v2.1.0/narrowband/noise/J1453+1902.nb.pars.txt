@@ -1,0 +1,11 @@
+J1453+1902_430_PUPPI_efac
+J1453+1902_430_PUPPI_log10_ecorr
+J1453+1902_430_PUPPI_log10_equad
+J1453+1902_L-wide_PUPPI_efac
+J1453+1902_L-wide_PUPPI_log10_ecorr
+J1453+1902_L-wide_PUPPI_log10_equad
+J1453+1902_S-wide_PUPPI_efac
+J1453+1902_S-wide_PUPPI_log10_ecorr
+J1453+1902_S-wide_PUPPI_log10_equad
+J1453+1902_red_noise_gamma
+J1453+1902_red_noise_log10_A

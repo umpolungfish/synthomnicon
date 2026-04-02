@@ -1,0 +1,43 @@
+RESIDUAL FILE DESCRIPTION AND USAGE
+-----------------------------------
+
+    Files in this directory contain residual (TOA measurement - model) values 
+    for the narrowband 15-year data set. Two different files are provided for 
+    each pulsar: one ending in *_nb.full.res, and one in *_nb.avg.res. These are 
+    for all TOAs and epoch-averaged TOAs, respectively. These are not directly 
+    compatible with PINT or pint_pal and must be parsed by whatever software is 
+    being used to analyze them (e.g. numpy.genfromtxt). 
+
+DIRECTORY AND FILE STRUCTURE (FURTHER DETAILS BELOW)
+---------------------------------------------------
+    ../residuals/*.avg.res
+        Narrowband epoch-averaged post-fit residuals (un-whitened and whitened)
+        in a space-separated, ASCII table.
+    ../residuals/*.full.res
+        Narrowband post-fit residuals (un-whitened and whitened) in a space-
+        separated, ASCII table.
+    ../residuals/plots/*_[RN/NORN]_resids.png
+        Graphic representation of the timing model residuals in PNG format with
+        the dimensions of 857 x 1060 pixels. As below, 'RN' indicates that red noise
+        is present and 'NORN' indicates that no red noise is present.
+
+DESCRIPTION OF COLUMNS IN RESIDUAL FILES
+----------------------------------------
+    Columns in *_nb.full.res files:
+    
+    If no red noise (RN) is present, columns are the following:
+        # MJD frequency (MHz) | residual (us) | uncertainty (us) | chi2 | flag 
+    If RN is present, columns are:
+        # MJD frequency (MHz) | residual (us) | white_residual (us) | 
+            uncertainty (us) | chi2 | flag
+    
+    * Note: "flag" describes the backend + receiver combination used for each TOA's 
+        observation.
+    
+    Columns in *_nb.avg.res files:
+    
+    If no RN is present:
+        # avg_MJD | avg_frequency (MHz) | avg_residual (us) | avg_uncertainty (us)
+    If RN is present:
+        # avg_MJD | avg_frequency (MHz) | avg_residual (us) | avg_white_residual (us) 
+            | avg_uncertainty (us)

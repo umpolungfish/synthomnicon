@@ -1,0 +1,16 @@
+JUMP1      DMJUMP2    +0.997361770557606
+JUMP1      DMJUMP1    +0.996758807159738
+DMJUMP2    DMJUMP1    +0.994748123144501
+M2         A1         -0.991915991100763
+Offset     JUMP1      -0.988169664138006
+Offset     DMJUMP2    -0.987041195603050
+Offset     DMJUMP1    -0.986718005140536
+SINI       M2         -0.978635231159461
+SINI       A1         +0.955879158629380
+EPS1       A1         +0.909127888485193
+EPS1       M2         -0.907985793966369
+DMX_*      DMJUMP1        46 correlations larger than 0.9
+DMX_*      DMJUMP2        46 correlations larger than 0.9
+DMX_*      DMX_*        1035 correlations larger than 0.9
+DMX_*      JUMP1          46 correlations larger than 0.9
+DMX_*      Offset         46 correlations larger than 0.9

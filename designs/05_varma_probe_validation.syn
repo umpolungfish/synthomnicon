@@ -1,0 +1,44 @@
+# Design 05: Varma Probe Validation — Multi-Mechanism Discrimination
+# ====================================================================
+# This script validates a synthon through the Varma probe,
+# checking phi_c_score thresholds and degeneracy type.
+# Demonstrates: Varma probe assertions, gd_degeneracy checks,
+# output.assert cost gates
+
+version: "1.0"
+start: nitroso_radical_redox_synthon_pair
+
+do:
+  # Step 1: Lift to criticality (this synthon should be a good candidate)
+  - lift: critical
+  
+  # Step 2: Assert phi_c_score exceeds 0.3 threshold (lenient check)
+  # (Varma probe runs and computes criticality score)
+  - assert:
+      expr: phi_c_score > 0.3
+      message: "Criticality candidate must have phi_c > 0.3"
+  
+  # Step 3: Check that we reached criticality phase
+  - assert:
+      expr: criticality_phase == Phi_c
+      message: "Must be in Phi_c phase after lift"
+  
+  # Step 4: Path to proline_aldol_cycle (another critical system)
+  # This tests cross-domain analogy in the temporal cluster
+  - path: proline_aldol_cycle
+    xi_tolerance: 2.5
+    max_hops: 8
+  
+  # Step 5: Assert we reached a critical system
+  - assert:
+      expr: criticality_phase == Phi_c
+      message: "Path endpoint must be critical"
+
+output:
+  format: json
+  save: results/05_varma_probe_validation.json
+  assert:
+    # Post-hoc cost gates (evalRWS-style — run after pipeline completes)
+    - total_delta_xi < 20.0   # Budget check
+    - total_delta_xi >= 0.0   # Non-negative check
+    - steps <= 10             # Step budget

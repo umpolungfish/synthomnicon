@@ -1,0 +1,4 @@
+OM         T0         +0.999999978770233
+FD2        FD1        -0.982407719114170
+DMX_*      DMX_*          21 correlations larger than 0.9
+DMX_*      FD1             7 correlations larger than 0.9

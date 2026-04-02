@@ -1,0 +1,59 @@
+source: J1903+0327ao
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J1903+0327ao_PINT_20220302.nb.par
+compare-model: archive/J1903+0327ao_PINT_20220223.nb.par
+toas:
+- J1903+0327.L-wide.ASP.15y.x.nb.tim
+- J1903+0327.L-wide.PUPPI.15y.x.nb.tim
+- J1903+0327.S-wide.ASP.15y.x.nb.tim
+- J1903+0327.S-wide.PUPPI.15y.x.nb.tim
+free-params: [PX, ELONG, ELAT, PMELONG, PMELAT, F0, F1, PB, A1, ECC, T0, OM, OMDOT,
+  M2, SINI, FD1, FD2, JUMP1]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  no-corner: true
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J1903+0327ao.nb/J1903+0327ao.nb_excise.tim
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220222.Noise.nb.4e07003/
+ignore: # toa excision
+  orphaned-rec:
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  - [puppi_57587_J1903+0327_0299.15y.x.ff, 50, 0, non-detection]
+  bad-range:
+  - [57984, 58447, PUPPI]
+  bad-file:
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+
+changelog:
+- '2021-10-15 joe.swiggum INIT: YAML copied/modified version of J1903+0327.nb.yaml'
+- '2021-10-15 joe.swiggum NOTE: this YAML is for telescope-specific analysis (ao)'
+- '2021-11-03 joe.swiggum CURATE: new outlier results, earlier reasons apply'
+- '2021-11-10 joe.swiggum REMOVE: FD3 due to F-test significance'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

@@ -1,0 +1,14 @@
+J2017+0603_430_PUPPI_efac
+J2017+0603_430_PUPPI_log10_ecorr
+J2017+0603_430_PUPPI_log10_equad
+J2017+0603_L-wide_ASP_efac
+J2017+0603_L-wide_ASP_log10_ecorr
+J2017+0603_L-wide_ASP_log10_equad
+J2017+0603_L-wide_PUPPI_efac
+J2017+0603_L-wide_PUPPI_log10_ecorr
+J2017+0603_L-wide_PUPPI_log10_equad
+J2017+0603_S-wide_PUPPI_efac
+J2017+0603_S-wide_PUPPI_log10_ecorr
+J2017+0603_S-wide_PUPPI_log10_equad
+J2017+0603_red_noise_gamma
+J2017+0603_red_noise_log10_A

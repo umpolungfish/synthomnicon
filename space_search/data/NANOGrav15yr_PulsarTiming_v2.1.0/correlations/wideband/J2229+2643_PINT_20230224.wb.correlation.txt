@@ -1,0 +1,3 @@
+OM         T0         +0.999999994546014
+DMX_*      DMX_*        1962 correlations larger than 0.9
+DMX_*      JUMP1          65 correlations larger than 0.9

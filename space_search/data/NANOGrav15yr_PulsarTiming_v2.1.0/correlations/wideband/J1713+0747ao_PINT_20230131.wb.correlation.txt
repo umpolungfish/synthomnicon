@@ -1,0 +1,19 @@
+OMDOT      PB         +0.999999990656501
+OM         T0         +0.999999986673668
+OMDOT      T0         +0.999997536421564
+T0         PB         +0.999997530871722
+OMDOT      OM         +0.999997518680059
+OM         PB         +0.999997518219785
+DMJUMP2    DMJUMP1    +0.990128935625660
+M2         A1         -0.970825516838842
+KIN        M2         +0.953847440464011
+FD1        DMJUMP1    +0.944132690919463
+FD1        DMJUMP2    +0.935935947374849
+Offset     DMJUMP1    -0.927881678048316
+Offset     DMJUMP2    -0.922890876794334
+Offset     FD1        -0.920171272474266
+DMX_*      DMJUMP1       211 correlations larger than 0.9
+DMX_*      DMJUMP2       201 correlations larger than 0.9
+DMX_*      DMX_*         885 correlations larger than 0.9
+DMX_*      FD1            36 correlations larger than 0.9
+DMX_*      Offset          2 correlations larger than 0.9

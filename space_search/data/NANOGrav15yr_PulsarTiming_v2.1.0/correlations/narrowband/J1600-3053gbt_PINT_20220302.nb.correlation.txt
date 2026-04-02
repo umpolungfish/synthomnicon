@@ -1,0 +1,13 @@
+OM         T0         +0.999999999767784
+OMDOT      PB         +0.999999994612376
+M2         A1         -0.995607936094376
+FD2        FD1        -0.994282771230466
+SINI       M2         -0.981266320923818
+SINI       A1         +0.961004607862334
+T0         A1         -0.959459200143341
+OM         A1         -0.959458407449949
+M2         T0         +0.941958033844378
+M2         OM         +0.941957062012667
+DMX_*      DMX_*           6 correlations larger than 0.9
+DMX_*      FD1            39 correlations larger than 0.9
+DMX_*      FD2            14 correlations larger than 0.9

@@ -1,0 +1,96 @@
+source: J1713+0747gbt
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J1713+0747gbt_PINT_20220302.nb.par
+compare-model: archive/J1713+0747gbt_PINT_20220228.nb.par
+toas:
+- J1713+0747.Rcvr1_2.GASP.15y.x.nb.tim
+- J1713+0747.Rcvr1_2.GUPPI.15y.x.nb.tim
+- J1713+0747.Rcvr_800.GASP.15y.x.nb.tim
+- J1713+0747.Rcvr_800.GUPPI.15y.x.nb.tim
+
+free-params: [PX, ELONG, ELAT, PMELONG, PMELAT, F0, F1, PB, A1, ECC, T0, OM, M2, KIN,
+  KOM, FD1, FD2, FD3, FD4, JUMP1]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  no-corner: true
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220222.Noise.nb.4e07003/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J1713+0747gbt.nb/J1713+0747gbt.nb_excise.tim
+ignore: # toa excision
+  orphaned-rec:
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  - [guppi_57647_J1713+0747_0014.15y.x.ff, 35, 0, snr]
+  - [guppi_57101_J1713+0747_0008.15y.x.ff, 16, 0, snr]
+  - [guppi_57248_J1713+0747_0012.15y.x.ff, 34, 0, rfi]
+  - [guppi_55278_J1713+0747_0003.15y.x.ff, 57, 1, snr]
+  - [guppi_57271_J1713+0747_0004.15y.x.ff, 13, 0, snr]
+  - [guppi_56985_J1713+0747_0002.15y.x.ff, 61, 0, snr]
+  - [guppi_57454_J1713+0747_0002.15y.x.ff, 62, 0, snr]
+  - [guppi_57054_J1713+0747_0007.15y.x.ff, 40, 0, snr]
+  - [guppi_55579_J1713+0747_0009.15y.x.ff, 34, 1, non-detection]
+  - [guppi_57269_J1713+0747_0005.15y.x.ff, 60, 0, snr]
+  - [54948.000019.1.000.000.15y.x.ff, 12, 0, snr]
+  - [54526.000007.1.000.000.15y.x.ff, 9, 0, snr]
+  - [54944.000015.1.000.000.15y.x.ff, 5, 0, snr]
+  - [55029.000021.1.000.000.15y.x.ff, 9, 0, snr]
+  - [guppi_55542_J1713+0747_0009.15y.x.ff, 45, 1, snr]
+  - [guppi_55542_J1713+0747_0009.15y.x.ff, 54, 1, snr]
+  - [guppi_55578_J1713+0747_0009.15y.x.ff, 53, 0, snr]
+  - [guppi_55578_J1713+0747_0009.15y.x.ff, 46, 1, snr]
+  - [guppi_55307_J1713+0747_0003.15y.x.ff, 52, 0, snr]
+  - [guppi_57080_J1713+0747_0008.15y.x.ff, 60, 0, non-detection]
+  - [guppi_55919_J1713+0747_0014.15y.x.ff, 45, 0, non-detection]
+  - [guppi_55395_J1713+0747_0005.15y.x.ff, 61, 1, snr]
+  - [guppi_55278_J1713+0747_0003.15y.x.ff, 29, 0, rfi]
+  - [guppi_55493_J1713+0747_0009.15y.x.ff, 58, 1, snr]
+  - [guppi_55430_J1713+0747_0007.15y.x.ff, 24, 0, non-detection]
+  - [guppi_58518_J1713+0747_0013.15y.x.ff, 62, 0, non-detection]
+  - [guppi_56354_J1713+0747_0004.15y.x.ff, 35, 0, snr]
+  - [guppi_56354_J1713+0747_0004.15y.x.ff, 45, 0, snr]
+  - [guppi_56174_J1713+0747_0004.15y.x.ff, 49, 0, snr]
+  - [guppi_56249_J1713+0747_0004.15y.x.ff, 46, 0, snr]
+  - [55100.000011.1.000.000.15y.x.ff, 9, 1, snr]
+  bad-range:
+  bad-file:
+  - [guppi_57902_J1713+0747_0002.15y.x.ff, few_chans]
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+
+changelog:
+- '2021-10-13 joe.swiggum INIT: YAML copied/modified version of J1713+0747.nb.yaml'
+- '2021-10-13 joe.swiggum NOTE: this YAML is for telescope-specific analysis (gbt)'
+- '2021-10-14 joe.swiggum REMOVE: FD5 due to F-test significance'
+- '2021-10-25 joe.swiggum ADD: A1DOT due to F-test significance'
+- '2021-11-15 joe.swiggum CURATE: new outlier results, slight modifications to reasons'
+- '2022-02-22 joe.swiggum NOTE: changed KIN/KOM to values from grid by David Kaplan,
+  poorly constrained with gbt-only'
+- '2022-02-28 joe.swiggum REMOVE: A1DOT'
+- '2022-03-01 joe.swiggum NOTE: Kop96 params KIN/KOM incorporate A1DOT, so it should
+  not be fit separately'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

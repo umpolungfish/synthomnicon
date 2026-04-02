@@ -1,0 +1,38 @@
+OM         T0         +0.999999998899904
+FD3        FD2        -0.999995334202603
+FD2        FD1        -0.999981122905403
+FD3        FD1        +0.999968673405260
+JUMP2      JUMP1      +0.999955094723464
+Offset     FD4        +0.999952766050384
+Offset     FD1        -0.999790816148530
+FD4        FD1        -0.999753931169823
+Offset     FD2        +0.999651610169345
+Offset     FD3        -0.999616163572738
+FD4        FD2        +0.999604223366988
+FD4        FD3        -0.999578606492424
+FD5        FD4        -0.997620413080988
+Offset     FD5        -0.997408670603241
+FD5        FD1        +0.995926814836661
+FD5        FD2        -0.995362148140846
+FD5        FD3        +0.995232071410182
+JUMP1      FD3        +0.982610515707667
+JUMP2      FD3        +0.982401497102235
+JUMP1      FD2        -0.982392340275703
+JUMP2      FD2        -0.982178687521006
+JUMP1      FD1        +0.981280682472098
+JUMP2      FD1        +0.981060388774590
+JUMP1      FD4        -0.977241100942759
+Offset     JUMP1      -0.977169199248649
+JUMP2      FD4        -0.977000634059933
+Offset     JUMP2      -0.976925629351724
+JUMP1      FD5        +0.961435327048549
+JUMP2      FD5        +0.961109473716558
+DMX_*      DMX_*        1485 correlations larger than 0.9
+DMX_*      FD1            55 correlations larger than 0.9
+DMX_*      FD2            55 correlations larger than 0.9
+DMX_*      FD3            55 correlations larger than 0.9
+DMX_*      FD4            55 correlations larger than 0.9
+DMX_*      FD5            55 correlations larger than 0.9
+DMX_*      JUMP1          55 correlations larger than 0.9
+DMX_*      JUMP2          55 correlations larger than 0.9
+DMX_*      Offset         55 correlations larger than 0.9

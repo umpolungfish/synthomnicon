@@ -1,0 +1,7 @@
+M2         A1         -0.988657903517560
+FD2        FD1        -0.972502104512915
+SINI       M2         -0.947972357190773
+EPS1       A1         +0.918983412936972
+SINI       A1         +0.904615808193216
+DMX_*      DMX_*        2664 correlations larger than 0.9
+DMX_*      FD1             3 correlations larger than 0.9

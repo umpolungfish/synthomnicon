@@ -1,0 +1,90 @@
+<div style="padding:1rem 0">
+<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:1rem;font-size:12px;color:var(--color-text-secondary)">
+  <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#7F77DD"></span>electrostatic (near-linear)</span>
+  <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#D85A30"></span>induction (superlinear — cooperativity signature)</span>
+  <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75"></span>total interaction energy</span>
+</div>
+<div style="position:relative;width:100%;height:300px">
+<canvas id="sapt"></canvas>
+</div>
+<div style="display:flex;gap:24px;margin-top:16px;font-size:12px">
+  <div style="flex:1;background:var(--color-background-secondary);border-radius:8px;padding:12px">
+    <div style="color:var(--color-text-secondary);margin-bottom:4px">induction ratio</div>
+    <div style="font-size:20px;font-weight:500">2.5–3.5×</div>
+    <div style="color:var(--color-text-secondary);font-size:11px">single → triple (superlinear)</div>
+  </div>
+  <div style="flex:1;background:var(--color-background-secondary);border-radius:8px;padding:12px">
+    <div style="color:var(--color-text-secondary);margin-bottom:4px">primitive transition</div>
+    <div style="font-size:20px;font-weight:500">Fℓ → Fℏ</div>
+    <div style="color:var(--color-text-secondary);font-size:11px">Gℶ local → Gℷ mesoscale</div>
+  </div>
+  <div style="flex:1;background:var(--color-background-secondary);border-radius:8px;padding:12px">
+    <div style="color:var(--color-text-secondary);margin-bottom:4px">ξ_CP improvement</div>
+    <div style="font-size:20px;font-weight:500">~1.5 nats</div>
+    <div style="color:var(--color-text-secondary);font-size:11px">single (10.2) → triple (7.4)</div>
+  </div>
+</div>
+<div style="margin-top:16px;display:flex;gap:12px;align-items:center">
+  <div style="flex:1;border-left:3px solid #D85A30;padding-left:10px;font-size:12px;color:var(--color-text-secondary)">
+    Induction grows faster than linearly because each new H-bond polarizes the electron density of the entire array, not just its own donor-acceptor pair. This many-body polarization is the mechanism behind emergent high-fidelity motifs — the triple array is a single coherent constraint unit, not three independent ones.
+  </div>
+  <div style="width:120px;flex-shrink:0;border:0.5px dashed var(--color-border-tertiary);border-radius:6px;padding:8px;font-size:11px;text-align:center;color:var(--color-text-secondary);font-style:italic">ChemDraw:<br>DAD·ADA<br>H-bond array</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('sapt'), {
+  type: 'bar',
+  data: {
+    labels: ['single H-bond\n(acetamide dimer)', 'double H-bond\n(urea-like)', 'triple H-bond\n(DAD·ADA — 2AP·2PY)'],
+    datasets: [
+      {
+        label: 'Electrostatic',
+        data: [18, 38, 58],
+        backgroundColor: '#AFA9EC',
+        borderRadius: 3,
+        stack: 'a'
+      },
+      {
+        label: 'Induction',
+        data: [3, 14, 36],
+        backgroundColor: '#D85A30',
+        borderRadius: 3,
+        stack: 'a'
+      },
+      {
+        label: 'Dispersion',
+        data: [7, 12, 18],
+        backgroundColor: '#9FE1CB',
+        borderRadius: 3,
+        stack: 'a'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ' ' + ctx.dataset.label + ': −' + ctx.parsed.y + ' kJ/mol'
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+        ticks: { font: { size: 11 }, color: '#888780' },
+        grid: { display: false }
+      },
+      y: {
+        stacked: true,
+        title: { display: true, text: '|E_int| components (kJ/mol)', font: { size: 11 }, color: '#888780' },
+        ticks: { font: { size: 11 }, color: '#888780' },
+        grid: { color: 'rgba(136,135,128,0.15)' }
+      }
+    }
+  }
+});
+</script>

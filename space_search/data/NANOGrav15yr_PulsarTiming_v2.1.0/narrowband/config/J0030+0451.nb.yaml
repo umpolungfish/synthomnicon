@@ -1,0 +1,92 @@
+source: J0030+0451
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J0030+0451_PINT_20220302.nb.par
+compare-model: archive/J0030+0451_PINT_20220224.nb.par
+toas:
+- J0030+0451.430.ASP.15y.x.nb.tim
+- J0030+0451.430.PUPPI.15y.x.nb.tim
+- J0030+0451.L-wide.ASP.15y.x.nb.tim
+- J0030+0451.L-wide.PUPPI.15y.x.nb.tim
+- J0030+0451.S-wide.PUPPI.15y.x.nb.tim
+
+free-params: [PX, ELONG, ELAT, PMELONG, PMELAT, F0, F1, FD1, FD2, FD3, FD4, JUMP1,
+  JUMP2]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220222.Noise.nb.4e07003/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J0030+0451.nb/J0030+0451.nb_excise.tim
+  no-corner: true
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 29, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 31, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 32, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 33, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 34, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 35, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 36, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 37, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 38, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 39, 0, few_chans]
+  - [puppi_56380_0030+0451_0584.15y.x.ff, 41, 0, few_chans]
+  - [puppi_57089_J0030+0451_0242.15y.x.ff, 27, 0, rfi]
+  - [puppi_58727_J0030+0451_0440.15y.x.ff, 34, 0, snr]
+  - [puppi_58923_J0030+0451_0350.15y.x.ff, 3, 0, snr]
+  - [puppi_57036_J0030+0451_0536.15y.x.ff, 11, 0, rfi]
+  - [puppi_57137_J0030+0451_1035.15y.x.ff, 27, 0, snr]
+  - [puppi_57335_J0030+0451_4513.15y.x.ff, 9, 0, snr]
+  - [puppi_57208_J0030+0451_2009.15y.x.ff, 3, 0, rfi]
+  - [puppi_57389_J0030+0451_5537.15y.x.ff, 2, 0, snr]
+  bad-range:
+  - [57984, 58447]
+  bad-file:
+  - [puppi_57399_J0030+0451_5597.15y.x.ff, few_chans]
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  - [55529.0, 'only 5 channels of data at 430 MHz, low SNR']
+  - [56498.0, missing ~2/3 of band at 430 MHz (possible gpu failure)]
+  - [57036.9, 'missing ~1/3 of band at 2 GHz and low SNR, only 2 GHz & 1.4 GHz available']
+  unusual-params:
+  other:
+  cleared: true
+
+changelog:
+- '2021-01-06 joe.swiggum INIT: YAML created'
+- '2021-01-15 brent.shapiro-albert ADD: Added FD5 to timing model.'
+- '2021-01-18 brent.shapiro-albert READY_FOR: v0'
+- '2021-03-04 bradley.meyers NOTE: reverted to 12.5yr solution to create new pre-noise
+  model'
+- '2021-03-04 bradley.meyers CURATE: redid TOA excision with multiple iterations of
+  large_residuals, both pre- and post-fit'
+- '2021-03-05 bradley.meyers REMOVE: removed FD5 parameter based on F-test'
+- '2021-03-05 bradley.meyers READY_FOR: v0.9'
+- '2021-08-10 thankful.cromartie CURATE: assigned reasons after inspecting .ff files'
+- '2021-09-10 kathryn.crowter READY_FOR: v1.0'
+- '2021-09-24 joe.swiggum NOTE: updated AO/GBO coords (pint v0.8.3) and refit'
+- '2021-09-30 joe.swiggum NOTE: par file handed off to DWG for v1.0 is J0030+0451_PINT_20210929.nb.par'
+- '2021-12-13 joe.swiggum NOTE: had RN in 12.5 yr, still has it in 15 yr'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

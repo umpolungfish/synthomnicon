@@ -1,0 +1,59 @@
+source: J1012-4235
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J1012-4235_PINT_20220301.nb.par
+compare-model: archive/J1012-4235_PINT_20220222.nb.par
+toas:
+- J1012-4235.Rcvr1_2.GUPPI.15y.x.nb.tim
+- J1012-4235.Rcvr_800.GUPPI.15y.x.nb.tim
+
+free-params: [ELONG, ELAT, PMELONG, PMELAT, PX, F0, F1, A1, ECC, T0, PB, OM, JUMP1]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J1012-4235.nb/J1012-4235.nb_excise.tim
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220222.Noise.nb.4e07003/
+  no-corner: true
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  - [guppi_57740_J1012-4235_0002.15y.x.ff, 30, 0, snr]
+  bad-file:
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+changelog:
+- '2020-12-04 megan.decesar INIT: YAML created (as J1012-4235.yaml)'
+- '2021-02-23 joe.swiggum NOTE: Given new TOAs, another iteration with updated noise
+  params should be done before complete for v0.9.'
+- '2021-03-02 joe.swiggum REMOVE: FD1-FD2 removed based on F-test.'
+- '2021-03-05 joe.swiggum READY_FOR: v0.9'
+- '2021-08-05 thankful.cromartie CURATE: assigned reasons after inspecting .ff files'
+- '2021-09-15 megan.jones READY_FOR: v1.0'
+
+- '2021-09-24 joe.swiggum NOTE: updated AO/GBO coords (pint v0.8.3) and refit'
+- '2021-09-30 joe.swiggum NOTE: par file handed off to DWG for v1.0 is J1012-4235_PINT_20210928.nb.par'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

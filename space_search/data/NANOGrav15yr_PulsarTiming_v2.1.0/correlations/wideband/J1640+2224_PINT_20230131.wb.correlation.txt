@@ -1,0 +1,24 @@
+OM         T0         +0.999999981996918
+M2         A1         -0.993026709930149
+JUMP1      DMJUMP1    +0.987032931501505
+SINI       M2         -0.981913745086030
+JUMP1      DMJUMP2    +0.973827609971242
+DMJUMP2    DMJUMP1    +0.961586295482481
+SINI       A1         +0.957774692263938
+ECC        A1         +0.938058832281777
+Offset     A1         +0.934570987471658
+Offset     ECC        +0.933129707850575
+M2         ECC        -0.924244947306061
+OM         A1         +0.920656571334213
+T0         A1         +0.920656551996866
+Offset     T0         +0.918477799821880
+Offset     OM         +0.918477460651178
+Offset     M2         -0.913476435462940
+M2         T0         -0.904064571846098
+M2         OM         -0.904062555180642
+OM         ECC        +0.902688230739959
+T0         ECC        +0.902687005128340
+DMX_*      DMJUMP1       264 correlations larger than 0.9
+DMX_*      DMJUMP2       264 correlations larger than 0.9
+DMX_*      DMX_*       34715 correlations larger than 0.9
+DMX_*      JUMP1         264 correlations larger than 0.9

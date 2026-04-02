@@ -1,0 +1,13 @@
+FD2        FD1        -0.998155395211300
+M2         A1         -0.985745808511373
+OMDOT      PB         +0.977551036339651
+OM         T0         +0.969314262533090
+ECC        A1         +0.958643856769094
+Offset     FD1        -0.951808148689305
+Offset     FD2        +0.947583140572864
+M2         ECC        -0.924171793172895
+SINI       M2         -0.922453874411885
+DMX_*      DMX_*        3584 correlations larger than 0.9
+DMX_*      FD1           101 correlations larger than 0.9
+DMX_*      FD2            98 correlations larger than 0.9
+DMX_*      Offset         74 correlations larger than 0.9

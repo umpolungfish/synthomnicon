@@ -1,0 +1,68 @@
+source: J1312+0051
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J1312+0051_PINT_20220303.nb.par
+compare-model: archive/J1312+0051_PINT_20220223.nb.par
+toas:
+- J1312+0051.L-wide.PUPPI.15y.x.nb.tim
+- J1312+0051.S-wide.PUPPI.15y.x.nb.tim
+
+free-params: [ELONG, ELAT, PMELONG, PMELAT, PX, F0, F1, A1, PB, ECC, T0, OM, JUMP1]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J1312+0051.nb/J1312+0051.nb_excise.tim
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220222.Noise.nb.4e07003/
+  no-corner: true
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-file:
+  bad-range:
+  - [57984, 58447, PUPPI]
+  bad-toa:
+  - [puppi_58610_J1312+0051_0488.15y.x.ff, 2, 0, snr]
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+changelog:
+- '2020-11-11 thankful.cromartie INIT: YAML created (as J1312+0051.yaml)'
+- '2021-01-15 thankful.cromartie NOTE: bad-range added to excise TOAs affected by
+  a bad LO at Arecibo (MJD 57984-58447)'
+- '2021-01-18 thankful.cromartie READY_FOR: v0'
+- '2021-02-25 bradley.meyers CURATE: redid TOA excision with large_residuals(fo, 50,
+  max_sigma=100, prefit=True)'
+- '2021-03-01 bradley.meyers NOISE: EQUAD for S-wide TOAs seems really large'
+- '2021-03-02 bradley.meyers READY_FOR: v0.9'
+- '2021-08-09 joe.swiggum CURATE: assigned reasons after inspecting .ff files'
+- '2021-09-01 megan.jones NOTE: increased n-iterations to 100 during timing to convergence
+  warning'
+- '2021-09-10 megan.jones READY_FOR: v1.0'
+
+
+
+- '2021-09-24 joe.swiggum NOTE: updated AO/GBO coords (pint v0.8.3) and refit'
+- '2021-09-30 joe.swiggum NOTE: par file handed off to DWG for v1.0 is J1312+0051_PINT_20210928.nb.par'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

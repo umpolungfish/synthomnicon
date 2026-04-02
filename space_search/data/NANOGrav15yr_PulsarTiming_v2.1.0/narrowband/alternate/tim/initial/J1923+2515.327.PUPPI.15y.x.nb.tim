@@ -1,0 +1,7 @@
+MODE 1
+FORMAT 1
+puppi_56250_1923+2515_1365.15y.x.ff 336.375000 56250.784162745267384   3.521  ao  -fe 327 -be PUPPI -f 327_PUPPI -bw 1.562 -tobs 1225.2 -tmplt J1923+2515.327.PUPPI.15y.x.sum.sm -gof 1.16 -nbin 2048 -nch 1 -chan 38 -subint 0 -snr 27.801 -wt 0.015612 -flux 55.7999 -fluxe 2 -proc 15y -pta NANOGrav -ver TEMP 
+puppi_56250_1923+2515_1365.15y.x.ff 341.061000 56250.784162746087423   1.839  ao  -fe 327 -be PUPPI -f 327_PUPPI -bw 1.562 -tobs 1225.2 -tmplt J1923+2515.327.PUPPI.15y.x.sum.sm -gof 1.1 -nbin 2048 -nch 1 -chan 41 -subint 0 -snr 52.104 -wt 0.06686 -flux 42.0658 -fluxe 0.81 -proc 15y -pta NANOGrav -ver TEMP 
+puppi_56250_1923+2515_1365.15y.x.ff 355.125000 56250.784162728977255 793.216  ao  -fe 327 -be PUPPI -f 327_PUPPI -bw 1.562 -tobs 1225.2 -tmplt J1923+2515.327.PUPPI.15y.x.sum.sm -gof 1.08 -nbin 2048 -nch 1 -chan 50 -subint 0 -snr 2.2635 -wt 0.78694 -flux 0.170046 -fluxe 0.069 -proc 15y -pta NANOGrav -ver TEMP 
+puppi_56250_1923+2515_1364.15y.x.ff 341.062500 56250.776666402579959  24.862  ao  -fe 327 -be PUPPI -f 327_PUPPI -bw 1.562 -tobs 10.653 -tmplt J1923+2515.327.PUPPI.15y.x.sum.sm -gof 1.04 -nbin 2048 -nch 1 -chan 41 -subint 0 -snr 4.9755 -wt 0.0017816 -flux 41.8462 -fluxe 8.3 -proc 15y -pta NANOGrav -ver TEMP 
+puppi_56250_1923+2515_1364.15y.x.ff 355.125000 56250.776666374199177 856.604  ao  -fe 327 -be PUPPI -f 327_PUPPI -bw 1.562 -tobs 10.653 -tmplt J1923+2515.327.PUPPI.15y.x.sum.sm -gof 1.04 -nbin 2048 -nch 1 -chan 50 -subint 0 -snr 1.307 -wt 0.02161 -flux 1.10713 -fluxe 0.68 -proc 15y -pta NANOGrav -ver TEMP 

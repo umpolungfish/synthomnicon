@@ -1,0 +1,47 @@
+# Design 11: Criticality Ensemble Validation — Varma Probe Deep Dive
+# ===================================================================
+# Demonstrates: Comprehensive Varma probe validation,
+# multi-predicate assertions, degeneracy analysis
+
+version: "1.0"
+start: nitroso_radical_redox_synthon_pair
+
+do:
+  # Step 1: Lift to criticality
+  - lift: critical
+  
+  # Step 2: Validate phi_c_score threshold
+  - assert:
+      expr: phi_c_score > 0.3
+      message: "Criticality candidate must exceed phi_c threshold"
+  
+  # Step 3: Validate criticality phase
+  - assert:
+      expr: criticality_phase == Phi_c
+      message: "Must be in Phi_c phase"
+  
+  # Step 4: Validate Axiom 6 (temporal grounding)
+  - assert:
+      expr: axiom6_satisfied
+      message: "Temporal synthon must satisfy Axiom 6"
+  
+  # Step 5: Join with self (idempotency test)
+  - join: nitroso_radical_redox_synthon_pair
+  
+  # Step 6: Re-validate criticality preserved
+  - assert:
+      expr: criticality_phase == Phi_c
+      message: "Idempotent join must preserve criticality"
+  
+  # Step 7: Validate fidelity preserved
+  - assert:
+      expr: fidelity == F_hbar
+      message: "F_hbar must be preserved"
+
+output:
+  format: json
+  save: results/11_criticality_ensemble_validation.json
+  assert:
+    - total_delta_xi < 2.0
+    - steps <= 10
+    - criticality_ok == true

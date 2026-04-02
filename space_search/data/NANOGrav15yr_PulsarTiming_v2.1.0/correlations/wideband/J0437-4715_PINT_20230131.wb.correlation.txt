@@ -1,0 +1,7 @@
+OM         T0         +0.999999999940283
+DMJUMP2    DMJUMP1    +0.954360932922413
+FD1        DMJUMP2    +0.905425036653297
+DMX_*      DMJUMP1        25 correlations larger than 0.9
+DMX_*      DMJUMP2        24 correlations larger than 0.9
+DMX_*      DMX_*         147 correlations larger than 0.9
+DMX_*      FD1             4 correlations larger than 0.9

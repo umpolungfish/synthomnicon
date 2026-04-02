@@ -1,0 +1,14 @@
+J0023+0923_430_ASP_efac
+J0023+0923_430_ASP_log10_ecorr
+J0023+0923_430_ASP_log10_equad
+J0023+0923_430_PUPPI_efac
+J0023+0923_430_PUPPI_log10_ecorr
+J0023+0923_430_PUPPI_log10_equad
+J0023+0923_L-wide_ASP_efac
+J0023+0923_L-wide_ASP_log10_ecorr
+J0023+0923_L-wide_ASP_log10_equad
+J0023+0923_L-wide_PUPPI_efac
+J0023+0923_L-wide_PUPPI_log10_ecorr
+J0023+0923_L-wide_PUPPI_log10_equad
+J0023+0923_red_noise_gamma
+J0023+0923_red_noise_log10_A

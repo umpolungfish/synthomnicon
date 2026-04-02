@@ -1,0 +1,73 @@
+source: J0614-3329
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J0614-3329_PINT_20220301.nb.par
+compare-model: archive/J0614-3329_PINT_20220222.nb.par
+toas:
+- J0614-3329.Rcvr1_2.GUPPI.15y.x.nb.tim
+- J0614-3329.Rcvr_800.GUPPI.15y.x.nb.tim
+
+free-params: [ELONG, ELAT, PMELONG, PMELAT, PX, F0, F1, A1, PB, T0, OM, ECC, JUMP1,
+  FD1]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220222.Noise.nb.4e07003/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J0614-3329.nb/J0614-3329.nb_excise.tim
+  no-corner: true
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  - [guppi_58729_J0614-3329_0016.15y.x.ff, 51, 0, snr]
+  - [guppi_58365_J0614-3329_0024.15y.x.ff, 8, 0, snr]
+  - [guppi_58582_J0614-3329_0004.15y.x.ff, 1, 0, snr]
+  - [guppi_58636_J0614-3329_0018.15y.x.ff, 21, 0, snr]
+  - [guppi_58490_J0614-3329_0004.15y.x.ff, 22, 0, snr]
+  - [guppi_58579_J0614-3329_0019.15y.x.ff, 26, 0, snr]
+  - [guppi_58490_J0614-3329_0004.15y.x.ff, 6, 0, snr]
+  bad-range:
+  bad-file:
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+
+changelog:
+- '2020-10-27 scott.ransom INIT: YAML created (as J0614-3329.yaml)'
+- '2021-02-26 jing.luo NOTE: Update the par file'
+- '2021-03-01 jing.luo ADD: Add FD1 and Noise parameter'
+- '2021-03-01 jing.luo READY_FOR: v0.9'
+- '2021-08-03 thankful.cromartie CURATE: assigned reasons after inspecting .ff files'
+- '2021-09-14 joe.glaser NOISE: Update chains to use the 2021-09-07 values; nothing
+  major changed.'
+- '2021-09-14 joe.glaser READY_FOR: v1.0'
+- '2021-09-24 joe.swiggum NOTE: updated AO/GBO coords (pint v0.8.3) and refit'
+- '2021-09-30 joe.swiggum NOTE: par file handed off to DWG for v1.0 is J0614-3329_PINT_20210928.nb.par'
+- '2021-12-10 joe.swiggum NOTE: large PX (6.4 mas) in tension with DM-estimated distance,
+  but since PX has large uncertainties (1.9 mas) and we are not directly claiming
+  this value is correct (procedure is to always fit for PX), probably fine. We know
+  this pulsar is nearby (Fermi source); might be possible to measure PX in gamma rays
+  at some point.'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

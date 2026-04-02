@@ -1,0 +1,14 @@
+J1910+1256_L-wide_ASP_efac
+J1910+1256_L-wide_ASP_log10_ecorr
+J1910+1256_L-wide_ASP_log10_equad
+J1910+1256_L-wide_PUPPI_efac
+J1910+1256_L-wide_PUPPI_log10_ecorr
+J1910+1256_L-wide_PUPPI_log10_equad
+J1910+1256_S-wide_ASP_efac
+J1910+1256_S-wide_ASP_log10_ecorr
+J1910+1256_S-wide_ASP_log10_equad
+J1910+1256_S-wide_PUPPI_efac
+J1910+1256_S-wide_PUPPI_log10_ecorr
+J1910+1256_S-wide_PUPPI_log10_equad
+J1910+1256_red_noise_gamma
+J1910+1256_red_noise_log10_A

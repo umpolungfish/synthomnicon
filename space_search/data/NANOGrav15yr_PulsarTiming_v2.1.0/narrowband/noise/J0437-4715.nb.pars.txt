@@ -1,0 +1,8 @@
+J0437-4715_1.5GHz_YUPPI_efac
+J0437-4715_1.5GHz_YUPPI_log10_ecorr
+J0437-4715_1.5GHz_YUPPI_log10_equad
+J0437-4715_3GHz_YUPPI_efac
+J0437-4715_3GHz_YUPPI_log10_ecorr
+J0437-4715_3GHz_YUPPI_log10_equad
+J0437-4715_red_noise_gamma
+J0437-4715_red_noise_log10_A

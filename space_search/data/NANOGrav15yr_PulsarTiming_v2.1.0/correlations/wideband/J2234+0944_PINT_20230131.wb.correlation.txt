@@ -1,0 +1,2 @@
+JUMP1      DMJUMP1    -0.939765063074194
+DMX_*      DMJUMP1         2 correlations larger than 0.9

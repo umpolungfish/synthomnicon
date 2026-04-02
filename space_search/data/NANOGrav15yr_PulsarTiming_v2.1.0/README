@@ -1,0 +1,124 @@
+The NANOGrav 15-Year Data Set
+Public release "v2.1.0" 2025/07/17
+
+OVERVIEW
+--------
+
+  This file contains "narrowband" and "wideband" TOAs and timing
+solutions for the NANOGrav 15-year data set, covering data taken from
+2004 to mid-2020 using Arecibo, the Green Bank Telescope (GBT), and the
+Very Large Array (VLA) with ASP/GASP and PUPPI/GUPPI/YUPPI backend
+instrumentation.  The observations, data reduction, and analysis
+procedures used to produce these data are described in detail in the
+accompanying paper, "The NANOGrav 15-year Data Set: Observations and
+Timing of 68 Millisecond Pulsars" (Agazie et al., 2023, ApJL 951 L9,
+DOI 10.3847/2041-8213/acda9a, arXiv:2306.16217).
+
+  This release is available at Zenodo (DOI 10.5281/zenodo.16051178).
+You can also reference all versions (DOI 10.5281/zenodo.7967584).
+
+  All *.par and *.tim files are ASCII and are formatted for use with 
+standard pulsar timing packages such as tempo2 and PINT, except for 
+profile template files which are FITS format (narrowband) or python 
+pickle files (wideband).
+
+  For our narrowband results, we have included ASCII space-separated 
+tables of our post-fit timing model residuals for all of our pulsars 
+(both un-whitened and whitened). These are available as both full 
+and epoch-averaged formats.
+
+  Correlation matrix files are available in three formats (*.txt, *.npz,
+and *.hdf5). See "description.txt" in both the narrowband and wideband 
+./correlations subdirectories for more details about these files.
+
+  Questions about the contents of this data set can be addressed to Joe
+Swiggum (swiggumj@gmail.com) or comments@nanograv.org.
+
+
+DIRECTORY AND FILE STRUCTURE (FURTHER DETAILS BELOW)
+---------------------------------------------------
+
+    ./README
+        This file.
+    ./clock
+        Files for tracing observatory-measured TOAs to clock standards.
+    ./narrowband
+        Directory containing the narrowband data set.
+	    Details are provided in README.narrowband in that directory.
+    ./wideband
+        Directory containing the wideband data set.
+	    Details are provided in README.wideband in that directory.
+    ./correlations
+        Directory containing the correlation matrix files for both the 
+            narrowband and wideband data. Details are provided in the 
+            /wideband/ and /narrowband/ subdirectories' 
+            README.[nb/wb]_correlations files. 
+    ./residuals
+        Directory containing residuals based on provided .par and .tim 
+            files for narrowband data. See the included README.residuals.
+
+SOFTWARE
+--------
+
+  This data set requires up-to-date installations of PINT or tempo2.
+Our original analysis used PINT v0.9.1 and tempo2 v2022.01.1.  Up to date
+versions of these packages, as well as usage information and
+documentation can be found at the following repositories:
+
+  PINT    https://github.com/nanograv/PINT
+  tempo2  https://bitbucket.org/psrsoft/tempo2
+
+  Note that we do not guarantee complete/correct functionality of these
+timing models in the older original tempo software package.
+
+  Please also ensure that the clock files you are using cover the full
+range of the data set. Using the provided clock files (see below)
+will ensure this.
+
+  All models included here are based on a generalized least squares
+(GLS) fit that includes a noise model with covariance between TOAs
+(ECORR/jitter parameters, if narrowband; RNAMP/RNIDX red noise
+parameters, if significant), as well as "traditional" EQUAD and EFAC
+parameters.  Additional EFAC parameters for the wideband DM measurements
+are also included.  All noise model parameters are included in the par
+files.
+
+
+CLOCK FILES
+-----------
+
+  The clock files used for our analysis are provided in the clock/
+subdirectory.  While the standard files distributed with tempo and
+tempo2 should be consistent with the clock files provided in the current
+release at the time of writing, this may be a source of inconsistent
+results in the future.  Please see ./clock/README.clock directory for 
+installation instructions.
+
+
+PLANNED REVISIONS
+-----------------
+
+  The initial release of the data set contained all fundamental data
+products needed for pulsar timing analysis:  Times of arrival (.tim
+files), timing models (.par files), standard template profiles,
+clock correction files, and noise modeling MCMC chains. In v2,
+parameter correlation matrices were added, as well as alternate versions
+of timing model parameter files ("NoRedNoise" and "predictive"). In v2.1, 
+post-fit timing residuals for our narrowband data set were made available. 
+A future release will add a number of other useful derived products as 
+mentioned in the paper, including dispersion measure time series.
+
+
+CHANGE LOG
+----------
+2025/07/17
+    Addition of the Timing Model Residual files for the 
+    narrowband dataset, including overview plots (v2.1.0).
+2023/09/19
+    Addition of "NoRedNoise" and "predictive" par files, correlation
+    matrices, noise modeling chains (v2).
+2023/07/01
+    Correction to tar.gz directory structure (v1.0.1).
+2023/06/28
+    Initial public release (v1).
+

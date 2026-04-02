@@ -1,0 +1,25 @@
+# Design 01: Soai Autocatalytic Cycle — Criticality Ascent
+# =========================================================
+# This script demonstrates F-floor blocking and recovery.
+# proline_aldol_cycle is F_eth, but Phi_c requires F_hbar.
+# Demonstrates: lift with failure, path, mplus fallback pattern
+
+version: "1.0"
+start: proline_aldol_cycle
+
+do:
+  # Step 1: Attempt to lift to criticality (will fail: F_eth < F_hbar required)
+  # This demonstrates the F-floor gate for criticality eligibility
+  - lift: critical
+  
+  # Step 2: Path to a higher-fidelity temporal synthon
+  - path: nitroso_radical_redox_synthon_pair
+    xi_tolerance: 2.5
+    max_hops: 6
+  
+  # Step 3: Try criticality lift again (may still fail if F not raised)
+  - lift: critical
+
+output:
+  format: text
+  save: results/01_soai_criticality_path.json

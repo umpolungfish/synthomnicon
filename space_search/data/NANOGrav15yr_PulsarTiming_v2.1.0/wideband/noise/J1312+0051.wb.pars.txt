@@ -1,0 +1,10 @@
+J1312+0051_L-wide_PUPPI_dmefac
+J1312+0051_L-wide_PUPPI_efac
+J1312+0051_L-wide_PUPPI_log10_dmequad
+J1312+0051_L-wide_PUPPI_log10_t2equad
+J1312+0051_S-wide_PUPPI_dmefac
+J1312+0051_S-wide_PUPPI_efac
+J1312+0051_S-wide_PUPPI_log10_dmequad
+J1312+0051_S-wide_PUPPI_log10_t2equad
+J1312+0051_red_noise_gamma
+J1312+0051_red_noise_log10_A

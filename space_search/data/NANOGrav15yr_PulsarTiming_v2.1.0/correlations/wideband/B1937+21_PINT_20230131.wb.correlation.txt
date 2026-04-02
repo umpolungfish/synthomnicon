@@ -1,0 +1,16 @@
+DMJUMP3    DMJUMP2    +0.999333716330563
+DMJUMP4    DMJUMP2    +0.995802240523118
+DMJUMP4    DMJUMP3    +0.995639539264846
+FD2        FD1        -0.979834168148220
+FD1        DMJUMP2    +0.975632795433322
+FD1        DMJUMP3    +0.975547503026410
+FD1        DMJUMP4    +0.972187966968513
+FD2        DMJUMP2    -0.924000126505620
+FD2        DMJUMP3    -0.923925657833221
+FD2        DMJUMP4    -0.920911848947612
+DMX_*      DMJUMP2       266 correlations larger than 0.9
+DMX_*      DMJUMP3       266 correlations larger than 0.9
+DMX_*      DMJUMP4       266 correlations larger than 0.9
+DMX_*      DMX_*       35245 correlations larger than 0.9
+DMX_*      FD1           266 correlations larger than 0.9
+DMX_*      FD2           261 correlations larger than 0.9

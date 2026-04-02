@@ -1,0 +1,16 @@
+Offset     FD1        -0.999989199865833
+Offset     FD2        +0.999985347926424
+FD2        FD1        -0.999985091994328
+FD3        FD2        -0.998996639113197
+Offset     FD3        -0.998945521813271
+FD3        FD1        +0.998804650986877
+FD4        FD3        -0.994751755312564
+FD4        FD2        +0.989338417013526
+Offset     FD4        +0.989305028454956
+FD4        FD1        -0.988853397863168
+DMX_*      DMX_*         703 correlations larger than 0.9
+DMX_*      FD1            38 correlations larger than 0.9
+DMX_*      FD2            38 correlations larger than 0.9
+DMX_*      FD3            38 correlations larger than 0.9
+DMX_*      FD4            38 correlations larger than 0.9
+DMX_*      Offset         38 correlations larger than 0.9

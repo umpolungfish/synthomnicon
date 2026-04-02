@@ -1,0 +1,4 @@
+FORMAT 1
+MODE 1
+54727.000009.1.000.000.15y.x.ff 1387.78596648 54727.970893805754819   1.789  gbt -pp_dm 42.8189745 -pp_dme 0.0216421 -be GASP -fe Rcvr1_2 -f Rcvr1_2_GASP -nbin 2048 -nch 21 -nchx 21 -bw 80.000 -chbw 4.000 -subint 0 -tobs 902.327 -fratio 1.059 -tmplt J1751-2857.Rcvr1_2.GUPPI.15y.x.sum.ff.spl -snr 47.169 -gof 1.041 -flux 0.71723 -flux_err 0.01594 -flux_ref_freq 1387.11841 -proc 15y -pta NANOGrav -ver TEMP -to -0.693e-6
+54727.000009.1.000.000.15y.x.ff 1390.40175294 54727.981326646870306   1.614  gbt -pp_dm 42.7869038 -pp_dme 0.0203917 -be GASP -fe Rcvr1_2 -f Rcvr1_2_GASP -nbin 2048 -nch 21 -nchx 21 -bw 80.000 -chbw 4.000 -subint 1 -tobs 902.327 -fratio 1.059 -tmplt J1751-2857.Rcvr1_2.GUPPI.15y.x.sum.ff.spl -snr 54.030 -gof 1.025 -flux 0.80392 -flux_err 0.01596 -flux_ref_freq 1387.75544 -proc 15y -pta NANOGrav -ver TEMP -to -0.693e-6

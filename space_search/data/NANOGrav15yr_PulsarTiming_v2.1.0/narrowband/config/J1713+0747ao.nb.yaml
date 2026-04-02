@@ -1,0 +1,79 @@
+source: J1713+0747ao
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J1713+0747ao_PINT_20220306.nb.par
+compare-model: archive/J1713+0747ao_PINT_20220302.nb.par
+toas:
+- J1713+0747.430.ASP.15y.x.nb.tim
+- J1713+0747.430.PUPPI.15y.x.nb.tim
+- J1713+0747.L-wide.ASP.15y.x.nb.tim
+- J1713+0747.L-wide.PUPPI.15y.x.nb.tim
+- J1713+0747.S-wide.ASP.15y.x.nb.tim
+- J1713+0747.S-wide.PUPPI.15y.x.nb.tim
+
+free-params: [PX, ELONG, ELAT, PMELONG, PMELAT, F0, F1, PB, A1, ECC, T0, OM, M2, KIN,
+  KOM, FD1, FD2, FD3, JUMP1]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  no-corner: true
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220305.Noise.nb.0516a75/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J1713+0747ao.nb/J1713+0747ao.nb_excise.tim
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+ignore: # toa excision
+  orphaned-rec:
+  - 430_PUPPI
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  - [puppi_58950_J1713+0747_0080.15y.x.ff, 22, 0, rfi]
+  - [puppi_57205_J1713+0747_1863.15y.x.ff, 27, 0, rfi]
+  - [puppi_58651_J1713+0747_0265.15y.x.ff, 52, 0, snr]
+  - [puppi_57126_J1713+0747_0839.15y.x.ff, 28, 0, non-detection]
+  - [puppi_58924_J1713+0747_0362.15y.x.ff, 18, 0, unknown]
+  - [puppi_57833_J1713+0747_0165.15y.x.ff, 12, 0, snr]
+  - [puppi_58713_J1713+0747_0216.15y.x.ff, 6, 0, rfi]
+  bad-range:
+  - [57984, 58447, PUPPI]
+  bad-file:
+  - [puppi_59016_J1713+0747_0253.15y.x.ff, few_chans]
+  - [puppi_59026_J1713+0747_0370.15y.x.ff, few_chans]
+  - [puppi_59050_J1713+0747_0729.15y.x.ff, unknown]
+  - [puppi_59050_J1713+0747_0727.15y.x.ff, unknown]
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+
+changelog:
+- '2021-10-13 joe.swiggum INIT: YAML copied/modified version of J1713+0747.nb.yaml'
+- '2021-10-13 joe.swiggum NOTE: this YAML is for telescope-specific analysis (ao)'
+- '2021-10-14 joe.swiggum REMOVE: FD4-5 due to F-test significance'
+- '2021-11-03 joe.swiggum CURATE: new outlier results, assigned reasons after inspecting
+  .ff files'
+- '2021-11-10 joe.swiggum ADD: OMDOT due to F-test significance'
+- '2022-02-08 joe.swiggum REMOVE: OMDOT due to F-test significance'
+- '2022-02-22 joe.swiggum NOTE: changed KIN/KOM to values from grid by David Kaplan'
+- '2022-03-01 joe.swiggum NOTE: Kop96 params KIN/KOM incorporate A1DOT, so it should
+  not be fit separately'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

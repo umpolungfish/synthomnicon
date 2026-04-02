@@ -1,0 +1,3 @@
+FORMAT 1
+MODE 1
+54506.000034.3.000.000.15y.x.ff 1432.40777356 54506.612204436749216   0.303  ao -pp_dm 30.9682675 -pp_dme 0.0158739 -be ASP -fe L-wide -f L-wide_ASP -nbin 2048 -nch 10 -nchx 10 -bw 36.000 -chbw 4.000 -subint 0 -tobs 1264.262 -fratio 1.026 -tmplt J1911+1347.L-wide.PUPPI.12y.x.sum.ff.spl -snr 185.476 -gof 0.990 -flux 1.12438 -flux_err 0.00739 -flux_ref_freq 1423.46140 -proc 15y -pta NANOGrav -ver TEMP -to -0.839e-6

@@ -1,0 +1,8757 @@
+URL: https://arxiv.org/pdf/2201.09335v3
+PDF Size: 3.41 MB
+Text Length: 161633 characters
+Word Count: 33952
+Estimated Pages: 135
+==================================================
+On the throughput of the common target area for robotic swarm
+strategies – extended version
+Yuri Tavares dos Passos*,1,2, Xavier Duquesne2, and Leandro Soriano Marcolino2
+*Corresonding author.
+1Centro de Ciˆencias Exatas e Tecnol´ogicas. Universidade Federal do Reconcˆavo da Bahia.
+Rua Rui Barbosa, 710. Centro. Cruz das Almas. 44380-000. Bahia. Brazil.
+2School of Computing and Communications. Lancaster University. Bailrigg. Lancaster. LA1
+4WA. Lancashire. United Kingdom.
+yuri.passos@ufrb.edu.br, duquesne.xavier.13@gmail.com, l.marcolino@lancaster.ac.uk
+Abstract
+A robotic swarm may encounter traﬃc congestion when many robots simultaneously attempt to reach
+the same area.
+For solving that eﬃciently, robots must execute decentralised traﬃc control algorithms.
+In this work, we propose a measure for evaluating the access eﬃciency of a common target area as the
+number of robots in the swarm rises: the common target area throughput. We also employ here the target
+area asymptotic throughput – that is, the throughput of a target region with a limited area as the time
+tends to inﬁnity – because it is always ﬁnite as the number of robots grows, opposed to the relation arrival
+time at the target per number of robots that tends to inﬁnity. Using this measure, we can analytically
+compare the eﬀectiveness of diﬀerent algorithms.
+In particular, we propose and formally evaluate three
+diﬀerent theoretical strategies for getting to a circular target area: (i) forming parallel queues towards
+the target area, (ii) forming a hexagonal packing through a corridor going to the target, and (iii) making
+multiple curved trajectories towards the boundary of the target area. We calculate the throughput for a
+ﬁxed time and the asymptotic throughput for these strategies. Additionally, we corroborate these results
+by simulations, showing that when a strategy has higher throughput, its arrival time per number of robots
+is lower. Thus, we conclude that using throughput is well suited for comparing congestion algorithms for a
+common target area in robotic swarms even if we do not have their closed asymptotic equation.
+Keywords: Robotic swarm, Common target, Throughput, Congestion, Traﬃc control
+1
+Introduction
+Swarms of robots are systems composed of a large number of robots that can only interact with direct neighbours
+and follow simple algorithms. Interestingly, complex behaviours may emerge from such straightforward rules
+(Navarro and Mat´ıa, 2013; Garnier et al., 2007).
+An advantage of such systems is the usage of low-priced
+robots instead of a few expensive ones to solve problems.
+Robotic swarms accurately projected for simple
+robots may solve complex tasks with greater eﬃciency and fault-tolerance, while being cheaper than a small
+group of complex robots oriented for a speciﬁc problem domain. They can also be seen as a multiagent system
+with spatial computers, which is a group of devices displaced in the space such that its objective is deﬁned
+in terms of spatial structure and its interaction depends on the distance between them (Giavitto et al., 2013).
+Swarms have been recently receiving attention in the multi-agents systems literature in problems such as logistics
+(Giordano et al., 2021), ﬂocking formation (Cohen and Agmon, 2021), pattern formation (Cicerone et al., 2021)
+and coordination of unmanned aerial vehicles swarms (Yang et al., 2021). In such problems relating to spatial
+distribution, conﬂicts may be created by the trajectories of its robots, which may slow down the system, in
+special when a group is intended to go to a common region of the space. Some examples where this happens
+are waypoint navigation (Marcolino and Chaimowicz, 2008) and foraging (Ducatelle et al., 2011).
+Related works on multi-agents systems (Carlino et al., 2013; Sharon and Stone, 2017; Cui et al., 2021) deals
+with a similar problem, but they consider autonomous cars navigating over lanes and roads, and coordination
+is needed at the junctions. In (Choudhury et al., 2021) and (Shahar et al., 2021), they also deal with multi-
+agents and pathﬁnding, but not in a situation in which the target of every agent is the same area. Shahar
+et al. (2021) present theoretical analysis for their proposed matter, alongside experimentation by simulations
+corroborating the results as we do. Furthermore, we are considering agents with only local information and
+distributed solutions, while (Choudhury et al., 2021) and (Shahar et al., 2021) propose centralised solutions.
+1
+arXiv:2201.09335v3  [cs.RO]  30 Mar 2022
+
+
+Xia et al. (2021) investigate the topology of the neighbourhood relations between multiple unmanned surface
+vehicles in a swarm. In our work, we analyse the impact of the throughput of the target area when using
+formation packing in squares and hexagons. They deal with maintaining formation in swarms, but they have
+to keep virtual leaders, and their goal is not minimising congestion.
+Moreover, there has not been much research on the problem of reducing congestion when a swarm of
+robots are aimed at the same target. Surveys about robotic swarms (Sahin, 2005; Sahin et al., 2008; Barca
+and Sekercioglu, 2013; Brambilla et al., 2013; Bayındır, 2016; Chung et al., 2018) do not provide information
+regarding these situations. Even a recent survey on collision avoidance (Hoy et al., 2015) do not address this
+issue though it provides insights into multi-vehicle navigation. Congestion in robotic swarms is mostly managed
+by collision avoidance in a decentralised fashion, which allows for improved scalability of the algorithms.
+However, solely avoiding collisions does not necessarily lead to a good performance in this problem with a
+common target. For example, we showed (Soriano Marcolino et al., 2017) that the ORCA algorithm (van den
+Berg et al., 2011) reaches an equilibrium where robots could not arrive at the target despite avoiding collisions.
+In that work, we also presented three algorithms using artiﬁcial potential ﬁelds for the common target con-
+gestion problem, but no formal analysis of the cluttered environment was done. Hence, congestion is still not
+well understood, and more theoretical work is needed to measure the optimality of the algorithms. A better
+understanding of this topic should lead to a variety of new algorithms adapted to speciﬁc environments.
+Furthermore, any elaborated analysis on that subject must investigate the eﬀect of the increase of the
+number of individuals on the swarm congestion, as we desire for the system to perform well as it grows in size.
+If we have a ﬁnite measure that abstracts the optimality of any algorithm as the number of robots goes to
+inﬁnity, we can use this as a metric to compare diﬀerent approaches to the same problem. Thus, in this work,
+we present as metric the common target area throughput. That is, we are proposing a measure of the rate of
+arrival in this area as the time tends to inﬁnity as an alternative approach to analyse the congestion in swarms
+with a common target area. In network and parallel computing studies (Daduna et al., 2003; Hockney, 1994),
+asymptotic throughput is used to measure the throughput when the message size is assumed to have inﬁnite
+length. We use the same idea here, but instead of message size, we work with inﬁnite time, as if the algorithms
+run forever. As we will present in the next section, this implies dealing with an inﬁnite number of robots. Thus,
+here we use time instead of message size or bytes as in computer network studies.
+Therefore, the contributions in this paper are the following.
+(i) We propose a method for evaluating algorithms for the common target problem in a robotic swarm by
+using the throughput in theoretical or experimental scenarios.
+(ii) We present an extensive theoretical study of the common target problem, allowing one to understand
+better how to measure the access to a common target using a metric not yet used in other works on the
+same problem.
+(iii) Assuming a circular target area and robots with a constant linear velocity and a ﬁxed distance from each
+other, we develop theoretical strategies for entering the area and calculate their theoretical throughput
+for a ﬁxed time and their asymptotic throughput when time goes to inﬁnite. Additionally, we verify the
+correctness of these calculations by simulations.
+The presented theoretical strategies are based on forming a corridor towards the target area or making
+multiple curved trajectories towards the boundary of the target area. For the corridor strategy, we also discuss
+the throughput when the robots are going to the target in square and hexagonal packing formations. We evaluate
+our theoretical strategies by realistic Stage (Gerkey et al., 2003) simulations with holonomic and non-holonomic
+robots. Our experiments corroborate that whenever an algorithm makes a swarm take less time to reach the
+target region than another algorithm, the throughput of the former is higher than the latter. These strategies
+are the inspiration to new distributed algorithms for robotic swarms in our concurrent work (dos Passos et al.,
+2022).
+This paper is organised as follows. In the next section, we brieﬂy explain the mathematical notation we are
+using. In Section 3, we formally deﬁne the common target area throughput and prove statements about this
+measure for theoretical strategies that allow robots to enter the common target area. Section 4 describes the
+experiments and present its results to verify the correctness of the theoretical strategies results. Finally, we
+summarise our results and make ﬁnal remarks in Section 5.
+2
+Notation
+Geometric notation is used as follows. ←→
+AB, −−→
+AB and AB represents a line passing through points A and B, a ray
+starting at A and passing through B and a segment from A to B, respectively. |AB| is the size of AB. ←→
+AB ∥←→
+CD
+means ←→
+AB is parallel to ←→
+CD. If a two-dimensional point is represented by a vector P1, its x- and y-coordinates
+are denoted by P1,x and P1,y, respectively.
+2
+
+
+△ABC express the triangle formed by the points A, B and C. △ABC ∼= △DEF and △ABC ∼△DEF mean
+the triangles ABC and DEF are congruent (same angles and same size) and similar (same angles), respectively.
+Depending on the context, the notation is omitted for brevity.
+’
+AOB means an angle with vertex O, one ray passing through point A and another through B. Depending
+on the context, if we are dealing only with one △EFG, we will name its angles only by “
+E, “
+F and “
+G. All angles
+are measured in radians in this paper.
+3
+Theoretical Analysis
+We consider in this paper the scenario where a large number of robots must reach a common target. After
+reaching the target, each robot moves towards another destination which may or may not be common among
+the robots. We assume the target is deﬁned by a circular area of radius s. A robot reaches the target if its centre
+of mass is at a distance below or equal to the radius s from the centre of the target. We assume that there is no
+minimum amount of time to stay at the target. Additionally, the angle and the speed of arrival have no impact
+on whether the robot reached the target or not. In this section, theoretical strategies are constructed to solve
+that task and show limits for the eﬃciency of real-life implementations, which we developed in a concurrent
+work (dos Passos et al., 2022). To measure performance, we start with the following deﬁnition.
+Deﬁniton 1. The throughput is the inverse of the average time between arrivals at the target.
+Informally speaking, the throughput is measured by someone located on the common target (i.e., on its
+perspective).
+We consider that an optimal algorithm minimises the average time between two arrivals or,
+equivalently, maximises throughput. The unit for throughput can be in s−1. It will be noted f (as in frequency).
+In the rest of the paper, we focus on maximising throughput.
+Assume we have run an experiment with N ≥2 robots for T units of time, such that the time between the
+arrival of the i-th robot and the i + 1-th robot is ti, for i from 1 to N −1. Then, by Deﬁnition 1, we have
+f =
+1
+1
+N−1
+PN−1
+i=1 ti
+=
+N −1
+PN−1
+i=1 ti
+= N −1
+T
+,
+because PN−1
+i=1 ti = T. Thus, we have an equivalent deﬁnition of throughput:
+Deﬁniton 2. The throughput is the ratio of the number of robots that arrive at a target region, not counting
+the ﬁrst robot to reach it, to the arrival time of the last robot.
+The target area is a limited resource that must be shared between the robots. Since the velocities of the
+robots have an upper bound, a robot needs a minimum amount of time to reach and leave the target before
+letting another robot in. Let the asymptotic throughput of the target area be its throughput as the time tends
+to inﬁnity. Because any physical phenomenon is limited by the speed of light, this measure is bounded. Then,
+the asymptotic throughput is well suited to measure the access of a common target area as the number of robots
+grows.
+One should expect that the asymptotic throughput depends mainly on the target size and shape, the maxi-
+mum speed for robots, v, and the minimum distance between robots, d. As any bounded target region can be
+included in a circle of radius s, we will deal hereafter with only circular target regions.
+To eﬃciently access the target area, we identify two main cases: s ≥d/2 and s < d/2. There are targets that
+several robots can simultaneously reach without collisions. That is the case if the radius s ≥d/2. Thus, one
+approach is making lanes to arrive in the target region so that as many robots as possible can simultaneously
+arrive. After the robots arrive at the target, they must leave the target region by making curves. However, we
+discovered in (dos Passos et al., 2022) that this approach does not obtain good results in our realistic simulations
+due to the inﬂuence of other robots, although it is theoretically the best approach if the robots could run at a
+constant speed and maintain a ﬁxed distance between each other.
+We are also interested in the case where s < d/2, when only one robot can occupy the target area simulta-
+neously. Making two queues and avoiding the inter-robot distance to be less than d is good guidance to work
+eﬃciently. Particularly, the case s = 0 oﬀers interesting insights, so we begin by discussing it.
+3.1
+Common target point: s = 0
+We consider the case where robots are moving in straight lines at constant linear speed v, maintaining a distance
+of at least d between each other. A robot has reached the target when its centre of mass is over the target.
+When s = 0, the target is a point. Our ﬁrst result is the optimal throughput when robots are moving in a
+straight line to a target point. It is illustrated in Figure 1. In this section, we construct a solution to attain the
+optimal throughput.
+3
+
+
+A
+R1
+R2
+Figure 1: We consider two robots R1 and R2 moving in straight lines toward a target at A. The angle between
+their trajectory is θ. The distance between the two robots over time is denoted by lθ(t).
+First, let us consider two robots, Robot 1 and Robot 2. Their trajectories are straight lines towards the
+target. Assume the straight-line trajectory of Robot 1 has an angle θ1 with the x-axis and the one of Robot 2
+has θ2. We call θ2 −θ1 = θ the angle between the two lines. The positions of the robots are described by the
+kinematic equation (1) below, where (x1(t), y1(t)) and (x2(t), y2(t)) are the positions of Robot 1 and Robot 2,
+respectively, and t ∈R is an instant of time. Without loss of generality, we set the origin of time when Robot 1
+reaches the target, and the target is located at (0, 0). Thus, (x1(0), y1(0)) = (0, 0). τ is the delay between the
+two arrivals at the target. Then, (x2(τ), y2(τ)) = (0, 0),
+ïx1(t)
+y1(t)
+ò
+=
+ïvt cos(θ1)
+vt sin(θ1)
+ò
+and
+ïx2(t)
+y2(t)
+ò
+=
+ïv(t −τ) cos(θ2)
+v(t −τ) sin(θ2)
+ò
+(1)
+In order to ﬁnd the optimal throughput, we will start with the following lemma:
+Lemma 1. To respect a distance of at least d between the two robots, the minimum delay between their arrival
+is d
+v
+»
+2
+1+cos(θ).
+Proof. Let lθ(t) =
+p
+(x1(t) −x2(t))2 + (y1(t) −y2(t))2 be the distance between the two robots. The robots
+must maintain their minimum distance d at all time:
+∀t ∈R, lθ(t) ≥d.
+(2)
+To avoid a collision, we have θ ̸= π, which corresponds to the case where robots face each other exactly.
+As a result, cos(θ) ̸= −1. For ease of calculation, we deﬁne X = τv, that is, the distance between Robot 1
+and Robot 2 when Robot 1 reaches the target. We also deﬁne Pθ(t) = lθ(t)2 −d2, so the constraint in (2) for
+minimum distance between them is expressed by
+∀t ∈R, lθ(t) ≥d ⇔∀t ∈R, Pθ(t) ≥0.
+In addition, we have
+Pθ(t) = (vt cos(θ1) −v(t −τ) cos(θ2))2 + (vt sin(θ1) −v(t −τ) sin(θ2))2
+−d2
+= (vt cos(θ1) −(vt −X) cos(θ2))2 + (vt sin(θ1) −(vt −X) sin(θ2))2 −d2
+= (vt)2 cos(θ1)2 −2vt cos(θ1)(vt −X) cos(θ2) + (vt −X)2 cos(θ2)2+
+(vt)2 sin(θ1)2 −2vt sin(θ1)(vt −X) sin(θ2) + (vt −X)2 sin(θ2)2 −d2
+= (vt)2 −2vt(vt −X)(cos(θ1) cos(θ2) + sin(θ1) sin(θ2))
++ (vt −X)2 −d2
+= (vt)2 −2vt(vt −X) cos(θ2 −θ1) + (vt −X)2 −d2
+= (vt)2 −2vt(vt −X) cos(θ) + (vt −X)2 −d2
+4
+
+
+= (vt)2 −2vt(vt −X) + 2vt(vt −X) −2vt(vt −X) cos(θ) + (vt −X)2 −d2
+= (vt)2 −2vt(vt −X) + (vt −X)2 + 2vt(vt −X) −2vt(vt −X) cos(θ) −d2
+= (vt −(vt −X))2 + 2vt(vt −X) −2vt(vt −X) cos(θ) −d2
+= X2 + 2vt(vt −X) −2vt(vt −X) cos(θ) −d2
+= 2vt(vt −X) −2vt(vt −X) cos(θ) + X2 −d2
+= 2(vt)2 −2Xvt −2(vt)2 cos(θ) + 2Xvt cos(θ) + X2 −d2
+= 2(vt)2 −2(vt)2 cos(θ) −2Xvt + 2Xvt cos(θ) + X2 −d2
+= 2(1 −cos(θ))(vt)2 −2X(1 −cos(θ))vt + X2 −d2
+= 2(1 −cos(θ))v2t2 −2X(1 −cos(θ))vt + X2 −d2,
+where we used cos(θ) = cos(θ2 −θ1) = cos(θ2) cos(θ1) + sin(θ2) sin(θ1).
+We identify two cases:
+1. Case 1: cos(θ) ̸= 1. Then Pθ(t) is a second-degree polynomial in t. It is of the form at2 + bt + c with
+a = 2(1 −cos(θ))v2, b = −2X(1 −cos(θ))v and c = X2 −d2. We know that Pθ(t) has a with positive
+sign for all t, because (1 −cos(θ)) > 0 when cos(θ) ̸= 1. Thus, as a > 0, by second-degree polynomial
+inequalities properties, Pθ(t) ≥0 for all t if and only if its discriminant ∆= b2 −4ac is negative, that is,
+∀t ∈R, Pθ(t) ≥0 ⇔b2 −4ac ≤0.
+Thus:
+22X2(1 −cos(θ))2v2 −4 · 2(1 −cos(θ))v2(X2 −d2) ≤0 ⇔
+(4(1 −cos(θ))v2)(X2(1 −cos(θ)) −2(X2 −d2)) ≤0 ⇒
+X2(1 −cos(θ)) −2(X2 −d2) ≤0 ⇔2d2 −X2(1 + cos(θ)) ≤0 ⇔
+2d2
+1 + cos(θ) ≤X2 ⇒
+X ≥d
+ 
+2
+1 + cos(θ)
+(3)
+2. Case 2: cos(θ) = 1. Then Pθ(t) = X2 −d2. In this case, Pθ(t) ≥0 for all t when X2 −d2 ≥0 ⇒X ≥d.
+This is the same as using cos(θ) = 1 in (3).
+Hence, (3) gives, for the robots to respect the minimum distance d for every time t, a relation between the
+minimum distance, the angle between the lanes and the distance between Robot 1 and Robot 2 when Robot 1
+reaches the target. The ﬁnal result is obtained noticing that (3) is equivalent to
+τ ≥d
+v
+ 
+2
+1 + cos(θ).
+This result enables us to show Proposition 1.
+Proposition 1. The optimal throughput f for a point-like target (s = 0) is f = v
+d. It is achieved when robots
+form a single line, i.e., the angle between robots trajectories must be 0.
+Proof. We show by induction on N, which is the number of robots moving towards the target. We deﬁne θN as
+the angle between the trajectories of Robot N −1 and Robot N; τN, the minimum delay between the arrival
+of Robot N −1 and Robot N; and ∆N, the minimum delay between the arrival of Robot 1 and Robot N. We
+want to show the following predicate: for all N ≥2, ∆N = (N −1)d/v for θ2 = θ3 = . . . = θN = 0.
+Base case (N = 2): Let τ2 be the delay between the arrival of Robot 1 and Robot 2. From Lemma 1 we
+have that the minimum delay between Robot 1 and Robot 2 is equal to d
+v
+»
+2
+1+cos(θ2), which is minimised by
+θ2 = 0. Then, the minimum delay between the two robots is τ2 = d/v = ∆2.
+Inductive step: We suppose the predicate is true for a given N −1 ≥2. We will show that it implies
+the predicate is true for N robots. As in the previous case, we conclude from Lemma 1 that the minimum
+delay between Robot N −1 and Robot N is equal to d
+v
+»
+2
+1+cos(θN), which is minimised for θN = 0. Then, the
+minimum delay between the two robots is τN = d/v. We have
+∆N = ∆N−1 + τN = (N −2)d
+v + d
+v = (N −1)d
+v .
+5
+
+
+3
+2
+1
+0
+1
+2
+3
+angle (rad)
+0
+1
+2
+3
+4
+5
+normalised delay
+3.86
+-5 /6
+2.0
+-2 /3
+1.41
+- /2
+1.15
+- /3
+1.04
+- /6
+1.0
+0
+1.04
+/6
+1.15
+/3
+1.41
+/2
+2.0
+2 /3
+3.86
+5 /6
+Figure 2: Normalised delay versus the angle between the trajectories of the robots.
+Consequently, the minimum delay between Robot 1 and Robot N is ∆N = PN
+i=2 τi = (N −1) d
+v and the
+time of arrival of Robot N, for all N, is minimised for θ2 = θ3 = . . . = θN = 0. Finally, by Deﬁnition 2, the
+throughput is f = N−1
+∆N = v
+d.
+The insight derived from Proposition 1 implies that we should increase the maximum speed of the robots
+or decrease the minimum distance between them to increase the throughput. It is also noted that the optimal
+trajectory for all the robots is to form a queue behind the target and Robot 1. As a result, the optimal path
+is to create one lane to reach the target. When we increase the angle θ between the path of a robot and the
+next one, we introduce a delay from the optimal throughput. For instance, Figure 2 shows the normalised delay
+for diﬀerent angles θ (normalised by dividing τ by τmin = d/v) between two robots, according to Lemma 1.
+This ﬁgure shows that for an angle of π/3, the minimum delay is 15% higher than for an angle of 0, and the
+minimum delay is 41% higher for an angle of π/2.
+3.2
+Small target area: 0 < s < d/2
+In this section, we suppose a small target area where 0 < s < d/2, hence we cannot yet ﬁt two lanes with a
+distance d towards the target. The next results are based on a strategy using two parallel lanes as close as
+possible to guarantee the minimum distance d between robots. Figure 3 describes these two parallel lanes. We
+hereafter call this strategy compact lanes. Proposition 2 considers a target area with radius 0 < s ≤
+√
+3
+4 d, and
+Proposition 3 assumes
+√
+3
+4 d < s < d
+2.
+Proposition 2. Assume two parallel lanes with robots at maximum speed v and maintaining a minimum
+distance d between them. The throughput of a common target area with radius 0 < s ≤
+√
+3
+4 d at a given time T
+after the ﬁrst robot has reached the target area is
+f(T) = 1
+T
+Çú
+vT
+2
+p
+d2 −(2s)2
+ü
++
+ú
+vT
+2
+p
+d2 −(2s)2 + 1
+2
+üå
+(4)
+and is limited by
+f = lim
+T →∞f(T) =
+v
+d
+»
+1 −( 2s
+d )2 .
+(5)
+6
+
+
+goal
+Robot 3
+Robot 1
+Lane 2
+Lane 1
+d
+dp
+s
+dp
+Robot 2
+Figure 3: Two parallel robot lanes for a small target, illustrating the compact lanes strategy.
+Proof. Consider Figure 3.
+The distance between the lanes is 2s, and the minimum distance between two
+robots is d. Thus, dp =
+p
+d2 −(2s)2. Hence, the distance between two robots in the same lane is de = 2dp =
+2
+p
+d2 −(2s)2.
+The distance between two robots in the same lane must not be less than d, so de ≥d. This is true, because
+as we have that 0 < s ≤
+√
+3
+4 d,
+de = 2
+»
+d2 −(2s)2 ≥2
+Ã
+d2 −
+Ç
+2
+√
+3
+4 d
+å2
+= 2
+Ã
+d2 −
+Ç√
+3
+2 d
+å2
+= 2
+…
+d2 −3
+4d2
+= 2
+…
+1
+4d2
+= d.
+Without loss of generality, assume the ﬁrst robot to reach the target area being at the top lane in Figure 3.
+The number of robots on any lane is the integer division of the size of the lane by the oﬀset between the robots
+plus one (because we are including the ﬁrst robot in this counting). Therefore, the number of robots for a given
+time T in the top lane is N1(T) =
+ö
+vT
+de + 1
+ù
+and in the bottom lane is N2(T) =
+ö vT −dp
+de
++ 1
+ù
+=
+ö
+vT
+de + 1
+2
+ù
+. By
+Deﬁnition 2,
+f(T) = N1(T) + N2(T) −1
+T
+= 1
+T
+Çú
+vT
+2
+p
+d2 −(2s)2
+ü
++
+ú
+vT
+2
+p
+d2 −(2s)2 + 1
+2
+üå
+.
+By the deﬁnition of the ﬂoor function, ⌊x⌋= x −frac(x) with 0 ≤frac(x) < 1. Thus,
+lim
+T →∞f(T) = lim
+T →∞
+1
+T
+ÅõvT
+de
+û
++
+õvT
+de
++ 1
+2
+ûã
+= lim
+T →∞
+1
+T
+ÅvT
+de
+−frac
+ÅvT
+de
+ã
++ vT
+de
++ 1
+2 −frac
+ÅvT
+de
++ 1
+2
+ãã
+= lim
+T →∞
+1
+T
+Å2vT
+de
+ã
++ 1
+T
+Å
+−frac
+ÅvT
+de
+ã
++ 1
+2 −frac
+ÅvT
+de
++ 1
+2
+ãã
+= 2v
+de
+=
+2v
+2
+p
+d2 −(2s)2 =
+v
+d
+p
+1 −(2s/d)2 ,
+as lim
+T →∞
+frac(x)
+T
+= 0, for any x.
+Proposition 3. Assume two parallel lanes with robots at maximum speed v and maintaining a minimum
+distance d between them. The throughput of a common target area with radius
+√
+3
+4 d < s < d
+2 at a given time T
+7
+
+
+after the ﬁrst robot has reached the target area is
+f(T) = 1
+T
+ÅõvT
+d
+û
++
+õvT
+d + 1
+2
+ûã
+(6)
+and is limited by
+f = lim
+T →∞f(T) = 2v
+d .
+(7)
+Proof. As the distance between the robots must be at least d and
+√
+3
+4 d < s < d
+2, we can assign dp = d/2 in
+Figure 3. By doing so, two robots side by side in one lane and a robot in the other lane form an equilateral
+triangle with side measuring d, whose height has size
+√
+3
+2 d. Hence, the minimum diameter of the circular target
+region must be this value, and the hypothesis says so.
+Also, the radius of the target area is less than d/2, implying that the three robots in Figure 3 must stay in
+the equilateral triangle formation because the two lanes cannot be far by d units of distance.
+Thus, the throughput for a given time T is calculated similarly as in Proposition 2 resulting
+f(T) = 1
+T
+ÅõvT
+d
+û
++
+õvT
+d + 1
+2
+ûã
+and f = lim
+T →∞f(T) = 2v
+d .
+Observe that if we use T = k d
+v for any 0 < k ∈Z in (6), the compact lanes strategy can achieve the
+throughput of two parallel lanes of robots going in the direction of the target region when T = k d
+v for any k ∈Z
+or when T →∞, even though two robots cannot reach the target region at the same time.
+3.3
+Large target area: s ≥d/2
+We now focus on situations where more than two robots can simultaneously touch the target. In this section,
+we will present three feasible strategies.
+The simplest strategy is to consider several parallel lanes being at a distance d from each other. However,
+it is possible to obtain higher throughput. In particular, we identify two other strategies: (a) using parallel
+straight line lanes that may be distanced lower than d; and (b) robots moving towards the target following
+curved trajectories. The strategy (a) uses more than two compact lanes, extending the strategy presented in
+the previous section. By doing this, the robots ﬁt in a hexagonal packing arrangement moving towards the
+target region. The strategy (b) uses a touch and run approach. In it, robots do not cross the target area, they
+only reach it and return by the opposite direction using curved trajectories which respect the minimum distance
+d.
+We start with the parallel lanes strategy, which has the lowest asymptotic throughput over the strategies
+presented in this section, for comparison with the other strategies. In particular, it will be used later as a
+justiﬁcation for the lowest number of lanes used in the strategy (b) in (58) in Proposition 7. Following their
+description and properties, a discussion comparing them is provided.
+3.3.1
+Parallel lanes
+Here we consider the robots moving inside lanes. The lanes are straight lines, and the linear velocity v of the
+robots is constant. We consider the lanes being separated by a distance d and each robot maintaining a distance
+d from each other.
+Proposition 4. Assume a circular target region with centre at (0, 0) and radius s ≥d
+2 and parallel lanes starting
+at (s, s −(i −1)d) for i ∈{1, . . . ,  2s
+d
+ + 1}. At each Lane i, the ﬁrst robot is located at the point (s, s −(i −1)d)
+in the starting conﬁguration. Then, the ﬁrst robot to reach the target is located at (s, s −(J −1)d), for
+J =
+® s
+d
+ + 1,
+if
+s − s
+d
+ d
+ ≤
+s − s
+d
+ d
+ ,
+ s
+d
+ + 1,
+otherwise.
+The throughput for a given time T after the ﬁrst robot reaches the target region is
+fp(T) = 1
+T
+Ö
+⌊2s
+d ⌋+1
+X
+i=1
+Ni(T)
+è
+−1
+T ,
+(8)
+8
+
+
+Target
+region
+Lane 1
+s
+d
+Lane 2
+Lane 3
+Lane 4
+(0,0)
+(s,s)
+(s,s-d)
+(s,s-2d)
+(s,s-3d)
+Figure 4: Example of the parallel lanes strategy. Robots and parallel lanes are distant by d. The ﬁrst lane,
+Lane 1, is at the top. The ﬁrst robot of each lane is located at (s, s −(i −1)d) for the Lane i.
+Target
+region
+Lane i
+di
+s
+|s - (i-1)d|
+A
+B
+C
+D
+s
+Figure 5: The distance from the target region to a robot at the beginning of the Lane i is equal to di (represented
+by BD).
+for
+Ni(T) =
+® vT −di+dJ
+d
++ 1 ,
+if T ≥di−dJ
+v
+,
+0,
+otherwise,
+dj = s −
+»
+s2 −(s −(j −1)d)2, and
+fp = lim
+T →∞fp(T) =
+õ2s
+d + 1
+û v
+d.
+(9)
+Proof. When robots move in straight lines in a single lane, we know from Proposition 1 that the optimal
+throughput is v
+d. Since s ≥d
+2, we can have multiple straight line lanes that are parallel to each other (Figure
+4).
+As the robots are going to a circular target region, robots next to the centre reach the region in shorter
+time than the others. The ﬁrst robot of each lane must run an additional distance di from the beginning of
+its lane, which is related to its y-coordinate. Figure 5 illustrates this distance for a robot in Lane i. The right
+triangle ABC has hypotenuse AC measuring s, so the horizontal cathetus AB measures
+p
+s2 −(s −(i −1)d)2.
+Consequently, the robot in the Lane i needs to walk an additional distance represented by BD, which has
+di = |BD| = s −|AB| = s −
+p
+s2 −(s −(i −1)d)2 units of length.
+This distance is minimised when |BD| = 0, that would happen if i =
+s
+d + 1.
+However, i must be in-
+teger, so |BD| is minimised for an integer J that minimises dJ.
+If
+s
+d /∈Z, the two nearest integers are
+9
+
+
+ s
+d
+ and  s
+d
+.
+Thus, if J =  s
+d
+ + 1 then, equivalently, d⌊s
+d⌋+1 ≤d⌈s
+d⌉+1 ⇔s −
+»
+s2 − s − s
+d
+ d2 ≤
+s−
+»
+s2 − s − s
+d
+ d2 ⇔
+»
+s2 − s − s
+d
+ d2 ≤
+»
+s2 − s − s
+d
+ d2 ⇔s2− s − s
+d
+ d2 ≤s2− s − s
+d
+ d2 ⇔
+ s − s
+d
+ d2 ≤ s − s
+d
+ d2 ⇔
+s − s
+d
+ d
+ ≤
+s − s
+d
+ d
+. Thus,
+J =
+® s
+d
+ + 1,
+if
+s − s
+d
+ d
+ ≤
+s − s
+d
+ d
+ ,
+ s
+d
+ + 1,
+otherwise.
+Let N(T) be the number of robots that arrive at the target region until a given time T after the ﬁrst robot
+has reached it. Thus,
+N(T) =
+⌊2s
+d ⌋+1
+X
+i=1
+Ni(T),
+for the number of robots at Lane i, Ni(T), that arrived at the target region by time T. As every robot has the
+same linear velocity and started at the same x-coordinate, when the ﬁrst robot at Lane J reaches the target
+region, all robots have run dJ units of length. Hence, at each Lane i, instead of running an additional di to
+reach the target region, they need to run di −dJ. Consequently,
+Ni(T) =
+®ö vT −(di−dJ)
+d
++ 1
+ù
+,
+if T ≥di−dJ
+v
+,
+0,
+otherwise,
+and, by Deﬁnition 2,
+fp(T) = N(T) −1
+T
+= 1
+T
+Ö
+⌊2s
+d ⌋+1
+X
+i=1
+Ni(T)
+è
+−1
+T .
+Also,
+fp = lim
+T →∞fp(T) = lim
+T →∞
+Ö
+1
+T
+Ö
+⌊2s
+d ⌋+1
+X
+i=1
+Ni(T)
+è
+−1
+T
+è
+= lim
+T →∞
+1
+T
+⌊2s
+d ⌋+1
+X
+i=1
+Ni(T) = lim
+T →∞
+⌊2s
+d ⌋+1
+X
+i=1
+Ni(T)
+T
+= lim
+T →∞
+⌊2s
+d ⌋+1
+X
+i=1
+1
+T
+õvT −di + dJ
+d
++ 1
+û
+ï
+as T →∞⇒T ≥di −dJ
+v
+ò
+= lim
+T →∞
+⌊2s
+d ⌋+1
+X
+i=1
+1
+T
+ÅvT −di + dJ
+d
++ 1 −frac
+ÅvT −di + dJ
+d
++ 1
+ãã
+= lim
+T →∞
+⌊2s
+d ⌋+1
+X
+i=1
+Åv
+d −di −dJ
+dT
++ 1
+T
+ã
+−lim
+T →∞
+1
+T
+⌊2s
+d ⌋+1
+X
+i=1
+frac
+ÅvT −di + dJ
+d
++ 1
+ã
+=
+õ2s
+d + 1
+û v
+d,
+as frac and di are bounded for every i due to 0 ≤di ≤s and 0 ≤frac(x) < 1 for any x.
+3.3.2
+Hexagonal packing
+By extending the compact lanes to more than two lanes, the robots will be packed in a hexagonal formation.
+An illustration of this strategy is shown in Figure 6. As we can see, robots from diﬀerent lanes are still able
+to move towards the target keeping a distance d from each other, even though the lanes have a distance lower
+than d.
+We ﬁrst compute an upper bound of the asymptotic throughput for the hexagonal packing strategy, then we
+calculate the throughput for a given time using this strategy.
+Proposition 5. Assume robots moving at speed v, going to a circular target of radius s. The upper bound of
+the asymptotic throughput for the hexagonal packing strategy is
+f max
+h
+=
+2
+√
+3
+Å2s
+d + 1
+ã v
+d.
+(10)
+10
+
+
+target
+region
+Lane 3
+Lane 2
+d
+s
+d
+d
+d
+Lane 1
+Figure 6: Robot lanes for hexagonal packing.
+Proof. Without loss of generality, we consider the target at the origin of a coordinate system and the robots
+are moving parallel to the x-axis. By Deﬁnition 2, the throughput considers the number of robots that cross
+the target during a unit of time, after the ﬁrst robot has reached it. We evaluate that number of robots, NT ,
+during a time T. As a result, computing the maximum throughput is reduced to ﬁnding the maximum number
+of robots (their centre of mass) that can ﬁt in a rectangle of width w(T) = vT and height h = 2s (Figure 7).
+Since we have the constraint that robots must be at a minimum distance d from each other, we consider
+discs of radius d/2 as reserved areas for each robot, and any two reserved areas must not intersect. Therefore,
+the problem is equivalent to ﬁnding the optimal arrangement of circles of radius d/2 in a rectangle of width
+W(T) = w(T) + 2 d
+2 and height H = h + 2 d
+2. This formulation is a variant of the circle packing problem, which
+is already well studied1. The term 2 d
+2 was added because the circle packing problem deals with full circles, not
+their centres.
+The optimal surface occupied by the circles divided by the rectangle area was proven to be π
+√
+3/6 in the
+case of hexagonal packing over an inﬁnite area (Chang and Wang, 2010). Thus, the total area occupied by the
+circles representing the reserved areas of the robots is given by
+Ä
+π
+√
+3/6
+ä
+HW(T). Hence, the maximum number
+of robots NT that can ﬁt inside the HW(T) area is bounded by Nopt(T) ≥NT , for
+Nopt(T) =
+
+Ä
+π
+√
+3/6
+ä
+HW(T)
+πd2/4
+=
+õ2HW(T)
+√
+3d2
+û
+.
+By Deﬁnition 2, the maximum throughput is
+f max
+h
+(T) = Nopt(T) −1
+T
+=
+ö 2HW (T )
+√
+3d2
+ù
+−1
+T
+.
+As for any x, ⌊x⌋= x −frac(x) and 0 ≤frac(x) < 1, the upper bound of the asymptotic throughput is
+f max
+h
+= lim
+T →∞f max
+h
+(T) = lim
+T →∞
+ö 2HW (T )
+√
+3d2
+ù
+−1
+T
+= lim
+T →∞
+2HW(T)
+√
+3d2T
+= lim
+T →∞
+2(h + d)(W(T) + d)
+√
+3d2T
+= lim
+T →∞
+2(2s + d)(vT + d)
+√
+3d2T
+= lim
+T →∞
+2
+√
+3
+2s + d
+d2
+vT + d
+T
+= lim
+T →∞
+2
+√
+3
+Å2s
+d2 + d
+d2
+ã ÅvT
+T + d
+T
+ã
+= lim
+T →∞
+2
+√
+3
+Å2s
+d2 + 1
+d
+ã Å
+v + d
+T
+ã
+=
+2
+√
+3
+Å2s
+d2 + 1
+d
+ã
+v =
+2
+√
+3
+Å2s
+d + 1
+ã v
+d.
+1See http://packomania.com/ and http://hydra.nat.uni-magdeburg.de/packing/crc_var/crc.html for an informal introduc-
+tion.
+11
+
+
+Target
+region
+(I)
+(II)
+Target
+region
+vT
+2s
+vT
+2s
+ﬁrst
+last
+ﬁrst
+last
+Figure 7: Robots are represented by black dots and they are in hexagonal formation and distant by d. In (I),
+only the ﬁrst robot reached the target and, in (II), all robots that are not in the dashed area arrived in the
+target region before the last robot. The robots on the right dashed area should not be counted because their
+arrival time is greater than the arrival time of the last robot, hence they arrive after the considered time frame
+T. That is, all robots on the dashed area in (I) should be counted as part of the number of robots that reached
+the target region in the time between the ﬁrst and the last robot, while the robots on the dashed area in (II)
+should not. As these dashed areas have the same value, we consider in this proof the number of robots inside
+a rectangle vT × 2s. Then, the dashed area used for counting in (II) replaces the unconsidered robots in the
+dashed area in (I). As we are concerned with T →∞, any possible diﬀerence between the number of robots on
+the dashed areas of either side due to the conﬁguration of the hexagonal packing is negligible.
+Target
+region
+Target
+region
+Target
+region
+Figure 8: Example of hexagonal packing with diﬀerent angles. The robots are the black dots.
+Proposition 5 presents an upper bound of the asymptotic throughput using hexagonal packing, but it did not
+tell us which is the best placement of the robots inside a corridor, since the hexagonal formation can be rotated
+by diﬀerent angles. Hence, we are going to present results about the throughput considering the placement of
+the hexagonal packing inside a corridor of robots going to the target region. First, however, we will need the
+following deﬁnition:
+Deﬁniton 3. The hexagonal packing angle θ is the angle formed by the x-axis and the line formed by any robot
+at position (x, y) and its neighbour at (x + d cos(θ), y + d sin(θ)) under the target region reference frame.
+Observe that any robot at (x, y) under the hexagonal packing has at most six neighbours located at  x +
+d cos  θ, y + d sin  θ,  x + d cos  θ + π
+3
+, y + d sin  θ + π
+3
+, . . . ,  x + d cos  θ + 5π
+3
+, y + d sin  θ + 5π
+3
+ (Figure
+8).
+If θ =
+π
+3 , putting this value in the previous series results that the ﬁrst neighbour robot would be at
+(x + d cos(π/3), y + d sin(π/3)), and the last neighbour robot at (x + d cos (0) , y + d sin (0)). This is the same
+result if θ = 0 was used. Consequently, due to this periodicity, we assume hexagonal packing angles in [0, π
+3 ).
+The next proposition states the bounds of the throughput in the limit towards the inﬁnity for hexagonal
+packing using an arbitrary, but ﬁxed, hexagonal packing angle θ. We consider a ﬁxed θ because normally in a
+robotic swarm the robots rely on local sensing. For getting the maximum number of robots inside the corridor,
+all robots should know the size of the corridor and communicate by local-ranged message sending. It would
+take time to send information, and for all robots to adjust their orientation each time a new robot joins the
+swarm when using this local sensing approach.
+In other words, if the corridor where the robots are going in the direction of the target is increasing over
+time, then θ should change over time for the optimal throughput. However, in practice, changing the hexagonal
+packing angle implies all robots must turn to a hexagonal packing angle θ∗depending on the size of the new
+rectangle based on the added robots to it in order to maximise the number of robots inside the corridor. In
+addition to the time to send messages with this parameter, more time would be needed for every robot to adapt
+12
+
+
+to the updated computed θ∗because the turning velocity of the robots is ﬁnite. Therefore, we do not handle
+this adjustable scenario in this paper.
+Proposition 6. Assume the robots using hexagonal formation coming to a circular target area with radius s
+such that the ﬁrst robot to reach it was at time 0 at (x0, y0) = (w, 0), for any w ≥s. For a given time T, the
+robots are going to the target at linear speed v, keeping a minimum distance d between neighbours (0 < d ≤2s),
+using ﬁxed hexagonal packing angle θ ∈[0, π/3). The throughput for a given time is given by
+fh(T, θ) = 1
+T
+n+
+l −1
+X
+xh=−n−
+l
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1 +
+1
+T
+U
+X
+xh=B
+ ⌊Y S
+2 (xh)⌋−⌈Y S
+1 (xh)⌉+ 1 −1
+T ,
+(11)
+for Y R
+2 (xh) ≥Y R
+1 (xh) and Y S
+2 (xh) ≥Y S
+1 (xh) (if for some xh, either of these conditions is false, we
+assume the respective summand for this xh being zero). Also,
+n−
+l =
+õ2s sin (|π/6 −θ|)
+√
+3d
+û
+,
+n+
+l =
+õ2(vT −s) cos(π/6 −θ) + 2s sin(|π/6 −θ|)
+√
+3d
++ 1
+û
+,
+Y R
+1 (xh) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+max
+Ç
+sin( π
+3 −θ)xh −s
+d
+cos  θ −π
+6
+
+, −cos( π
+3 −θ)xh
+sin   π
+6 −θ
+å
+,
+if θ < π/6,
+max
+Ç
+sin( π
+3 −θ)xh −s
+d
+cos  θ −π
+6
+
+,
+vT −s
+d
+−cos( π
+3 −θ)xh
+sin   π
+6 −θ
+å
+,
+if θ > π/6,
+xh
+2 −s
+d,
+if θ = π/6,
+Y R
+2 (xh) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+min
+Ç
+sin( π
+3 −θ)xh + s
+d
+cos  θ −π
+6
+
+,
+vT −s
+d
+−cos( π
+3 −θ)xh
+sin   π
+6 −θ
+å
+,
+if θ < π/6,
+min
+Ç
+sin( π
+3 −θ)xh + s
+d
+cos  θ −π
+6
+
+, −cos( π
+3 −θ)xh
+sin   π
+6 −θ
+å
+,
+if θ > π/6,
+xh
+2 + s
+d,
+if θ = π/6,
+B =
+
+
+
+
+
+
+
+°2(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(y0 −ly −s))
+√
+3d
+§
+,
+if T > s
+v ,
+¢
+−2
+p
+2svT −(vT)2
+√
+3d
+sin
+
+θ + π
+6
+•
+,
+otherwise,
+for cx = x0 + vT −s and
+(lx, ly) =
+( argmin
+(x,y)∈Z
+|vT −s + x0 −x| + |y0 −y|,
+if T > s
+v,
+(x0, y0),
+otherwise,
+where Z is the set of robot positions inside the rectangle measuring vT −s × 2s for vT −s > 0. If T > s
+v or
+arctan
+Å
+s
+2 −sin(θ)(vT −s)
+√
+3s
+2
++cos(θ)(vT −s)
+ã
+< π
+2 −θ,
+U =
+õ2(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(y0 −ly) + s)
+√
+3d
+û
+,
+otherwise,
+U =
+ú
+2
+p
+2svT −(vT)2
+√
+3d
+cos
+
+θ −π
+3
+ü
+.
+Also,
+Y S
+1 (xh) = dxh −C−θ,x +
+√
+3C−θ,y −
+p
+∆(xh)
+2d
+and
+Y S
+2 (xh) =
+
+
+
+
+
+min(L(xh), C2(xh)) −1,
+if min(L(xh), C2(xh))
+= ⌊L(xh)⌋and T > s
+v ,
+min(L(xh), C2(xh)),
+otherwise,
+(12)
+13
+
+
+Target
+region
+Target
+region
+Target
+region
+(I)
+(II)
+(III)
+Figure 9: (I) When the robots – here represented by black dots – in hexagonal packing begin to arrive at the
+target region, only the robots inside a part of the semicircle are counted. (II) We consider the ﬁrst robot to reach
+the target region being at (x0, y0) at time 0. As T grows, this continues until vT = s. (III) When vT > s, the
+robots are counted on two regions: a rectangular, NR, and a semicircular, NS. When vT > s, the semicircular
+region counting starts after the last robot on the rectangular region located at (lx, ly).
+x
+y
+A
+B
+C
+Target
+region
+xh
+yh
+yg
+xg
+(x0,y0)
+Figure 10: The reference frames used in this proof: the usual Euclidean space (x, y) in relation to the target
+region and the rectangle region formed by robots in hexagonal packing going to it; the coordinate space (xg, yg),
+formed by the usual space after a translation to the ﬁrst robot to reach the target region at (x0, y0), followed by a
+rotation by −ψ; the coordinate space (xh, yh), a hexagonal grid coordinate space made after this transformation
+and a linear transformation H. Robots are represented by the black dots and they are on hexagonal formation.
+Each neighbour of a robot is distant by d, so △ABC is equilateral. Thus, θ + ψ = π/3.
+C−θ =
+ï cos(−θ)
+−sin(−θ)
+sin(−θ)
+cos(−θ)
+ò ï cx −lx
+y0 −ly
+ò
+,
+∆(xh) = 4s2 −
+Ä√
+3(dxh −C−θ,x) −C−θ,y
+ä2 ,
+C2(xh) = dxh −C−θ,x +
+√
+3C−θ,y +
+p
+∆(xh)
+2d
+,
+L(xh) =
+
+
+
+
+
+
+
+
+
+sin   π
+2 −θ (dxh −C−θ,x) + cos   π
+2 −θ C−θ,y
+d sin   5π
+6 −θ
+,
+if T > s
+v ,
+sin   π
+2 −θ xh
+sin   5π
+6 −θ ,
+otherwise,
+and
+lim
+T →∞fh(T, θ) ∈
+Å 4vs
+√
+3d2 −2v cos(θ −π/6)
+√
+3d
+, 4vs
+√
+3d2 + 2v cos(θ −π/6)
+√
+3d
+ò
+.
+(13)
+Proof. We are concerned about the throughput of the target region for a given time and hexagonal packing
+angle θ, fh(T, θ) = N(T,θ)−1
+T
+, where N(T, θ) denotes the number of robots which arrived at the target region.
+Figure 9 illustrates the arrival of the robots on the target region. As this region has a circular shape, not all
+robots at the distance vT arrive at target region by the time T. Thence, the number of robots in hexagonal
+packing are divided into the number of robots located inside a rectangle, NR, and of robots inside a semicircle
+NS (Figure 9 (III)). That is, N(T, θ) = NS(T, θ) + NR(T, θ) and NR = 0 whenever vT ≤s.
+14
+
+
+–0.5
+0.5
+1
+1.5
+2
+2.5
+3
+60°
+y
+y
+h
+h
+l
+m
+n
+p
+q
+r
+h
+R19
+R1
+E
+F
+G
+H
+y1
+R11
+J
+–0.5
+0.5
+1
+1.5
+xh=-1
+xh=1
+xh=2
+xh=3
+xh=4
+xh=5
+xh=6
+1
+2
+3
+xh=0
+xg
+yg
+R2
+R3
+R4
+R7
+R5
+R6
+R12
+R13
+R14
+R15
+R8
+R16
+R17
+R9
+R10
+R18
+R24
+R25
+R26
+R27
+R29
+R30
+R31
+R32
+R33
+R34
+R23
+R22
+R20
+R21
+R28
+-1
+0
+xh
+Figure 11: Robots in hexagonal packing formation, and the corresponding rectangular corridor which will reach
+the target region. Robots are located in the l, m, n, p, q and r lines, which are parallel to the yh-axis. In this
+example, ψ = 0.227 and the distance between all robots is d = 0.5. The distance between those parallel-to-yh
+lines is
+√
+3d/2. The robots inside the rectangle EFGH are counted and are indicated by red points, while blue
+points are robots outside the rectangle. Although the xh-axis coincides with the xg-axis, xh is scaled by d.
+This proof is divided in lemmas for helping the construction of the equation to compute NR(T, θ) and
+NS(T, θ) as well for calculating limT →∞fh(T, θ). Before presenting them, we discuss a coordinate space trans-
+formation which will be used to count the robots for NR and NS. This transformation was inspired by (Red
+Blob Games, 2021).
+Figure 10 shows the coordinate spaces used in this proof. Let ψ = π/3−θ (because the angle of the equilateral
+triangle formed by neighbours is π/3, as explained in Figure 10). Accordingly, ψ ∈[0, π/3) too. The usual
+Euclidean coordinate space which represents the location of all robots is denoted here by (x, y) coordinates.
+The next coordinate space is denoted by (xg, yg), and it is the result of a translation of the usual Euclidean
+coordinate space by the position of the ﬁrst robot to reach the target region at (x0, y0), then a rotation of −ψ,
+that is,
+ï xg
+yg
+ò
+=
+ï cos(−ψ)
+−sin(−ψ)
+sin(−ψ)
+cos(−ψ)
+ò ï x −x0
+y −y0
+ò
+.
+The last coordinate space is denoted by (xh, yh) and it is intended to represent a hexagonal grid such that the
+position of each robot is an integer pair.
+Figure 11 shows the location of robots with respect to that hexagonal grid.
+Let (xh, yh) ∈Z2 be the
+hexagonal coordinates of a robot in this hexagonal grid space. In this ﬁgure, there is an integer grid in grey
+– the horizontal lines correspond to ﬁxed integer yh values and the inclined ones, xh values. For example, in
+Figure 11 robots R10, R11 and R20 respectively are at (0, 1), (1, 1) and (1, 0) at (xh, yh) coordinate system,
+which is equivalent to
+Ä
+−1/4,
+√
+3/4
+ä
+,
+Ä
+1/4,
+√
+3/4
+ä
+and (1/2, 0) on the usual two dimensional coordinate system
+with origin at (x0, y0).
+We get the linear transformation H from a point (xh, yh) to (xg, yg) basis by knowing the result of this
+transformation for the standard vectors (1, 0) and (0, 1). Observing Figure 11 and having that the angle between
+the x-axis and yh-axis is by deﬁnition 2π/3, we get the following mappings (xh, yh) 7→(xg, yg): (1, 0) 7→(d, 0)
+and (0, 1) 7→(d cos (2π/3) , d sin (2π/3)) = (−d
+2,
+√
+3d
+2 ) (in Figure 11 these two mappings are represented by
+robots R20 and R10, respectively, with d = 0.5). Then,
+ï xg
+yg
+ò
+=
+ñ
+H
+Çñ1
+0
+ôå
+H
+Çñ0
+1
+ôå ô ï xh
+yh
+ò
+=
+ñ
+d
+−d
+2
+0
+√
+3d
+2
+ô ï xh
+yh
+ò
+.
+(14)
+15
+
+
+–1
+–1
+–0.5
+–0.5
+0.5
+0.5
+1
+1.5
+1.5
+2
+2.5
+2.5
+3
+3.5
+3.5
+4
+4.5
+4.5
+–1.5
+–1.5
+–1
+–1
+–0.5
+–0.5
+0.5
+1
+1.5
+1.5
+2
+2.5
+2.5
+0
+60°
+xh
+yh
+A
+C
+B
+E
+F
+G
+H
+y2
+y1
+yg
+xg
+1
+xh
+Figure 12: The problem involves the rectangle EFGH in a hexagonal grid (grey lines inside the rectangle) of
+robots (the red dots). The xh-axis is horizontal and coincides with the x-axis. The yh-axis forms a 2π/3 angle
+with it. EH and AB have length 2s and vT −s, respectively. In this example, ψ = 19π/180 and s = 1. The
+angles marked with a line are equal to ψ, because the angle formed by −−→
+y2A and the x-axis is right, as well as
+’
+EAB. Accordingly, ’
+y2AB = π/2 −ψ implies that ’
+EAy2 = ψ.
+Counting the robots inside the rectangle is the same as counting the number of integer hexagonal coordinate
+points lying inside it. Figure 12 shows the rectangular part with some robots in hexagonal packing, where the
+robots are the red dots and the hexagonal packing is guided by the grey lines inside the rectangle, based on the
+value of the angle ψ. The rectangle is of width vT −s and of height 2s. The reference frame of the hexagonal
+grid is rotated in relation to the target region (Figure 10). From Figure 12, we have
+2s = (y2 −y1) cos(ψ), y2 =
+s
+cos(ψ) and y1 = −
+s
+cos(ψ).
+(15)
+We consider a robot with coordinates (xg, yg). The four sides of the rectangle EFGH, HG, EF, EH and
+FG, have the following equations of line: yg = y1 + tan(ψ)xg, yg = y2 + xg tan(ψ), yg = tan  ψ + π
+2
+ xg and
+yg = tan(ψ + π
+2 )
+Ä
+xg −vT −s
+cos(ψ)
+ä
+, respectively. The term vT −s
+cos(ψ) in the last equation arises because of the length of
+AC, which is the hypotenuse of △ABC whose side AB measures vT. Knowing that tan  ψ + π
+2
+ = −cot(ψ),
+the equations below are all true for a robot at (xg, yg) to be inside or on the boundary of the previously deﬁned
+rectangle,
+yg ≥y1 + xg tan(ψ), yg ≤y2 + xg tan(ψ), −xg ≤tan(ψ)yg, and
+−
+Å
+xg −vT −s
+cos ψ
+ã
+≥tan(ψ)yg.
+(16)
+Now we take the minimum and maximum yh value for each parallel-to-yh line depending on the xh value.
+Using (14) for converting (16) to xh and yh coordinate system, i.e., hexagonal coordinates, we have for HG and
+EF
+Ç√
+3
+2 + 1
+2 tan(ψ)
+å
+yh −tan(ψ)xh ≥y1
+d and
+Ç√
+3
+2 + 1
+2 tan(ψ)
+å
+yh −tan(ψ)xh ≤y2
+d .
+16
+
+
+Hence,
+y1
+d ≤
+Ç√
+3
+2 + 1
+2 tan ψ
+å
+yh −tan(ψ)xh ≤y2
+d ⇔
+2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+≤yh ≤
+2y2
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+.
+(17)
+Analogously, but considering EH and FG,
+−xh ≤
+Ç
+tan(ψ)
+√
+3
+2 −1
+2
+å
+yh and
+Ç
+tan(ψ)
+√
+3
+2 −1
+2
+å
+yh ≤vT −s
+d cos(ψ) −xh.
+(18)
+Based on the sign of
+Ä
+tan(ψ)
+√
+3
+2 −1
+2
+ä
+and excluding the null case (when ψ = π/6), we have two diﬀerent
+inequalities over yh. Assuming ψ ∈[0, π/3), we have
+Ä
+tan(ψ)
+√
+3
+2 −1
+2
+ä
+> 0 ⇔tan(ψ)
+√
+3
+2 > 1
+2 ⇔tan(ψ) >
+1
+√
+3 ⇔
+ψ > π/6. Thus, from (18),
+−xh
+√
+3 tan(ψ)−1
+2
+≤yh ≤
+vT −s
+d cos(ψ) −xh
+√
+3 tan(ψ)−1
+2
+, if ψ > π/6,
+vT −s
+d cos(ψ) −xh
+√
+3 tan(ψ)−1
+2
+≤yh ≤
+−xh
+√
+3 tan(ψ)−1
+2
+, if ψ < π/6.
+(19)
+−2xh
+√
+3 tan(ψ) −1 ≤yh ≤
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1, if ψ > π/6,
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1 ≤yh ≤
+−2xh
+√
+3 tan(ψ) −1, if ψ < π/6.
+(20)
+We have that (17) and (20) restrict the value of yh depending on the value of xh by the relation
+max
+Ç 2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+−2xh
+√
+3 tan(ψ) −1
+å
+≤yh
+≤min
+Ñ
+2y2
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1
+é
+, if ψ > π/6,
+max
+Ñ
+2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1
+é
+≤yh
+≤min
+Ç 2y2
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+−2xh
+√
+3 tan(ψ) −1
+å
+, if ψ < π/6.
+(21)
+Using hexagonal coordinates the position of each robot is represented by a pair of integers. Then, assuming
+xh and yh integers, (21) becomes ⌈Y R
+1 (xh)⌉≤yh ≤⌊Y R
+2 (xh)⌋, for
+Y R
+1 (xh) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+max
+Ç 2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+−2xh
+√
+3 tan(ψ) −1
+å
+,
+if ψ > π/6,
+max
+Ñ
+2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1
+é
+,
+if ψ < π/6,
+√
+3y1 + dxh
+2d
+,
+if ψ = π/6,
+17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+max
+Ç 2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+−2xh
+√
+3 tan(ψ) −1
+å
+,
+if ψ > π/6,
+max
+Ñ
+2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1
+é
+,
+if ψ < π/6,
+−
+√
+3s
+cos(π/6) + dxh
+2d
+,
+if ψ = π/6,
+=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+max
+Ç 2y1 cos(ψ)
+d
++ 2 sin(ψ)xh
+√
+3 cos(ψ) + sin(ψ) ,
+−2xh cos(ψ)
+√
+3 sin(ψ) −cos(ψ)
+å
+,
+if ψ > π/6,
+max
+Ç 2y1 cos(ψ)
+d
++ 2 sin(ψ)xh
+√
+3 cos(ψ) + sin(ψ) ,
+2(vT −s)
+d
+−2xh cos(ψ)
+√
+3 sin(ψ) −cos(ψ)
+å
+,
+if ψ < π/6,
+−2
+√
+3s
+√
+3
++ dxh
+2d
+,
+if ψ = π/6,
+=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+max
+Ç
+−2s
+d
++ 2 sin(ψ)xh
+√
+3 cos(ψ) + sin(ψ),
+−2xh cos(ψ)
+√
+3 sin(ψ) −cos(ψ)
+å
+,
+if ψ > π/6,
+max
+Ç
+−2s
+d
++ 2 sin(ψ)xh
+√
+3 cos(ψ) + sin(ψ),
+2(vT −s)
+d
+−2xh cos(ψ)
+√
+3 sin(ψ) −cos(ψ)
+å
+,
+if ψ < π/6,
+−2s + dxh
+2d
+,
+if ψ = π/6,
+=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+max
+Ç
+sin(ψ)xh −s
+d
+cos   π
+6 −ψ , −cos(ψ)xh
+sin  ψ −π
+6
+
+å
+,
+if ψ > π/6,
+max
+Ç
+sin(ψ)xh −s
+d
+cos   π
+6 −ψ ,
+vT −s
+d
+−cos(ψ)xh
+sin  ψ −π
+6
+
+å
+,
+if ψ < π/6,
+xh
+2 −s
+d,
+if ψ = π/6,
+=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+max
+Ç
+d sin(ψ)xh −s
+d cos   π
+6 −ψ , −cos(ψ)xh
+sin  ψ −π
+6
+
+å
+,
+if ψ > π/6,
+max
+Ç
+d sin(ψ)xh −s
+d cos   π
+6 −ψ , vT −s −d cos(ψ)xh
+d sin  ψ −π
+6
+
+å
+,
+if ψ < π/6,
+xh
+2 −s
+d,
+if ψ = π/6,
+(22)
+Y R
+2 (xh) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+min
+Ñ
+2y2
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1
+é
+,
+if ψ > π/6,
+min
+Ç 2y2
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+−2xh
+√
+3 tan(ψ) −1
+å
+,
+if ψ < π/6,
+√
+3y2 + dxh
+2d
+,
+if ψ = π/6,
+=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+min
+Ç
+sin(ψ)xh + s
+d
+cos   π
+6 −ψ ,
+vT −s
+d
+−cos(ψ)xh
+sin  ψ −π
+6
+
+å
+,
+if ψ > π/6,
+min
+Ç
+sin(ψ)xh + s
+d
+cos   π
+6 −ψ , −cos(ψ)xh
+sin  ψ −π
+6
+
+å
+,
+if ψ < π/6,
+xh
+2 + s
+d,
+if ψ = π/6.
+(23)
+We simpliﬁed above using (15), cos   π
+6 −ψ =
+√
+3
+2 cos(ψ) + 1
+2 sin(ψ) and sin  ψ −π
+6
+ =
+√
+3
+2 sin(ψ) −1
+2 cos(ψ).
+Now we get the possible integer values for the xh-axis which are inside the rectangle EFGH, that is, we
+count the number of lines parallel with the yh-axis that intersect the rectangle for xh integer values. Let nl be
+the number of such parallel lines. We consider nl = n−
+l + n+
+l , such that n−
+l is the number of lines parallel to
+the yh-axis whose intersection with the xh-axis is a point (i, 0) for i < 0 and i ∈Z, and n+
+l is similar but for
+non-negative integer i. For example, in Figure 11 we have n−
+l = 0 and n+
+l = 6 (we marked below the values of
+the points over the x-axis, the equivalent over xh-axis in order to aid enumerating them). Note that the point
+(i, 0) may be outside of the rectangle, but it will still be counted if there are integer (i, yh) coordinates inside
+the rectangle. The next lemma shows how to compute n+
+l and n−
+l to aid in this proof development.
+Lemma 2. On the (xh, yh) coordinate system, the integer values for xh robot coordinates inside the rectangle
+18
+
+
+–1
+–1
+–0.5
+–0.5
+0.5
+0.5
+1
+1
+1.5
+1.5
+2
+2
+2.5
+2.5
+3
+3
+3.5
+3.5
+4
+4
+4.5
+4.5
+–1
+–1
+–0.5
+–0.5
+0.5
+0.5
+1
+1.5
+1.5
+2
+2.5
+2.5
+0
+60°
+xh
+yh
+C
+B
+E
+F
+G
+G
+H
+B0
+B1
+d
+e
+B2
+CD
+D1
+A
+D2
+C1
+C2
+I
+xh=0
+xh=1
+xh=2
+d
+e
+yg
+xg
+Figure 13: The goal is to count how many points named Bi lie in the diagonal HF. Bi is the intersection of a
+parallel-to-yh line on a xh integer coordinate and the diagonal HF. The triangles ADiCi for any i ∈{1, 2} and
+ADC are similar. ADi and ACi have distance i · d and i · e, respectively. In this example, d = 2 and there are
+three points lying over HF.
+EFGH are in the set {−n−
+l , . . . , n+
+l −1} with
+n+
+l =
+õ2(vT −s) cos(ψ −π/6) + 2s sin(|ψ −π/6|)
+√
+3d
++ 1
+û
+,
+(24)
+and
+n−
+l =
+õ2s sin (|ψ −π/6|)
+√
+3d
+û
+.
+(25)
+Proof. For getting n+
+l , we count how many parallel-to-yh lines when projected over the x-axis are distant from
+each other by d on this axis and are inside the rectangle. These lines must intersect the diagonal HF of the
+rectangle, but commencing from the intersection between the yh-axis and the diagonal (i.e., from B0 in the
+Figure 13). Let φ = arctan
+Ä
+2s
+vT −s
+ä
+be the angle of the diagonal in relation to the rectangle base. We have two
+cases depending on the value of ψ.
+• Case ψ ≤π
+6 : from Figure 13, every line parallel to yh is distant by d on the projection onto the x-axis. The
+triangles ADiCi for any i ∈{1, . . . , n+
+l −1} and ADC are similar, |AD1| = d and |AC1| = e, whose value is
+unknown for the moment. △ADC has angles ’
+CAD = ψ+φ, ’
+ADC = π/3 and ’
+ACD = π−’
+CAD−’
+ADC =
+2π/3 −ψ −φ. As for every i, △ADiCi ∼△ADC, we have that
+|AC|
+|AC1| = |AD|
+|AD1| ⇔|AC|
+e
+= |AD|
+d
+.
+(26)
+As AHFI is a parallelogram, |HF| = |AI| and |FI| = |AH| = s, then |BI| = 2s.
+Thus, |AI| =
+p
+(2s)2 + (vT −s)2, because △ABI is right-angled.
+Also, by the law of sines, we get
+|AD|
+sin(÷
+ACD) =
+19
+
+
+|AC|
+sin(÷
+ADC) ⇔
+|AD| = |AC|sin(’
+ACD)
+sin(’
+ADC)
+=  |AI| −|CI| sin(’
+ACD)
+sin(’
+ADC)
+=  |AI| −|CI| sin(2π/3 −ψ −φ)
+sin(π/3)
+.
+(27)
+AB0FC is a parallelogram as well, so |AC| = |B0F| = |HF| −|HB0| and |CI| = |HB0|.
+The △AB0H has angles ÷
+HAB0 = ’
+HAB −÷
+B0AB = ’
+HAB −(÷
+B0AD+ ’
+DAB) = π/2−(π/3+ψ) = π/6−ψ,
+÷
+AHB0 = ’
+AHG −’
+FHG = π/2 −φ and ÷
+HB0A = π −÷
+HAB0 −÷
+AHB0 = π/3 + ψ + φ. By the law of sines,
+we have |HB0| = sin(◊ HAB0)|AH|
+sin(◊ HB0A)
+=
+sin(π/6−ψ)s
+sin(π/3+ψ+φ). Hence,
+|AD| =  |AI| −|CI| sin(2π/3 −ψ −φ)
+sin(π/3)
+[from (27)]
+=
+Å»
+(2s)2 + (vT −s)2 −
+s sin(π/6 −ψ)
+sin(π/3 + ψ + φ)
+ã sin(2π/3 −ψ −φ)
+sin(π/3)
+=
+»
+(2s)2 + (vT −s)2 sin(2π/3 −ψ −φ)
+sin(π/3)
+−s sin(π/6 −ψ)
+sin(π/3)
+= 2
+»
+(2s)2 + (vT −s)2 sin(2π/3 −ψ −φ)
+√
+3
+−2s sin(π/6 −ψ)
+√
+3
+= 2
+p
+(2s)2 + (vT −s)2sin (2π/3 −ψ −φ) −2s sin(π/6 −ψ)
+√
+3
+= 2
+p
+(2s)2 + (vT −s)2  sin( 2π
+3 −ψ) cos(φ) −cos   2π
+3 −ψ sin(φ)
+√
+3
+−2s sin( π
+6 −ψ)
+√
+3
+=
+2
+p
+(2s)2 + (vT −s)2
+Å
+sin(2π/3−ψ)(vT −s)
+√
+(2s)2+(vT −s)2
+−
+2s cos(2π/3−ψ)
+√
+(2s)2+(vT −s)2
+ã
+√
+3
+−2s sin(π/6 −ψ)
+√
+3
+= 2 (sin(2π/3 −ψ)(vT −s) −2s cos(2π/3 −ψ)) −2s sin(π/6 −ψ)
+√
+3
+= 2 (sin(2π/3 −ψ)(vT −s) + 2s sin(π/6 −ψ)) −2s sin(π/6 −ψ)
+√
+3
+= 2 sin(2π/3 −ψ)(vT −s) + 4s sin(π/6 −ψ) −2s sin(π/6 −ψ)
+√
+3
+= 2 sin(2π/3 −ψ)(vT −s) + 2s sin(π/6 −ψ)
+√
+3
+= 2 cos(π/6 −ψ)(vT −s) + 2s sin(π/6 −ψ)
+√
+3
+(28)
+Above we used sin(2π/3 −ψ) = cos(π/6 −ψ), cos(2π/3 −ψ) = −sin(π/6 −ψ), sin(2π/3 −ψ −φ) =
+sin(π/3+ψ+φ), sin(2π/3−ψ−φ) = sin(2π/3−ψ) cos(φ)−cos(2π/3−ψ) sin(φ), sin(arctan(y/x)) =
+y
+√
+x2+y2 ,
+and cos( arctan(y/x)) =
+x
+√
+x2+y2 .
+Therefore, the number of lines parallel to the yh-axis intersecting B0F for integer xh values is
+n+
+l =
+ú
+|B0F|
+e
++ 1
+ü
+=
+ú
+|HF| −|HB0|
+e
++ 1
+ü
+=
+ú
+|AC|
+e
++ 1
+ü
+=
+ú
+|AD|
+d
++ 1
+ü
+[from (26)]
+=
+õ2 cos(π/6 −ψ)(vT −s) + 2s sin(π/6 −ψ)
+√
+3d
++ 1
+û
+[from (28)]
+• Case ψ > π
+6 : Figure 14 shows this case. Observe that when ψ > π
+6 , EA is on the left side of the yh-axis.
+Also, note that we are considering now the diagonal EG, because the yh-axis does not intersect the diagonal
+20
+
+
+HF for these values of ψ. Then, we have to consider B0G to count n+
+l . Additionally, |B0G| = |AC|,
+due to the AB0GC parallelogram properties. As in the previous case, for i ∈{1, . . . , n+
+l −1}, △ADiCi ∼
+△ADC, ’
+CAD = ’
+BAD −’
+BAC = ψ −φ, ’
+ADC = π/3, ’
+ACD = π −’
+CAD −’
+ADC = 2π/3 −ψ + φ,
+and |B0G|
+e
+= |AC|
+e
+= |AD|
+d , by the similarity of these triangles as we showed in the previous case. Also,
+we have ÷
+EAB0 = ’
+DAE −÷
+DAB0 = ψ + π/2 −2π/3 = ψ −π/6, ÷
+B0EA = ’
+FEA −÷
+FEB0 = π/2 −φ,
+÷
+EB0A = π −÷
+B0EA −÷
+EAB0 = π −(π/2 −φ) −(ψ −π/6) = 2π/3 + φ −ψ. Thus, by the law of sines,
+|B0E|
+sin(◊ EAB0) =
+|EA|
+sin(◊ EB0A) ⇔|B0E| = s sin(◊ EAB0)
+sin(◊ EB0A) =
+s sin(ψ−π/6)
+sin(2π/3+φ−ψ). EAIG and B0ACG are parallelograms
+sharing the points G and A, so |B0E| = |CI|. By following similar steps as before, we get
+n+
+l =
+ú
+|B0G|
+e
++ 1
+ü
+=
+ú
+|AC|
+e
++ 1
+ü
+=
+ú
+|AD|
+d
++ 1
+ü
+=
+
+ |AI| −|CI| sin(2π/3−ψ+φ)
+sin(π/3)
+d
++ 1
+
+=
+
+Äp
+(2s)2 + (vT −s)2 −
+s sin(ψ−π/6)
+sin(2π/3−ψ+φ)
+ä sin(2π/3−ψ+φ)
+sin(π/3)
+d
++ 1
+
+=
+
+p
+(2s)2 + (vT −s)2 sin(2π/3−ψ+φ)
+sin(π/3)
+−s sin(ψ−π/6)
+sin(π/3)
+d
++ 1
+
+=
+ú
+2
+p
+(2s)2 + (vT −s)2sin(2π/3 −ψ + φ) −2s sin(ψ −π/6)
+√
+3d
++ 1
+ü
+=
+$
+2
+p
+(2s)2 + (vT −s)2(sin(2π/3 −ψ) cos(φ) + cos(2π/3 −ψ) sin(φ))
+√
+3d
+−2s sin(ψ −π/6)
+√
+3d
++ 1
+%
+=
+õ2 sin(2π/3 −ψ)(vT −s) + 4s cos(2π/3 −ψ) −2s sin(ψ −π/6)
+√
+3d
++ 1
+û
+=
+õ2 sin(2π/3 −ψ)(vT −s) + 4s sin(ψ −π/6) −2s sin(ψ −π/6)
+√
+3d
++ 1
+û
+=
+õ2 sin(2π/3 −ψ)(vT −s) + 2s sin(ψ −π/6)
+√
+3d
++ 1
+û
+=
+õ2 cos(π/6 −ψ)(vT −s) + 2s sin(ψ −π/6)
+√
+3d
++ 1
+û
+.
+We used this time sin(2π/3 −ψ) = cos(ψ −π/6) and cos(2π/3 −ψ) = sin(ψ −π/6).
+For the ﬁnal result on (24), we simpliﬁed using the fact that when ψ ≤π/6, sin(|ψ −π/6|) = sin(π/6 −ψ),
+otherwise, sin(|ψ −π/6|) = sin(ψ −π/6).
+For n−
+l , we also calculate how many lines parallel to the yh-axis projected over the x-axis are distant from
+each other by d on this axis and are inside the rectangle. However, we consider only those on the left side of the
+point A, i.e., commencing from the one whose intersection with the x-axis is at (−d, 0), equivalently, (−1, 0) on
+the (xh, yh) coordinate system. We also have two cases here.
+• Case ψ ≤π/6: Figure 15 shows the △HIA on the left side of the rectangle EFGH. As the robots are
+over the parallel-to-yh lines distant by d on the projection over the x-axis, we want to know how many
+parallel lines intersect HI (equivalently, how many such lines intersect JA due to parallelism), excluding
+←→
+AI (because it was already counted on n+
+l ). Thus,
+n−
+l =
+õ|HI|
+d
+û
+.
+We have |AH| = s, “
+H = π/2 + ψ, bI = π/3 and bA = π −bI −“
+H = π −π/3 −(π/2 + ψ) = π/6 −ψ. By the
+law of sines on the angles opposite to the sides AH and HI, results the following
+|HI| = |AH| sin( bA)
+sin(bI)
+= s sin   π
+6 −ψ
+sin   π
+3
+
+= 2s sin   π
+6 −ψ
+√
+3
+.
+(29)
+21
+
+
+–1
+–1
+–0.5
+–0.5
+0.5
+0.5
+1
+1
+1.5
+1.5
+2
+2
+2.5
+2.5
+3
+3
+3.5
+3.5
+4
+4
+4.5
+4.5
+–1
+–1
+–0.5
+–0.5
+0.5
+0.5
+11
+1.5
+1.5
+2
+2.5
+2.5
+0
+60°
+xh
+yh
+A
+C
+E
+E
+F
+G
+H
+H
+B0
+B1
+d
+e
+B2
+CD
+D1
+D2
+C1
+C2
+B
+CI
+xh=0
+xh=1
+xh=2
+d
+e
+yg
+xg
+Figure 14: The goal is to count how many points named Bi lie in the diagonal EG. The triangles ADiCi for
+any i ∈{1, 2} and ADC are similar. ADi and ACi have distance i · d and i · e, respectively. In this example,
+d = 2 and there are three points lying over EG.
+Thus,
+n−
+l =
+ú
+2s sin   π
+6 −ψ
+√
+3d
+ü
+.
+• Case ψ > π/6. Figure 16 illustrates this case. The reasoning is similar to the previous case, but now we
+use △EIA. Then, |EA| = s, “
+E = π/2−ψ, bI = 2π/3 and bA = π −bI −“
+E = π −2π/3−(π/2−ψ) = ψ −π/6.
+Consequently,
+n−
+l =
+ú
+|EI|
+d
+ü
+=
+ú
+2s sin  ψ −π
+6
+
+√
+3d
+ü
+.
+For the ﬁnal result in (25), we use the absolute value inside the sine function to combine both cases.
+By the previous lemma, we have calculated the interval of integer xh values needed for counting the robots
+inside the rectangle. In the next lemma, we get the equation for the number of robots at the rectangular part
+(NR) ranging from these integer xh values. Although the proposition we are now proving gives the throughput
+in terms of θ, we are ﬁrst going to calculate this number in terms of ψ.
+Lemma 3. For ψ ∈[0, π/3),
+NR(T, ψ) =
+n+
+l −1
+X
+xh=−n−
+l
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1 .
+If for some xh
+Y R
+2 (xh) < Y R
+1 (xh), we assume the respective summand for this xh being zero.
+Proof. By the previous lemma and knowing that the positions of the robots are integer coordinates over the
+hexagonal grid coordinate space,
+NR(T, ψ) =
+n+
+l −1
+X
+xh=−n−
+l
+⌊Y R
+2 (xh)⌋
+X
+yh=⌈Y R
+1 (xh)⌉
+1 =
+n+
+l −1
+X
+xh=−n−
+l
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1 .
+22
+
+
+60°
+yh
+AA
+B
+B
+E
+F
+G
+HH
+C
+D
+I
+J
+K L
+s
+s
+xh
+s
+s
+M
+N
+Figure 15: In this example ψ ≤π/6. The pink line on the left side is an example of one satisfying Lemma 4,
+while the one on the right side, Lemma 5. The triangles ACE, HIA, BMG and BNF are congruent, because
+their respective angles are equal – due to parallelism – and |EA| = |AH| = |GB| = |FB| = s. In this example,
+except for ←→
+JH, ←→
+EC, ←−→
+MG, ←→
+BL and ←→
+FD, the lines parallel-to-yh are distant by d on the projection over the x-axis
+and can have robots on them.
+since (22) and (23) give the minimum (Y R
+1 ) and maximum (Y R
+2 ) yh coordinates for a given xh value such that
+the robot is inside the rectangle. Note that the last summation can only be used when Y R
+2 (xh) ≥Y R
+1 (xh),
+otherwise a negative number of robots would be accounted.
+In special, for ψ = π/6, by (22) and (23),
+N(T, π/6) =
+ö 2(vT −s)
+√
+3d
+ù
+X
+xh=0
+Çú√
+3y2 + dxh
+2d
+ü
+−
+¢√
+3y1 + dxh
+2d
+•
++ 1
+å
+.
+(30)
+If ψ ̸= π/6, each parallel-to-yh-axis line intersects two segments of the rectangle EFGH. The yh-components
+of the two intersections of a rectangle side and such lines are the values of Y R
+1 (xh) and Y R
+2 (xh) for a given xh.
+Hence, the set of xh integer values {−n−
+l , . . . , n+
+l −1} will be cut in disjoint subsets based on the max and
+min outcomes of (22) and (23). That is, Y R
+1 (xh) and Y R
+2 (xh), respectively; equivalently, which two sides of the
+rectangle the parallel-to-yh-axis line corresponding to (xh, 0) intersects. The following lemmas describe each
+subset: {−n−
+l , . . . , n−
+l } in Lemma 4; {n−
+l + 1, . . . , K′ −1} in Lemma 7; {K′, . . . , n+
+l −1} in Lemma 5, for an
+integer K′ deﬁned later.
+Lemma 4. Consider parallel-to-yh-axis lines inside the rectangle EFGH intersecting the xh-axis at (xh, 0), for
+xh ∈Z. The two following statements are equivalent:
+(I) If ψ < π/6,
+Y R
+1 (xh) =
+2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+and Y R
+2 (xh) =
+−2xh
+√
+3 tan(ψ) −1,
+(31)
+and, if ψ > π/6,
+Y R
+1 (xh) =
+−2xh
+√
+3 tan(ψ) −1 and Y R
+2 (xh) =
+2y2
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+.
+(32)
+(II) xh ∈{−n−
+l , . . . , n−
+l }.
+23
+
+
+yh
+A
+B
+E
+E
+F
+G
+H
+C
+D
+I
+J
+K
+L
+s
+s
+s
+s
+xh
+M
+N
+Figure 16: In this example ψ > π/6, the side EH has an angle greater than zero with the yh-axis. The pink line
+on the left side is an example of one satisfying Lemma 4, while the one on the right side, Lemma 5. The triangles
+AIE, HCA, FNB and BMG are congruent, because their respective angles are equal – due to parallelism – and
+|EA| = |AH| = |GB| = |FB| = s. Except for ←→
+EJ, ←→
+CH, ←→
+FK, ←→
+BL and ←→
+GD, the lines parallel-to-yh are distant by
+d on the projection over the x-axis and can have robots on them.
+Proof. (I) ⇒(II) : Let ψ < π/6. By (22) and (23), (31) is equivalent to
+sin(ψ)xh −s
+d
+cos   π
+6 −ψ ≥
+vT −s
+d
+−cos(ψ)xh
+sin  ψ −π
+6
+
+and sin(ψ)xh + s
+d
+cos   π
+6 −ψ ≥−cos(ψ)xh
+sin  ψ −π
+6
+.
+From the second inequality, we have
+sin(ψ)xh + s
+d
+cos   π
+6 −ψ ≥−cos(ψ)xh
+sin  ψ −π
+6
+
+⇔
+Ç
+sin(ψ)
+cos   π
+6 −ψ +
+cos(ψ)
+sin  ψ −π
+6
+
+å
+xh ≥−
+s
+d cos   π
+6 −ψ
+⇔
+Ç
+sin(ψ) sin  ψ −π
+6
+ + cos(ψ) cos   π
+6 −ψ
+cos   π
+6 −ψ sin  ψ −π
+6
+
+å
+xh ≥−
+s sin  ψ −π
+6
+
+d cos   π
+6 −ψ sin  ψ −π
+6
+
+24
+
+
+⇔
+Ç
+sin(ψ) sin  ψ −π
+6
+ + cos(ψ) cos  ψ −π
+6
+
+cos   π
+6 −ψ sin  ψ −π
+6
+
+å
+xh ≥−
+s sin  ψ −π
+6
+
+d cos   π
+6 −ψ sin  ψ −π
+6
+
+⇔
+Ç
+cos(ψ −(ψ −π
+6 ))
+cos   π
+6 −ψ sin  ψ −π
+6
+
+å
+xh ≥−
+s sin  ψ −π
+6
+
+d cos   π
+6 −ψ sin  ψ −π
+6
+
+⇔
+Ç
+cos(ψ −ψ + π
+6 )
+cos   π
+6 −ψ sin  ψ −π
+6
+
+å
+xh ≥−
+s sin  ψ −π
+6
+
+d cos   π
+6 −ψ sin  ψ −π
+6
+
+⇔
+Ç
+cos( π
+6 )
+cos   π
+6 −ψ sin  ψ −π
+6
+
+å
+xh ≥−
+s sin  ψ −π
+6
+
+d cos   π
+6 −ψ sin  ψ −π
+6
+
+⇔
+ 
+√
+3
+2
+cos   π
+6 −ψ sin  ψ −π
+6
+
+!
+xh ≥−
+s sin  ψ −π
+6
+
+d cos   π
+6 −ψ sin  ψ −π
+6
+
+⇔xh ≤−s sin  ψ −π
+6
+
+√
+3
+2 d
+⇔xh ≤−2s sin  ψ −π
+6
+
+√
+3d
+= 2s sin   π
+6 −ψ
+√
+3d
+.
+The change of inequality sign above is due to cos   π
+6 −ψ sin  ψ −π
+6
+ < 0 for ψ < π/6. As xh ∈Z,
+xh ≤
+ú
+2s sin   π
+6 −ψ
+√
+3d
+ü
+= n−
+l .
+The lower value on xh is obtained by Lemma 2, as to be inside the rectangle EFGH xh ≥−n−
+l . For ψ > π/6,
+we obtain the same result by a similar reasoning, but without changing the inequality sign since in this case
+cos   π
+6 −ψ sin  ψ −π
+6
+ > 0.
+(II) ⇒(I) : From (17), (18) (i.e., the line equations for ←→
+HG, ←→
+EH and ←→
+EF), (22) and (23) (i.e., the deﬁnitions
+of Y R
+1
+and Y R
+2 ), we have, if ψ < π/6,
+(xh, Y R
+1 (xh)) ∈←→
+HG ⇔Y R
+1 (xh) =
+2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+(xh, Y R
+2 (xh)) ∈←→
+EH ⇔Y R
+2 (xh) =
+−2xh
+√
+3 tan(ψ) −1,
+and, if ψ > π/6,
+(xh, Y R
+1 (xh)) ∈←→
+EH ⇔Y R
+1 (xh) =
+−2xh
+√
+3 tan(ψ) −1,
+(xh, Y R
+2 (xh)) ∈←→
+EF ⇔Y R
+2 (xh) =
+2y2
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+.
+Then, we prove this part by showing that for all xh ∈{−n−
+l , . . . , n−
+l }, the line parallel to the yh-axis
+intercepting the point (xh, 0) intercepts both sides EH and HG (and no other), if ψ < π/6 (Figure 15), and, if
+ψ > π/6, both sides EH and EF (and no other) (Figure 16).
+• Case ψ < π/6: Figure 15 shows the triangles HIA, ACE and BMG inside the rectangle EFGH. As the
+robots are over the parallel lines to the yh-axis, which are distant by d when projected over the x-axis,
+we want to know how many such parallel lines intersect HI (equivalently, how many such lines intersect
+JA due to parallelism) or AC. For such parallel lines that intersect HI, Lemma 2 showed that for every
+xh ∈{−n−
+l , . . . , −1} the line parallel to yh-axis intersecting (xh, 0) is inside the rectangle. Also, these
+lines intersect the sides EH and HG, as any line parallel to ←→
+AI which is on its left side intersects the sides
+EH and HG if it is inside the rectangle. For the case where such parallel lines intersect AC, we need to
+know the maximum integer value, M, such that these parallel lines still intersect the sides EH and HG
+for any xh ∈{0, . . . , M}. Starting from point A (that is, when xh = 0), we have
+M =
+ú
+|AC|
+d
+ü
+.
+We have |AH| = |EA| = s, ←→
+AI ∥←→
+EC, ←→
+HI ∥←→
+AC, and ←→
+AH ∥←→
+AE (as E, A and H are collinear), then
+’
+IHA = ’
+CAE, ’
+AIH = ’
+ECA, and ’
+HAI = ’
+AEC. Thus, △HIA ∼= △ACE, then |AC| = |HI|, whose value
+25
+
+
+has been previously calculated in Lemma 2, leading to
+M =
+ú
+2s sin   π
+6 −ψ
+√
+3d
+ü
+= n−
+l .
+Hence, for any xh ∈{0, . . . , n−
+l }, those parallel lines intersect the sides EH and HG.
+• Case ψ > π/6: Figure 16 illustrates this case. The reasoning is similar to the previous case, but using
+that △AIE ∼= △HCA. As the value for |EI|/d also has been calculated in Lemma 2 for this ﬁgure, then
+M =
+ú
+2s sin  ψ −π
+6
+
+√
+3d
+ü
+= n−
+l .
+Consequently, for any xh ∈{−n−
+l , . . . , n−
+l }, the parallel-to-yh-axis line at (xh, 0) intersects the sides EH
+and EF in this case.
+The next lemma will deﬁne the integer K′ mentioned before. This number will be compared with the integer
+xh coordinate of the point (n+
+l −1, 0) intersected by the rightmost parallel-to-yh-axis line inside the rectangle
+EFGH. Assuming θ ̸= π/6, if this rightmost line intersects a point on the xh-axis with an integer coordinate
+less than K′, then no parallel-to-yh-axis line intersects the rectangle right side FG. However, if the intersection
+point coordinate is greater than or equal to K′, then at least one parallel line crosses FG.
+Lemma 5. Consider parallel-to-yh-axis lines inside the rectangle EFGH intersecting the xh-axis at (xh, 0), for
+xh ∈Z, and K′ =
+† 2(vT −s) cos(ψ−π/6)−2s sin(|ψ−π/6|)
+√
+3d
+£
+. Then, the two statements below are equivalent:
+(I) If ψ < π/6
+Y R
+1 (xh) =
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1 and Y R
+2 (xh) =
+2y2
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+,
+(33)
+and, if ψ > π/6
+Y R
+1 (xh) =
+2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+and Y R
+2 (xh) =
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1.
+(34)
+(II) xh ∈{K′, . . . , n+
+l −1}.
+Proof. (I) ⇒(II): By contrapositive, assume xh /∈{K′, . . . , n+
+l −1}. By Lemma 2, there is no xh > n+
+l −
+1, so xh < K′.
+For the case of ψ < π/6, observe in Figure 15 the point K on the xh-axis.
+This point
+corresponds to the intersection of ←−→
+MG on the xh-axis, which is the ﬁrst parallel-to-yh-axis crossing the rectangle
+right side FG. The point D on the xh-axis is the projection of the point F on this axis. By (28), |AD| =
+2 cos(π/6−ψ)(vT −s)+2s sin(|ψ−π/6|)
+√
+3
+. Because of the parallelism, we have |MN| = |KD|. Due to the congruence of
+triangles ACE, HIA, BMG and BNF and (29), |BM| = |BN| = |HI| = 2s sin(|ψ−π/6|)
+√
+3
+. Thus, |KD| = |MN| =
+|BM| + |BN| = 4s sin(|ψ−π/6|)
+√
+3
+. Since |AK| = |AD| −|KD| = 2 cos(π/6−ψ)(vT −s)−2s sin(|ψ−π/6|)
+√
+3
+, the point K is
+located on the (xh, yh) coordinate space at
+Å
+2 cos(π/6−ψ)(vT −s)
+√
+3d
+−2s sin(|ψ−π/6|)
+√
+3d
+, 0
+ã
+, as K is on the x-axis and
+to convert it to (xh, yh) coordinate space we only need to divide the x-coordinate by d. On the xh-axis, the
+nearest point on the right of K with integer xh is (⌈K⌉, 0) = (K′, 0). As we assumed xh < K′, no parallel-
+to-yh-axis crossing a integer (xh, 0) point inside the rectangle intersects FG. Thus, no such parallel line has
+Y R
+1 (xh) =
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ)−1 , which is the yh-coordinate of the intersection of this line with ←→
+FG.
+In the case of ψ > π/6, using a similar argument in the Figure 16 concludes the desired result, but here
+we use |NB| + |MG| = |KD| and the congruence of triangles AIE, HCA, FNB and BMG. As we assumed
+xh < K′, no parallel-to-yh-axis intersecting a integer point (xh, 0) inside the rectangle crosses FG, so for such
+line Y R
+2 (xh) ̸=
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ)−1 .
+(II) ⇒(I) : If xh ∈{K′, . . . , n+
+l −1} then the lines parallel-to-yh-axis inside the rectangle intersecting the
+xh-axis at (xh, 0) are on the right of point K or intersecting it. Hence, these lines intersect EF and FG, if
+ψ < π/6. By applying (17), (18) (for the line equations for ←→
+EF and ←→
+FG), (22) and (23) (for the deﬁnitions of Y R
+1
+and Y R
+2 ), we have (33). A similar argument is used in the case of ψ > π/6, but for FG and HG intersections,
+yielding (34).
+26
+
+
+The lemma below characterises when a parallel-to-yh-axis line touches only the sides EH and FG of the
+rectangle. Intuitively, if this happens we have a rectangle with a small width. Thus, on rectangles with a large
+width, no such lines are crossing the sides EH and FG, for ψ ̸= π/6. We will use this lemma on the Lemma 7,
+for completing the disjoint subsets based on the possible max and min outcomes of Y R
+1
+and Y R
+2 .
+Lemma 6. If vT −s > 2s tan(|ψ −π
+6 |), then there is not a xh ∈{−n−
+l , . . . , n+
+l −1} such that,
+Y R
+1 (xh) =
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1 and Y R
+2 (xh) =
+−2xh
+√
+3 tan(ψ) −1, if ψ < π/6;
+Y R
+1 (xh) =
+−2xh
+√
+3 tan(ψ) −1 and Y R
+2 (xh) =
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1, if ψ > π/6.
+Proof. This proof is by contrapositive. Assume ψ < π/6. By (22) and (23), we have a xh such that
+y1
+d + tan(ψ)xh
+√
+3+tan(ψ)
+2
+≤
+vT −s
+d cos(ψ) −xh
+√
+3 tan(ψ)−1
+2
+and
+y2
+d + tan(ψ)xh
+√
+3+tan(ψ)
+2
+≥
+−xh
+√
+3 tan(ψ)−1
+2
+.
+Since
+√
+3 tan(ψ)−1
+2
+< 0, the signs of inequalities change, then we have the following implication
+y1
+d
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+−vT −s
+d cos(ψ) ≥−xh −tan(ψ)xh
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+and
+y2
+d
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+≤−xh −tan(ψ)xh
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+⇒
+y2
+d
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+≤
+y1
+d
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+−vT −s
+d cos(ψ),
+by the transitivity of ≤under the real numbers. Also, we have the following equivalences
+y2
+d
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+≤
+y1
+d
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+−vT −s
+d cos(ψ)
+⇔vT −s
+d cos(ψ) ≤
+y1
+d
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+−
+y2
+d
+√
+3 tan(ψ)−1
+2
+√
+3+tan(ψ)
+2
+⇔vT −s
+d cos(ψ) ≤y1 −y2
+d
+√
+3 tan(ψ) −1
+√
+3 + tan(ψ)
+⇔vT −s
+d cos(ψ) ≤−
+2s
+d cos(ψ)
+√
+3 tan(ψ) −1
+√
+3 + tan(ψ)
+[By (15)]
+⇔vT −s
+2s
+≤1 −
+√
+3 tan(ψ)
+√
+3 + tan(ψ) ⇔vT −s
+2s
+≤
+1
+tan(π/3 + ψ)
+⇔vT −s
+2s
+≤cot(π/3 + ψ) ⇔vT −s
+2s
+≤−tan(ψ + 5π/6)
+⇔vT −s ≤2s tan(π/6 −ψ).
+Above we used the equalities tan(a + b) =
+tan(a)+tan(b)
+1−tan(a) tan(b), cot(a) = −tan(a + π/2) and −tan(π −a) = tan(a)
+for any real a and b.
+For the case ψ > π/6, using similar arguments we get the same result, but we do not change the signs of
+inequalities due to
+√
+3 tan(ψ)−1
+2
+> 0 in this case. The conclusion is reached after we combine the two cases using
+absolute values inside the tangent.
+The next lemma completes the properties of NR(T, ψ) that are useful for calculating its limit when T tends
+to inﬁnity.
+27
+
+
+Lemma 7. Let K′ =
+† 2(vT −s) cos(ψ−π/6)−2s sin(|ψ−π/6|)
+√
+3d
+£
+. If vT −s > 2s tan(|ψ −π/6|), then xh ∈{n−
+l +
+1, . . . , K′ −1} if and only if
+Y R
+1 (xh) =
+y1
+d + tan(ψ)xh
+√
+3+tan(ψ)
+2
+and Y R
+2 (xh) =
+y2
+d + tan(ψ)xh
+√
+3+tan(ψ)
+2
+.
+Proof. Excluding the case when ψ = π/6, (22) and (23) give four combinations of possible outcomes for the
+values of Y R
+1 (xh) and Y R
+2 (xh) based on the results of min and max. When vT −s > 2s tan(|ψ −π/6|), by
+Lemma 6, we do not have the case when they are on the sides EH and FG.
+For the given values of xh
+on the hypothesis, neither Lemma 4 nor Lemma 5 applies, excluding other two combinations of results for
+Y R
+1 (xh) and Y R
+2 (xh). Finally, Lemma 2 shows that every parallel-to-yh-axis line crosses the xh-axis at (xh, 0)
+for xh ∈{−n−
+l , . . . , n+
+l −1}, so the remaining combination yields the desired equivalence.
+Now we present the calculation of NS(T, θ). Here we are using θ instead of ψ = π/3 −θ for easiness of
+presentation. We denote (lx, ly) the position of the last robot inside a rectangle of width vT −s and height 2s
+whose left side is at (x0, y0). Here last means the robot with highest x coordinate value. However, if two robots
+have the same x coordinate value, we take the robot whose y coordinate is nearer to y0. Let Z be the set of
+robot positions inside the rectangle above for vT −s > 0.
+Lemma 8. Let cx = x0 + vT −s, and
+(lx, ly) =
+®
+argmin(x,y)∈Z |vT −s + x0 −x| + |y0 −y|
+if T > s
+v,
+(x0, y0)
+otherwise.
+Then,
+NS(T, θ) =
+U
+X
+xh=B
+ ⌊Y S
+2 (xh)⌋−⌈Y S
+1 (xh)⌉+ 1 ,
+for Y S
+2 (xh) ≥Y S
+1 (xh) (if for some xh
+Y S
+2 (xh) < Y S
+1 (xh), we assume the respective summand for this
+xh being zero),
+B =
+
+
+
+
+
+
+
+°2(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(y0 −ly −s))
+√
+3d
+§
+,
+if T > s
+v ,
+¢
+−2
+p
+2svT −(vT)2
+√
+3d
+sin
+
+θ + π
+6
+•
+,
+otherwise,
+(35)
+if T > s
+v or arctan
+Å
+s
+2 −sin(θ)(vT −s)
+√
+3s
+2
++cos(θ)(vT −s)
+ã
+≤π
+2 −θ,
+U =
+õ2(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(y0 −ly) + s)
+√
+3d
+û
+,
+(36)
+otherwise,
+U =
+ú
+2
+p
+2svT −(vT)2
+√
+3d
+cos
+
+θ −π
+3
+ü
+.
+(37)
+Also,
+Y S
+1 (xh) = dxh −C−θ,x +
+√
+3C−θ,y −
+p
+∆(xh)
+2d
+,
+Y S
+2 (xh) =
+
+
+
+
+
+min(L(xh), C2(xh)) −1,
+if min(L(xh), C2(xh)) = ⌊L(xh)⌋
+and T > s
+v ,
+min(L(xh), C2(xh)),
+otherwise,
+for
+C−θ =
+ï cos(−θ)
+−sin(−θ)
+sin(−θ)
+cos(−θ)
+ò ï cx −lx
+y0 −ly
+ò
+,
+∆(xh) = 4s2 −
+Ä√
+3(dxh −C−θ,x) −C−θ,y
+ä2 ,
+C2(xh) = dxh −C−θ,x +
+√
+3C−θ,y +
+p
+∆(xh)
+2d
+,
+28
+
+
+yh
+xh
+xh
+yh
+(I)
+(II)
+yg
+xg
+Figure 17: In the space (I) the robots are in the standard coordinate system and the semicircle with centre at
+C = (cx, cy) has the lowest point at B
+′.
+←−→
+CB
+′ has angle π
+2 with the usual x-axis, however the xh-axis here has
+angle θ with it. In (II) we rotate by −θ with (lx, ly) as centre of rotation. After this rotation, B
+′, U
+′ and C
+become B
+′
+−θ, U
+′
+−θ and C−θ, respectively, and
+←−−−−→
+C−θB
+′
+−θ has angle π
+2 −θ in relation to the xg-axis and xh-axis,
+which are now coincident lines despite their scale being diﬀerent. B and U are the minimum and maximum
+values of the xh-axis coordinate for a line parallel to the yh-axis on the hexagonal grid coordinate system.
+and
+L(xh) =
+
+
+
+
+
+
+
+
+
+sin   π
+2 −θ (dxh −C−θ,x) + cos   π
+2 −θ C−θ,y
+d sin   5π
+6 −θ
+,
+if T > s
+v ,
+sin   π
+2 −θ xh
+sin   5π
+6 −θ ,
+otherwise.
+Proof. Assume T > s
+v, as shown in Figure 9 (III). The robots are located in the usual Euclidean space. Instead
+of it, we use in this proof a similar coordinate system transformation for positioning the robots in a hexagonal
+grid as integer coordinates as we did in the rectangular part. As in the previous lemmas, we call this coordinate
+system space coordinates (xh, yh). However, here we are using a (xh, yh) coordinate system with a diﬀerent
+origin and inclination.
+In order to do so, we ﬁrst redeﬁne a (xg, yg) coordinate space, that is, we perform rotation by −θ on the usual
+Euclidean space about (lx, ly). The origin of the (xg, yg) coordinate system is at (lx, ly). The transformation
+for (xg, yg) coordinate system used here is similar to the depicted in the Figure 10, but here we are using −θ
+and (lx, ly) instead of −ψ and (x0, y0), i.e.,
+ï xg
+yg
+ò
+=
+ï cos(−θ)
+−sin(−θ)
+sin(−θ)
+cos(−θ)
+ò ï x −lx
+y −ly
+ò
+.
+As the coordinate space (xg, yg) is already translated to the point (lx, ly), the transformation from the new
+(xh, yh) to the new (xg, yg) is the same as in (14). We repeat it below for convenience:
+ï xg
+yg
+ò
+=
+ñ
+d
+−d
+2
+0
+√
+3d
+2
+ô ï xh
+yh
+ò
+.
+(38)
+Despite these diﬀerences, we will keep using the notation (xg, yg) and (xh, yh) as we did before for a clean
+presentation.
+Figure 17 shows how the semicircle with centre at C = (cx, cy) = (x0 + vT −s, y0) will be after the rotation
+by −θ about (lx, ly), that is,
+C−θ =
+ï cos(−θ)
+−sin(−θ)
+sin(−θ)
+cos(−θ)
+ò ï cx −lx
+cy −ly
+ò
+.
+(39)
+Hereafter we will use the subscript −θ on every point presented on the usual Euclidean space to denote the
+corresponding point on the (xg, yg) coordinate space.
+We compute ﬁrst the upper and lower values, U and B, of xh lying on the semicircle. For getting the U value
+on the xh-axis, we draw a line parallel to the yh-axis on the rightmost semicircle boundary at the point U
+′ in order
+to reach the xh-axis (Figure 17 (I)). The corresponding point on the (xg, yg) space is denoted by U
+′
+−θ (Figure
+29
+
+
+17 (II)). We compute U
+′
+−θ, then we take its xh-value on the hexagonal grid coordinate system. △U
+′
+−θC−θU2 in
+Figure 17 (II) has |U
+′
+−θC−θ| = s and ⁄ U
+′
+−θC−θU2 = π −⁄ C−θU
+′
+−θU2 −⁄ U
+′
+−θU2C−θ = π −π/2 −π/3 = π/6. Hence,
+U
+′
+−θ = C−θ + s(cos(π/6), sin(π/6))
+= C−θ +
+Ç√
+3s
+2 , s
+2
+å
+=
+ï cos(−θ)
+−sin(−θ)
+sin(−θ)
+cos(−θ)
+ò ï cx −lx
+cy −ly
+ò
++
+ñ
+√
+3s
+2s
+2
+ô
+=
+Å
+cos(−θ)(cx −lx) −sin(−θ)(cy −ly) +
+√
+3s
+2 ,
+sin(−θ)(cx −lx) + cos(−θ)(cy −ly) + s
+2
+ã
+=
+Å
+cos(θ)(cx −lx) + sin(θ)(cy −ly) +
+√
+3s
+2 ,
+cos(θ)(cy −ly) −sin(θ)(cx −lx) + s
+2
+ã
+.
+The inverse transformation from (38) is
+ï xh
+yh
+ò
+=
+ñ
+1
+d
+1
+√
+3d
+0
+2
+√
+3d
+ô ï xg
+yg
+ò
+.
+(40)
+Applying the transformation of (40) to the point U
+′
+−θ we get its xh-axis coordinate
+U = 1
+d
+Ç
+cos(θ)(cx −lx) + sin(θ)(cy −ly) +
+√
+3s
+2
+å
++
+1
+√
+3d
+
+cos(θ)(cy −ly) −sin(θ)(cx −lx) + s
+2
+
+= 1
+d (cos(θ)(cx −lx) + sin(θ)(cy −ly)) +
+√
+3s
+2d +
+1
+√
+3d (cos(θ)(cy −ly) −sin(θ)(cx −lx)) +
+s
+2
+√
+3d
+= 1
+d (cos(θ)(cx −lx) + sin(θ)(cy −ly)) + 3s + s
+2
+√
+3d +
+1
+√
+3d (cos(θ)(cy −ly) −sin(θ)(cx −lx))
+= cos(θ)(cx −lx) + sin(θ)(cy −ly)
+d
++ cos(θ)(cy −ly) −sin(θ)(cx −lx)
+√
+3d
++ 2s
+√
+3d
+=
+1
+√
+3d(
+√
+3 cos(θ)(cx −lx) +
+√
+3 sin(θ)(cy −ly) + cos(θ)(cy −ly)
+−sin(θ)(cx −lx)) + 2s
+√
+3d
+=
+2
+√
+3d
+ √
+3
+2 cos(θ)(cx −lx) +
+√
+3
+2 sin(θ)(cy −ly)
++ 1
+2 cos(θ)(cy −ly) −1
+2 sin(θ)(cx −lx)
+!
++ 2s
+√
+3d
+=
+2
+√
+3d
+  √
+3
+2 cos(θ) −1
+2 sin(θ)
+!
+(cx −lx) +
+ √
+3
+2 sin(θ)
++ 1
+2 cos(θ)
+!
+(cy −ly)
+!
++ 2s
+√
+3d
+30
+
+
+=
+2
+√
+3d((sin(π/3) cos(θ) −cos(π/3) sin(θ))(cx −lx) + (sin(π/3) sin(θ)
++ cos(π/3) cos(θ))(cy −ly)) + 2s
+√
+3d
+=
+2
+√
+3d(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(cy −ly)) + 2s
+√
+3d
+= 2(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(cy −ly) + s)
+√
+3d
+(41)
+As we need the integer coordinate less or equal to this value, we apply the ﬂoor function to yield the desired
+result in (36).
+For getting the B value on the xh-axis, we draw a line parallel to the yh-axis on the lower semicircle corner
+at the point B
+′ in order to reach the xh-axis (Figure 17 (I)). We perform a calculation similar to the previous
+paragraph but using B
+′
+−θ (Figure 17 (II)). We have ◊ C−θOU = π/2−θ (as this is the same angle of ←−→
+CB′ with xh-
+axis in Figure 17 (I) which coincides with xg-axis in the Figure 17 (II)). Then, as the vector C−θB
+′
+−θ is pointed
+downwards, it has negative angle with the xg-axis, that is, −◊ B−θOU = −(π −◊ C−θOU) = −(π −(π/2 −θ)) =
+−π/2 −θ with xg-axis. Also,
+C−θB
+′
+−θ
+ = s . Consequently,
+−−−−−→
+C−θB
+′
+−θ = B
+′
+−θ −C−θ = s(cos(−π/2 −θ), sin(−π/2 −θ)) ⇔
+B
+′
+−θ = C−θ + s(cos(−π/2 −θ), sin(−π/2 −θ))
+= C−θ + s(sin(−θ), −cos(−θ))
+= C−θ −s(sin(θ), cos(θ))
+=
+ï cos(−θ)
+−sin(−θ)
+sin(−θ)
+cos(−θ)
+ò ï cx −lx
+cy −ly
+ò
+−
+ï s sin(θ)
+s cos(θ)
+ò
+= (cos(θ)(cx −lx) + sin(θ)(cy −ly) −s sin(θ),
+cos(θ)(cy −ly) −sin(θ)(cx −lx) −s cos(θ))
+= (cos(θ)(cx −lx) + sin(θ)(cy −ly −s),
+cos(θ)(cy −ly −s) −sin(θ)(cx −lx)).
+Using (40) on B
+′
+−θ we get,
+B = 1
+d (cos(θ)(cx −lx) + sin(θ)(cy −ly −s)) +
+1
+√
+3d (cos(θ)(cy −ly −s) −sin(θ)(cx −lx))
+= cos(θ)(cx −lx) + sin(θ)(cy −ly −s)
+d
++ cos(θ)(cy −ly −s) −sin(θ)(cx −lx)
+√
+3d
+=
+1
+√
+3d
+√
+3 cos(θ)(cx −lx) +
+√
+3 sin(θ)(cy −ly −s) + cos(θ)(cy −ly −s)−
+sin(θ)(cx −lx)
+
+=
+2
+√
+3d
+ √
+3
+2 cos(θ)(cx −lx) +
+√
+3
+2 sin(θ)(cy −ly −s) + 1
+2 cos(θ)(cy −ly −s)−
+1
+2 sin(θ)(cx −lx)
+!
+=
+2
+√
+3d
+ √
+3
+2 cos(θ)(cx −lx) −1
+2 sin(θ)(cx −lx) +
+√
+3
+2 sin(θ)(cy −ly −s)+
+1
+2 cos(θ)(cy −ly −s)
+!
+=
+2
+√
+3d((sin(π/3) cos(θ) −cos(π/3) sin(θ))(cx −lx) + (sin(π/3) sin(θ)+
+cos(π/3) cos(θ))(cy −ly −s))
+= 2(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(cy −ly −s))
+√
+3d
+.
+31
+
+
+Then, we apply the ceiling function on this value to get an integer coordinate greater or equal to it in order to
+obtain (35) for T > s
+v.
+On the hexagonal grid coordinate system, for each xh from B to U, we need to ﬁnd the minimum and
+maximum yh – namely Y S
+1 (xh) and Y S
+2 (xh), respectively – of a line parallel to yh-axis intercepting the xh-axis
+and lying on the semicircle. Depending on the angle of
+←−−−−→
+C−θB
+′
+−θ with the xh-axis, the minimum and maximum
+yh can be either on the semicircle arc or
+←−−−−→
+C−θB
+′
+−θ. Due to θ ∈[0, π/3), the angle of
+←−−−−→
+C−θB
+′
+−θ is in ( π
+6 , π
+2 ]. Thus,
+the minimum yh value is at the semicircle arc, otherwise the minimum angle of
+←−−−−→
+C−θB
+′
+−θ would be 2π/3, which
+is the yh-axis angle with the xh-axis. However, the maximum yh value could be either on
+←−−−−→
+C−θB
+′
+−θ or on the
+circle, thus we take the lowest, since we want the yh value on the boundary of the semicircle.
+Let C1(xh) and C2(xh) be functions that respectively return the lowest and the highest yh value at the circle
+centred at C−θ and radius s for a xh coordinate value of a parallel-to-yh-axis line assuming it intersects the
+circle. Then, a point (xg, yg) on the Euclidean space is on that circle if
+(xg −C−θ,x)2 + (yg −C−θ,y)2 = s2 ⇔
+Å
+dxh −dyh
+2
+−C−θ,x
+ã2
++
+Ç√
+3dyh
+2
+−C−θ,y
+å2
+= s2,
+by (38).
+Isolating yh and solving the two degree polynomial we get
+yh1 = C1(xh) = dxh −C−θ,x +
+√
+3C−θ,y −
+p
+∆(xh)
+2d
+and
+(42)
+yh2 = C2(xh) = dxh −C−θ,x +
+√
+3C−θ,y +
+p
+∆(xh)
+2d
+,
+(43)
+for 0 ≤∆(xh) = 4s2 −
+Ä√
+3(dxh −C−θ,x) −C−θ,y
+ä2. ∆(xh) cannot be negative, otherwise the lines would not
+intersect this circle, contradicting our assumption.
+We denote L(xh) a function that returns the yh component of the line ←−−−−→
+C−θB−θ for a given xh. The ←−−−−→
+C−θB−θ
+equation for a point in the space (xg, yg) is
+tan
+π
+2 −θ
+
+= yg −C−θ,y
+xg −C−θ,x
+⇔sin   π
+2 −θ
+cos   π
+2 −θ = yg −C−θ,y
+xg −C−θ,x
+⇔
+sin
+π
+2 −θ
+ Å
+dxh −dyh
+2
+−C−θ,x
+ã
+= cos
+π
+2 −θ
+ Ç√
+3dyh
+2
+−C−θ,y
+å
+⇔
+sin
+π
+2 −θ
+
+(dxh −C−θ,x) −sin
+π
+2 −θ
+ dyh
+2
+= cos
+π
+2 −θ
+ √
+3dyh
+2
+−cos
+π
+2 −θ
+
+C−θ,y ⇔
+√
+3dyh
+2
+cos
+π
+2 −θ
+
++ sin
+π
+2 −θ
+ dyh
+2
+= sin
+π
+2 −θ
+
+(dxh −C−θ,x) + cos
+π
+2 −θ
+
+C−θ,y ⇔
+d
+Ç√
+3
+2 cos
+π
+2 −θ
+
++ sin
+π
+2 −θ
+ 1
+2
+å
+yh = sin
+π
+2 −θ
+
+(dxh −C−θ,x) + cos
+π
+2 −θ
+
+C−θ,y ⇔
+yh = sin   π
+2 −θ (dxh −C−θ,x) + cos   π
+2 −θ C−θ,y
+d
+Ä √
+3
+2 cos   π
+2 −θ + sin   π
+2 −θ 1
+2
+ä
+⇔
+yh = sin   π
+2 −θ (dxh −C−θ,x) + cos   π
+2 −θ C−θ,y
+d  sin   π
+3
+ cos   π
+2 −θ + sin   π
+2 −θ cos   π
+3
+ ⇔
+yh = sin   π
+2 −θ (dxh −C−θ,x) + cos   π
+2 −θ C−θ,y
+d sin   π
+3 + π
+2 −θ
+⇔
+L(xh) = yh = sin   π
+2 −θ (dxh −C−θ,x) + cos   π
+2 −θ C−θ,y
+d sin   5π
+6 −θ
+.
+We have that Y S
+1 (xh) = C1(xh) and Y S
+2 (xh) can be either min(L(xh), C2(xh)) or min(L(xh), C2(xh)) −1.
+As T >
+s
+v, we can have a number of robots inside the rectangle NR(T, θ) ≥1. If, for some xh, Y ′(xh) =
+32
+
+
+yh
+xh
+(I)
+(II)
+yh
+yg
+xh
+xg
+Figure 18: Similar to the coordinate spaces of Figure 17, but for T ≤
+s
+v. The rotation and hexagonal grid
+system centres are now (x0, y0). Notice also in (I) that △CAO is right with hypotenuse CA measuring s, and
+the horizontal cathetus CO measures s −vT.
+yh
+xh
+no robots here
+robots
+ here
+ﬁrst
+robot
+Figure 19: An example of when the angle ◊ U
+′
+−θOU is greater than ◊ A−θOU. We only consider robots inside the
+semicircle below the line ←−−→
+OA−θ, otherwise the robot on O would not be the ﬁrst robot by assumption. In this
+case, any line parallel to yh-axis crossing the semicircle below OA−θ must have its xh-axis coordinate less than
+or equal to U, for example Q projected from P.
+min(L(xh), C2(xh)) = ⌊L(xh)⌋, then the robot on (xh, Y ′(xh)) is on the line
+←−−−−→
+C−θB
+′
+−θ. As this line belongs to
+the rectangle, the robot was already counted by NR(T, θ). Hence,
+Y S
+2 (xh) =
+
+
+
+
+
+min(L(xh), C2(xh)) −1,
+if min(L(xh), C2(xh)) = ⌊L(xh)⌋
+and T > s
+v ,
+min(L(xh), C2(xh)),
+otherwise.
+The number of robots inside the semicircle is the number of integer coordinates (xh, yh) for xh ranging from
+B to U and yh ∈Y S
+1 (xh) , Y S
+2 (xh) for each xh. Thus,
+NS(T, θ) =
+U
+X
+xh=B
+⌊Y S
+2 (xh)⌋
+X
+yh=⌈Y S
+1 (xh)⌉
+1 =
+U
+X
+xh=B
+ ⌊Y S
+2 (xh)⌋−⌈Y S
+1 (xh)⌉+ 1 .
+Heed that the last summation can only be used when Y S
+2 (xh) ≥Y S
+1 (xh), otherwise a negative number of
+robots would be summed.
+Now, assume T ≤s
+v. Then, the semicircle has centre at C = (cx, cy) = (x0 −(s −vT), y0) (Figure 18). Now,
+as we do not have the rectangle part, we consider the last robot of the rectangular part being the ﬁrst robot to
+33
+
+
+arrive at the target region, so (lx, ly) = (x0, y0), and, by (39),
+C−θ =
+ï cos(−θ)
+−sin(−θ)
+sin(−θ)
+cos(−θ)
+ò ï cx −x0
+cy −y0
+ò
+.
+(44)
+In the usual Euclidean coordinate space before the rotation about (x0, y0), we consider the line ←→
+OA perpen-
+dicular to the x-axis at O = (x0, y0). This line represents the perpendicular axis such that we wish to count all
+the robots from it to the arc of the semicircle on its right. From Figure 18 (I),
+r = |AO| =
+»
+|CA|2 −|CO|2 =
+»
+s2 −(s −vT)2 =
+»
+2svT −(vT)2.
+After the rotation by −θ about the point O, the maximum value for xh is deﬁned by the point U. The point
+U is chosen depending on the angles ◊ U
+′
+−θOU and ◊ A−θOU. When the angle ◊ U
+′
+−θOU is greater than ◊ A−θOU, the
+value of U is calculated in relation to A−θ, because the line parallel to yh-axis intercepting U
+′
+−θ is not inside
+the semicircle below ←−−→
+OA−θ (Figure 19). For comparison, Figure 18 (II) shows an example where we choose U
+as the xh-axis intersection with the line parallel to yh-axis at U
+′
+−θ. As we saw before for the case T > s
+v (Figure
+17 (II)), the angle of C−θU
+′
+θ in relation to xh-axis is π/6, consequently,
+U
+′
+−θ = C−θ + s
+
+cos
+π
+6
+
+, sin
+π
+6
+
+=
+ï cos(−θ)
+−sin(−θ)
+sin(−θ)
+cos(−θ)
+ò ï cx −x0
+cy −y0
+ò
++
+ñ
+√
+3s
+2s
+2
+ô
+=
+ï
+cos(θ)
+sin(θ)
+−sin(θ)
+cos(θ)
+ò ï vT −s
+0
+ò
++
+ñ
+√
+3s
+2s
+2
+ô
+=
+Ç√
+3s
+2
++ cos(θ)(vT −s), s
+2 −sin(θ)(vT −s)
+å
+,
+from (44), and ◊ U
+′
+−θOU measures
+arctan
+ 
+U
+′
+−θ,y
+U
+′
+−θ,x
+!
+= arctan
+ 
+s
+2 −sin(θ)(vT −s)
+√
+3s
+2
++ cos(θ)(vT −s)
+!
+.
+◊ A−θOU measures π
+2 −θ, as show in Figure 18 (II). Thence,
+A−θ =
+
+r cos
+π
+2 −θ
+
+, r sin
+π
+2 −θ
+
+.
+If arctan
+Å
+U
+′
+−θ,y
+U ′
+−θ,x
+ã
+≤◊ A−θOU = π
+2 −θ, we apply (40) on U
+′
+−θ to get its xh-axis coordinate
+U = 1
+d
+Ç√
+3s
+2
++ cos(θ)(vT −s)
+å
++
+1
+√
+3d
+s
+2 −sin(θ)(vT −s)
+
+= cos(θ)vT −s
+d
++
+√
+3s
+2d −sin(θ)vT −s
+√
+3d
++
+s
+2
+√
+3d
+= cos(θ)vT −s
+d
+−sin(θ)vT −s
+√
+3d
++
+√
+3
+√
+3s
+2
+√
+3d +
+s
+2
+√
+3d
+= cos(θ)vT −s
+d
+−sin(θ)vT −s
+√
+3d
++
+3s
+2
+√
+3d +
+s
+2
+√
+3d
+= cos(θ)vT −s
+d
+−sin(θ)vT −s
+√
+3d
++
+4s
+2
+√
+3d
+= cos(θ)vT −s
+d
+−sin(θ)vT −s
+√
+3d
++ 2s
+√
+3d
+=
+√
+3 cos(θ)vT −s
+√
+3d
+−sin(θ)vT −s
+√
+3d
++ 2s
+√
+3d
+= 2
+Ç√
+3
+2 cos(θ) −1
+2 sin(θ)
+å
+vT −s
+√
+3d
++ 2s
+√
+3d
+= 2 sin(π/3 −θ)(vT −s)
+√
+3d
++ 2s
+√
+3d,
+34
+
+
+followed by applying ﬂoor function to it, as we need the integer coordinate less or equal to this value. This is
+the same as (41) by using (lx, ly) = (x0, y0), then we also have (36) when arctan
+Å
+s
+2 −sin(θ)(vT −s)
+√
+3s
+2
++cos(θ)(vT −s)
+ã
+≤π
+2 −θ.
+If arctan
+Å
+U
+′
+−θ,y
+U ′
+−θ,x
+ã
+> π
+2 −θ, then there are no robots to consider on the parallel lines to yh-axis between
+U
+′
+−θ and A−θ, otherwise the robot at (x0, y0) would not be the ﬁrst to arrive at the target region. Thus, if
+arctan
+Å
+U
+′
+−θ,y
+U ′
+−θ,x
+ã
+> π
+2 −θ, we use the xh-coordinate for the point A−θ on the hexagonal grid space, that is,
+U = 1
+d
+
+r cos
+π
+2 −θ
+
++
+1
+√
+3d
+
+r sin
+π
+2 −θ
+
+=
+2r
+√
+3d
+Ç√
+3
+2 cos
+π
+2 −θ
+
++ 1
+2 sin
+π
+2 −θ
+å
+=
+2r
+√
+3d
+Ç√
+3
+2 sin (θ) + 1
+2 cos (θ)
+å
+=
+2r
+√
+3d cos
+
+θ −π
+3
+
+.
+then we apply the ﬂoor function to yield the desired result in (37).
+Now we will ﬁnd the minimum value for an integer xh such that a parallel-to-yh-axis line is inside the
+semicircle and starting from the right of ←→
+OA or on it. For the calculation of B, from Figure 18 (II), similarly to
+how we previously did,
+B
+′
+−θ = O + r(cos(−(π/2 + θ)), sin(−(π/2 + θ))
+= (r cos(π/2 + θ), −r sin(π/2 + θ))
+= (−r sin(θ), −r cos(θ)),
+and, by (40), as B is the xh-coordinate of the B−θ,
+B = 1
+d (−r sin(θ)) +
+1
+√
+3d (−r cos(θ)) = −2r
+√
+3d
+Ç
+1
+2 cos(θ) +
+√
+3
+2 sin(θ)
+å
+= −2r
+√
+3d (sin(π/6) cos(θ) + cos(π/6) sin(θ))
+= −2r
+√
+3d sin
+
+θ + π
+6
+
+.
+Also, we apply the ceiling function to yield the desired result in (35).
+In this case, C1(xh) and C2(xh) are equal to (42) and (43), but L(xh) is diﬀerent from the previous case.
+The line ←−−→
+OA−θ for a point (xg, yg) in the Euclidean space is
+yg = tan
+π
+2 −θ
+
+xg ⇔yg = sin   π
+2 −θ
+cos   π
+2 −θxg ⇔
+√
+3dyh
+2
+= sin   π
+2 −θ
+cos   π
+2 −θ
+Å
+dxh −dyh
+2
+ã
+⇔
+√
+3dyh
+2
+cos
+π
+2 −θ
+
++ sin
+π
+2 −θ
+ dyh
+2
+= sin
+π
+2 −θ
+
+dxh ⇔
+yh =
+2 sin   π
+2 −θ xh
+√
+3 cos   π
+2 −θ + sin   π
+2 −θ ⇔
+yh =
+sin   π
+2 −θ xh
+sin(π/3) cos   π
+2 −θ + cos(π/3) sin   π
+2 −θ ⇔
+yh =
+sin   π
+2 −θ xh
+sin(π/3 + π/2 −θ) ⇔
+L(xh) = yh = sin   π
+2 −θ xh
+sin   5π
+6 −θ .
+35
+
+
+We have lim
+T →∞fh(T, θ) = lim
+T →∞
+NR(T, θ)
+T
++ lim
+T →∞
+NS(T, θ) −1
+T
+, by Deﬁnition 2. As shown below, this limit
+needs only the rectangle part, because NS is limited by a semicircle with ﬁnite radius.
+Lemma 9.
+lim
+T →∞
+NS(T, θ) −1
+T
+= 0.
+Proof. As T →∞, we have T > s
+v. By Lemma 8, cx = x0 + vT −s, which is the x-axis coordinate of the
+right side of the rectangle.
+We have that the robots are distant by d, so the last robot must be at most
+distant by d from the point (cx, y0). Hence, x0 + vT −s −d ≤lx ≤x0 + vT −s, and y0 −d ≤ly ≤y0 + d, so
+0 = cx −(x0 +vT −s) ≤cx −lx ≤cx −(x0 +vT −s−d) = d and −d ≤y0 −ly ≤d. Then, −d ≤C−θ,x, C−θ,y ≤d.
+Also, we have that θ ∈[0, π/3), so −1/2 ≤cos(π/3 −θ) ≤1. Thus,
+B =
+°2(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(y0 −ly −s))
+√
+3d
+§
+≥
+°2(cos(π/3 −θ)(−d −s))
+√
+3d
+§
+=
+°−2 cos(π/3 −θ)(1 + s
+d)
+√
+3
+§
+≥
+°−2(1 + s
+d)
+√
+3
+§
+=
+°
+−2
+√
+3 −
+s
+√
+3d
+§
+≥−2
+√
+3 −
+s
+√
+3d,
+U =
+õ2(sin(π/3 −θ)(cx −lx) + cos(π/3 −θ)(y0 −ly) + s)
+√
+3d
+û
+≤
+õ2(sin(π/3 −θ)d + cos(π/3 −θ)d + s)
+√
+3d
+û
+≤
+õ2(2d + s)
+√
+3d
+û
+=
+õ 4
+√
+3 + 2s
+√
+3d
+û
+≤
+4
+√
+3 + 2s
+√
+3d,
+and for any integer xh ∈[B, U], as ∆(xh) cannot be negative,
+0 ≤∆(xh) = 4s2 −
+Ä√
+3(dxh −C−θ,x) −C−θ,y
+ä2 ≤4s2,
+⌈Y S
+1 (xh)⌉≥Y S
+1 (xh) = dxh −C−θ,x +
+√
+3C−θ,y −
+p
+∆(xh)
+2d
+≥dxh −d −
+√
+3d −2s
+2d
+= xh −1 −
+√
+3
+2
+−s
+d,
+and
+⌊Y S
+2 (xh)⌋≤Y S
+2 (xh) ≤min(L(xh), C2(xh)) ≤C2(xh)
+= dxh −C−θ,x +
+√
+3C−θ,y +
+p
+∆(xh)
+2d
+≤dxh + d +
+√
+3d + 2s
+2d
+= xh + 1 +
+√
+3
+2
++ s
+d.
+Thus,
+0 ≤NS(T, θ) =
+U
+X
+xh=B
+ ⌊Y S
+2 (xh)⌋−⌈Y S
+1 (xh)⌉+ 1
+≤
+U
+X
+xh=B
+Ç
+xh + 1 +
+√
+3
+2
++ s
+d −
+Ç
+xh −1 −
+√
+3
+2
+−s
+d
+å
++ 1
+å
+=
+U
+X
+xh=B
+Ç
+xh + 1 +
+√
+3
+2
++ s
+d −xh −1 −
+√
+3
+2
++ s
+d + 1
+å
+=
+U
+X
+xh=B
+Ç√
+3
+2 + 1
+2 + 2s
+d + 1
+2 +
+√
+3
+2 + 1
+å
+=
+U
+X
+xh=B
+Ç
+2s
+d +
+√
+3 + 1 + 1 +
+√
+3
+2
++ 1
+å
+=
+U
+X
+xh=B
+Ç
+2s
+d + 2
+√
+3 + 4
+2
+å
+36
+
+
+=
+U
+X
+xh=B
+Å2s
+d +
+√
+3 + 2
+ã
+= (U −B + 1)
+Å2s
+d +
+√
+3 + 2
+ã
+≤
+Å 4
+√
+3 + 2s
+√
+3d −
+Å
+−2
+√
+3 −
+s
+√
+3d
+ã
++ 1
+ã Å2s
+d +
+√
+3 + 2
+ã
+=
+Å 4
+√
+3 + 2s
+√
+3d + 2
+√
+3 +
+s
+√
+3d + 1
+ã Å2s
+d +
+√
+3 + 2
+ã
+=
+Ç
+2
+√
+3 +
+√
+3s
+d
++ 1
+å Å2s
+d +
+√
+3 + 2
+ã
+⇒0 = lim
+T →∞
+−1
+T
+≤lim
+T →∞
+NS(T, θ) −1
+T
+≤lim
+T →∞
+1
+T
+ÇÇ
+2
+√
+3 +
+√
+3s
+d
++ 1
+å Å2s
+d +
+√
+3 + 2
+ã
+−1
+å
+= 0.
+Hence, the result follows from the sandwich theorem.
+As we obtained that lim
+T →∞
+NS(T, θ) −1
+T
+= 0, hereafter we only calculate the limit for the number of robots
+inside the rectangle. By Lemmas 3 to 7, if n+
+l −1 < K′ we have
+lim
+T →∞fh(T, ψ) = lim
+T →∞
+1
+T
+n−
+l
+X
+xh=−n−
+l
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1
++ lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=n−
+l +1
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1 ,
+otherwise,
+lim
+T →∞fh(T, ψ) = lim
+T →∞
+1
+T
+n−
+l
+X
+xh=−n−
+l
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1
++ lim
+T →∞
+1
+T
+K′−1
+X
+xh=n−
+l +1
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1
++ lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1 .
+To clarify, the third summation is zero in the case of n+
+l −1 < K′, while the second summation goes until
+min(n+
+l −1, K′ −1) in both cases. Each one will be individually solved assuming ψ ̸= π/6. Later, we will see
+that the ﬁnal result holds for ψ = π/6 as well. The following lemmas will be useful soon.
+Lemma 10. Assume ψ ̸= π/6.
+lim
+T →∞
+1
+T
+n−
+l
+X
+xh=−n−
+l
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1 = 0.
+Proof. As for any x, x −1 < ⌊x⌋≤x ≤⌈x⌉< x + 1,
+lim
+T →∞
+1
+T
+n−
+l
+X
+xh=−n−
+l
+ Y R
+2 (xh) −Y R
+1 (xh) −1
+< lim
+T →∞
+1
+T
+n−
+l
+X
+xh=−n−
+l
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1
+≤lim
+T →∞
+1
+T
+n−
+l
+X
+xh=−n−
+l
+ Y R
+2 (xh) −Y R
+1 (xh) + 1 .
+37
+
+
+By Lemma 4, the ﬁrst and last summations do not depend on T, so both sides have limit equal to 0. By the
+sandwich theorem, we have the result.
+Lemma 11. Assume ψ ̸= π/6. For K′ =
+† 2(vT −s) cos(ψ−π/6)−2s sin(|ψ−π/6|)
+√
+3d
+£
+,
+lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1 = 0.
+Proof. If K′ > n+
+l −1, this limit is already zero, so we focus this proof on the other case. We have, analogously
+to the previous lemma,
+lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+ Y R
+2 (xh) −Y R
+1 (xh) −1
+< lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1
+≤lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+ Y R
+2 (xh) −Y R
+1 (xh) + 1 .
+(45)
+For any constant c, we have
+lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+c = 0,
+(46)
+because the number of xh indexes in the summation is limited by a ﬁnite number of integer outcomes that
+depends on T. In other words, the number of indexes in the above summation is n+
+l −K′ such that 4s sin(|ψ−π/6|)
+√
+3d
+−
+1 < n+
+l −K′ ≤4s sin(|ψ−π/6|)
+√
+3d
++ 1. The last inequality is obtained by counting how many xh are used in the
+summation and knowing that 2y −1 < ⌊x+y⌋−⌈x−y⌉+1 ≤2y +1 for any x, y ∈R. Thus, for any T, n+
+l −K′
+can only range from
+† 4s sin(|ψ−π/6|)
+√
+3d
+£
+−1 to
+ö 4s sin(|ψ−π/6|)
+√
+3d
+ù
++ 1. This yields to three possible integer numbers,
+if 4s sin(|ψ−π/6|)
+√
+3d
+∈Z, or four, otherwise. Thus, a ﬁnite range of outcomes, none of them having T. Hence, for
+all outcomes, the limit on the left side of (46) is zero.
+Assume ψ > π/6 (for ψ < π/6 the result is the same). From Lemma 5,
+Y R
+2 (xh) −Y R
+1 (xh) =
+2(vT −s)
+d cos(ψ) −2xh
+√
+3 tan(ψ) −1 −
+2y1
+d + 2 tan(ψ)xh
+√
+3 + tan(ψ)
+=
+2(vT −s)
+d cos(ψ)
+√
+3 tan(ψ) −1 −
+2y1
+d
+√
+3 + tan(ψ) −
+ 
+2
+√
+3 tan(ψ) −1
++
+2 tan(ψ)
+√
+3 + tan(ψ)
+!
+xh.
+(47)
+For the second term above, by (46), lim
+T →∞
+n+
+l −1
+X
+xh=K′
+2y1
+d
+√
+3 + tan(ψ) = 0.
+For the ﬁrst term,
+n+
+l −1
+X
+xh=K′
+1
+T
+2(vT −s)
+d cos(ψ)
+√
+3 tan(ψ) −1 =
+n+
+l −1
+X
+xh=K′
+2  v −s
+T
+
+d cos(ψ)(
+√
+3 tan(ψ) −1)
+=
+n+
+l −1
+X
+xh=K′
+2  v −s
+T
+
+d(
+√
+3 sin(ψ) −cos(ψ)) =
+n+
+l −1
+X
+xh=K′
+v −s
+T
+d sin(ψ −π/6)
+=
+n+
+l −1
+X
+xh=K′
+v
+d sin(ψ −π/6) −1
+T
+n+
+l −1
+X
+xh=K′
+s
+d sin(ψ −π/6),
+(48)
+38
+
+
+due to
+√
+3
+2 sin(ψ) −1
+2 cos(ψ) = sin(ψ −π/6). Let L be the number of terms on the summation of (48). As
+discussed above, L is an integer in
+n † 4s sin(|ψ−π/6|)
+√
+3d
+£
+−1, . . . ,
+ö 4s sin(|ψ−π/6|)
+√
+3d
+ù
++ 1
+o
+, so
+n+
+l −1
+X
+xh=K′
+1
+T
+2(vT −s)
+d cos(ψ)
+√
+3 tan(ψ) −1 =
+Lv
+d sin(ψ −π/6) −1
+T
+n+
+l −1
+X
+xh=K′
+s
+d sin(ψ −π/6).
+(49)
+Also, we have
+2
+√
+3 tan(ψ) −1 +
+2 tan(ψ)
+√
+3 + tan(ψ) = 2(
+√
+3 + tan(ψ)) + 2 tan(ψ)(
+√
+3 tan(ψ) −1)
+(
+√
+3 tan(ψ) −1)(
+√
+3 + tan(ψ))
+= 2
+√
+3 + 2 tan(ψ) + 2
+√
+3 tan2(ψ) −2 tan(ψ)
+(
+√
+3 tan(ψ) −1)(
+√
+3 + tan(ψ))
+=
+2
+√
+3 + 2
+√
+3 tan2(ψ)
+(
+√
+3 tan(ψ) −1)(
+√
+3 + tan(ψ))
+=
+2
+√
+3(1 + tan2(ψ))
+(
+√
+3 tan(ψ) −1)(
+√
+3 + tan(ψ))
+=
+2
+√
+3 sec2(ψ)
+(
+√
+3 tan(ψ) −1)(
+√
+3 + tan(ψ))
+=
+2
+√
+3
+(
+√
+3 sin(ψ) −cos(ψ))(
+√
+3 cos(ψ) + sin(ψ))
+=
+√
+3
+2 sin(ψ −π/6) cos(ψ −π/6)
+as 1 + tan2(ψ) = sec2(ψ) and
+√
+3
+2 cos(ψ) + 1
+2 sin(ψ) = cos(ψ −π/6). Hence, for the last term in (47),
+1
+T
+n+
+l −1
+X
+xh=K′
+√
+3
+2 sin(ψ −π/6) cos(ψ −π/6)xh
+= 1
+T
+√
+3
+2 sin(ψ −π/6) cos(ψ −π/6)
+(n+
+l −1 + K′)(n+
+l −K′)
+2
+=
+√
+3LG
+4T sin(ψ −π/6) cos(ψ −π/6),
+(50)
+for an integer G = n+
+l −1 + K′.
+As 2x −1 < ⌊x + y⌋+ ⌈x −y⌉< 2x + 1 for any x, y ∈R, G ∈
+Ä 4(vT −s) cos(ψ−π/6)
+√
+3d
+−1, 4(vT −s) cos(ψ−π/6)
+√
+3d
++ 1
+ä
+.
+For the lowest bound on G, using (49) and (50)
+lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+ Y R
+2 (xh) −Y R
+1 (xh)
+= lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+Ñ
+2(vT −s)
+d cos(ψ)
+√
+3 tan(ψ) −1 −
+Ç
+2
+√
+3 tan(ψ) −1 +
+2 tan(ψ)
+√
+3 + tan(ψ)
+å
+xh
+é
+= lim
+T →∞
+Ñ
+Lv
+d sin(ψ −π/6) −1
+T
+n+
+l −1
+X
+xh=K′
+s
+d sin(ψ −π/6)
+−
+√
+3L
+Ä 4(vT −s) cos(ψ−π/6)
+√
+3d
+−1
+ä
+4T sin(ψ −π/6) cos(ψ −π/6)
+é
+= lim
+T →∞
+Ñ
+Lv
+d sin(ψ −π/6) −
+L 4(vT −s) cos(ψ−π/6)
+d
+−
+√
+3L
+4T sin(ψ −π/6) cos(ψ −π/6) −1
+T
+n+
+l −1
+X
+xh=K′
+s
+d sin(ψ −π/6)
+é
+39
+
+
+= lim
+T →∞
+Ç
+Lv
+d sin(ψ −π/6) −
+Lv
+d sin(ψ −π/6) +
+√
+3L
+4T sin(ψ −π/6) cos(ψ −π/6)−
+1
+T
+n+
+l −1
+X
+xh=K′
+s
+d sin(ψ −π/6)
+é
+= lim
+T →∞
+Ñ
+√
+3L
+4T sin(ψ −π/6) cos(ψ −π/6) −1
+T
+n+
+l −1
+X
+xh=K′
+s
+d sin(ψ −π/6)
+é
+= 0,
+due to (46) on the second term and, as
+L ∈
+nl4s sin(|ψ −π/6|)
+√
+3d
+m
+−1, . . . ,
+j4s sin(|ψ −π/6|)
+√
+3d
+k
++ 1
+o
+,
+no element in this ﬁnite set has the term T.
+For the highest bound on G, we have the same limit. Hence, by the sandwich theorem applied on the results
+for both bounds of G, we get
+lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=K′
+ Y R
+2 (xh) −Y R
+1 (xh) = 0.
+(51)
+Using (51) and (46) on the bounds of (45) and the sandwich theorem again concludes with the desired value.
+Lemma 12. Assume ψ ̸= π/6.
+lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1
+exists and is bounded by
+Å 4vs
+√
+3d2 −2v cos(ψ −π/6)
+√
+3d
+, 4vs
+√
+3d2 + 2v cos(ψ −π/6)
+√
+3d
+ò
+.
+Proof. The next lemmas will be useful for proving this lemma.
+Lemma 13. For any a, b > 0, a⌊x⌋−b⌊y⌋< ax −by + a + b.
+Proof. As mentioned before, by the deﬁnition of ﬂoor function ⌊x⌋= x −frac(x), where frac is the function
+that returns the fractional part of the number x, such that 0 ≤frac(x) < 1 (Graham et al., 1994),
+a⌊x⌋−b⌊y⌋= ax −afrac(x) −by + bfrac(y)
+< ax −by + b −afrac(x)
+[because frac(y) < 1]
+< ax −by + b + a
+[as −afrac(x) ≤0 < a].
+Lemma 14. Let c, d, A1, B1, A2, B2 ∈R, c > 0 and I1 ∈Z. Then, the limit below exists:
+lim
+n→∞
+⌊cn+d⌋
+X
+i=I1+1
+frac(−(A1i + B1)) + frac(A2i + B2)
+n
+.
+Proof. For convergence, we show that for R(i) = frac(−(A1i+B1))+frac(A2i+B2), (an)n∈N∗=
+ÄP⌊cn+d⌋
+i=I1+1
+R(i)
+n
+ä
+n∈N∗
+is a Cauchy sequence. Take ϵ > 0 and choose N > 4|I1−d+1|
+ϵ
+. Let n, m ∈N∗and n > m > N. We have
+|an −am| =
+
+⌊cn+d⌋
+X
+i=I1+1
+R(i)
+n
+−
+⌊cm+d⌋
+X
+i=I1+1
+R(i)
+m
+
+=
+
+1
+nm
+Ñ
+m
+⌊cn+d⌋
+X
+i=I1+1
+R(i) −n
+⌊cm+d⌋
+X
+i=I1+1
+R(i)
+é
+=
+
+1
+nm
+Ñ
+m
+⌊cn+d⌋
+X
+i=⌊cm+d⌋+1
+R(i) + (m −n)
+⌊cm+d⌋
+X
+i=I1+1
+R(i)
+é
+[as ⌊cn + d⌋> ⌊cm + d⌋]
+40
+
+
+< 2
+
+m(⌊cn + d⌋−(⌊cm + d⌋+ 1) + 1) + (m −n)(⌊cm + d⌋−(I1 + 1) + 1)
+nm
+
+[as R(i) < 2 for any i]
+= 2
+
+m⌊cn + d⌋−m(⌊cm + d⌋+ 1) + m + m⌊cm + d⌋−m(I1 + 1) + m −n⌊cm + d⌋+ n(I1 + 1) −n
+nm
+
+= 2
+
+m⌊cn + d⌋−m⌊cm + d⌋−m + m + m⌊cm + d⌋−mK −m + m −n⌊cm + d⌋+ nK + n −n
+nm
+
+= 2
+
+m⌊cn + d⌋−mK −n⌊cm + d⌋+ nK
+nm
+ = 2
+
+m⌊cn + d⌋−n⌊cm + d⌋−(m −n)I1
+nm
+
+< 2
+
+m(cn + d) −n(cm + d) + m + n −(m −n)I1
+nm
+
+[Lemma 13]
+= 2
+
+(m −n)(d −I1) + m + n
+nm
+
+= 2
+
+(n −m)(I1 −d) + m + n
+nm
+ < 2
+
+(n + m)(I1 −d) + m + n
+nm
+
+= 2
+
+(m + n)(I1 −d + 1)
+nm
+ = 2|I1 −d + 1|m + n
+nm
+= 2|I1 −d + 1|
+Å 1
+n + 1
+m
+ã
+< 2|I1 −d + 1| 2
+N = 4|I1 −d + 1|
+N
+< ϵ.
+To prove the existence, we have ⌈x⌉= x + frac(−x), for any real number x2, because
+frac(−x) = −x −⌊−x⌋
+[def. of ⌊−x⌋]
+= −x −(−⌈x⌉)
+[⌊−x⌋= −⌈x⌉]
+= −x + ⌈x⌉
+⇔⌈x⌉= x + frac(−x).
+Thus,
+lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1
+= lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ Y R
+2 (xh) −Y R
+1 (xh) −frac  −Y R
+1 (xh)
+−frac  Y R
+2 (xh) + 1
+= lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ Y R
+2 (xh) −Y R
+1 (xh) + 1 −
+lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ frac  −Y R
+1 (xh) + frac  Y R
+2 (xh) .
+The limit of the ﬁrst term above exists and its value is presented below on (54).
+The existence of the
+limit for the second term was shown by Lemma 14 for any outcome of min(n+
+l −1, K′ −1), because, if
+ö 2(vT −s) cos(π/6−θ)+2s sin(|π/6−θ|)
+√
+3d
+ù
+= n+
+l −1 ≤K′ −1, c =
+2v cos(ψ−π/6)
+√
+3d
+and d =
+2s(sin(|π/6−θ|)−cos(π/6−θ))
+√
+3d
+on the Lemma 14. If n+
+l −1 > K′ −1 =
+† 2(vT −s) cos(ψ−π/6)−2s sin(|ψ−π/6|)
+√
+3d
+−1
+£
+, as for any x, ⌈x⌉= ⌊x⌋or
+⌈x⌉= ⌊x⌋+1 depending on whether x is an integer or not, then K′−1 =
+j
+2(vT −s) cos(ψ−π/6)
+√
+3d
+−2s sin(|ψ−π/6|)
+√
+3d
+−1
+k
+or K′ −1 =
+j
+2(vT −s) cos(ψ−π/6)
+√
+3d
+−2s sin(|ψ−π/6|)
+√
+3d
+k
+. For both cases, on the Lemma 14 c = 2v cos(ψ−π/6)
+√
+3d
+as well,
+but for the former case, d = −2s(sin(|ψ−π/6|)+cos(π/6−θ))
+√
+3d
+−1, and for the latter, d = −2s(sin(|ψ−π/6|)+cos(π/6−θ))
+√
+3d
+.
+2Heed that using this deﬁnition of frac, frac(1.7) = 0.7 and frac(−1.7) = 0.3.
+41
+
+
+To get the bounds, we have
+lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ Y R
+2 (xh) −Y R
+1 (xh) −1
+< lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ ⌊Y R
+2 (xh)⌋−⌈Y R
+1 (xh)⌉+ 1
+≤lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ Y R
+2 (xh) −Y R
+1 (xh) + 1 ,
+(52)
+and by Lemma 7, as T →∞,
+Y R
+2 (xh) −Y R
+1 (xh) =
+y2
+d + tan(ψ)xh
+√
+3+tan(ψ)
+2
+−
+y1
+d + tan(ψ)xh
+√
+3+tan(ψ)
+2
+=
+y2−y1
+d
+√
+3+tan(ψ)
+2
+=
+2s
+d cos(ψ)
+√
+3+tan(ψ)
+2
+=
+4s
+d(
+√
+3 cos(ψ) + sin(ψ))
+=
+2s
+d cos(ψ −π/6),
+by (15).
+For the ﬁrst limit at (52) in the case of min(n+
+l −1, K′ −1) = n+
+l −1,
+lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=n−
+l +1
+ Y R
+2 (xh) −Y R
+1 (xh) −1
+= lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=n−
+l +1
+Å
+2s
+d cos(ψ −π/6) −1
+ã
+= lim
+T →∞
+1
+T
+ n+
+l −n−
+l −1 Å
+2s
+d cos(ψ −π/6) −1
+ã
+=
+Å
+2s
+d cos(ψ −π/6) −1
+ã Å
+lim
+T →∞
+1
+T n+
+l −lim
+T →∞
+1
+T (n−
+l −1)
+ã
+=
+Å
+2s
+d cos(ψ −π/6) −1
+ã
+lim
+T →∞
+1
+T n+
+l
+=
+Å
+2s
+d cos(ψ −π/6) −1
+ã 2v cos(ψ −π/6)
+√
+3d
+.
+=
+4vs
+√
+3d2 −2v cos(ψ −π/6)
+√
+3d
+.
+(53)
+Above we get lim
+T →∞
+1
+T n+
+l = 2v cos(ψ −π/6)
+√
+3d
+by using the sandwich theorem and the inequality x −1 < ⌊x⌋≤x
+to get the bounds on n+
+l .
+Similarly, for the last limit at (52) in the case of min(n+
+l −1, K′ −1) = n+
+l −1,
+lim
+T →∞
+1
+T
+n+
+l −1
+X
+xh=n−
+l +1
+ Y R
+2 (xh) −Y R
+1 (xh) + 1 =
+4vs
+√
+3d2 + 2v cos(ψ −π/6)
+√
+3d
+.
+The limits above in the case of min(n+
+l −1, K′ −1) = K′ −1 yields the same result because of the sandwich
+42
+
+
+theorem, the inequality x ≤⌈x⌉< x + 1, and
+2v cos(ψ −π/6)
+√
+3d
+= lim
+T →∞
+1
+T
+Å2(vT −s) cos(ψ −π/6) −2s sin(|ψ −π/6|)
+√
+3d
+ã
+≤lim
+T →∞
+1
+T (K′ −1) = lim
+T →∞
+1
+T K′
+= lim
+T →∞
+1
+T
+°2(vT −s) cos(ψ −π/6) −2s sin(|ψ −π/6|)
+√
+3d
+§
+< lim
+T →∞
+1
+T
+Å2(vT −s) cos(ψ −π/6) −2s sin(|ψ −π/6|)
+√
+3d
++ 1
+ã
+= 2v cos(ψ −π/6)
+√
+3d
+,
+so, lim
+T →∞
+1
+T K′ = lim
+T →∞
+1
+T n+
+l . Consequently, the limit below exists and
+lim
+T →∞
+1
+T
+min(n+
+l −1,K′−1)
+X
+xh=n−
+l +1
+ Y R
+2 (xh) −Y R
+1 (xh) + 1 =
+4vs
+√
+3d2 + 2v cos(ψ −π
+6 )
+√
+3d
+.
+(54)
+Finally, using the bounds provided by (53) and (54) we have the expected result.
+By Lemmas 10, 11 and 12 we have for ψ ̸= π/6
+lim
+T →∞fh(T, ψ) ∈
+Å 4vs
+√
+3d2 −2v cos(ψ −π/6)
+√
+3d
+, 4vs
+√
+3d2 + 2v cos(ψ −π/6)
+√
+3d
+ò
+.
+(55)
+For ψ = π/6, by (30),
+lim
+T →∞
+1
+T
+ö 2(vT −s)
+√
+3d
+ù
+X
+xh=0
+Ç√
+3y2 + dxh
+2d
+−
+√
+3y1 + dxh
+2d
+−1
+å
+< lim
+T →∞fh(T, π/6)
+≤lim
+T →∞
+1
+T
+ö 2(vT −s)
+√
+3d
+ù
+X
+xh=0
+Ç√
+3y2 + dxh
+2d
+−
+√
+3y1 + dxh
+2d
++ 1
+å
+,
+with
+lim
+T →∞
+1
+T
+ö 2(vT −s)
+√
+3d
+ù
+X
+xh=0
+Ç√
+3y2 + dxh
+2d
+−
+√
+3y1 + dxh
+2d
++ 1
+å
+= lim
+T →∞
+1
+T
+ö 2(vT −s)
+√
+3d
+ù
+X
+xh=0
+Ç
+√
+3s
+d cos(π/6) + 1
+å
+= lim
+T →∞
+1
+T
+ö 2(vT −s)
+√
+3d
+ù
+X
+xh=0
+Å2s
+d + 1
+ã
+= lim
+T →∞
+1
+T
+õ2(vT −s)
+√
+3d
++ 1
+û Å2s
+d + 1
+ã
+=
+2v
+√
+3d
+Å2s
+d + 1
+ã
+,
+from (15) and, as similarly done before, lim
+T →∞
+1
+T
+õ2(vT −s)
+√
+3d
++ 1
+û
+=
+2v
+√
+3d by using the sandwich theorem and
+the inequality x −1 < ⌊x⌋≤x to get the bounds on the ﬂoor function; and
+lim
+T →∞
+1
+T
+ö 2(vT −s)
+√
+3d
+ù
+X
+xh=0
+Ç√
+3y2 + dxh
+2d
+−
+√
+3y1 + dxh
+2d
+−1
+å
+=
+2v
+√
+3d
+Å2s
+d −1
+ã
+.
+Accordingly,
+lim
+T →∞fh(T, π/6) ∈
+Å 2v
+√
+3d
+Å2s
+d −1
+ã
+, 2v
+√
+3d
+Å2s
+d + 1
+ãò
+,
+which are the same values in (55) if used ψ = π/6. Lemmas 2–7, 10, 11 and 12 used ψ, so, after replacing ψ by
+π/3 −θ, we conclude the Proposition 6.
+43
+
+
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+ (rad)
+6
+8
+10
+12
+14
+Throughput (1/s)
+s=3
+s=6
+Lower bound
+Upper bound
+Limit by cir. pack.
+Figure 20: Limit given by (10) using the circle packing results and the lower and upper bounds of the hexagonal
+packing limit by (13) for θ ∈[0, π/3), d = 1 m, v = 1 m/s and s ∈{3, 6} m.
+The upper and lower bounds presented on (13) are below or equal the maximum asymptotic throughput
+presented by the Proposition 5, equation (10). The result of the Proposition 5 only concerns the maximum
+asymptotic throughput and do not consider the hexagonal packing angle θ, while Proposition 6 gives a lower
+bound and tightens the bounds for a given θ. Figure 20 presents an example comparison of these equations
+for two diﬀerent values of s. As expected, the maximum asymptotic throughput under the optimal density
+assumption (in (10)) is a possible value of the throughput using hexagonal packing and is above or equal the
+interval in (13) for any given θ. However, for practical robotic swarms applications, a certain hexagonal packing
+angle must be ﬁxed depending on the expected height of the corridor, target size and the minimum distance
+between the robots, resulting in a throughput below or equal to the upper value presented on Proposition 5.
+On the other hand, due to the discontinuities of (11), it is diﬃcult to get an exact value of θ which maximises
+the throughput given the other parameters. Also, there is no speciﬁc value of θ which achieves the maximum
+throughput for all possible values of the other parameters. For instance, Figures 21-24 present the result of this
+equation for some randomly generated parameters and a diﬀerent number of samples of θ equally spaced and
+taken from the domain interval, that is, from 0 to π/3, including these values.
+Each one of the Figures 21-24 presents two diﬀerent sets of parameters. In Figures 21 and 22, we use 99
+equally spaced values for θ ∈[0, π/3) on the left-hand side images and 100 on the right-hand side, then we
+compare the maximum on each side and choose the best one. We do the same in Figures 23 and 24, but using
+107 and 107 + 1. Figures 21 (a), 22 (a), 23 (b) and 24 (b) show an example that θ ≈π/6 reaches the maximum
+throughput, and in Figures 21 (c) and (d), and 23 (c) and (d) the maximum is at θ = 0. Moreover, Figures 22
+(c) and (d) has its maximum for θ diﬀerent from the other examples. Figures 21 (c) and 21 (d) have the same
+maximum, despite the plotting being diﬀerent. This also occurs in Figures 23 (c) and (d), and Figures 24 (c)
+and 24 (d). If we know the parameters, we can ﬁnd an approximate best candidate for θ by searching several
+values, as we presented. However, as far as we know, getting the true value which maximises that equation by
+a closed form is an open problem.
+Additionally, notice that whenever the number of samples is odd, it is sampled the value θ = π/6. We
+observe in these ﬁgures that when the maximum is at θ = π/6, it tends to be higher than the maximum found
+without considering it. For instance, compare the maximum found on the pairs (a) and (b) in Figures 21-24.
+On the other hand, θ = π/6 is not always the optimal value. Thus, we suggest to compute ﬁrst the value for
+θ = π/6 and compare it with the result for a search for the maximum for any chosen number of samples in the
+interval from θ ∈[0, π/3).
+3.3.3
+Touch and run strategy
+We now discuss the touch and run strategy. Since a robot should spend as little time as possible near the
+target, we imagined a simple scenario where robots travel in predeﬁned curved lanes and tangent to the target
+area where they spend minimum time on the target. To avoid collisions with other robots, the trajectory of a
+robot nearby the target is circular, and the distance between each robot must be at least d at any part of the
+trajectory. Hence, no lane crosses another, and each lane occupies a region deﬁned by an angle in the target
+44
+
+
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+6.8
+7.0
+7.2
+7.4
+Throughput (1/s)
+(a) For 99 samples, T = 43 s, s = 3 m, d = 1 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+6.8
+7.0
+7.2
+7.4
+Throughput (1/s)
+(b) For 100 samples, T = 43 s, s = 3 m, d = 1 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+12.8
+13.0
+13.2
+13.4
+Throughput (1/s)
+(c) For 99 samples, T = 30 s, s = 2.5 m and d = 0.66 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+12.8
+13.0
+13.2
+13.4
+Throughput (1/s)
+(d) For 100 samples, T = 30 s, s = 2.5 m and d = 0.66 m.
+Figure 21: Examples of (11) varying θ from 0 to π
+3 for diﬀerent and randomly generated values of T, s, and d.
+In the graphs, θ is over the x-axis and the number of robots inside the given rectangle is over the y-axis. We
+used 99 samples on the images on the left-hand side and 100 samples on the right-hand side for each plot, and
+v = 1 m/s. The maximum value in each image is represented by an orange circle and a rectangle represents the
+maximum between the left and the right image. No square means the maximum values in both sides are equal.
+It continues in the Figure 22.
+area that we denote by α, shown in Figure 25 (a).
+Figure 25 (b) shows the trajectory of a robot towards the target region following that strategy. The robot
+ﬁrst follows the boundary of the central angle region – that is, the entering ray – at a distance d/2. Then,
+it arrives at a distance of s of the target centre using a circular trajectory with a turning radius r. As the
+trajectory is tangent to the target shape, it is close enough to consider the robot reached the target region.
+Finally, the robot leaves the target by following the second boundary of the central angle region – that is, the
+exiting ray – at a distance d/2. Depending on the value of α, it is possible to ﬁt several of these lanes around
+the target. For example, when α = π/2, it is possible to ﬁt 4 lanes (Figure 26). The robots in each lane must
+maintain a distance do between each other – which is calculated depending on the values of d, s, r and the
+number of lanes K as shown later.
+The lemma below concerns the distance to the target centre where the robots will start turning on the
+curved path. It will also be useful in the discussion about experiments using this strategy on Section 4.4.
+Lemma 15. The distance dr to the target centre for the robot to start turning is
+dr =
+»
+s(2r + s) −rd.
+(56)
+Proof. In Figure 25 (b) we show the distance dr from the target centre where the robots begin turning. By
+symmetry, this is the same distance from the target centre where the robots stop turning. From the right
+45
+
+
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+241
+242
+243
+244
+245
+246
+247
+Throughput (1/s)
+(a) For 99 samples, T = 4 s, s = 2 m and d = 0.13 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+241
+242
+243
+244
+245
+246
+247
+Throughput (1/s)
+(b) For 100 samples, T = 4 s, s = 2 m and d = 0.13 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+5.0
+5.1
+5.2
+5.3
+5.4
+5.5
+Throughput (1/s)
+(c) For 99 samples, T = 100 s, s = 2.40513 m and d = 1 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+5.0
+5.1
+5.2
+5.3
+5.4
+5.5
+Throughput (1/s)
+(d) For 100 samples, T = 100 s, s = 2.40513 m and d = 1 m.
+Figure 22: Continuation of Figure 21.
+triangle ABC on that ﬁgure, we have |AC| =
+p
+(r + s)2 −(r + d/2)2 and from △ACD, dr =
+»
+(d/2)2 + |AC|2.
+Thus,
+dr =
+»
+(d/2)2 + (r + s)2 −(r + d/2)2 =
+»
+s(2r + s) −rd.
+We now present a lemma about the turning radius, then we deﬁne the domain of K and α, in order to
+calculate the throughput for the touch and run strategy.
+Lemma 16. The central region angle α, the minimum distance between the robots d and the turning radius r
+are related by
+r = s sin(α/2) −d/2
+1 −sin(α/2)
+.
+(57)
+Proof. From Figure 25 (b), we can see that the right triangle ABE has angle ’
+EAB = α/2, hypotenuse r + s
+and cathetus r + d/2. Hence, it directly follows that
+sin(α/2) = r + d/2
+r + s
+⇔r = s sin(α/2) −d/2
+1 −sin(α/2)
+.
+Proposition 7. Let K be the number of curved trajectories around the target area, α be the angle of each
+central area region, and r the turning radius of the robot for the curved trajectory of this central area region.
+For a given d > 0 and s ≥d/2, the domain of K is
+3 ≤K ≤
+π
+arcsin   d
+2s
+, and
+(58)
+46
+
+
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+6.8
+7.0
+7.2
+7.4
+Throughput (1/s)
+(a) For 107 samples, T = 43 s, s = 3 m, d = 1 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+6.8
+7.0
+7.2
+7.4
+Throughput (1/s)
+(b) For 107 + 1 samples, T = 43 s, s = 3 m, d = 1 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+12.8
+13.0
+13.2
+13.4
+Throughput (1/s)
+(c) For 107 samples, T = 30 s, s = 2.5 m and d = 0.66 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+12.8
+13.0
+13.2
+13.4
+Throughput (1/s)
+(d) For 107 + 1 samples, T = 30 s, s = 2.5 m and d = 0.66 m.
+Figure 23: Similar to Figures 21 and 22 but using 10000000 and 10000001 equally spaced points for θ ∈[0, π/3).
+It continues in the Figure 24.
+α = 2π
+K .
+(59)
+Proof. The number of trajectories K must be greater or equal to 3. The reason is that for the minimum possible
+value for s, s = d/2, K = 2 is enough to have parallel lanes. However, starting with K = 3, curved trajectories
+are needed to guarantee that robots of one lane do not interfere with robots from another lane.
+Also, we have K identical trajectories around the target, each taking a central angle of α. As a result, the
+value of α given K is α = 2π
+K , implying that 0 < α ≤2π
+3 .
+Additionally, in the worst case, one robot of each lane arrives in the target region at the same time. When
+robots of all lanes simultaneously occupy the target region, their positions can be seen as the vertices of a
+regular polygon which must be inscribed in the circular target region of radius s (e.g., in Figure 26 we have a
+square whose sides are greater than d). The number of robots on the target region at the same time must be
+limited by the maximum number of sides of an inscribed regular polygon of a side with minimum side greater
+or equal to d. The side of a K regular polygon inscribed in a circle of radius s measures 2s sin   π
+K
+. Thence,
+2s sin   π
+K
+ ≥d ⇒
+π
+arcsin( d
+2s) ≥K.
+Now that we have determined the correct parametrisation for the touch and run strategy, we determine its
+throughput in the next proposition.
+Proposition 8. Assuming the touch and run strategy and that the ﬁrst robot of every lane begins at the same
+distance from the target, given a target radius s, the constant linear robot speed v, a minimum distance between
+robots d and the number of lanes K, the throughput for a given instant T is given by
+47
+
+
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+241
+242
+243
+244
+245
+246
+247
+Throughput (1/s)
+(a) For 107 samples, T = 4 s, s = 2 m and d = 0.13 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+241
+242
+243
+244
+245
+246
+247
+Throughput (1/s)
+(b) For 107 + 1 samples, T = 4 s, s = 2 m and d = 0.13 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+5.0
+5.2
+5.4
+5.6
+5.8
+Throughput (1/s)
+(c) For 107 samples, T = 100 s, s = 2.40513 m and d = 1 m.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(rad)
+5.0
+5.2
+5.4
+5.6
+5.8
+Throughput (1/s)
+(d) For 107 + 1 samples, T = 100 s, s = 2.40513 m and d = 1
+m.
+Figure 24: Continuation of Figure 23.
+ft(K, T) = 1
+T
+Å
+K
+õvT
+do
++ 1
+û
+−1
+ã
+, for
+(60)
+do = max(d, d′), and
+(61)
+d′ =
+®
+r(π −α) + d−2r cos(α/2)
+sin(α/2)
+,
+if 2r cos(α/2) < d,
+2r arcsin   d
+2r
+ ,
+otherwise,
+(62)
+with r obtained from (57). Also,
+ft(K) = lim
+T →∞ft(K, T) = Kv
+do
+.
+(63)
+Proof. Using the touch and run strategy, each lane is distant by at least d from each other. However, the
+minimum distance between robots on the same lane do must be checked at the beginning of the curved path,
+as their distance decreases if assuming linear constant velocity. We distinguish two cases based on Figure 27:
+1. |ED| < d: Two robots cannot be on the lane curved path;
+2. |ED| ≥d: More than one robot can occupy the lane curved path.
+These cases aﬀect the minimum distance between robots do such that they can follow the trajectory without
+decreasing their linear speed. In both cases, they need to satisfy the minimum distance d if they are turning on
+the curved path. From Figure 27,
+|ED| = 2r sin
+Åβ
+2
+ã
+= 2r sin
+π
+2 −α
+2
+
+= 2r cos
+α
+2
+
+.
+(64)
+48
+
+
+(a)
+s
+trajectory
+r
+r+d/2 
+α/2
+d/2
+d
+r+s 
+α
+A
+B
+C
+D
+d/2
+E
+r
+(b)
+Figure 25: Illustration of the touch and run strategy. (a) Central angle region and its exiting and entering
+rays deﬁned by the angle α. (b) Trajectory of a robot next to the target in red. Here we have the relationship
+between the target area radius (s), the minimum safety distance between the robots (d), the turning radius (r),
+the central region angle (α) and the distance from the target centre for a robot to begin turning (dr) – used as
+justiﬁcation for (56) and (57). The green dashed circle represents the whole turning circle.
+s
+α
+trajectory
+r
+r
+d/2
+d
+do
+do
+do
+do
+α
+r
+r
+d/2
+do
+Figure 26: Theoretical trajectory in red, for α = π/2 and K = 4. Robots are black dots and do is the desired
+distance between the robots in the same lane. When robots of all lanes simultaneously occupy the target region,
+their positions are the vertices of a regular polygon – here, it is represented by a grey square inside the target
+region.
+In the case 1, in Figure 28 (a), we deﬁne two points T and U on the lane such that the distance between
+them is |TU| = d and their distances to the target are equal. The delay between one robot at T and another at
+U is equal to
+∆t1 = |TE| + |˜
+ED| + |DU|
+v
+,
+that is, the time for running through the straight line TE, the curved path ED and the straight line DU.
+For any delay less than ∆t1 between two robots, say R1 and R2, there is an instant of time when R1 is on
+the path between B and T and R2 is on the path between B and U and they are vertically aligned (Figure 28
+49
+
+
+A
+C
+D
+E
+r
+d/2
+Figure 27: The red line represents the trajectory of robots in one lane. α is the central angle for the lane. The
+dashed blue circle of centre A is the target. C is the centre of the circle of radius r from the circular trajectory.
+The grey circle of centre C has a radius of r +d/2. Points D and E represent the connection between the curved
+path and the straight path. We have β = π −α due to the symmetry and the fact that the sum of the angles
+of △ECD is equal to π.
+(a)). In this case, the distance between R1 and R2 is below |TU|, so they do not respect the minimum distance
+d between them. Hence, the minimum delay between two robots in case 1 is ∆t1.
+From Figure 27, we have |˜
+ED| = rβ = r(π −α). For calculating the value of |TE| and |DU| from Figure 28
+(a), we observe that |TE| = |DU| by symmetry. Thus,
+|V T| = d
+2 −|ED|
+2
+[From Figure 28 (a)]
+= d
+2 −r cos
+α
+2
+
+[From (64)].
+As △TVE is right, |TE| =
+|V T |
+sin(α/2). Thence,
+∆t1 =
+r(π −α) + 2 d/2−r cos(α/2)
+sin(α/2)
+v
+= r(π −α)
+v
++ d −2r cos(α/2)
+v sin(α/2)
+and
+do = max (d, v∆t1) = max
+Å
+d, r(π −α) + d −2r cos (α/2)
+sin(α/2)
+ã
+.
+Above we used max function because the result of v∆t1 can still be less than d, depending on α, r and d.
+In the case 2, we need to check the minimum distance d when two robots are on the circular part ˜
+ED in
+Figure 28 (b). From this ﬁgure, △CRH is isosceles, so γ = 2 arcsin   d
+2r
+. Thus, to keep constant velocity, the
+delay between two robots in this case is
+∆t2 = do
+v = rγ
+v = 2r
+v arcsin
+Å d
+2r
+ã
+.
+Then,
+do = max (d, v∆t2) = max
+Å
+d, 2r arcsin
+Å d
+2r
+ãã
+.
+We used max function for a similar reason as exposed before. After rearranging, we have (61) and (62).
+For calculating the throughput ft(K, T) for K lanes and a given time T after the arrival of the ﬁrst robot,
+we get the number of robots reaching the target region by the time T, then we use the Deﬁnition 2. As we
+assume that the ﬁrst robot of every lane begins at the same distance from the target, at time T = 0 we have K
+robots simultaneously arriving. Then, after do/v units of time, we have K more robots arriving and this keeps
+happening every do/v units of time. Denote N(K, T) the total number of robots that have arrived at the target
+region from K lanes by time T. Thus, we have:
+N(K, T) = K
+ú
+T
+d0
+v
++ 1
+ü
+= K
+õvT
+do
++ 1
+û
+,
+50
+
+
+C
+E
+D
+T
+U
+V
+d
+B
+R1
+R2
+(a) |ED| < d
+do
+r
+d
+r
+r
+r
+C
+D
+H
+R
+E
+(b) |ED| ≥d
+Figure 28: Enlargements of Figure 27. (a) The robots R1 and R2 are the black dots on the red line representing
+the trajectory. If the delay between R1 and R2 is less than the time for a robot to run from T to U following
+the red trajectory, there will be some instant which R1 and R2 will be vertically aligned. Their positions at
+that instant are represented by grey dots in front of them. Hence, their distance would be less than d. The
+right triangle TV E has side TV , which can be measured using ED. (b) do denotes the minimum arc length for
+two robots located at any two points R and H on ˜
+ED such that they are distant by at least d. γ is the angle
+deﬁning the arc do for the circle of centre C.
+so, by Deﬁnition 2,
+ft(K, T) = 1
+T
+Å
+K
+õvT
+do
++ 1
+û
+−1
+ã
+.
+As for every number x, ⌊x⌋= x −frac(x) and 0 ≤frac(x) < 1, then distributing 1
+T for each term, we get
+ft(K) = lim
+T →∞ft(K, T) = lim
+T →∞
+1
+T
+Å
+K
+ÅvT
+do
++ 1
+ã
+−frac
+ÅvT
+do
++ 1
+ã
+−1
+ã
+= lim
+T →∞
+K
+T
+ÅvT
+do
++ 1
+ã
+= Kv
+do
+.
+Figure 29 presents examples of (63) for some parameters.
+Observe that the maximum throughput for
+diﬀerent values of s, d and v can be found by linear search in the interval obtained by (58).
+5
+10
+15
+20
+25
+30
+35
+K
+2
+4
+6
+8
+10
+12
+14
+16
+Throughput (1/s)
+s=3,d=1
+s=3,d=2
+s=6,d=1
+s=6,d=2
+Figure 29: Plotting of the asymptotic throughput of the touch and run strategy (given by (63)) for some values
+of s and d, in metres, and v = 1 m/s, for the interval of values for K obtained by (58).
+51
+
+
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+u
+0
+5
+10
+15
+20
+25
+Throughput (1/s)
+fmax
+h
+(u)
+fmin
+h
+(u)
+fp(u)
+Figure 30: Example of u values such that f max
+h
+(u) >
+fp(u) for v = 1 m/s and d = 1 m.
+0
+2
+4
+6
+u
+2.5
+5.0
+7.5
+10.0
+12.5
+15.0
+17.5
+Throughput (1/s)
+fh(10000, u)
+fp(10000, u)
+Figure 31: Comparison of fp(T, u) and fh(T, u) for u ∈
+[0, 7], T = 10000 s, v = 1 m/s and d = 1 m.
+3.3.4
+Comparison of the strategies
+The parallel lanes strategy has the lowest of the limits in relation to u = s
+d, the ratio between the radius of the
+target region and the minimum distance between the robots. However, its asymptotic value is still higher than
+the minimum possible asymptotic throughput for hexagonal packing just for some values of u. In this section,
+we will make explicit the dependence on the argument u in every throughput function we deﬁned previously to
+compare them with respect to this ratio. Let fp(u) = lim
+T →∞fp(T, u) and f min
+h
+(u) be the asymptotic throughput
+for the parallel lanes strategy and the lower asymptotic throughput for the hexagonal packing strategy for a
+ratio u, respectively. Hence, by Proposition 4,
+fp(u) = ⌊2u + 1⌋v
+d,
+and, by (13) using θ = π/6 as it minimises the lower bound of lim
+T →∞f(T, θ) in Proposition 6,
+f min
+h
+(u) =
+2
+√
+3 (2u −1) v
+d.
+Proposition 9. There are some u <
+√
+3+2
+4−2
+√
+3 such that fp(u) > f min
+h
+(u), and for every u ≥
+√
+3+2
+4−2
+√
+3, fp(u) ≤
+f min
+h
+(u).
+Proof. For any u <
+√
+3+2
+4−2
+√
+3, (2u + 1) v
+d > f min
+h
+(u), due to
+(2u + 1)v
+d >
+2
+√
+3 (2u −1) v
+d ⇔2u + 1 >
+2
+√
+3 (2u −1)
+⇔2u −4
+√
+3u > −1 −2
+√
+3 ⇔u <
+−1 −
+2
+√
+3
+2 −
+4
+√
+3
+= −
+√
+3 −2
+2
+√
+3 −4 =
+√
+3 + 2
+4 −2
+√
+3.
+(65)
+We have that fp(u) = (2u + 1) v
+d when 2u + 1 ∈Z. Also, as u <
+√
+3+2
+4−2
+√
+3 < 7, u can be a number satisfying
+(2u + 1) = ⌊2u + 1⌋. Thus, there are some values of u such that fp(u) = ⌊2u + 1⌋v
+d > f min
+h
+(u).
+From the equivalence in (65) and because for any x, ⌊x⌋≤x, it follows that for any u ≥
+√
+3+2
+4−2
+√
+3, fp(u) ≤
+(2u + 1) v
+d ≤f min
+h
+(u).
+Figure 30 shows an example of f min
+h
+(u), fp(u) and the maximum possible asymptotic throughput of the
+hexagonal packing f max
+h
+(u) =
+2
+√
+3 (2u + 1) v
+d for u ∈[0, 10]. Observe that, from the left side of u = 7, fp(u) has
+some values above f min
+h
+(u) even though they are below f max
+h
+(u) for every u.
+Because of this proposition, we are certain that for values of u ≥
+√
+3+2
+4−2
+√
+3 ≈7 the hexagonal packing strategy
+at the limit will have higher throughput than parallel lanes.
+However, for values u <
+√
+3+2
+4−2
+√
+3, there is the
+possibility of the parallel lanes strategy being better than hexagonal packing. As we do not have an exact
+asymptotic throughput for the hexagonal packing strategy for a given angle θ, we can numerically ﬁnd the
+52
+
+
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+u
+0.10
+0.15
+0.20
+0.25
+0.30
+Throughput (1/s)
+fh(10000, u)
+fp(10000, u)
+(a) v = 0.1 m/s
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+u
+1.0
+1.5
+2.0
+2.5
+3.0
+Throughput (1/s)
+fh(10000, u)
+fp(10000, u)
+(b) v = 1 m/s
+Figure 32: Comparison of fp and fh for u ∈[0.4, 1], T = 10000 s, v ∈{0.1, 1} m/s and d = 1 m. The diﬀerence
+in the lines of fh is due to θ∗being diﬀerent for each value of v.
+best θ using large values of T on (11); then, after choosing θ, we calculate the numerical approximation of the
+asymptotic throughput using this ﬁxed θ and those T values. This result can be compared with the throughput
+for the same large values of T for the parallel lanes strategy using (8). Furthermore, in a scenario with the
+target region only being accessed by a corridor with a ﬁnite height, the maximum time T can be inferred by its
+size, then the exact throughput for this speciﬁc value can be calculated by (11) and (8) as stated before, but
+using only this speciﬁc value T, instead of a set of large values, to decide which strategy is more suitable.
+Let fh(T, θ, u) and fp(T, u) be (11) and (8) making explicit the parameter u. Let θ∗be the outcome from the
+search of the θ which maximises fh(T, θ, u) by numeric approximation. Thus, we deﬁne fh(T, u) = fh(T, θ∗, u).
+Figure 31 illustrates the result of the procedure mentioned above for T = 10000 for 100 equally spaced values
+of u ∈[0, 7] and seeking the maximum throughput using 1000 evenly spaced points between [0, π/3) to ﬁnd the
+best θ for the hexagonal packing strategy. Then, we compare it with the result for θ = π/6 as we explained
+previously when we discussed Figures 21-24. Observe that for u ∈[0.5, 0.9] there is some values for which
+fh(10000, u) < fp(10000, u). Figure 32 shows this by 100 equally spaced values of u ∈[0.4, 1] for diﬀerent values
+of v. This occurs because, for such values of u, using square packing ﬁts more robots inside the circle over the
+time than hexagonal packing, as we will show in Section 4.5.
+Additionally, the asymptotic throughput of the touch and run strategy, ft(u) =
+lim
+T →∞ft(T, u), for higher
+values of u is greater than the maximum possible asymptotic value of the hexagonal packing f max
+h
+(u) =
+2
+√
+3 (2u + 1) v
+d, as shown later by numeric experimentation. Before presenting this result, we need to verify
+which values of u are allowed by ft(u) and to express the asymptotic throughput of the touch and run strategy
+from Proposition 8 in terms of the ratio u.
+From Proposition 7 we have that the possible number of lanes K ∈{3, . . . , K(u)} with K(u) =
+j
+π
+arcsin( 1
+2u)
+k
+.
+Consequently, ft(u) is only allowed for any u ≥
+1
+√
+3. In fact, by Proposition 7, K ≥3, then
+π
+arcsin( 1
+2u) ≥
+j
+π
+arcsin( 1
+2u)
+k
+≥3 ⇒π
+3 ≥arcsin   1
+2u
+ ⇔sin   π
+3
+ ≥
+1
+2u ⇔
+√
+3
+2 ≥
+1
+2u ⇔u ≥
+1
+√
+3.
+We show below the algebraic manipulations for expressing the asymptotic throughput of the touch and run
+strategy from Proposition 8 in terms of the ratio u. The asymptotic throughput expressed in (63) is
+Kv
+do
+= K
+do
+d
+v
+d
+=
+K
+max(d,d′)
+d
+v
+d[(61)]
+=
+K
+max(1, d′
+d )
+v
+d,
+(66)
+for an integer K ∈{3, . . . , K(u)}. From (59), α = 2π
+K , and, from (57),
+r
+d =
+s
+d sin(α/2) −d
+2d
+1 −sin(α/2)
+= u sin( π
+K ) −1
+2
+1 −sin( π
+K )
+def
+= r(u, K),
+53
+
+
+0
+200
+400
+600
+800
+1000
+u
+0
+500
+1000
+1500
+2000
+2500
+Throughput (1/s)
+fmax
+h
+(u)
+fmin
+h
+(u)
+ft(u)
+(a) u ∈[1/
+√
+3, 1000]
+0.60
+0.73
+0.86
+0.99
+1.12
+1.25
+u
+0
+1
+2
+3
+4
+Throughput (1/s)
+fmax
+h
+(u)
+fmin
+h
+(u)
+ft(u)
+(b) u ∈[1/
+√
+3, 1.25]
+Figure 33: Graph varying u for f min
+h
+(u), f max
+h
+(u) and ft(u) with v = 1 m/s and d = 1 m for diﬀerent intervals
+of u. In (a), f min
+h
+(u) and f max
+h
+(u) are almost overlapped. In (b), ft(u) > f max
+h
+(u) for all u, except in an interval
+within (1.12,1.25).
+resulting
+d′
+d =
+® r
+d(π −α) + d−2r cos(α/2)
+d sin(α/2)
+,
+if 2r cos(α/2) < d,
+2 r
+d arcsin   d
+2r
+ ,
+otherwise,
+[by (62)]
+=
+( r
+d
+ π −2π
+K
+ + 1−2 r
+d cos( π
+K )
+sin( π
+K )
+,
+if 2 r
+d cos( π
+K ) < 1,
+2 r
+d arcsin
+Ä 2 r
+d
+−1ä
+,
+otherwise,
+=
+
+
+
+
+
+r(u, K)  π −2π
+K
+ + 1−2r(u,K) cos( π
+K )
+sin( π
+K )
+,
+if 2r(u, K) cos( π
+K ) < 1,
+2r(u, K) arcsin
+Ä
+1
+2r(u,K)
+ä
+, otherwise,
+def
+= d′(u, K).
+(67)
+Thus, from (66) and (67), ft(u, K) =
+K
+max(1,d′(u,K))
+v
+d and the upper throughput for the touch and run strategy
+in terms of u is given by
+ft(u) =
+max
+K∈{3,...,K(u)} ft(u, K) =
+max
+K∈{3,...,K(u)}
+K
+max(1, d′(u, K))
+v
+d
+=
+K∗(u)
+max(1, d′(u, K∗(u)))
+v
+d,
+for some function K∗(u) that ﬁnds this maximum in {3, . . . , K(u)}. Similarly, for a ﬁxed maximum time T, we
+have by (60) ft(T, u) =
+max
+K∈{3,...,K(u)} ft(K, T, u).
+Figure 33 presents a comparison of the asymptotic throughput ft(u) and the lower and upper values of the
+asymptotic throughput of the hexagonal packing f min
+h
+(u) and f max
+h
+(u) for values of u ranging from 1/
+√
+3 to
+1000. Observe that the asymptotic throughput of the touch and run strategy is greater than the maximum
+possible asymptotic throughput of the hexagonal packing strategy for almost all values of u, except for some in
+(1.12, 1.25) (Figure 33 (b)).
+Additionally, we performed numerical experiments for ft(T, u) and fh(T, u) using ﬁxed time T = 10000 in
+(60), (11) and u ∈[1/
+√
+3, 7]. For ﬁnding θ∗, we use the same procedure described before to compare fh(T, u)
+and fp(T, u). Figure 34 shows the result. It suggests the touch and run strategy has higher throughput than
+hexagonal packing for large values of T. Although hexagonal packing has lower asymptotic throughput than
+the touch and run for almost all u values, it is suitable for u <
+1
+√
+3 whenever it surpasses the parallel lanes
+strategy.
+For real-world applications and assuming the robots are in constant velocity and distance between other
+robots, the hexagonal packing strategy is adequate for a situation where the target is placed in a constrained
+region, for example, walls in north and south positions. In this example, the number of lanes used in the touch
+and run strategy would be reduced because of the surrounding walls. In an unconstrained scenario, if the ratio
+u and the maximum time T are known, the throughput value of the hexagonal packing strategy from (11) (for
+54
+
+
+1.5
+2.5
+3.5
+4.5
+5.5
+6.5
+u
+0.0
+2.5
+5.0
+7.5
+10.0
+12.5
+15.0
+17.5
+Throughput (1/s)
+fh(10000, u)
+fmax
+h
+(u)
+fmin
+h
+(u)
+ft(10000, u)
+Figure 34: Example for T = 10000 s, v = 1 m/s, d = 1 m and 100 equally spaced points of u ∈[1/
+√
+3, 7]. We
+have fh(T, u) < ft(T, u), albeit f max
+h
+(u) ≥ft(T, u) for a few values of u < 1.5.
+the θ which maximises it) can be compared with the throughput of the touch and run strategy from (60) (for
+K∗(u)) to choose which strategy should be applied. However, assuming constant velocity and distance between
+robots in a swarm is not practical, because other robots inﬂuence the movement in the environment. Hence, we
+used these strategies as inspiration to propose novel algorithms based on potential ﬁelds for robotic swarms in
+(dos Passos et al., 2022).
+4
+Experiments and Results
+In order to evaluate our approach, we executed several simulations using the Stage robot simulator (Gerkey
+et al., 2003) for testing the equations presented in the theoretical section (Section 3). Hyperlinks to the video
+of executions are available in the captions of each corresponding ﬁgure. They are in real-time so that the reader
+can compare the time and screenshots presented in the ﬁgures in this section with those in the supplied videos.3
+We ran experiments for all strategies considering s > 0. We could not make experiments for point-like
+targets, because a point with a ﬁxed value is nearly impossible to be reached by a moving robot in Stage
+computer simulations due to the necessity of exact synchronization of the sampling frequency of positions made
+by the simulator and the robot velocity. Hence, we must use a circular area with a radius s > 0 around the
+target to identify that a robot reached it. After presenting the experiments and results for all strategies for
+circular target region with radius s > 0, we compare them experimentally considering the analysis previously
+discussed in Section 3.3.4.
+We saved for each robot its arrival time in milliseconds since the start of the experiment. We subtracted
+the arrival time of every robot by the arrival time of the ﬁrst robot. By doing so, the experiment is assumed to
+begin in time T = 0 without worrying about the initial inertia. After this, we registered the number of robots
+(N) for each time value (T).
+To alleviate some of the numerical errors caused by the ﬂoating-point representation, we used rounding on
+the 13th decimal place before using ﬂoor and ceiling functions on the equations presented. For example, in
+nowadays computers, by using double variables in C or ﬂoat in Python, if you divide 9.6 by 1.6 the result is
+5.999999999999999 for 15 decimal places formatting, but it should be 6. If we applied the ﬂoor function on the
+computer result it would give us 5 instead of the expected 6.
+For all experiments in this section, the robots are distant from each other by d = 1 m. In the ﬁgures of this
+section, black robots indicate they reached the target, and red did not. Also, we did not repeat the experiments
+for the points on the graph plotting of this section because the velocity and initial positions are constant, so
+there is no random aspect, and we obtain the same results for diﬀerent runs for that particular point.
+4.1
+Compact lanes
+For compact lanes simulations, we used v = 1 m/s, and the ﬁrst robot to reach the target is at the bottom lane
+and starts at the target. For a target area radius s, such that 0 < s <
+√
+3d/4, we used s = 0.3 m, and for
+√
+3d/4 ≤s < d/2, we choose s = 0.45 m. Figure 35 shows screenshots of the simulation using s = 0.3 m during
+T = 7.1 s and Figure 36 for s = 0.45 m and T = 10.1 s.
+3The source codes of each experimented strategy are in https://github.com/yuri-tavares/swarm-strategies.
+55
+
+
+(a) 0 s: beginning of the simulation.
+(b) After 2.7 s.
+(c) After 6.7 s
+(d) 5 s: ending of the simulation
+Figure 35:
+Simulation on Stage for compact lanes
+strategy using s = 0.3 m, d = 1 m during T = 7.1
+s. Available on https://youtu.be/e1cWJzWhQmQ.
+(a) 0 s: beginning of the simulation.
+(b) After 3.5 s.
+(c) After 7 s
+(d) 10.1 s: ending of the simulation
+Figure 36:
+Simulation on Stage for compact lanes
+strategy using s = 0.45 m, d = 1 m during T = 10.1
+s. Available on https://youtu.be/9OXGC1w83j0.
+0
+20
+40
+60
+Time (s)
+1.4
+1.6
+1.8
+2.0
+Throughput (1/s)
+s=0.3
+s=0.45
+Simulation
+Instantaneous
+Asymptotic
+Figure 37: Throughput versus time plotting for compact lanes strategy for diﬀerent values of s. “Simulation”
+stands for the data obtained from Stage, “Instantaneous” for the equations of the throughtput for a given time
+calculated in (4) and (6), and “Asymptotic” for the asymptotic throughtput obtained from (5) and (7). The
+mentioned equations results match with the data obtained from simulations.
+We ran experiments in order to verify the throughput for a given time and the asymptotic throughput
+calculated by (4) to (7). Figure 37 shows the throughput for diﬀerent values of time obtained by the experiments
+in Stage, i.e. (N −1)/T, in comparison with the calculated value by (4) and (5) for s = 0.3 m and by (6) and
+(7) for s = 0.45 m. These ﬁgures conﬁrm that the equations presented at the theoretical section agree with the
+throughput obtained by simulations.
+4.2
+Parallel lanes
+We experimented with the parallel lanes strategy for v = 1 m/s and s ∈{3, 6} m. Figures 38 and 39 present
+screenshots from executions using these parameters.
+In order to verify the throughput for a given time calculated by (8) and its asymptotic value as in (9), we
+compare them with the throughput obtained from Stage simulations. Figure 40 (a) presents these comparisons.
+Observe that the values from (8) are almost aligned with the values from simulation, except for some points.
+56
+
+
+(a) 0 s: beginning of the simulation.
+(b) After 6.5 s.
+(c) 13 s: ending of the simulation
+Figure 38: Simulation on Stage for parallel lanes strategy using s = 3 m, d = 1 m during T = 13 s. Available
+on https://youtu.be/2Y1RHc9YVaw.
+(a) 0 s: beginning of the simulation.
+(b) After 8 s.
+(c) 16 s: ending of the simulation
+Figure 39: Simulation on Stage for parallel lanes strategy using s = 6 m, d = 1 m during T = 16 s. Available
+on https://youtu.be/TVdka65fi1g.
+The diﬀerence in those points is due to the ﬂoating-point error discussed in the beginning of Section 4 that
+happens in the division before the use of ﬂoor or ceiling functions used on (8). As expected, the values of
+(8) approximates to (9) as time passes. As the running time is proportional to the number of robots in our
+experiments, observe that higher throughput per time is reﬂected as a lower arrival time of the last robot per
+number of robots (Figure 40 (b)). Also, note that in the lower arrival time per number of robots graph, those
+values tends to inﬁnite as the horizontal axis values grows.
+4.3
+Hexagonal packing
+We experimented the hexagonal packing for v = 1 m/s, and the combination of the following variables and
+values: s ∈{3, 6} m and θ ∈{0, π/12, π/6, 5π/18}. Figures 41-48 present screenshots from executions using
+these parameters.
+In order to evaluate the throughput for a given time and angle calculated in (11) and the bounds on the
+asymptotic throughput as in (13), we compare them with the throughput obtained from Stage simulations.
+Figure 49 presents these comparisons. Observe that the values from (11) are almost aligned with the values
+from simulation, except for some points. The diﬀerence in those points is also due to the ﬂoating point error –
+discussed in the introduction of Section 4 – over the divisions and trigonometric functions done before the use
+of ﬂoor or ceiling functions used on (11). Also, due to ﬂoating point error, in our computation of (12), instead
+of using min(L(xh), C2(xh)) = ⌊L(xh)⌋, we check | min(L(xh), C2(xh)) −⌊L(xh)⌋| < 0.001.
+Additionally, note in Figure 49 that for any value of s or θ, as the time passes, the values of (11) asymptot-
+ically approaches some value inside the bounds given by (13). Although the exact asymptotic value could not
+be given for the presented parameters, the experiments show that the bounds are correct. In the same manner
+57
+
+
+0
+20
+40
+60
+Time (s)
+6
+7
+8
+9
+10
+11
+12
+13
+Throughput (1/s)
+s=3
+s=6
+Simulation
+Instantaneous
+Asymptotic
+(a)
+0
+200
+400
+600
+800
+Num. of robots
+0
+10
+20
+30
+40
+50
+60
+70
+Time (s)
+Simulation (s=3)
+Simulation (s=6)
+(b)
+Figure 40: (a) Throughput versus time plotting for parallel lanes strategy for s ∈{3, 6} m.
+“Simulation”
+stands for the data obtained from Stage, “Instantaneous” for the equations of the throughtput for a given time
+calculated in (8), and “Asymptotic” for the asymptotic throughtput obtained from (9). (b) Number of robots
+versus time of arrival of the last robot for the same data.
+(a) 0 s: beginning of the simulation.
+(b) After 4.9 s.
+(c) 9.8 s: ending of the simulation.
+Figure 41: Simulation on Stage for hexagonal packing
+strategy using s = 3 m, θ = 0 during T = 9.8 s.
+Available on https://youtu.be/6_LgZWFOWd0.
+(a) 0 s: beginning of the simulation.
+(b) After 5 s.
+(c) 10 s: ending of the simulation.
+Figure 42: Simulation on Stage for hexagonal packing
+strategy using s = 3 m, θ = π/12 during T = 10 s.
+Available on https://youtu.be/Wji8XlSQJBQ.
+as occured for parallel lanes, higher throughput per time is reﬂected as a lower arrival time of the last robot
+per number of robots, and it tends to inﬁnite as the number of robots grows (Figure 50).
+4.4
+Touch and run
+For the touch and run strategy, the robots maintain the linear velocity over all the experiment, then turn at
+ﬁxed constant rotational speed ω = v/r, for r obtained from (57), when they are next to the target centre by
+the distance dr obtained from (56). After they get on the target region, when they are distant from the target
+centre by dr, they leave the curved path, stop turning and follow the linear exiting lane. On that lane, to
+stabilise their path following, the robots follow the queue using turning speed equals to γ −β, such that β is
+the angle of the exiting lane and γ is the robot orientation angle, both in relation to the x-axis.
+We used v = 0.1 m/s because the robots we used on Stage have maximum turning speed of π/2 rad/s.
+58
+
+
+(a) 0 s: beginning of the simulation.
+(b) After 4.9 s.
+(c) 10 s: ending of the simulation.
+Figure 43: Simulation on Stage for hexagonal packing
+strategy using s = 3 m, θ = π/6 during T = 10 s.
+Available on https://youtu.be/szOBU8no_sU.
+(a) 0 s: beginning of the simulation.
+(b) After 4.9 s.
+(c) 10 s: ending of the simulation.
+Figure 44: Simulation on Stage for hexagonal packing
+strategy using s = 3 m, θ = 5π/18 during T = 10 s.
+Available on https://youtu.be/jRLgaF7Te1Q.
+(a) 0 s: beginning of the simulation.
+(b) After 4.9 s.
+(c) 9.8 s: ending of the simulation.
+Figure 45: Simulation on Stage for hexagonal packing
+strategy using s = 6 m, θ = 0 during T = 9.8 s.
+Available on https://youtu.be/v0FK8YpGrL8.
+(a) 0 s: beginning of the simulation.
+(b) After 5 s.
+(c) 10.1 s: ending of the simulation.
+Figure 46: Simulation on Stage for hexagonal packing
+strategy using s = 6 m, θ = π/12 during T = 10.1 s.
+Available on https://youtu.be/OBS_HADH5OE.
+59
+
+
+(a) 0 s: beginning of the simulation.
+(b) After 4.9 s.
+(c) 10 s: ending of the simulation.
+Figure 47: Simulation on Stage for hexagonal packing
+strategy using s = 6 m, θ = π/6 during T = 10 s.
+Available on https://youtu.be/-KX7ziOp8b0.
+(a) 0 s: beginning of the simulation.
+(b) After 4.9 s.
+(c) 10 s: ending of the simulation.
+Figure 48: Simulation on Stage for hexagonal packing
+strategy using s = 6 m, θ = 5π/18 during T = 10 s.
+Available on https://youtu.be/GRYRnH5CrhU.
+Choosing a low velocity implies in more number of lanes K, as the turning speed ω = v/r, and r varies over K
+and s. In addition, low linear speed diminishes time measurement error, since the positions of the robots are
+sampled at every 0.1 s by the Stage simulator. Their positions are not guaranteed to be obtained on the exact
+moment they are far from the target centre by dr, thus this also yields error in time measurement for their
+arrival on the target area.
+We used s ∈{3, 6} m and all allowed K values for experimenting the touch and run strategy with 200
+robots. By (58), for the former s value we have a maximum K = 18 and for the later, K = 37. However, as the
+maximum angular velocity is limited, the allowed K values range for s = 3 m is reduced to {3, . . . , 16} and for
+s = 6 m, {3, . . . , 33}. Figures 51-54 presents screenshots from executions using some of these parameters. The
+circle in the middle of these ﬁgures is the target region and the lines where the robots are above represent the
+curved trajectory which they follow by the touch and run strategy.
+Figure 55 presents the comparison of (60) and (63) for the throughput for a given time, the bound on its
+asymptotic value and the one obtained from Stage simulations. Although we ﬁxed the total number of robots
+and the linear velocity, the arrival times and the number of robots to reach the target change for each parameter
+used in this ﬁgure since the distance between the robots per lane varies and the number of robots simultaneously
+arriving is, in most cases, the number of lanes. Also, we did not plot the ﬁrst two arrival times because the ﬁrst
+one is zero, yielding an indetermination by the throughput deﬁnition, and the second one is still too small in
+relation to the others, making the resultant throughput too high compared with the rest, producing, thus, an
+incomprehensible graph.
+Observe that the values from (60) are almost equal to the values from simulation, except for some points.
+The diﬀerence in those points is due to the ﬂoating-point error in the divisions and trigonometric functions
+before the use of ﬂoor function used on (60) – already mentioned in the introduction of Section 4 – as well as
+the time measurement errors for the arrival of the robots on the target area as explained at the beginning of this
+section. As expected, the values of (60) tend to get nearer to the asymptotic value given by (63). Diﬀerently
+from the previous strategies, notice that, for small values of T, the throughput is higher than for larger ones
+because, for a ﬁxed K, (60) is decreasing for T. As occurred for the previous strategies, higher throughput per
+60
+
+
+10
+20
+30
+40
+50
+60
+70
+Time (s)
+6
+8
+10
+12
+14
+Throughput (1/s)
+s=3
+s=6
+Simulation
+Lower bound
+Instantaneous
+Upper bound
+(a) θ = 0
+20
+40
+60
+Time (s)
+6
+8
+10
+12
+14
+Throughput (1/s)
+s=3
+s=6
+Simulation
+Lower bound
+Instantaneous
+Upper bound
+(b) θ = π/12
+10
+20
+30
+40
+50
+60
+70
+Time (s)
+6
+8
+10
+12
+14
+Throughput (1/s)
+s=3
+s=6
+Simulation
+Lower bound
+Instantaneous
+Upper bound
+(c) θ = π/6
+20
+40
+60
+Time (s)
+6
+8
+10
+12
+14
+Throughput (1/s)
+s=3
+s=6
+Simulation
+Lower bound
+Instantaneous
+Upper bound
+(d) θ = 5π/18
+Figure 49: Throughput versus time comparison of the simulation on Stage, upper and lower bounds on the
+asymptotic value and the theoretical instantaneous equation for the throughput for a given hexagonal packing
+angle for diﬀerent values of s and θ.
+time is reﬂected as a lower arrival time of the last robot per number of robots, which tends to inﬁnite as the
+number of robots grows (Figure 56).
+Figure 57 shows a comparison of the throughput at the end of the experiment – that is, for 200 robots and
+considering the diﬀerence between the time to reach the target region spent by the last robot and the ﬁrst – and
+the asymptotic throughput obtained by (63) for all the possible number of lanes (K) for the used parameters
+and s ∈{3, 6} m. Conﬁrming our results, the simulation values tend to get near to the asymptotic value.
+4.5
+Comparison between hexagonal packing and parallel lanes
+As discussed in Section 3.3.4, we observed that the parallel lane strategy has a higher throughput than hexagonal
+packing for values of u = s/d from 0.5 to a value about 0.85 and for high values of T, despite the parallel lanes
+having lower asymptotic throughput for other values of u. In order to validate this observation, we performed
+experiments on Stage for these strategies using T = 10000 s, v = 0.1 m/s, d = 1 m and s ranging from 0.4 to
+0.95 m in increments of 0.05 m. For hexagonal packing, we computed the best hexagonal packing angle θ using
+the same method mentioned at the end of the theoretical section, that is, we searched the maximum throughput
+using 1000 evenly spaced points between [0, π/3) to ﬁnd the best θ, then we compared with the result for π/6.
+Figure 58 presents the results from the experiments with Stage and the theoretical results showed earlier. The
+throughput improvement for the values of u = s/d where the parallel lanes strategy overcomes the hexagonal
+packing is mainly caused by the square packing being more eﬀective than hexagonal packing for ﬁtting the
+robots inside the circle over the time for those values. To illustrate this, Figure 59 shows the execution for
+v = 0.1 m/s, d = 1 m and s ∈{0.5, 0.85} m. Observe in those ﬁgures that when the robots are arranged in
+61
+
+
+200
+400
+600
+800
+Num. of robots
+10
+20
+30
+40
+50
+60
+70
+Time (s)
+Simulation (s=3)
+Simulation (s=6)
+(a) θ = 0
+0
+200
+400
+600
+800
+Num. of robots
+10
+20
+30
+40
+50
+60
+70
+Time (s)
+Simulation (s=3)
+Simulation (s=6)
+(b) θ = π/12
+0
+200
+400
+600
+800
+1000
+Num. of robots
+10
+20
+30
+40
+50
+60
+70
+Time (s)
+Simulation (s=3)
+Simulation (s=6)
+(c) θ = π/6
+0
+200
+400
+600
+800
+Num. of robots
+10
+20
+30
+40
+50
+60
+70
+Time (s)
+Simulation (s=3)
+Simulation (s=6)
+(d) θ = 5π/18
+Figure 50: Time of arrival at the target of the last robot versus number of robots for the same simulations in
+Figure 49.
+squares, more robots arrive per unit of time than using hexagonal packing. To help visualise this, heed that in
+Figure 59 (a) there are N = 9 robots in black, occupying a rectangle including the circular target area with a
+width of approximately W ≈4.5 m (this distance can be roughly measured by the grey squares, counting from
+the two last black robots on the right side to the ﬁrst one in the left side). As we assumed v = 0.1 m/s, the
+throughput in this case is approximately N−1
+W
+v
+≈(9−1)0.1
+4.5
+≈0.178 s−1. Making similar calculations, we have for
+Figures 59 (b), 59 (c) and 59 (d) the approximate throughputs (8−1)0.1
+3
+≈0.233 s−1, (8−1)0.1
+4
+= 0.175 s−1 and
+(8−1)0.1
+3
+≈0.233 s−1, respectively. The results from the parallel lanes in this illustration – about 0.233 for both
+values of s – surpass the values for the hexagonal packing.
+5
+Conclusion
+A novel metric was proposed for measuring the eﬀectiveness of algorithms to minimise congestions in a swarm
+of robots trying to reach the same goal: the common target area throughput. Also, we deﬁned the asymptotic
+throughput for the common target area as the throughput as the time tends to inﬁnity. Assuming the robots
+have constant velocity and distance between each other, we showed how to calculate the asymptotic throughput
+for diﬀerent theoretical strategies to arrive in the common circular target region: (i) making parallel queues
+to get in the target region, (ii) using a corridor with robots in hexagonal packing to enter in the region and
+(iii) following curved trajectories to touch the region boundary. These strategies where the inspiration of new
+algorithms using artiﬁcial potential ﬁelds in (dos Passos et al., 2022). As the growing number of robots needs
+to be considered in robotic swarms, the asymptotic throughput abstracts the measure of how many robots can
+62
+
+
+(a) 0 s: beginning of the simulation.
+(b) After 114 s.
+(c) 228 s: ending of the simulation.
+Figure 51: Simulation on Stage for the touch and run
+strategy using s = 3 m, K = 10 during T = 228 s
+at v = 0.1 m/s.
+Available on https://youtu.be/
+Z-ruOMYFyBU.
+(a) 0 s: beginning of the simulation.
+(b) After 261.6 s.
+(c) 523.1 s: ending of the simulation.
+Figure 52: Simulation on Stage for the touch and run
+strategy using s = 3 m, K = 16 during T = 523.1
+s at v = 0.1 m/s. Available on https://youtu.be/
+FvAqv0zD4_Y.
+reach the target as time passes and, consequently, as the number of robots increases. Should a closed form for
+the asymptotic throughput be given, we can use it to compare algorithms as it will be always ﬁnite.
+When we assumed constant velocity and distance between robots, we were able to provide theoretical calcu-
+lations of the throughput for a given time and the asymptotic throughput for the diﬀerent theoretical strategies.
+Based solely on these calculations, we could compare which strategy is better. If we can theoretically calculate
+the asymptotic throughput of any algorithm, we may use it to compare them to decide which one is better.
+When a robotic swarm has all robots going to the same target, the function relating the number of robots and
+the time of arrival on the target region tends to inﬁnite as the number of robots grows, while the function
+relating the number of robots and throughput tends to a ﬁnite number, because the asymptotic throughput is
+63
+
+
+(a) 0 s: beginning of the simulation.
+(b) After 63.6 s.
+(c) 127.4 s: ending of the simulation.
+Figure 53: Simulation on Stage for the touch and run
+strategy using s = 6 m, K = 19 during T = 127.4
+s at v = 0.1 m/s. Available on https://youtu.be/
+xJVoVCIjX5k.
+(a) 0 s: beginning of the simulation.
+(b) After 274 s.
+(c) 548 s: ending of the simulation.
+Figure 54: Simulation on Stage for the touch and run
+strategy using s = 6 m, K = 33 during T = 548 s
+at v = 0.1 m/s.
+Available on https://youtu.be/
+-xZz84npKV4.
+ﬁnite. When an algorithm exhibits a lower target region arrival time for a number of robots, the throughput
+is higher, so the comparison by this latter metric can replace the former as it reﬂects the same ordering but
+reverse.
+Although we do not have closed asymptotic equations tackling dynamic speed and inter-robot distance, we
+believe that, if we had them, we could compare only by the analytical asymptotic throughput, as we accomplished
+when the linear velocity and distance between the robots are constant. Thus, for common target area congestion
+in robotic swarms, the throughput is well suited for comparing algorithms due to its abstraction of the rate of
+the target area access as the number of robots grows, whether we have or not the closed throughput equation.
+64
+
+
+0
+100
+200
+300
+400
+Time (s)
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+1.6
+Throughput (1/s)
+s=3 K=16
+Simulation
+Asymptotic
+Instantaneous
+s=3 K=10
+(a) s = 3 m and K ∈{10, 16}.
+0
+100
+200
+300
+400
+Time (s)
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+Throughput (1/s)
+s=6 K=19
+s=6 K=33
+Simulation
+Asymptotic
+Instantaneous
+(b) s = 6 m and K ∈{19, 33}.
+Figure 55: Throughput versus time comparison of the touch and run simulation on Stage with asymptotic values
+and the theoretical instantaneous equation for the throughput for diﬀerent values of s and K.
+25
+50
+75
+100
+125
+150
+175
+Num. of robots
+0
+100
+200
+300
+400
+Time (s)
+Simulation (s=3, K=10)
+Simulation (s=3, K=16)
+(a) s = 3 m and K ∈{10, 16}.
+50
+100
+150
+200
+Num. of robots
+0
+100
+200
+300
+400
+Time (s)
+Simulation (s=6, K=19)
+Simulation (s=6, K=33)
+(b) s = 6 m and K ∈{19, 33}.
+Figure 56: Time of arrival at the target of the last robot versus number of robots for the same simulations in
+Figure 55.
+Acknowledgements
+Yuri Tavares dos Passos gratefully acknowledges the Faculty of Science and Technology at Lancaster University
+for the scholarship and the Universidade Federal do Recˆoncavo da Bahia for granting the leave of absence for
+ﬁnishing his PhD.
+References
+I. Navarro, F. Mat´ıa, An introduction to swarm robotics, International Scholarly Research Notices 2013 (2013).
+doi:10.5402/2013/608164.
+S. Garnier, J. Gautrais, G. Theraulaz, The biological principles of swarm intelligence, Swarm Intelligence 1
+(2007) 3–31. doi:10.1007/s11721-007-0004-y.
+J.-L. Giavitto, S. O. Dulman, A. Spicher, M. Viroli, Proceedings of the spatial computing workshop (scw 2013)
+colocated with aamas (w09), 2013. URL: https://hal.archives-ouvertes.fr/hal-00821901.
+J. P. Giordano, A. S. Wu, A. Pherwani, H. D. Mathias,
+Comparison of desynchronization methods for a
+decentralized swarm on a logistical resupply problem, in: Proceedings of the 20th International Conference
+65
+
+
+5
+10
+15
+20
+25
+30
+K
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+1.6
+1.8
+Throughput (1/s)
+s=3
+s=6
+Asymptotic
+Simulation
+Figure 57: Throughput versus the number of lanes comparison of the simulation on Stage and asymptotic
+throughput for s ∈{3, 6} m.
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+u
+0.10
+0.15
+0.20
+0.25
+0.30
+Throughput (1/s)
+fh(10000, u)
+fp(10000, u)
+Simulation hex.
+Simulation par.
+(a) v = 0.1 m/s.
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+u
+1.0
+1.5
+2.0
+2.5
+3.0
+Throughput (1/s)
+fh(10000, u)
+fp(10000, u)
+Simulation hex.
+Simulation par.
+(b) v = 1 m/s.
+Figure 58: Throughput versus ratio u = s/d comparing hexagonal packing and parallel lanes strategies for
+v ∈{0.1, 1} m/s, including results from Stage simulations. The functions fh and fp are the same presented in
+Figure 32. The labels “Simulation hex.” and “Simulation par.” stand for the throughput resultant from the
+experiments with hexagonal packing and parallel lanes strategies, respectively.
+on Autonomous Agents and MultiAgent Systems, AAMAS ’21, International Foundation for Autonomous
+Agents and Multiagent Systems, Richland, SC, 2021, p. 1510–1511.
+S. Cohen, N. Agmon, Spatial consensus-prevention in robotic swarms, in: Proceedings of the 20th International
+Conference on Autonomous Agents and MultiAgent Systems, AAMAS ’21, International Foundation for
+Autonomous Agents and Multiagent Systems, Richland, SC, 2021, p. 359–367.
+S. Cicerone, A. Di Fonso, G. Di Stefano, A. Navarra, Moblot: Molecular oblivious robots, in: Proceedings of the
+20th International Conference on Autonomous Agents and MultiAgent Systems, AAMAS ’21, International
+Foundation for Autonomous Agents and Multiagent Systems, Richland, SC, 2021, p. 350–358.
+B. Yang, C. Ma, X. Xia, Drone formation control via belief-correlated imitation learning, in: Proceedings of the
+20th International Conference on Autonomous Agents and MultiAgent Systems, AAMAS ’21, International
+Foundation for Autonomous Agents and Multiagent Systems, Richland, SC, 2021, p. 1407–1415.
+L. S. Marcolino, L. Chaimowicz,
+No robot left behind: Coordination to overcome local minima in swarm
+navigation, in: 2008 IEEE International Conference on Robotics and Automation, IEEE, Pasadena, CA,
+USA, 2008, pp. 1904–1909. doi:10.1109/ROBOT.2008.4543485.
+66
+
+
+(a) Hexagonal packing with best θ for s = 0.5 m. Available on
+https://youtu.be/IZBnFHLKXUA.
+(b) Parallel lanes for s = 0.5 m. Available on https://youtu.be/
+YYv1dJFkdPA.
+(c) Hexagonal packing with best θ for s = 0.85 m. Available on
+https://youtu.be/r9X0fsnngm0.
+(d) Parallel lanes for s = 0.85 m. Available on https://youtu.
+be/0cx-bHPIong.
+Figure 59: Screenshots of the Stage simulation for hexagonal packing and parallel lanes strategy for d = 1 m
+and s ∈{0.5, 0.85} m showing that the square packing ﬁts more robots than hexagonal packing over the time
+in these cases. The robots run from right to left at constant linear speed v = 0.1 m/s. We highlighted the grey
+squares – which measure 1 × 1 m2 – to help estimate the time needed to about eight robots arrive on the target
+region.
+F. Ducatelle, G. A. D. Caro, C. Pinciroli, F. Mondada, L. Gambardella, Communication assisted navigation
+in robotic swarms: Self-organization and cooperation,
+in: 2011 IEEE/RSJ International Conference on
+Intelligent Robots and Systems, 2011, pp. 4981–4988. doi:10.1109/IROS.2011.6094454.
+D. Carlino, S. D. Boyles, P. Stone, Auction-based autonomous intersection management, in: 16th International
+IEEE Conference on Intelligent Transportation Systems (ITSC 2013), 2013, pp. 529–534. doi:10.1109/ITSC.
+2013.6728285.
+G. Sharon, P. Stone,
+A protocol for mixed autonomous and human-operated vehicles at intersections,
+in:
+G. Sukthankar, J. A. Rodriguez-Aguilar (Eds.), Autonomous Agents and Multiagent Systems - AAMAS
+2017 Workshops, Best Papers, volume 10642 of Lecture Notes in Artiﬁcial Intelligence, Springer International
+Publishing, New York, 2017, pp. 151–167. doi:10.1007/978-3-319-71682-4_10.
+J. Cui, W. Macke, H. Yedidsion, A. Goyal, D. Urieli, P. Stone, Scalable multiagent driving policies for reducing
+traﬃc congestion, in: Proceedings of the 20th International Conference on Autonomous Agents and Mul-
+tiAgent Systems, AAMAS ’21, International Foundation for Autonomous Agents and Multiagent Systems,
+Richland, SC, 2021, p. 386–394.
+S. Choudhury, K. Solovey, M. J. Kochenderfer, M. Pavone,
+Eﬃcient large-scale multi-drone delivery using
+transit networks, J. Artif. Intell. Res. 70 (2021) 757–788. doi:10.1613/jair.1.12450.
+T. Shahar, S. Shekhar, D. Atzmon, A. Saﬃdine, B. Juba, R. Stern, Safe multi-agent pathﬁnding with time
+uncertainty, J. Artif. Int. Res. 70 (2021) 923–954. doi:10.1613/jair.1.12397.
+G. Xia, X. Sun, X. Xia, Distributed swarm control algorithm of multiple unmanned surface vehicles based on
+grouping method, Journal of Marine Science and Engineering 9 (2021). doi:10.3390/jmse9121324.
+E. Sahin,
+Swarm robotics: From sources of inspiration to domains of application,
+in: E. Sahin, W. M.
+Spears (Eds.), Swarm Robotics, Springer Berlin Heidelberg, Berlin, Heidelberg, 2005, pp. 10–20. doi:10.
+1007/978-3-540-30552-1_2.
+E. Sahin, S. Girgin, L. Bayindir, A. E. Turgut, Swarm Robotics, Springer Berlin Heidelberg, Berlin, Heidelberg,
+2008, pp. 87–100. doi:10.1007/978-3-540-74089-6_3.
+J. C. Barca, Y. A. Sekercioglu,
+Swarm robotics reviewed,
+Robotica 31 (2013) 345–359. doi:10.1017/
+S026357471200032X.
+M. Brambilla, E. Ferrante, M. Birattari, M. Dorigo, Swarm robotics: a review from the swarm engineering
+perspective, Swarm Intelligence 7 (2013) 1–41. doi:10.1007/s11721-012-0075-2.
+L. Bayındır, A review of swarm robotics tasks, Neurocomputing 172 (2016) 292 – 321. doi:10.1016/j.neucom.
+2015.05.116.
+S. Chung, A. A. Paranjape, P. Dames, S. Shen, V. Kumar, A survey on aerial swarm robotics, IEEE Transactions
+on Robotics 34 (2018) 837–855. doi:10.1109/TRO.2018.2857475.
+67
+
+
+M. Hoy, A. S. Matveev, A. V. Savkin, Algorithms for collision-free navigation of mobile robots in complex
+cluttered environments: A survey, Robotica 33 (2015) 463–497. doi:10.1017/S0263574714000289.
+L. Soriano Marcolino, Y. Tavares dos Passos, A. A. Fonseca de Souza, A. dos Santos Rodrigues, L. Chaimowicz,
+Avoiding target congestion on the navigation of robotic swarms, Autonomous Robots 41 (2017) 1297–1320.
+doi:10.1007/s10514-016-9577-x.
+J. van den Berg, S. J. Guy, M. Lin, D. Manocha, Reciprocal n-body collision avoidance, in: C. Pradalier,
+R. Siegwart, G. Hirzinger (Eds.), Robotics Research, Springer Berlin Heidelberg, Berlin, Heidelberg, 2011,
+pp. 3–19. doi:10.1007/978-3-642-19457-3_1.
+H. Daduna, V. Pestien, S. Ramakrishnan, Asymptotic throughput in discrete-time cyclic networks with queue-
+length-dependent service rates, Stochastic Models 19 (2003) 483–506. doi:10.1081/STM-120025401.
+R. W. Hockney, The communication challenge for MPP: Intel Paragon and Meiko CS-2, Parallel Computing
+20 (1994) 389–398. doi:10.1016/S0167-8191(06)80021-9.
+B. P. Gerkey, R. T. Vaughan, A. Howard, The Player/Stage project: Tools for multi-robot and distributed
+sensor systems, in: Proceedings of the 11th International Conference on Advanced Robotics, ICAR, 2003,
+pp. 317–323.
+Y. T. dos Passos, X. Duquesne, L. S. Marcolino, Congestion control algorithms for robotic swarms with a
+common target based on the throughput of the target area, 2022. arXiv:2201.09337.
+H.-C. Chang, L.-C. Wang, A simple proof of thue’s theorem on circle packing, 2010. URL: https://arxiv.
+org/abs/1009.4322. arXiv:1009.4322, preprint arXiv:1009.4322v1.
+Red Blob Games, Hexagonal grids, https://www.redblobgames.com/grids/hexagons/, 2021. Accessed: 2021-
+11-16.
+R. L. Graham, D. E. Knuth, O. Patashnik, Concrete Mathematics: A Foundation for Computer Science, 2 ed.,
+Addison-Wesley Professional, Reading, MA, 1994.
+68

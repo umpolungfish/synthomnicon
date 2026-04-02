@@ -1,0 +1,3634 @@
+\documentclass[12pt,a4paper]{article}
+
+% Encoding and fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% Page layout
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+% Typography
+\usepackage{microtype}
+\usepackage{parskip}
+
+% Language
+\usepackage[english]{babel}
+
+% Headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Section styling
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+\titlespacing*{\section}{0pt}{2.5ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{2ex plus 1ex minus .2ex}{1ex plus .2ex}
+\titlespacing*{\subsubsection}{0pt}{1.5ex plus 1ex minus .2ex}{0.8ex plus .2ex}
+
+% List formatting
+\usepackage{enumitem}
+\setlist[itemize]{topsep=0.5ex, itemsep=0.25ex, parsep=0pt}
+\setlist[enumerate]{topsep=0.5ex, itemsep=0.25ex, parsep=0pt}
+
+% Essential packages
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[normalem]{ulem}
+\rowcolors{2}{gray!10}{white}
+\renewcommand{\arraystretch}{1.3}
+
+% Cross-references
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+% Code listings
+\usepackage{listings}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{200,200,200}
+\definecolor{codekeyword}{RGB}{0,0,180}
+\definecolor{codecomment}{RGB}{0,128,0}
+\definecolor{codestring}{RGB}{163,21,21}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    breakatwhitespace=false,
+    frame=single,
+    framerule=0.5pt,
+    rulecolor=\color{codeframe},
+    backgroundcolor=\color{codebg},
+    keepspaces=true,
+    showstringspaces=false,
+    tabsize=4,
+    xleftmargin=1em,
+    xrightmargin=1em,
+    aboveskip=1em,
+    belowskip=1em,
+    keywordstyle=\color{codekeyword}\bfseries,
+    commentstyle=\color{codecomment}\itshape,
+    stringstyle=\color{codestring},
+}
+
+% YAML language definition for listings
+\lstdefinelanguage{YAML}{
+    keywords={true,false,null,y,n},
+    keywordstyle=\color{blue}\bfseries,
+    sensitive=false,
+    comment=[l]{\#},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{gray}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    morestring=[b]',
+    morestring=[b]",
+}
+
+% TOML language definition for listings
+\lstdefinelanguage{TOML}{
+    keywords={true,false},
+    keywordstyle=\color{blue}\bfseries,
+    sensitive=true,
+    comment=[l]{\#},
+    commentstyle=\color{gray}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    morestring=[b]',
+    morestring=[b]",
+}
+
+% Dockerfile language definition for listings
+\lstdefinelanguage{Dockerfile}{
+    keywords={FROM,RUN,CMD,LABEL,EXPOSE,ENV,ADD,COPY,ENTRYPOINT,VOLUME,USER,WORKDIR,ARG,ONBUILD,STOPSIGNAL,HEALTHCHECK,SHELL},
+    keywordstyle=\color{blue}\bfseries,
+    sensitive=false,
+    comment=[l]{\#},
+    commentstyle=\color{gray}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    morestring=[b]',
+    morestring=[b]",
+}
+
+% JSON language definition for listings
+\lstdefinelanguage{JSON}{
+    keywords={true,false,null},
+    keywordstyle=\color{blue}\bfseries,
+    sensitive=true,
+    commentstyle=\color{gray}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    morestring=[b]",
+}
+
+% Code listing float environment
+\usepackage{float}
+\newfloat{listing}{htbp}{lol}[section]
+\floatname{listing}{Listing}
+
+% Admonition boxes
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% Admonition style definitions
+\newtcolorbox{admonitionbox}[2][]{
+    enhanced,
+    breakable,
+    colback=#2!5,
+    colframe=#2!80!black,
+    fonttitle=\bfseries,
+    title=#1,
+    left=2mm,
+    right=2mm,
+}
+
+% Synthon tuple boxes
+\newtcolorbox{synthonbox}{
+    enhanced,
+    colback=blue!5,
+    colframe=blue!75!black,
+    fontupper=\large,
+    center upper,
+    boxrule=1pt,
+    arc=4pt,
+}
+
+\begin{document}
+
+\title{SynthOmnicon Framework: Comprehensive Usage Guide (v0.4.0)}
+\date{\today}
+
+\maketitle
+
+\textbf{Version 0.4.0} --- Quantum primitive extensions: T\_braid $\cdot$ K\_MBL $\cdot$ $\Gamma$\_↓(DISSIPATIVE) $\cdot$ QUANTUM grammar tier $\cdot$ \textbf{$\Omega$ (TopoIndex) --- 11th primitive} $\cdot$ Factor 8 (quantum criticality) $\cdot$ \texttt{syncon distance} command $\cdot$ all algebra commands wired to \texttt{syncon} CLI.
+
+\textbf{Version 0.3.8} --- Quantum domain encoding: 5 quantum particles (photon/proton/electron/spin/qubit) $\cdot$ G\_aleph first appearance $\cdot$ Axiom 1 as classical boundary detector $\cdot$ spin singlet F\_ell$\rightarrow$F\_hbar correction.
+
+\textbf{Version 0.3.7} --- Ice polymorph catalog (13 phases) $\cdot$ T\_$\in$ sub-label integration across constraints/algebra/ensembler/perturbation/cli $\cdot$ domain-agnostic agent prompts $\cdot$ \texttt{syncon compare} all 10 primitives $\cdot$ Key Justifications fix.
+
+\textbf{Version 0.3.6} --- $T_{\cup}$ bowl topology (8th T value, found via catalog self-audit) $\cdot$ T\_$\in$ sub-labels: T\_$\in$(hex), T\_$\in$(mixed), T\_$\in$($\times$2), T\_$\in$(sym) (12 total T values) $\cdot$ 222 bowl reclassifications $\cdot$ Solid-angle I\_angle formula $\cdot$ Axiom 4 scan $\cdot$ Junk purge case-insensitive fix.
+
+\textbf{Version 0.3.5} --- Phase 3a DSL $\cdot$ \texttt{.syn} YAML runner $\cdot$ \texttt{syncon run} $\cdot$ Agent fixes (ten primitives) $\cdot$ Topology symbols T\_\textbar{}, $T_{\perp}$, T\_$\in$.
+
+\textbf{Version 0.3.3} --- Experimental Validation Suite: CB{[}7{]} 6/6 HotSwap validation $\cdot$ $F_{\ell}$ tier activation $\cdot$ Factor 7 (Frank-model bifurcation) $\cdot$ Soai catalog entry $\cdot$ Proline-aldol Varma probe.
+
+\textbf{Version 0.3.2} --- Tuple Algebra + Compositional Design Language: \texttt{meet}, \texttt{join}, \texttt{path}, \texttt{tensor}, \texttt{lift}, \texttt{pipeline}.
+
+\textbf{Version 0.3.0} --- Four new analysis protocol modules: SYNTHONIC\_PERTURBATION, SYNTHONIC\_TRAJECTORY, SYNTHONIC\_ENSEMBLER, SYNTHONIC\_RETRODESIGN.
+
+\textbf{Full Notation}: \langleD; T; R; P; F; K; G; $\Gamma$; $\Phi$; S; $\Omega$\rangle  ($\Omega$ optional, defaults None for classical synthons)
+
+\subsection{Introduction to SynthOmnicon}
+
+\subsubsection{Foundational Insight: Primitives as Directed Constraints}
+
+The eleven primitives \texttt{\langleD; T; R; P; F; K; G; \Gamma; Phi; S; \Omega\rangle} are \textbf{relational operators}, not intrinsic attributes. Every primitive describes a constraint between entities or a capacity for interaction --- none describes an isolated property of a system standing alone.
+
+This has a practical consequence: the framework's confirmed predictions (see \texttt{PRIMITIVE\_PREDICTIONS.md}) were all derived from \textbf{ordinal comparisons}, not absolute values. The CB{[}7{]} displacement hierarchy (6/6 experimental matches) was predicted from \texttt{$F_{\hbar}$ \textgreater{} F\_eth \textgreater{} $F_{\ell}$} alone. The Soai Frank-bifurcation was predicted from the co-occurrence pattern \texttt{D\_inf + T\_⋈ + P\_DA + $F_{\hbar}$}. Intrinsic scalar properties --- binding enthalpy, hydrophobicity, gap magnitude --- were not required as inputs.
+
+The compositional algebra (\texttt{meet}, \texttt{join}, \texttt{tensor}, \texttt{path}, \texttt{lift}) has no unary information generators. Every operation requires at least one additional operand --- environment, partner, or target state. You cannot call \texttt{tensor(photon)} without a second argument; the algebra returns an error. A synthon's tuple describes its \emph{interaction-ready potential}; the algebra computes only when that potential is actualized against another term.
+
+\subsubsection{What's New in v0.4.1?}
+
+\textbf{Molecular Domain Catalog --- Persistent Synthon Registration} (March 17, 2026):
+
+\begin{enumerate}
+    \item 
+    \textbf{\texttt{synthomnicon/domains/molecular/\_\_init\_\_.py}} --- \texttt{register\_molecular\_synthons()} added. Nine canonical molecular and supramolecular synthons are now programmatically registered at import time, surviving catalog JSON resets:
+
+    \begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Synthon} & \textbf{D} & \textbf{T} & \textbf{F} & \textbf{Role} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{nitroso\_radical\_redox\_synthon\_pair} & D\_$\infty$ & T\_⋈ & $F_{\hbar}$ & Temporal autocatalytic redox cycle; Frank-model Factor 7 fires (score \textgreater{} 0.3); start point for criticality-ascent designs \\
+\texttt{amide\_dimer} & D\_$\land$ & T\_⋈ & F\_eth & N--H$\cdot$$\cdot$$\cdot$O=C H-bonded dimer; F\_eth weaker than carboxylic acid dimer ($F_{\hbar}$); lattice floor/ceiling pair for design 03 \\
+\texttt{nitroso\_radical\_anion\_pi\_cavitand\_cage\_synthon} & D\_△ & T\_cage & $F_{\hbar}$ & Deep-cavity anion--$\pi$ cavitand; shape-selective cage, K\_slow \\
+\texttt{nitroso\_radical\_calixarene\_anion\_pi\_sandwich\_synthon} & D\_△ & T\_bowl & $F_{\hbar}$ & Calixarene bowl; open cup, T\_bowl \textless{} T\_cage in ordinal (fallback partner in or-strategy) \\
+\texttt{nitroso\_radical\_crown\_ether\_host\_guest\_synthon} & D\_△ & T\_cage & F\_eth & Crown ether host--guest; flexible macrocycle $\rightarrow$ F\_eth (fidelity bottleneck partner in design 12) \\
+\texttt{nitroso\_radical\_anion\_pi\_cryptand\_cage\_synthon} & D\_△ & T\_cage & $F_{\hbar}$ & Cryptand cage; 3D bicyclic preorganisation $\rightarrow$ $F_{\hbar}$ (design 16 start) \\
+\texttt{nitroso\_radical\_cucurbituril\_anion\_rotaxane\_synthon} & D\_△ & T\_cage & $F_{\hbar}$ & CB{[}n{]} barrel; high rigidity ($F_{\hbar}$), slow dethreading (K\_slow); tensor partner in designs 12 and 16 \\
+\texttt{synthon\_methyl\_anion\_nucleophile\_CH3\_} & D\_$\land$ & T\_\textbar{} & F\_eth & CH₃⁻ carbanion; P\_minus; retrodesign target in designs 08 and 10 \\
+\texttt{synthon\_methyl\_cation\_electrophile\_CH3} & D\_$\land$ & T\_\textbar{} & F\_eth & CH₃⁺ carbocation; P\_plus; tensor partner for anion-cation MI demonstration (design 10) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+    \item \textbf{Design suite: all 20 \texttt{.syn} scripts execute without \texttt{{[}ERROR{]}}} --- 18 succeed, 2 are intentional F-floor pedagogical demonstrations (designs 01 and 04). All previously \texttt{{[}ERROR{]}} failures caused by missing catalog entries are now resolved.
+    \item \textbf{\texttt{register\_molecular\_synthons()} wired to \texttt{synthomnicon/\_\_init\_\_.py}} --- auto-invoked on \texttt{import synthomnicon}, idempotent. Registration order: cross-domain $\rightarrow$ quantum $\rightarrow$ molecular.
+\end{enumerate}
+
+\subsubsection{What's New in v0.3.0?}
+
+\textbf{Four Protocol Modules} (March 15, 2026):
+
+\begin{enumerate}
+    \item 
+    \textbf{SYNTHONIC\_PERTURBATION} (\texttt{synthomnicon/perturbation.py}):
+
+    \begin{itemize}
+    \item \texttt{PerturbationEngine.sweep\_all(synthon, delta\_g)} --- primitive Jacobian: $\Delta$\xi\_CP for every primitive $\pm$1 tier
+    \item \texttt{PerturbationEngine.fault\_injection(synthon, delta\_g)} --- single-point-of-failure analysis
+    \item \texttt{PerturbationEngine.find\_path\_to\_target(synthon, delta\_g, target\_xi\_CP, optimize\_primitives)} --- minimum-step tuning path
+    \item CLI: \texttt{syncon perturb sweep \textless{}name\textgreater{} --delta-g \textless{}float\textgreater{}}
+\end{itemize}
+
+    \item 
+    \textbf{SYNTHONIC\_TRAJECTORY} (\texttt{synthomnicon/trajectory.py}):
+
+    \begin{itemize}
+    \item \texttt{TemporalSynthonAgent} --- encode D\_$\infty$ systems as step sequences, validate Axiom 6 compliance
+    \item Three checks: S mass balance, Axiom 4 (D\_$\infty$ or R\_‡), K\_trap/$\Delta$G‡\textgreater{}100
+    \item CLI: \texttt{syncon trajectory validate --steps \textless{}names\textgreater{} --reset \textless{}name\textgreater{}}
+\end{itemize}
+
+    \item 
+    \textbf{SYNTHONIC\_ENSEMBLER} (\texttt{synthomnicon/ensembler.py}):
+
+    \begin{itemize}
+    \item \texttt{EnsembleCatalog} --- N$\times$N pairwise compatibility, emergent property detection, system \xi\_CP
+    \item Emergent: criticality, G\_ב$\rightarrow$G\_ג amplification (Axiom 3), interface fidelity degradation
+    \item CLI: \texttt{syncon ensemble check --components \textless{}names\textgreater{}}
+\end{itemize}
+
+    \item 
+    \textbf{SYNTHONIC\_RETRODESIGN} (\texttt{synthomnicon/retrodesign.py}):
+
+    \begin{itemize}
+    \item \texttt{RetrodesignEngine.decompose()} --- recursive axiom-pruned decomposition tree
+    \item Axioms 1, 2 (sub-tuples claiming G\_ℵ only), 4, 6
+    \item CLI: \texttt{syncon retrodesign \textless{}name\_or\_notation\textgreater{} --max-depth 3 --prune-axioms 1,2,4,6}
+\end{itemize}
+
+\end{enumerate}
+
+See \textbf{Section 7} for full protocol API documentation and CLI reference. See \textbf{Section 8} for the tuple algebra commands.
+
+\subsubsection{What's New in v0.3.5?}
+
+\textbf{Phase 3a DSL + Agent Fixes + Topology Symbols} (March 16, 2026):
+
+\begin{enumerate}
+    \item \textbf{\texttt{.syn} YAML DSL} (\texttt{synthomnicon/syn\_runner.py}): Design programs compiled to \texttt{SynthonM} pipelines. Supported step types: \texttt{join}, \texttt{meet}, \texttt{tensor}, \texttt{lift}, \texttt{path}, \texttt{assert}, \texttt{bind}, \texttt{or}. The \texttt{or:} step implements MonadPlus fallback (\texttt{strategy\_or}). Post-hoc \texttt{output: assert:} block checks WriterT-level cost (\texttt{total\_delta\_xi \textless{} N}, \texttt{steps \textless{}= N}, \texttt{criticality\_ok}).
+    \item \textbf{\texttt{syncon run \textless{}file.syn\textgreater{}}}: New CLI command. \texttt{--format text\textbar{}json}, \texttt{--save PATH}, \texttt{--dry-run}. Runs \texttt{.syn} scripts and reports step-by-step trace plus output assertions.
+    \item \textbf{Agent primitive awareness}: Both \texttt{axiom\_guided\_generator} and \texttt{synthon\_generator\_agent} now declare \textbf{ten primitives} (D, T, R, P, F, K, G, $\Gamma$, $\Phi$, S). \texttt{criticality\_phase} parser defaults to \texttt{Phi\_sub} instead of returning \texttt{None}. Topology block lists all 7 values with symbols.
+    \item 
+    \textbf{New topology symbols}: Three acyclic connectivity classes now have explicit symbols:
+
+    \begin{itemize}
+    \item \texttt{T\_\textbar{}} (LINEAR) --- unbranched linear chain, no junction nodes
+    \item \texttt{$T_{\perp}$} (BRANCHED) --- branched acyclic, one or more junction nodes
+    \item \texttt{T\_in} (NETWORK) --- multiply-connected, cycles permitted without cage closure
+All three are registered in \texttt{Topology.from\_symbol()}.
+\end{itemize}
+
+    \item \textbf{Notation always includes $\Phi$}: \texttt{to\_notation()} defaults to \texttt{Phi\_sub} when \texttt{criticality\_phase} is unset; S appended as 10th position when set. Notation is always a 9- or 10-element tuple.
+\end{enumerate}
+
+\subsubsection{What's New in v0.3.3?}
+
+\textbf{Experimental Validation Suite + Factor 7 + $F_{\ell}$ Activation} (March 16, 2026):
+
+\begin{enumerate}
+    \item \textbf{CB{[}7{]} competitive displacement --- 6/6 HotSwap validation}: Three-tier CB{[}7{]} series (Fc/Ad/DABCO) tests the F-floor asymmetric ratchet against Kim JACS 2001 / Assaf \& Nau CSR 2015 experimental data. All 6 directional predictions (3 APPROVED, 3 BLOCKED) match experiment from ordinal F ranking alone. First use of \textbf{$F_{\ell}$ tier} (DABCO, Ka = 2$\times$10⁵ M⁻¹ \textless{} threshold \textasciitilde{}10⁷ M⁻¹).
+    \item \textbf{Factor 7 --- Frank-model classical bifurcation} (\texttt{varma\_probe.py}): New heuristic factor (weight 0.25) in \texttt{score\_phi\_c\_candidacy()}. Fires when D\_$\infty$ + T\_⋈ + P\_directional + $F_{\hbar}$ are co-present. Identifies pitchfork bifurcation at ee = 0 (Frank 1953) --- universality class distinct from Varma QXY and steric-cliff.
+    \item \textbf{Soai reaction catalog entry} (\texttt{soai\_pyrimidyl\_autocatalytic\_cycle}): Fully grounded. \xi\_r = 15, \x$i_{\tau}$ = 7.2$\times$10¹⁵ ($\omega$\_c = 10¹$^{2}$ s⁻¹), ratio = 0.94. Probe score \textbf{0.920} (approaching $\Phi$\_c, Frank-model mechanism). Highest-confidence $\Phi$\_c candidate in catalog.
+    \item \textbf{Proline-aldol Varma probe}: \xi\_r = 6.2, \x$i_{\tau}$ = 1.8$\times$10¹⁴, ratio = 0.189 $\rightarrow$ $\Phi$\_sub confirmed. The 60 Å correlation length required for criticality is incompatible with the observed enamine geometry.
+    \item 
+    \textbf{Three-mechanism discrimination} --- probe now discriminates three universality classes:
+
+    \begin{itemize}
+    \item Varma QXY (Factors 1--5)
+    \item Steric-cliff proxy (Factor 6, db24c8 score 0.461)
+    \item Frank-model classical bifurcation (Factor 7, Soai score 0.920)
+\end{itemize}
+
+\end{enumerate}
+
+\subsubsection{What's New in v0.3.2?}
+
+\textbf{Tuple Algebra + Compositional Design Language} (March 16, 2026):
+
+\begin{enumerate}
+    \item \textbf{Lattice operations} --- \texttt{syncon meet S1 S2} and \texttt{syncon join S1 S2}. Componentwise min/max on ordered primitives; CONFLICT sentinel on categorical mismatch; $\Phi$\_c dominates in both.
+    \item \textbf{Path search} --- \texttt{syncon path SRC DST}. BFS over valid-swap directed graph restricted to same \{D,T\} cluster; accumulates $\Delta$\xi\_CP; correctly asymmetric (F-floor enforcement).
+    \item \textbf{Tensor product} --- \texttt{syncon tensor S1 S2}. Ensemble prediction: F$\rightarrow$min (bottleneck), K$\rightarrow$min, G$\rightarrow$max, $\Phi$\_c propagates, \xi\_ens = \xi₁+\xi₂$-$$\lambda$$\cdot$I(s₁;s₂).
+    \item \textbf{Natural transformations} --- \texttt{syncon lift NAME (temporal\textbar{}spatial\textbar{}critical\textbar{}molecular)}. Four primitive-rewriting maps with side-by-side diff output. Criticality lift gated on F$\geq$$F_{\hbar}$ (Axiom 5 enforcement).
+    \item \textbf{DesignPipeline} --- \texttt{syncon pipeline START --step op:arg {[}...{]}}. Writer+Maybe monad: chained operations with automatic \xi\_CP threading and fail-fast logging. Equivalent to Haskell do-notation over the HotSwap category.
+\end{enumerate}
+
+See \textbf{Section 8} for full reference.
+
+\subsubsection{What's New in v2.2?}
+
+\textbf{I(bits) Calibration + Quantitative Criticality + Stoichiometry} (March 2026):
+
+\begin{enumerate}
+    \item \textbf{Calibrated I(bits) pipeline} --- DOF-counting replaces 4--6 bit heuristic (new range: 6--18 bits). \texttt{syncon info-bits --calibrate {[}--solvent chloroform\textbar{}THF\textbar{}DMSO\textbar{}water{]}}.
+    \item \textbf{Quantitative criticality probe} --- z\_eff divergence measure + degeneracy strength score (0--1, four tiers). \texttt{syncon criticality-probe --batch --degeneracy-type --export-candidates}.
+    \item \textbf{Stoichiometry primitive S} --- 10th primitive with weight 0.08 in similarity scoring. \texttt{syncon catalog auto-stoichiometry} backfills T\_⋈ entries. Pass 4 audit enforces S consistency.
+    \item \textbf{Analogy enhancements} --- \texttt{syncon analogies --critical-only} and \texttt{--stoichiometry-aware} flags.
+    \item \textbf{Fidelity tier boundaries updated} --- HIGH $\leq$ 8.5 nats $\cdot$ MEDIUM 8.5--11.0 nats $\cdot$ LOW \textgreater{} 11.0 nats (was 9.0/11.5).
+\end{enumerate}
+
+\subsubsection{What's New in v2.1?}
+
+\textbf{SYNTHONICON\_FIXES.md Full Implementation} (March 14--15, 2026):
+
+\begin{enumerate}
+    \item 
+    \textbf{Grounding Validation with Registration Blocking} (Fix 1 --- CRITICAL):
+
+    \begin{itemize}
+    \item \texttt{--strict-grounding} flag blocks registration if primitives lack mechanistic grounding
+    \item \texttt{--override-grounding} with \texttt{--override-reason} for speculative entries
+    \item \texttt{--speculative} flag registers into isolated 'speculative' domain
+    \item Audit trail logs all grounding overrides with human-provided justifications
+    \item Grounding metadata persisted in catalog JSON
+\end{itemize}
+
+    \item 
+    \textbf{Axiom 6: Temporal Grounding} (Fix 2 --- HIGH, extended v0.3.3):
+
+    \begin{itemize}
+    \item D\_$\infty$ requires either a named discrete reset OR a continuously supplied dissipative flux (see below)
+    \item \textbf{Discrete reset} (\texttt{reset\_type=''discrete''}): validates \texttt{cycle\_steps} $\geq$ 2, or \texttt{axiom6\_grounding} block with \texttt{initial\_state}, \texttt{transformation}, \texttt{work\_performed}, \texttt{reset\_mechanism}
+    \item \textbf{Continuous dissipative} (\texttt{reset\_type=''continuous''}): validates \texttt{driving\_gradient.description} and \texttt{driving\_gradient.coupling} in \texttt{synthon.grounding{[}''reset''{]}}
+    \item Keyword scan (\texttt{AXIOM\_6\_RESET\_INDICATORS}, \texttt{AXIOM\_6\_PROCESS\_INDICATORS}) is fallback only when no structured block is present
+\end{itemize}
+
+    \item 
+    \textbf{Axiom 7: Cyclic Topology Grounding} (Fix 3 --- HIGH):
+
+    \begin{itemize}
+    \item T\_⋈ now requires named closing bond/interaction
+    \item Detects invalid justifications (linear, rod, chain, axial, etc.)
+    \item Keyword indicators: \texttt{AXIOM\_7\_CLOSING\_INDICATORS}, \texttt{AXIOM\_7\_INVALID\_TOPO\_KEYWORDS}
+\end{itemize}
+
+    \item 
+    \textbf{Per-Primitive Confidence} (Fix 4 --- MEDIUM):
+
+    \begin{itemize}
+    \item \texttt{PrimitiveGrounding} dataclass: \texttt{confidence: float}, \texttt{is\_grounded: bool}, \texttt{failure\_reason}, \texttt{suggested\_alternative}
+    \item \texttt{ADVERSARIAL\_GROUNDING\_PROMPT} --- challenges each primitive from first principles
+    \item Confidence auto-derived from status (GROUNDED=0.9, AMBIGUOUS=0.5, UNGROUNDED=0.1, INVALID=0.0)
+\end{itemize}
+
+    \item 
+    \textbf{Quantum Extension Quarantine} (Fix 5 --- MEDIUM):
+
+    \begin{itemize}
+    \item \texttt{domain} field tags speculative/quantum entries
+    \item Prevents semantic contamination of grounded catalog
+\end{itemize}
+
+    \item 
+    \textbf{Catalog Audit Command} (Fix 6 --- MEDIUM):
+
+    \begin{itemize}
+    \item \texttt{syncon audit} scans catalog for grounding issues
+    \item Axiom 6/7 shortcuts, \texttt{--auto-flag}, \texttt{--dry-run} support (see Section 4.2)
+\end{itemize}
+
+    \item 
+    \textbf{NLP Format Enforcement} (v2.1.3):
+
+    \begin{itemize}
+    \item All LLM prompts across the codebase follow NLP\_FORMAT.md
+    \item XML tags, \texttt{**MUST**}/\texttt{**MUST NOT**}, declarative commands, explicit output formats
+\end{itemize}
+
+\end{enumerate}
+
+\textbf{Eight Axioms Now Enforced}:
+
+\begin{itemize}
+    \item Axioms 1-5: Composition axioms (QUANTSYNTHONICON.md Section IV)
+    \item Axioms 6-7: Grounding axioms (SYNTHONICON\_FIXES.md)
+    \item Axiom 8: R physics match (R must match actual interaction physics)
+\end{itemize}
+
+SynthOmnicon is a groundbreaking Python framework that brings the theoretical elegance of the \textbf{Unified Synthonicon} to practical application. At its core, SynthOmnicon provides a computational platform for systematically analyzing, designing, and predicting the behavior of self-organizing chemical systems. It unifies disparate fields---from traditional molecular organic chemistry to complex supramolecular assemblies and dynamic temporal processes---under a single, coherent conceptual umbrella.
+
+The framework's primary goal is to bridge the understanding gap between these domains by employing a shared language: the \textbf{Ten Primitives} (Dimensionality, Topology, Recognition Mode, Polarity, Fidelity, Kinetic Character, Granularity, Interaction Grammar, Criticality Phase, and Stoichiometry). This unified notation allows researchers and developers to describe any self-organizing chemical motif, regardless of its scale or mechanism, with unprecedented precision.
+
+\textbf{Key Benefits of SynthOmnicon:}
+
+\begin{itemize}
+    \item \textbf{Unified Language:} Provides a common vocabulary for describing chemical systems across molecular, supramolecular, and temporal scales, fostering interdisciplinary insights.
+    \item \textbf{Predictive Power:} Enables the prediction of system behavior, compatibility, and efficiency based on the fundamental properties of its constituent synthons.
+    \item \textbf{Axiom Validation:} Automatically validates synthons against five composition axioms from QUANTSYNTHONICON.md Section IV.
+    \item \textbf{AI-Driven Design:} The discrete and quantifiable nature of its primitives makes SynthOmnicon an ideal foundation for AI and machine learning applications in chemical synthesis and materials discovery. By encoding chemical knowledge in a structured format, it facilitates generative design and autonomous chemical research.
+\end{itemize}
+
+\subsubsection{Core Philosophy: Synthons as Constraint Propagation Units}
+
+At the heart of SynthOmnicon lies the concept of a \textbf{Synthon} as a ''constraint propagation unit.'' Traditionally, synthons were idealized fragments used in retrosynthetic analysis. SynthOmnicon extends this definition: a Synthon is understood as a minimal subsystem that \textbf{encodes a specific set of constraints}. When this synthon interacts with a compatible environment via a defined recognition mode, it actively \emph{reduces the system's degrees of freedom}. This reduction reliably steers the overall system towards a predictable target state---be it a specific molecular connectivity, a complex supramolecular geometry, or a precise temporal sequence.
+
+This information-theoretic perspective positions synthons not merely as static building blocks, but as dynamic agents that guide assembly and transformation by influencing the probabilistic landscape of chemical outcomes. In essence, synthons act as local rules that propagate their influence globally, analogous to constraint propagation algorithms in computer science, where local rules reduce a vast search space to a manageable set of solutions.
+
+\subsubsection{The Ten Primitives: A Unified Language}
+
+The Unified Synthonicon is built upon ten primitives, each representing a crucial aspect of a synthon's behavior and function. These primitives form a standardized, extensible vocabulary:
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Primitive} & \textbf{Symbol} & \textbf{Description} & \textbf{Key Purpose in SynthOmnicon} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\textbf{Dimensionality} & $D$ ($D_{\wedge}, D_{\bigtriangleup}, D_{\infty}$) & The coordinate set along which the synthon operates. & Defines the operational scale (molecular, supramolecular, temporal). \\
+\textbf{Topology} & $T$ (\$T\_\{\textbackslash{}bowtie\}, T\_\{\textbackslash{}ggg\}, T\_\{\textbackslash{}square\}, T\_\{\textbackslash{}square\textbackslash{}square\}, T\_\{ & \}, T\_\{\textbackslash{}perp\}, T\_\{\textbackslash{}in\}\$) & The internal connectivity pattern of the synthon's minimal motif. \\
+\textbf{Recognition Mode} & $R$ ($R_{\subseteq}, R_{\supseteq}, R_{\ddagger}, R_{\Leftrightarrow}$) & The physical mechanism of interaction. & Specifies how synthons interact (covalent, non-covalent, dynamic). \\
+\textbf{Polarity} & $P$ ($P+, P-, P_{\pm}$) & The directional character of the interaction. & Dictates partner preference and orientation (acceptor, donor, self-complementary). \\
+\textbf{Fidelity} & $F$ ($F_{\hbar}, F_{\eth}, F_{\ell}$) & Thermodynamic reliability anchored to $\xi_{CP}$. Tiers: HIGH $\leq$ 8.5 nats $\cdot$ MEDIUM 8.5--11.0 nats $\cdot$ LOW \textgreater{} 11.0 nats. & Quantifies the predictability and robustness of an interaction. \\
+\textbf{Kinetic Character} & $K$ ($K_{\text{fast}}, K_{\text{mod}}, K_{\text{slow}}, K_{\text{trap}}$) & Activation barrier and pathway multiplicity. & Distinguishes thermodynamic fidelity from operational accessibility. \\
+\textbf{Granularity} & $G$ ($G_{\beth}, G_{\gimel}, G_{\aleph}$) & The scale of control exerted by the synthon. & Defines the scope of influence (local, mesoscale, global). \\
+\textbf{Interaction Grammar} & $\Gamma$ ($\Gamma_{\wedge}, \Gamma_{\vee}, \Gamma_{\to}$) $\times$ (SPECIFIC $\cdot$ SELECTIVE $\cdot$ BROAD) & The logic governing partner selection. & Determines the specificity and ordering of binding. \\
+\textbf{Criticality Phase} & $\Phi$ ($\Phi_{\text{sub}}, \Phi_c, \Phi_{\text{super}}$) & Phase relative to the G--D criticality locus. & Encodes whether the synthon exhibits scale-free behavior (Axiom 5). \\
+\textbf{Stoichiometry} & $S$ (e.g. \texttt{''1:1''}, \texttt{''2:1''}, \texttt{''n:m''}) & Valency ratio of the recognition event; constrains T and P. Weight 0.08 in analogy scoring. & Distinguishes homodimers from host--guest and polymeric assemblies. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Together, these primitives are used to generate the full \textbf{Unified Notation}: \texttt{\langleD; T; R; P; F; K; G; \Gamma; Phi; S\rangle}. This notation is the cornerstone of SynthOmnicon, enabling quantitative analysis and cross-domain comparisons.
+
+\subsection{Installation and Setup}
+
+To begin using the SynthOmnicon framework, follow these steps to set up your Python environment and install the necessary dependencies.
+
+\subsubsection{Prerequisites}
+
+\begin{itemize}
+    \item 
+    \begin{itemize}
+    \item \textbf{Python Version}: SynthOmnicon requires Python 3.9 or higher.To check your Python version, run: \texttt{python --version} or \texttt{python3 --version}.
+    \item If you need to install Python, visit \href{}{python.org}.
+\end{itemize}
+
+    \item \textbf{Operating System}: The framework is developed and tested on Linux environments, but should generally work on macOS and Windows (using WSL for a better experience on Windows).
+    \item \textbf{Internet Connection}: Required for downloading dependencies.
+\end{itemize}
+
+\subsubsection{Recommended Environment Management}
+
+It is highly recommended to use a virtual environment to manage project dependencies. This isolates the project's packages from your system-wide Python installation, preventing conflicts and ensuring reproducibility. Two excellent tools for this are \texttt{uv} (faster, modern alternative) or \texttt{venv} (standard Python module).
+
+\subsubsection{Installation Steps}
+
+\paragraph{Option 1: Using \texttt{uv} (Recommended for Speed and Efficiency)}
+
+\texttt{uv} is a new, highly performant Python package installer and resolver. If you don't have \texttt{uv} installed, you can get it with \texttt{pip}:
+
+\begin{lstlisting}[language=bash]
+pip install uv
+\end{lstlisting}
+
+Once \texttt{uv} is installed, navigate to your SynthOmnicon project directory and follow these commands:
+
+\begin{enumerate}
+    \item 
+    \textbf{Create a virtual environment}:
+
+    \begin{lstlisting}[language=bash]
+uv venv
+\end{lstlisting}
+
+    This creates a new virtual environment named \texttt{.venv} in your project root.
+
+    \item 
+    \textbf{Activate the virtual environment}:
+
+    \begin{itemize}
+    \item 
+    \begin{lstlisting}[language=bash]
+source .venv/bin/activate
+\end{lstlisting}
+
+    \textbf{On Linux/macOS}:
+
+    \item 
+    \begin{lstlisting}[language=bash]
+source .venv/bin/activate
+\end{lstlisting}
+
+    \textbf{On Windows (Git Bash/WSL)}:
+
+    \item 
+    \begin{lstlisting}[language=bash]
+.venv\Scripts\activate.bat
+\end{lstlisting}
+
+    \textbf{On Windows (Command Prompt)}:
+
+    \item 
+    \begin{lstlisting}[language=bash]
+.venv\Scripts\Activate.ps1
+\end{lstlisting}
+
+    \textbf{On Windows (PowerShell)}:
+
+\end{itemize}
+
+    Your command prompt should now show \texttt{(.venv)} prefixed, indicating the virtual environment is active.
+
+    \item 
+    \textbf{Install project dependencies}:
+
+    \begin{lstlisting}[language=bash]
+uv pip install -r requirements.txt
+\end{lstlisting}
+
+    \texttt{uv} will quickly install all packages listed in \texttt{requirements.txt}.
+
+\end{enumerate}
+
+\paragraph{Option 2: Using \texttt{pip} and \texttt{venv} (Standard Python)}
+
+If you prefer to use the standard Python tools, \texttt{venv} and \texttt{pip} are readily available.
+
+\begin{enumerate}
+    \item 
+    \textbf{Create a virtual environment}:
+
+    \begin{lstlisting}[language=bash]
+python -m venv .venv
+\end{lstlisting}
+
+    This creates a new virtual environment named \texttt{.venv} in your project root.
+
+    \item 
+    \textbf{Activate the virtual environment}:
+
+    \begin{itemize}
+    \item 
+    \begin{lstlisting}[language=bash]
+source .venv/bin/activate
+\end{lstlisting}
+
+    \textbf{On Linux/macOS}:
+
+    \item 
+    \begin{lstlisting}[language=bash]
+source .venv/bin/activate
+\end{lstlisting}
+
+    \textbf{On Windows (Git Bash/WSL)}:
+
+    \item 
+    \begin{lstlisting}[language=bash]
+.venv\Scripts\activate.bat
+\end{lstlisting}
+
+    \textbf{On Windows (Command Prompt)}:
+
+    \item 
+    \begin{lstlisting}[language=bash]
+.venv\Scripts\Activate.ps1
+\end{lstlisting}
+
+    \textbf{On Windows (PowerShell)}:
+
+\end{itemize}
+
+    Your command prompt should now show \texttt{(.venv)} prefixed, indicating the virtual environment is active.
+
+    \item 
+    \textbf{Install project dependencies}:
+
+    \begin{lstlisting}[language=bash]
+pip install -r requirements.txt
+\end{lstlisting}
+
+    \texttt{pip} will install all packages listed in \texttt{requirements.txt}.
+
+\end{enumerate}
+
+\subsubsection{Verifying Installation}
+
+After installing dependencies, you can run the integration tests to verify that everything is set up correctly:
+
+\begin{lstlisting}[language=bash]
+python test_integration.py
+\end{lstlisting}
+
+You should see a message indicating that all tests passed. If any tests fail, please refer to the ''Troubleshooting'' section or create an issue in the project repository.
+
+\subsubsection{Project Structure Overview}
+
+The SynthOmnicon framework is organized into several key directories:
+
+\begin{itemize}
+    \item \texttt{synthomnicon/}: Contains the core Python modules for the Unified Synthonicon, including primitive definitions, the Synthon dataclass, catalog, constraints engine, and thermodynamics calculations.
+    \item \texttt{synthomnicon/domains/}: Houses domain-specific agents (molecular, supramolecular, temporal, hybrid) that leverage the core framework for specialized analyses.
+    \item \texttt{framework/}: Includes components of the underlying AjintK multi-agent framework, providing utilities for agent orchestration and communication.
+    \item \texttt{examples/}: Demonstrative scripts showing how to use various parts of SynthOmnicon.
+    \item \texttt{QUANTSYNTHONICON.md}: The foundational theoretical document detailing the Unified Synthonicon.
+    \item \texttt{README.md}: General project information and quick start guide.
+    \item \texttt{requirements.txt}: Lists all Python dependencies.
+    \item \texttt{test\_integration.py}: The suite of integration tests.
+\end{itemize}
+
+\subsection{Core Concepts: The Ten Primitives in Detail}
+
+The Unified Synthonicon framework categorizes the fundamental properties of chemical interactions into ten primitives. Primitives 1--9 are encoded as Python \texttt{Enum} classes; primitive 10 (S, Stoichiometry) is a string field with category-aware similarity grading and Pass 4 audit enforcement. Together they form the standardized language for describing, comparing, and predicting synthon behavior across molecular, supramolecular, and temporal domains.
+
+\subsubsection{Dimensionality (D)}
+
+Dimensionality specifies the coordinate set or ''space'' along which a synthon primarily operates. It helps define the context and scale of the chemical system under consideration. The \texttt{Dimensionality} enum can also represent hybrid systems that span multiple domains.
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{MOLECULAR} (\texttt{''D\_wedge''} or \texttt{''D\_and''}): Point-like reactivity, typically involving individual atoms or small molecules.
+    \item \texttt{SUPRAMOLECULAR} (\texttt{''D\_triangle''} or \texttt{''D\_△''}): Three-dimensional spatial organization, such as crystal packing or host-guest interactions.
+    \item \texttt{TEMPORAL} (\texttt{''D\_infinity''} or \texttt{''D\_inf''}): One-dimensional periodicity over time, characteristic of oscillating reactions or catalytic cycles.
+    \item \texttt{HYBRID\_MOL\_SUPRA} (\texttt{''D\_wedge\_triangle''}): Combines molecular-level reactions within a supramolecular framework.
+    \item \texttt{HYBRID\_MOL\_TEMP} (\texttt{''D\_wedge\_infinity''}): Molecular reactions with a temporal component (e.g., dynamic covalent chemistry).
+    \item \texttt{HYBRID\_SUPRA\_TEMP} (\texttt{''D\_triangle\_infinity''}): Supramolecular structures exhibiting temporal dynamics.
+    \item \texttt{HYBRID\_ALL} (\texttt{''D\_all''}): Spans all three fundamental dimensions.
+\end{itemize}
+
+    \item 
+    \textbf{Usage Examples}:
+
+    \begin{lstlisting}[language=Python]
+from synthomnicon.models import Dimensionality
+
+# Accessing enum members
+mol_dim = Dimensionality.MOLECULAR
+print(f"Molecular Dimensionality: {mol_dim.value}")
+
+# Parsing from symbolic notation
+temp_dim = Dimensionality.from_symbol("D_inf")
+print(f"Temporal Dimensionality from symbol: {temp_dim.name}")
+
+# Hybrid example
+hybrid_dim = Dimensionality.HYBRID_MOL_SUPRA
+print(f"Hybrid Dimensionality: {hybrid_dim.value}")
+\end{lstlisting}
+
+    \item 
+    \textbf{\texttt{domains} Property}:
+Each \texttt{Dimensionality} member has a \texttt{domains} property, which returns a \texttt{Set{[}str{]}} indicating the fundamental domains it encompasses (e.g., ''molecular'', ''supramolecular'', ''temporal'').
+
+    \begin{lstlisting}[language=Python]
+print(f"Domains for HYBRID_MOL_SUPRA: {hybrid_dim.domains}")
+# Expected: {'molecular', 'supramolecular'}
+print(f"Domains for TEMPORAL: {temp_dim.domains}")
+# Expected: {'temporal'}
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Topology (T)}
+
+Topology describes the internal connectivity pattern or spatial arrangement within the synthon's minimal motif. It characterizes the geometric scaffolding or network structure formed by the interacting components.
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{CYCLIC\_BOWTIE} (\texttt{''T\_bowtie''} or \texttt{''T\_⋈''}): Cyclic motifs, like hydrogen-bonded dimers (e.g., carboxylic acid dimer) or catalytic cycles.
+    \item \texttt{CHAIN} (\texttt{''T\_chains''} or \texttt{''T\_≫''}): Linear or extended chain structures (e.g., polymers, protein helices).
+    \item \texttt{HUB\_NODE} (\texttt{''T\_square''} or \texttt{''T\_□''}): Central nodes connecting multiple branches, common in metal-organic frameworks (MOFs) or dendritic structures.
+    \item \texttt{LINEAR} (\texttt{''T\_linear''} / \texttt{''T\_\textbar{}''}): Unbranched linear chain, no junction nodes (e.g., linear polymers, rod-like coordination chains).
+    \item \texttt{BRANCHED} (\texttt{''T\_branched''} / \texttt{''$T_{\perp}$''}): Branched acyclic topology with one or more junction nodes (e.g., dendrimers, branched polymers).
+    \item 
+    \begin{itemize}
+    \item \texttt{NETWORK} (\texttt{''T\_network''} / \texttt{''T\_in''}): Multiply-connected, cycles permitted but without full 3D cage closure (e.g., MOF nets, 2D coordination networks). Use a sub-label when ring topology is known:\texttt{NETWORK\_HEX} (\texttt{''T\_network\_hex''} / \texttt{''T\_in(hex)''}): 6-membered rings only (e.g., ice Ih, honeycomb MOFs, graphene-like nets). Complexity 5.
+    \item \texttt{NETWORK\_MIXED} (\texttt{''T\_network\_mixed''} / \texttt{''T\_in(mixed)''}): Mixed ring sizes (e.g., ice III, ice IV, ice V). Complexity 5.
+    \item \texttt{NETWORK\_INTERPENETRATING} (\texttt{''T\_network\_interp''} / \texttt{''T\_in(x2)''}): Two independent sub-networks occupying the same space (e.g., ice VI, ice VII, ice VIII --- bcc interpenetrating H-bond lattices). Complexity 6.
+    \item \texttt{NETWORK\_SYM} (\texttt{''T\_network\_sym''} / \texttt{''T\_in(sym)''}): Centrosymmetric bonding --- symmetric H-bond or equivalent (e.g., ice X at $\geq$70 GPa). Complexity 5.
+\end{itemize}
+
+    \item \texttt{CAGE} (\texttt{''T\_cage''} / \texttt{''T\_□□''}): Fully enclosed, hollow structures --- 3D closure required (e.g., cucurbiturils, Fujita spheres, COCs).
+    \item \texttt{BOWL} (\texttt{''T\_bowl''} / \texttt{''$T_{\cup}$''}): Open concave cavity with a single portal --- guest enters and exits freely; K\_fast is the default (e.g., calixarenes, resorcinarenes, pillar{[}n{]}arenes, cyclotriveratrylenes). Distinguished from T\_□□ by the absence of full 3D closure: $T_{\cup}$ $\rightarrow$ T\_□□ is non-conservative (changes kinetic regime). \emph{Identified through catalog self-audit in v0.3.6.}
+    \item \texttt{BRAID} (\texttt{''T\_braid''} / \texttt{''T\_↗↙''}): \textbf{NEW in v0.4.0.} Anyonic/braided exchange statistics --- the topology of braid groups, not spatial connectivity. Encodes systems where particle exchange is described by non-abelian braid operations rather than simple permutations (Z₂ for bosons/fermions). \texttt{tensor(T\_braid, T\_braid) -\textgreater{} T\_braid} (anyonic statistics preserved). \texttt{T\_braid ⊓ T\_linear = \perp} (no classical topology sits below both). Complexity 4. Physical systems: fractional quantum Hall states ($\nu$=1/3, $\nu$=5/2), Kitaev honeycomb B-phase, non-abelian Majorana platforms. \emph{Identified as missing from the T lattice via quantum particle encoding (v0.4.0).}
+\end{itemize}
+
+    \item 
+    \textbf{Usage Examples}:
+
+    \begin{lstlisting}[language=Python]
+from synthomnicon.models import Topology
+
+cyclic_topo = Topology.CYCLIC_BOWTIE
+print(f"Cyclic Topology: {cyclic_topo.value}")
+
+# Accessing from symbol
+hub_topo = Topology.from_symbol("T_□")
+print(f"Hub-Node Topology from symbol: {hub_topo.name}")
+\end{lstlisting}
+
+    \item 
+    \textbf{\texttt{complexity} Property}:
+The \texttt{complexity} property returns an integer score (1-5) reflecting the topological intricacy, where higher values indicate more complex arrangements.
+
+    \begin{lstlisting}[language=Python]
+print(f"Complexity of CYCLIC_BOWTIE: {cyclic_topo.complexity}")
+# Expected: 2
+print(f"Complexity of NETWORK: {Topology.NETWORK.complexity}")
+# Expected: 5
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Recognition Mode (R)}
+
+Recognition Mode defines the specific physical mechanism by which synthons interact and recognize each other, enabling reliable propagation of information or structure.
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{COVALENT} (\texttt{''R\_subset''} or \texttt{''$R_{\subseteq}$''}): Involves the formation of strong, directional covalent bonds.
+    \item \texttt{NON\_COVALENT} (\texttt{''R\_superset''} or \texttt{''$R_{\supseteq}$''}): Relies on weaker, reversible interactions like hydrogen bonds, van der Waals forces, or halogen bonds.
+    \item \texttt{DYNAMIC\_CATALYTIC} (\texttt{''R\_dagger''} or \texttt{''R\_‡''}): Encompasses interactions mediated by dynamic processes, often catalytic, leading to reversible bond formation or transformation.
+    \item \texttt{MECHANICAL} (\texttt{''R\_mechanical''} or \texttt{''R\_⇔''}): Characterizes interlocked molecules (e.g., rotaxanes, catenanes) where components are physically linked but not covalently bonded.
+    \item \texttt{COVALENT\_DYNAMIC} (\texttt{''R\_covalent\_dynamic''} or \texttt{''$R_{\subseteq}$+‡''}): Hybrid mode for dynamic covalent chemistry, combining covalent bond formation with reversibility.
+\end{itemize}
+
+    \item 
+    \textbf{Usage Examples}:
+
+    \begin{lstlisting}[language=Python]
+from synthomnicon.models import RecognitionMode
+
+non_covalent_mode = RecognitionMode.NON_COVALENT
+print(f"Non-Covalent Recognition Mode: {non_covalent_mode.value}")
+
+# Accessing from symbol
+dynamic_mode = RecognitionMode.from_symbol("R_‡")
+print(f"Dynamic Catalytic Mode from symbol: {dynamic_mode.name}")
+\end{lstlisting}
+
+    \item 
+    \textbf{Properties}:
+
+    \begin{itemize}
+    \item \texttt{interaction\_energy\_range} (\texttt{Tuple{[}float, float{]}}): Returns a typical energy range (in kJ/mol) for interactions of this mode.
+    \item \texttt{is\_reversible} (\texttt{bool}): Indicates whether the interaction is typically reversible.
+\end{itemize}
+
+    \begin{lstlisting}[language=Python]
+print(f"Energy range for COVALENT: {RecognitionMode.COVALENT.interaction_energy_range} kJ/mol")
+# Expected: (150.0, 500.0)
+print(f"Is NON_COVALENT reversible? {non_covalent_mode.is_reversible}")
+# Expected: True
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Polarity (P)}
+
+Polarity captures the directional character of the interaction, dictating how components orient themselves and select partners. It relates to electron density distribution and reactivity.
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{ACCEPTOR} (\texttt{''P\_plus''} or \texttt{''P+''}): Electron-deficient site, acts as an electrophile or hydrogen bond acceptor.
+    \item \texttt{DONOR} (\texttt{''P\_minus''} or \texttt{''P-''}): Electron-rich site, acts as a nucleophile or hydrogen bond donor.
+    \item \texttt{SELF\_COMPLEMENTARY} (\texttt{''P\_pm''} or \texttt{''P\_+/-''}): Possesses both donor and acceptor characteristics that allow it to interact with identical motifs (e.g., carboxylic acid dimers).
+    \item \texttt{DONOR\_ACCEPTOR} (\texttt{''P\_directional''} or \texttt{''P\_+-''}): Combines donor and acceptor sites in a directional manner, forming specific D-A pairs.
+\end{itemize}
+
+    \item 
+    \textbf{Usage Examples}:
+
+    \begin{lstlisting}[language=Python]
+from synthomnicon.models import Polarity
+
+acceptor_pol = Polarity.ACCEPTOR
+print(f"Acceptor Polarity: {acceptor_pol.value}")
+
+# Accessing from symbol
+self_comp_pol = Polarity.from_symbol("P_+/-")
+print(f"Self-Complementary Polarity from symbol: {self_comp_pol.name}")
+\end{lstlisting}
+
+    \item 
+    \textbf{Methods}:
+
+    \begin{itemize}
+    \item \texttt{is\_directional} (\texttt{bool}): Indicates if the polarity type implies inherent directionality.
+    \item \texttt{is\_compatible\_with(other: Polarity)} (\texttt{bool}): Checks if two polarity types are compatible for interaction.
+\end{itemize}
+
+    \begin{lstlisting}[language=Python]
+print(f"Is ACCEPTOR directional? {acceptor_pol.is_directional}")
+# Expected: True
+print(f"Is ACCEPTOR compatible with DONOR? {acceptor_pol.is_compatible_with(Polarity.DONOR)}")
+# Expected: True
+print(f"Is ACCEPTOR compatible with SELF_COMPLEMENTARY? {acceptor_pol.is_compatible_with(Polarity.SELF_COMPLEMENTARY)}")
+# Expected: False
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Fidelity (F)}
+
+Fidelity provides a nuanced measure of a synthon's reliability, predictability, and robustness. It quantifies how consistently a synthon will perform its intended function under given conditions. Fidelity is domain-dependent and can be quantified differently (e.g., bond dissociation energy, interaction energy, fidelity per cycle).
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{HIGH} (\texttt{''F\_hbar''} or \texttt{''$F_{\hbar}$''}): Dominant, highly reliable, geometry-enforcing interactions. \xi\_CP $\leq$ 8.5 nats. In supramolecular host--guest systems: Ka ≳ 10⁹ M⁻¹ (e.g., CB{[}7{]}$\cdot$ferrocene-ammonium, Ka $\approx$ 3$\times$10¹$^{2}$ M⁻¹). Represents strong constraint.
+    \item \texttt{MEDIUM} (\texttt{''F\_eth''} or \texttt{''F\_ℇ''}): Context-dependent, robust but conditional interactions. \xi\_CP 8.5--11.0 nats. Ka \textasciitilde{}10⁷--10⁹ M⁻¹ (e.g., CB{[}7{]}$\cdot$adamantane-ammonium, Ka $\approx$ 4$\times$10⁸ M⁻¹).
+    \item \texttt{LOW} (\texttt{''F\_ell''} or \texttt{''$F_{\ell}$''}): Probabilistic, competition-sensitive interactions, less reliable. \xi\_CP \textgreater{} 11.0 nats. Ka ≲ 10⁷ M⁻¹ (e.g., CB{[}7{]}$\cdot$DABCO, Ka $\approx$ 2$\times$10⁵ M⁻¹). The $F_{\ell}$ tier boundary is anchored by the CB{[}7{]} competitive displacement series (Kim JACS 2001; v0.3.3).
+\end{itemize}
+
+    \item 
+    \textbf{Usage Examples}:
+
+    \begin{lstlisting}[language=Python]
+from synthomnicon.models import Fidelity
+
+high_fidelity = Fidelity.HIGH
+print(f"High Fidelity: {high_fidelity.value}")
+
+# Accessing from symbol
+medium_fidelity = Fidelity.from_symbol("F_ℇ")
+print(f"Medium Fidelity from symbol: {medium_fidelity.name}")
+\end{lstlisting}
+
+    \item 
+    \textbf{Properties}:
+
+    \begin{itemize}
+    \item \texttt{numeric\_value} (\texttt{float}): Returns a standardized numeric value (0.0-1.0) for quantitative calculations.
+    \item \texttt{xi\_CP\_range} (\texttt{Tuple{[}float, float{]}}): Provides the typical range for the Inefficiency Index ($\xi_{CP}$) associated with this fidelity level.
+\end{itemize}
+
+    \begin{lstlisting}[language=Python]
+print(f"Numeric value for HIGH Fidelity: {high_fidelity.numeric_value}")
+# Expected: 0.95
+print(f"\xi_CP range for MEDIUM Fidelity: {medium_fidelity.xi_CP_range} nats")
+# Expected: (9.0, 11.5)
+\end{lstlisting}
+
+    \item 
+    \textbf{\texttt{propagate\_through(context\_factors: Dict{[}str, float{]})} Method}:
+This method simulates how fidelity might change when exposed to various environmental or system-level context factors (e.g., \texttt{solvent\_compatibility}, \texttt{temperature\_match}, \texttt{steric\_fit}, \texttt{concentration}).
+
+    \begin{lstlisting}[language=Python]
+context = {"solvent_compatibility": 0.8, "steric_fit": 0.9}
+propagated_fidelity = high_fidelity.propagate_through(context)
+print(f"Fidelity after propagation: {propagated_fidelity.name}")
+# Example output: MEDIUM (if context factors reduce effective fidelity)
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Granularity (G)}
+
+Granularity defines the scale of control or influence exerted by the synthon within a larger system. It describes whether a synthon dictates organization locally, at an intermediate motif level, or globally across a network.
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{LOCAL} (\texttt{''G\_beth''} or \texttt{''G\_ב''}): Control at a very confined scale, typically involving a single bond or interaction.
+    \item \texttt{MESOSCALE} (\texttt{''G\_gimel''} or \texttt{''G\_ג''}): Control over a motif or small cluster of interactions (e.g., a specific binding pocket, a small oligomer).
+    \item \texttt{GLOBAL} (\texttt{''G\_aleph''} or \texttt{''G\_א''}): Control that extends throughout an entire network or framework (e.g., a crystal lattice, a self-replicating system).
+\end{itemize}
+
+    \item 
+    \textbf{Usage Examples}:
+
+    \begin{lstlisting}[language=Python]
+from synthomnicon.models import Granularity
+
+local_gran = Granularity.LOCAL
+print(f"Local Granularity: {local_gran.value}")
+
+# Accessing from symbol
+global_gran = Granularity.from_symbol("G_א")
+print(f"Global Granularity from symbol: {global_gran.name}")
+\end{lstlisting}
+
+    \item 
+    \textbf{Properties}:
+
+    \begin{itemize}
+    \item \texttt{scale\_factor} (\texttt{int}): Returns an approximate numerical factor representing the number of components controlled by this granularity level.
+\end{itemize}
+
+    \begin{lstlisting}[language=Python]
+print(f"Scale factor for MESOSCALE: {Granularity.MESOSCALE.scale_factor}")
+# Expected: 100
+\end{lstlisting}
+
+    \item 
+    \textbf{\texttt{can\_amplify\_to(target: Granularity)} Method}:
+Checks if the current granularity level can conceptually ''amplify'' its control to a specified target granularity level (i.e., local can amplify to mesoscale, mesoscale to global).
+
+    \begin{lstlisting}[language=Python]
+print(f"Can LOCAL amplify to GLOBAL? {local_gran.can_amplify_to(global_gran)}")
+# Expected: True
+print(f"Can GLOBAL amplify to LOCAL? {global_gran.can_amplify_to(local_gran)}")
+# Expected: False
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Interaction Grammar ($\Gamma$)}
+
+Interaction Grammar governs the logic of partner selection for a synthon. It describes the specificity or promiscuity of its interactions, from highly selective binding to broad, non-specific recognition.
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{SPECIFIC} (\texttt{''Gamma\_otimes''} or \texttt{''\Gamm$a_{\otimes}$''}): Selects one highly specific partner, akin to a lock-and-key mechanism.
+    \item \texttt{SELECTIVE} (\texttt{''Gamma\_odot''} or \texttt{''\Gamma\_⊙''}): Interacts with a small, defined set of partners (typically 3-10).
+    \item \texttt{BROAD} (\texttt{''Gamma\_bigcirc''} or \texttt{''\Gamma\_○''}): Compatible with many potential partners, often leading to less predictable outcomes without additional constraints.
+    \item Sequential variants (v0.3.5): \texttt{SPECIFIC\_SEQ}, \texttt{SELECTIVE\_SEQ}, \texttt{BROAD\_SEQ} --- same specificity tier but operating along a directed temporal axis (D\_$\infty$ systems). Registered as \texttt{''\Gamm$a_{\otimes}$\_seq''}, \texttt{''\Gamma\_⊙\_seq''}, \texttt{''\Gamma\_○\_seq''}.
+    \item \textbf{Dissipative variants (v0.4.0)}: \texttt{SPECIFIC\_DISSIPATIVE}, \texttt{SELECTIVE\_DISSIPATIVE}, \texttt{BROAD\_DISSIPATIVE} --- irreversible coupling governed by \texttt{\Gamma\_↓(DISSIPATIVE)} operator (Lindblad/Zeno channel). Use for open quantum systems where the interaction causes information loss to the environment rather than unitary exchange. \texttt{specificity\_score} = 0.95 / 0.75 / 0.25 respectively; \texttt{partner\_count\_range} = (1,1) / (1,3) / (1,$\infty$).
+    \item \textbf{Quantum tier (v0.4.0)}: \texttt{QUANTUM\_AND}, \texttt{QUANTUM\_OR}, \texttt{QUANTUM\_SEQ}, \texttt{QUANTUM\_DISSIPATIVE} --- Toffoli-gate semantics operating on superposition states. \texttt{QUANTUM\_AND} requires simultaneous entanglement of two control qubits; \texttt{QUANTUM\_OR} is the logical OR of coherent pathways; \texttt{QUANTUM\_SEQ} chains unitary gates preserving superposition; \texttt{QUANTUM\_DISSIPATIVE} = measurement/decoherence channel. All quantum members share \texttt{partner\_count\_range = (1, 2)} and \texttt{specificity\_score = 0.9}. \emph{Identified as missing during quantum particle encoding --- classical $\Gamma$ values destroy superposition semantics (v0.4.0).}
+\end{itemize}
+
+    \item 
+    \textbf{Usage Examples}:
+
+    \begin{lstlisting}[language=Python]
+from synthomnicon.models import InteractionGrammar
+
+specific_grammar = InteractionGrammar.SPECIFIC
+print(f"Specific Grammar: {specific_grammar.value}")
+
+# Accessing from symbol
+broad_grammar = InteractionGrammar.from_symbol("\Gamma_○")
+print(f"Broad Grammar from symbol: {broad_grammar.name}")
+\end{lstlisting}
+
+    \item 
+    \textbf{Properties}:
+
+    \begin{itemize}
+    \item \texttt{partner\_count\_range} (\texttt{Tuple{[}int, int{]}}): Returns the typical range of compatible partners for this grammar.
+    \item \texttt{specificity\_score} (\texttt{float}): Provides a numerical score (0.0-1.0) indicating the degree of specificity, where 1.0 is most specific.
+\end{itemize}
+
+    \begin{lstlisting}[language=Python]
+print(f"Partner count range for SELECTIVE: {InteractionGrammar.SELECTIVE.partner_count_range}")
+# Expected: (2, 10)
+print(f"Specificity score for BROAD: {broad_grammar.specificity_score}")
+# Expected: 0.1
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Kinetic Character (K)}
+
+Kinetic Character encodes the activation barrier and pathway multiplicity for constraint propagation, independently of thermodynamic fidelity F. A synthon can be $F_{\hbar}$ (high fidelity) but K\_slow (kinetically inaccessible), or F\_eth but K\_fast.
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{FAST} (\texttt{''K\_fast''}): $\Delta$G‡ \textless{} 60 kJ/mol; spontaneous on experimental timescales. Accessibility score: 0.95.
+    \item \texttt{MODERATE} (\texttt{''K\_mod''}): $\Delta$G‡ $\approx$ 60--100 kJ/mol; accessible with mild activation. Accessibility score: 0.70.
+    \item \texttt{SLOW} (\texttt{''K\_slow''}): $\Delta$G‡ \textgreater{} 100 kJ/mol; requires significant activation. Accessibility score: 0.30.
+    \item \texttt{TRAP} (\texttt{''K\_trap''}): Pathway multiplicity high; kinetic products diverge from thermodynamic products. Accessibility score: 0.50.
+    \item \texttt{MBL} (\texttt{''K\_MBL''}): \textbf{NEW in v0.4.0.} Many-body localization --- disorder-induced kinetic arrest. The system is frozen not by an energy barrier but by the structure of its many-body eigenbasis; adding energy does not cause relaxation. Ordinal position 0 (below K\_trap at 1) in the kinetic hierarchy --- more arrested than any classical trap. Accessibility score: 0.05. Barrier range: (0.0, 0.0) --- not barrier-limited. \texttt{meet(K\_MBL, anything) -\textgreater{} K\_MBL}. \textbf{Cannot be inferred from \texttt{from\_barrier()}}; requires explicit assignment. Physical systems: disordered quantum magnets, cold atoms in quasiperiodic potentials (Aubry-André model), many-body localized phases in 1D interacting systems. \emph{Identified as missing via quantum particle encoding --- K\_trap is energy-barrier trapping, K\_MBL is disorder trapping; the distinction matters because MBL stores quantum information indefinitely (v0.4.0).}
+\end{itemize}
+
+    \item \textbf{Example usage}: The carboxylic acid homodimer is $F_{\hbar}$, K\_fast. The gas-phase imine condensation proxy is F\_eth, K\_slow; aqueous imine is F\_eth, K\_mod --- same thermodynamic tier, different operational accessibility.
+\end{itemize}
+
+\subsubsection{Criticality Phase ($\Phi$)}
+
+Criticality Phase encodes the synthon's position relative to the G--D criticality locus.
+
+\begin{itemize}
+    \item 
+    \textbf{Enum Members}:
+
+    \begin{itemize}
+    \item \texttt{SUBCRITICAL} (\texttt{''Phi\_sub''}): G and D are demonstrably independent. Default assignment.
+    \item \texttt{CRITICAL} (\texttt{''Phi\_c''}): At the criticality locus --- \xi$\rightarrow$$\infty$, scale-free behavior, G/D degenerate (Axiom 5).
+    \item \texttt{SUPERCRITICAL} (\texttt{''Phi\_super''}): Post-assembly state where synthon identity is absorbed into the assembled material.
+\end{itemize}
+
+    \item 
+    \textbf{Criticality probe} (v2.2+): Use \texttt{syncon criticality-probe \textless{}name\textgreater{}} to score $\Phi$\_c candidacy. The probe now reports:
+
+    \begin{itemize}
+    \item \texttt{z\_eff} --- dynamic exponent (diverges logarithmically for Varma QXY class; = 1.33 for 2D percolation)
+    \item Degeneracy strength score 0--1 with tier: \texttt{none} / \texttt{logarithmic} / \texttt{power-law} / \texttt{collapse}
+    \item Universality class hint
+\end{itemize}
+
+    \textbf{Eight heuristic factors (v0.4.0):}
+
+    \begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{\#} & \textbf{Trigger} & \textbf{Weight} & \textbf{Universality Class} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+1 & G\_ℵ (global granularity) & 0.15 & Varma QXY \\
+2 & D\_$\infty$ (temporal dimension) & 0.15 & Varma QXY \\
+3 & T\_⋈ (self-complementary) & 0.15 & Varma QXY \\
+4 & P\_$\pm$ (symmetric polarity) & 0.15 & Varma QXY \\
+5 & $F_{\hbar}$ (quantum fidelity) & 0.15 & Varma QXY \\
+6 & db24c8 steric-cliff analog & 0.10 & Steric-cliff \\
+7 & D\_$\infty$ + T\_⋈ + P\_DA + $F_{\hbar}$ & 0.25 & Frank-model (classical bifurcation) \\
+8 & \textbf{G\_ℵ + $F_{\hbar}$ + K\_trap + $\neg$D\_$\infty$} & \textbf{0.20} & \textbf{Quantum criticality (TFI/heavy-fermion)} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+    Factor 8 (v0.4.0) fires when a synthon simultaneously has global granularity, quantum fidelity, and trap-kinetics, but \textbf{lacks} D\_$\infty$ temporality --- the signature of a quantum critical point without a classical order parameter. Falsifiable prediction: susceptibility \chi(T$\rightarrow$0) \textasciitilde{} T\^{}\{-$\gamma$\}. \emph{Identified as missing when probing the spin singlet and qubit synthons, whose criticality fingerprint is orthogonal to Factors 1--7.}
+
+    \begin{lstlisting}[language=bash]
+syncon criticality-probe my_synthon --degeneracy-type
+syncon criticality-probe --batch --export-candidates top20.json
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Stoichiometry (S)}
+
+Stoichiometry encodes the valency ratio of the recognition event --- the molar ratio of partners in the assembled motif. It is a string field (not an Enum) with weight 0.08 in analogy similarity scoring (\textasciitilde{}6\% of total) and hard-constraint enforcement via Pass 4 audit.
+
+\begin{itemize}
+    \item \textbf{Value format}: \texttt{''1:1''}, \texttt{''2:1''}, \texttt{''3:1''}, \texttt{''n:m''} (free-form ratio string), or \texttt{None} (unassigned).
+    \item 
+    \textbf{Consistency rules} (enforced by Pass 4 audit):
+
+    \begin{itemize}
+    \item \texttt{T\_⋈ + S=''1:1''} $\rightarrow$ must have P$\pm$ (self-complementary polarity)
+    \item \texttt{T\_⋈ + S=''n:m''} (n$\neq$m) $\rightarrow$ must have $\Gamma$$\lor$(BROAD) or T\_network
+    \item \texttt{T\_⋈ + no S} $\rightarrow$ auto-suggested as \texttt{''1:1''} if P$\pm$ present; otherwise flagged for manual review
+\end{itemize}
+
+    \item 
+    \textbf{Auto-backfill}:
+
+    \begin{lstlisting}[language=bash]
+# Assign S="1:1" to all T_⋈ + P+/- entries (dry run first)
+syncon catalog auto-stoichiometry --dry-run
+syncon catalog auto-stoichiometry
+# Result: 1,157/1,269 T_⋈ entries auto-fixed; 112 require manual review
+\end{lstlisting}
+
+    \item 
+    \textbf{Similarity grading} in analogy scoring:
+
+    \begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Case} & \textbf{Score} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+Exact match & 1.00 \\
+Both symmetric (n:n) & 0.90 \\
+Both asymmetric (n$\neq$m) & 0.90 \\
+Category mismatch, ratio diff \textless{} 0.5 & 0.70 \\
+Category mismatch, ratio diff $\geq$ 0.5 & 0.20--0.70 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+    \item 
+    \textbf{Python}:
+
+    \begin{lstlisting}[language=Python]
+synthon = Synthon(name="my_dimer", ..., stoichiometry="1:1")
+print(synthon.stoichiometry)  # "1:1"
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{Topological Protection Index ($\Omega$) --- 11th Primitive (v0.4.0)}
+
+$\Omega$ encodes the Altland--Zirnbauer / K-theory topological classification of a synthon. It is an \textbf{optional field} that defaults to \texttt{None} for all classical (non-topological) synthons. When set, it appears as the 11th element of the tuple notation: \texttt{\langle...; S; \Omega\rangle}.
+
+\begin{itemize}
+    \item \textbf{Enum}: \texttt{TopoIndex} (importable from \texttt{synthomnicon})
+    \item 
+    \textbf{Enum Members} (ordered by protection strength, ordinal 0$\rightarrow$4):
+
+    \begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Symbol} & \textbf{Value} & \textbf{Ordinal} & \textbf{Description} & \textbf{Physical Systems} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{\Omega\_0} & \texttt{TopoIndex.TRIVIAL} & 0 & No topological protection; fully classical & Ordinary insulators, non-topological magnets \\
+\texttt{\Omega\_Z₂} & \texttt{TopoIndex.Z2} & 1 & ℤ₂ protection; time-reversal-symmetric TIs & 3D TIs (Bi₂Se₃), QSHI, Z₂ SPT phases \\
+\texttt{\Omega\_Z} & \texttt{TopoIndex.Z\_CLASS} & 2 & ℤ classification; integer invariant & Integer QHE ($\sigma$\_xy = ne$^{2}$/h), Chern insulators \\
+\texttt{\Omega\_Ch} & \texttt{TopoIndex.CHERN} & 3 & Chern-number protection; broken time-reversal & Haldane model, magnetic TIs, anomalous QHE \\
+\texttt{\Omega\_NA} & \texttt{TopoIndex.NON\_ABELIAN} & 4 & Non-Abelian anyonic statistics; braided exchange & Kitaev honeycomb, Moore-Read FQH ($\nu$=5/2), Majorana platforms \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+    \item 
+    \textbf{Lattice semantics}:
+
+    \begin{itemize}
+    \item \texttt{meet(\Omega\_a, \Omega\_b) -\textgreater{} \Omega\_min} --- conservative guarantee: use the weaker protection class when two systems couple
+    \item \texttt{join(\Omega\_a, \Omega\_b) -\textgreater{} \Omega\_max} --- capability ceiling: higher class can host everything the lower class can
+    \item \texttt{tensor(\Omega\_a, \Omega\_b) -\textgreater{} \Omega\_max} --- composite system inherits the stronger topological protection
+\end{itemize}
+
+    \item \textbf{Distance weight}: 0.7 in \texttt{tuple\_distance()} --- $\Omega$ contributes \textasciitilde{}5.7\% of total distance (weight 0.7 out of default total $\approx$12.3).
+    \item 
+    \textbf{Usage}:
+
+    \begin{lstlisting}[language=Python]
+from synthomnicon import TopoIndex, Synthon
+
+kitaev_chain = Synthon(
+    name="kitaev_chain",
+    ...,
+    topo_index=TopoIndex.NON_ABELIAN,   # \Omega_NA --- Majorana edge modes
+)
+
+print(kitaev_chain.topo_index.protection_strength)  # 4
+print(kitaev_chain.topo_index.physical_systems)
+# -> 'Kitaev honeycomb, Moore-Read FQH (nu=5/2), Majorana platforms'
+print(kitaev_chain.to_notation())
+# -> \langle...; \Omega_NA\rangle
+\end{lstlisting}
+
+    \item 
+    \textbf{\texttt{syncon analyze} display} (when $\Omega$ is set):
+
+    \begin{lstlisting}
+\Omega (TopoIndex)   \Omega_NA   Non-Abelian anyonic . protection_strength=4
+\end{lstlisting}
+
+    \item \emph{Identified as missing when encoding the five quantum particle synthons (photon/proton/electron/spin/qubit). The framework had no way to distinguish a trivially gapped insulator from a topological insulator or non-Abelian fractional QH state --- the distinction is operationally essential for quantum information protection arguments (v0.4.0).}
+\end{itemize}
+
+\subsection{Command Line Interface (CLI)}
+
+SynthOmnicon provides a powerful command-line interface for rapid analysis and exploration of synthons. The CLI is accessible via \texttt{main.py} or the \texttt{synthomnicon} command (if installed as a package).
+
+\subsubsection{Core Commands}
+
+\paragraph{\texttt{analyze}}
+
+Analyze a synthon by its name or a raw notation string.
+
+\textbf{Usage:}
+
+\begin{lstlisting}[language=bash]
+python3 main.py analyze [IDENTIFIER]
+\end{lstlisting}
+
+\textbf{Example:}
+
+\begin{lstlisting}[language=bash]
+python3 main.py analyze carboxylic_acid_dimer
+\end{lstlisting}
+
+\paragraph{\texttt{catalog list}}
+
+List all synthons currently registered in the global catalog.
+
+\textbf{Usage:}
+
+\begin{lstlisting}[language=bash]
+python3 main.py catalog list [--domain DOMAIN]
+\end{lstlisting}
+
+\textbf{Example:}
+
+\begin{lstlisting}[language=bash]
+python3 main.py catalog list --domain temporal
+\end{lstlisting}
+
+\paragraph{\texttt{thermo}}
+
+Calculate thermodynamic metrics ($\eta_{CP}$ and $\xi_{CP}$) for a registered synthon.
+
+\textbf{Usage:}
+
+\begin{lstlisting}[language=bash]
+python3 main.py thermo [IDENTIFIER] --delta-g [KJ_MOL]
+\end{lstlisting}
+
+\textbf{Example:}
+
+\begin{lstlisting}[language=bash]
+python3 main.py thermo carboxylic_acid_dimer --delta-g -12.0
+\end{lstlisting}
+
+\paragraph{\texttt{check}}
+
+Check the compatibility between two synthons.
+
+\textbf{Usage:}
+
+\begin{lstlisting}[language=bash]
+python3 main.py check [SYNTHON_A] [SYNTHON_B]
+\end{lstlisting}
+
+\textbf{Example:}
+
+\begin{lstlisting}[language=bash]
+python3 main.py check enolate_synthon carbonyl_synthon
+\end{lstlisting}
+
+\subsubsection{Catalog Audit Command}
+
+The \texttt{syncon audit} command runs a 4-pass scan of the catalog for grounding issues, topology errors, attractor-tuple contamination, and stoichiometry inconsistencies.
+
+\textbf{Pass summary:}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Pass} & \textbf{Axiom} & \textbf{Checks} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+1 & Axiom 6 & D\_$\infty$ entries: structured grounding{[}''reset''{]} block checked first (discrete or continuous); falls back to keyword scan \\
+2 & Axiom 7 & T\_⋈ entries for named closing bond; rejects linear/rod/chain \\
+3 & --- & Attractor-tuple contamination ($\geq$7/7 match, no stored reasoning) \\
+4 \emph{(v2.2)} & --- & S consistency: T\_⋈{[}1:1{]}$\leftrightarrow$P$\pm$; T\_⋈{[}n:m{]}$\leftrightarrow$$\Gamma$$\lor$BROAD/T\_network \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Usage:}
+
+\begin{lstlisting}[language=bash]
+syncon audit [OPTIONS]
+\end{lstlisting}
+
+\textbf{Options:}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Option} & \textbf{Description} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{--axiom 6} & Audit all D\_$\infty$ entries for Axiom 6 (discrete reset or continuous dissipative flux) \\
+\texttt{--axiom 7} & Audit all T\_⋈ entries for Axiom 7 (named closing bond) \\
+\texttt{--axiom 4} \emph{(v2.2)} & Audit T\_⋈ entries for stoichiometry consistency (Pass 4) \\
+\texttt{--primitive D/T/R/...} & Filter by primitive type \\
+\texttt{--value TEXT} & Filter by primitive value (e.g. \texttt{temporal}, \texttt{cyclic}) \\
+\texttt{--status STATUS} & Filter by grounding status (unverified, partial, override, full, flagged\_for\_review) \\
+\texttt{--auto-flag} & Set \texttt{grounding\_status=''flagged\_for\_review''} on problem entries \\
+\texttt{--dry-run} & Preview what would be flagged without making changes \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Examples:}
+
+\begin{lstlisting}[language=bash]
+# Audit all D_inf entries for closed-cycle grounding
+syncon audit --axiom 6
+
+# Audit all T_⋈ entries and auto-flag those without closing bond
+syncon audit --axiom 7 --auto-flag
+
+# Preview unverified entries without making changes
+syncon audit --status unverified --dry-run
+
+# Find all temporal entries with partial grounding
+syncon audit --primitive D --value temporal --status partial
+
+# Full audit: all unverified entries across catalog
+syncon audit --status unverified --auto-flag
+\end{lstlisting}
+
+\textbf{Understanding the output:}
+
+The command prints a Rich table with columns:
+
+\begin{itemize}
+    \item \textbf{Synthon} --- catalog entry name
+    \item \textbf{Domain} --- molecular / supramolecular / temporal / speculative
+    \item \textbf{Grounding Status} --- full / partial / override / unverified / flagged\_for\_review
+    \item \textbf{Failed Primitives} --- primitives that failed grounding checks
+    \item \textbf{Flag Reason} --- why the entry was flagged (grounding status or axiom check)
+\end{itemize}
+
+\textbf{Axiom 6 check logic (updated v0.3.3 --- discrete/continuous):}
+
+The audit calls \texttt{AxiomValidator.validate\_axiom6\_temporal\_grounding(synthon)} which checks in priority order:
+
+\begin{enumerate}
+    \item 
+    \begin{itemize}
+    \item \textbf{Structured block} --- \texttt{synthon.grounding{[}''reset''{]}} (persisted in catalog JSON, survives reload):\texttt{type = ''discrete''}: requires \texttt{cycle\_steps} list $\geq$ 2, \textbf{or} \texttt{axiom6\_grounding} metadata block
+    \item \texttt{type = ''continuous''}: requires \texttt{driving\_gradient.description} + \texttt{driving\_gradient.coupling}
+\end{itemize}
+
+    \item \textbf{Keyword scan fallback} --- only when no structured block exists. Scans description/reasoning for \texttt{AXIOM\_6\_RESET\_INDICATORS} + \texttt{AXIOM\_6\_PROCESS\_INDICATORS}; both must be present.
+\end{enumerate}
+
+\textbf{Adding structured Axiom 6 grounding to a catalog entry:}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon import global_catalog
+
+s = global_catalog.get("my_dissipative_synthon")
+
+# Continuous (dissipative, far-from-equilibrium):
+s.grounding["reset"] = {
+    "type": "continuous",
+    "driving_gradient": {
+        "description": "Continuous reagent supply (fuel + substrate) drives steady-state turnover",
+        "coupling": "Chemical potential gradient: fuel -> product, with autocatalytic product feedback",
+        "entropy_export": "Heat dissipation to solvent; byproduct efflux",
+    },
+    "termination_condition": "Reagent depletion ends the cycle; no sharp reset event.",
+}
+
+# Discrete (closed cycle with explicit reset step):
+s.grounding["reset"] = {
+    "type": "discrete",
+    "cycle_steps": [
+        "Step 1: catalyst activates substrate",
+        "Step 2: product formed",
+        "Step 3: hydrolysis/relaxation returns catalyst to initial state (reset)",
+    ],
+}
+
+global_catalog.save_catalog()
+\end{lstlisting}
+
+\textbf{Known grounded entries (v0.3.3):}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Entry} & \textbf{Reset type} & \textbf{Mechanism} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{soai\_pyrimidyl\_autocatalytic\_cycle} & \texttt{continuous} & iPr₂Zn + aldehyde flux; Frank-model bifurcation \\
+\texttt{proline\_aldol\_cycle} & \texttt{discrete} & Iminium hydrolysis $\rightarrow$ free proline reset \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Axiom 7 check logic:}
+Scans the description for \texttt{AXIOM\_7\_CLOSING\_INDICATORS} (e.g. ''hydrogen bond'', ''ring'', ''macrocycle'') and rejects if \texttt{AXIOM\_7\_INVALID\_TOPO\_KEYWORDS} are found (e.g. ''linear'', ''rod'', ''allene'').
+
+\subsubsection{I(bits) Calibration Command \emph{(v2.2)}}
+
+\begin{lstlisting}[language=bash]
+# Run full calibration pipeline (vacuum)
+syncon info-bits --calibrate
+
+# With solvent correction
+syncon info-bits --calibrate --solvent chloroform
+syncon info-bits --calibrate --solvent water
+
+# Single synthon
+syncon info-bits carboxylic_acid_dimer
+syncon info-bits triple_hbond_array --solvent THF
+\end{lstlisting}
+
+\textbf{Output fields:} \texttt{I\_recognition}, \texttt{I\_orientation} (overhead), \texttt{I\_net = I\_rec - 0.3xI\_orient}, \texttt{I\_total+solvent}, \texttt{DeltaS\_conf}, heuristic comparison, verdict.
+
+\textbf{Calibrated ranges (v2.2):}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{System type} & \textbf{I\_recognition} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+2-HB dimers (acid dimer) & 9--10 bits \\
+Cooperative arrays (triple H-bond DAD$\cdot$ADA) & 14--18 bits \\
+Quadruple arrays (AADD$\cdot$DDAA) & 19--24 bits \\
+Temporal cycles (proline aldol) & 6--9 bits/turn \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Criticality Probe Command \emph{(v2.2 / updated v0.3.3)}}
+
+\begin{lstlisting}[language=bash]
+# Single entry
+syncon criticality-probe my_synthon
+syncon criticality-probe my_synthon --degeneracy-type
+
+# With measured correlation lengths (Varma QXY test)
+syncon criticality-probe my_synthon --xi-r 6.2 --xi-tau 1.8e14
+
+# Batch mode: scan all Phi_c / T_⋈+D_inf / steric-cliff candidacy entries
+syncon criticality-probe --batch
+syncon criticality-probe --batch --degeneracy-type
+syncon criticality-probe --batch --export-candidates candidates.json
+\end{lstlisting}
+
+\textbf{Degeneracy tiers:}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Score} & \textbf{Tier} & \textbf{Meaning} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+0.00--0.30 & \texttt{none} & G and D independent \\
+0.30--0.60 & \texttt{logarithmic} & Varma QXY --- \xi\_r $\approx$ ln \x$i_{\tau}$ \\
+0.60--0.85 & \texttt{power-law} & Conventional QCP --- finite z \\
+0.85--1.00 & \texttt{collapse} & Direct G/D identity \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Scoring factors} (\texttt{score\_phi\_c\_candidacy()}, \texttt{varma\_probe.py}):
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Factor} & \textbf{Weight} & \textbf{Fires when} & \textbf{Universality class} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+1--5 (Varma QXY structural heuristics) & 0.35 / 0.25 / 0.20 / ... & D\_$\infty$, R\_‡, G\_ג primitives present & Varma QXY (quantum) \\
+6 (Steric-cliff proxy) & 0.65 & \texttt{phi\_c\_candidacy.proxy\_degeneracy\_strength} $\geq$ 0.50 in grounding & Steric-cliff (mechanical) \\
+7 (Frank-model classical bifurcation) & 0.25 & D\_$\infty$ + T\_⋈ + P\_directional + $F_{\hbar}$ all present & Frank 1953 (classical pitchfork) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Validated case studies (v0.3.3):}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{System} & \textbf{\xi\_r} & \textbf{\x$i_{\tau}$} & \textbf{Ratio} & \textbf{Score} & \textbf{Result} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+Soai autocatalytic cycle & 15 & 7.2$\times$10¹⁵ & 0.94 & 0.920 & Approaching $\Phi$\_c (Frank model) \\
+DB24C8 pseudorotaxane & --- & --- & --- & 0.461 & Approaching $\Phi$\_c (steric cliff) \\
+Proline-aldol cycle & 6.2 & 1.8$\times$10¹⁴ & 0.189 & 0.380 & $\Phi$\_sub (subcritical, confirmed) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{$\omega$\_c normalization note:} \x$i_{\tau}$ = \tau\_corr $\times$ $\omega$\_c where $\omega$\_c is the appropriate natural frequency for the system's relevant timescale. For solution-phase catalytic systems, use $\omega$\_c $\approx$ 10¹$^{2}$ s⁻¹ (solvent relaxation frequency) rather than kBT/h $\approx$ 6.25$\times$10¹$^{2}$ s⁻¹ to avoid mixing molecular-vibration and macroscopic-catalytic timescales.
+
+\subsubsection{Stoichiometry Commands \emph{(v2.2)}}
+
+\begin{lstlisting}[language=bash]
+# Auto-assign S="1:1" to T_⋈ + P+/- entries
+syncon catalog auto-stoichiometry --dry-run   # preview
+syncon catalog auto-stoichiometry             # apply (up to 500 entries)
+syncon catalog auto-stoichiometry --limit 2000  # larger batch
+
+# Analogy search with stoichiometry flags
+syncon analogies my_synthon --stoichiometry-aware   # raises S weight to 0.12
+syncon analogies my_synthon --critical-only          # pre-filter by Phi_c score > 0.5
+syncon analogies my_synthon --stoichiometry-aware --critical-only
+\end{lstlisting}
+
+\subsubsection{Experimental Validation Case Studies \emph{(v0.3.3)}}
+
+\paragraph{CB{[}7{]} Competitive Displacement --- F-floor Ratchet (6/6 Validated)}
+
+Tests the HotSwap \texttt{F}-floor hard constraint: a swap is BLOCKED if F\_new \textless{} F\_old. The CB{[}7{]} host-guest series provides a literature-grounded three-tier ordering.
+
+\begin{lstlisting}[language=bash]
+# Register the three CB[7] complexes (already in catalog post-v0.3.3)
+# CB7_ferrocene_ammonium_complex  ($F_{\hbar}$, Ka = 3x10¹^2, DeltaG = -71.2 kJ/mol)
+# CB7_adamantane_ammonium_complex (F_ℇ, Ka = 4.3x10⁸, DeltaG = -49.1 kJ/mol)
+# CB7_DABCO_complex               ($F_{\ell}$, Ka = 2x10⁵, DeltaG = -30.1 kJ/mol)
+
+# Run all 6 directional swaps --- expected: 3 APPROVED, 3 BLOCKED
+syncon hotswap CB7_ferrocene_ammonium_complex CB7_adamantane_ammonium_complex --delta-g -49.1
+# -> APPROVED ($F_{\hbar}$ -> F_ℇ, downgrade: F_new=F_ℇ < F_old=$F_{\hbar}$) <- NOTE: Fc->Ad is BLOCKED
+syncon hotswap CB7_adamantane_ammonium_complex CB7_ferrocene_ammonium_complex --delta-g -71.2
+# -> APPROVED (Ad->Fc: F_new=$F_{\hbar}$ > F_old=F_ℇ)
+
+syncon hotswap CB7_DABCO_complex CB7_adamantane_ammonium_complex --delta-g -49.1
+# -> APPROVED (DABCO->Ad: F_new=F_ℇ > F_old=$F_{\ell}$)
+syncon hotswap CB7_adamantane_ammonium_complex CB7_DABCO_complex --delta-g -30.1
+# -> BLOCKED (Ad->DABCO: F_new=$F_{\ell}$ < F_old=F_ℇ)
+
+syncon hotswap CB7_ferrocene_ammonium_complex CB7_DABCO_complex --delta-g -30.1
+# -> BLOCKED (Fc->DABCO: F_new=$F_{\ell}$ < F_old=$F_{\hbar}$)
+syncon hotswap CB7_DABCO_complex CB7_ferrocene_ammonium_complex --delta-g -71.2
+# -> APPROVED (DABCO->Fc: F_new=$F_{\hbar}$ > F_old=$F_{\ell}$)
+\end{lstlisting}
+
+\textbf{Result table (all 6 match experiment):}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Swap} & \textbf{Framework} & \textbf{Experiment (Kim 2001)} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+Fc displaces Ad & APPROVED & Yes (quantitative) \\
+Ad displaces Fc & BLOCKED & No (no exchange) \\
+Ad displaces DABCO & BLOCKED & No (DABCO weaker $\rightarrow$ Ad is stronger, Ad stays) \\
+DABCO displaces Ad & APPROVED & Yes (Ad quantitatively displaces DABCO, confirmed by reverse) \\
+Fc displaces DABCO & BLOCKED & No \\
+DABCO displaces Fc & APPROVED & Yes \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\emph{References:} Kim et al. J. Am. Chem. Soc. \textbf{123}, 12091 (2001); Assaf \& Nau, Chem. Soc. Rev. \textbf{44}, 394 (2015); Sindelar et al. J. Org. Chem. \textbf{72}, 3221 (2007).
+
+\paragraph{Soai Reaction Varma Probe --- Approaching $\Phi$\_c (Score 0.920)}
+
+\begin{lstlisting}[language=bash]
+syncon criticality-probe soai_pyrimidyl_autocatalytic_cycle --xi-r 15 --xi-tau 7.2e15
+\end{lstlisting}
+
+\textbf{Expected output summary:}
+
+\begin{itemize}
+    \item Ratio \xi\_r / ln(\x$i_{\tau}$) = 15 / ln(7.2$\times$10¹⁵) $\approx$ \textbf{0.94} (near-critical; threshold = 1.0 $\pm$ 20\%)
+    \item Factor 7 fires: D\_$\infty$ + T\_⋈ + P\_directional + $F_{\hbar}$ $\rightarrow$ Frank-model pitchfork bifurcation
+    \item Score: \textbf{0.920} --- approaching $\Phi$\_c
+    \item Active species: {[}Zn₂$\cdot$(pyrimidylalkoxide)₂$\cdot$iPr₂Zn{]} dimer (Gridnev 2010)
+\end{itemize}
+
+\paragraph{Proline-Aldol Varma Probe --- $\Phi$\_sub Confirmed (Score 0.380)}
+
+\begin{lstlisting}[language=bash]
+syncon criticality-probe proline_aldol_cycle --xi-r 6.2 --xi-tau 1.8e14
+\end{lstlisting}
+
+\textbf{Expected output summary:}
+
+\begin{itemize}
+    \item Ratio \xi\_r / ln(\x$i_{\tau}$) = 6.2 / ln(1.8$\times$10¹⁴) $\approx$ \textbf{0.189} (well below 1.0 threshold)
+    \item Factor 7 does not fire: P\_$\pm$\^{}\psi (pseudosymmetric, not directional P\_DA)
+    \item Score: \textbf{0.380} --- $\Phi$\_sub (subcritical)
+    \item Structural prediction: criticality would require \xi\_r $\geq$ 32 lattice units (\textasciitilde{}48 Å correlation), incompatible with observed enamine geometry
+\end{itemize}
+
+\subsection{Building and Managing Synthons}
+
+The core data structure in SynthOmnicon is the \texttt{Synthon} class. It encapsulates all ten primitives and provides methods for notation generation and serialization.
+
+\subsubsection{Creating Synthons}
+
+You can create a \texttt{Synthon} object by providing its name and primitives as enum members plus the optional \texttt{stoichiometry} string.
+
+\begin{lstlisting}[language=Python]
+from synthomnicon import (
+    Synthon, Dimensionality, Topology, RecognitionMode,
+    Polarity, Fidelity, KineticCharacter, Granularity,
+    InteractionGrammar, CriticalityPhase
+)
+
+carboxylic_dimer = Synthon(
+    name="carboxylic_acid_dimer",
+    dimensionality=Dimensionality.MOLECULAR,
+    topology=Topology.CYCLIC_BOWTIE,
+    recognition_mode=RecognitionMode.NON_COVALENT,
+    polarity=Polarity.SELF_COMPLEMENTARY,
+    fidelity=Fidelity.HIGH,
+    kinetic_character=KineticCharacter.FAST,
+    granularity=Granularity.LOCAL,
+    interaction_grammar=InteractionGrammar.SPECIFIC,
+    criticality_phase=CriticalityPhase.SUBCRITICAL,
+    stoichiometry="1:1",
+    description="Classic hydrogen-bonded dimer (R^2₂(8) motif)"
+)
+\end{lstlisting}
+
+\subsubsection{Unified Notation}
+
+The \texttt{to\_notation()} method generates the full formal string: \texttt{\langleD; T; R; P; F; K; G; \Gamma; Phi; S\rangle}.
+
+\begin{lstlisting}[language=Python]
+print(carboxylic_dimer.to_notation())
+# Output: \langleD_wedge; T_bowtie; R_superset; P_pm; F_hbar; K_fast; G_beth; Gamma_otimes; Phi_sub; 1:1\rangle
+\end{lstlisting}
+
+You can also parse a notation string back into a \texttt{SynthonNotation} object:
+
+\begin{lstlisting}[language=Python]
+from synthomnicon import parse_notation
+notation = parse_notation(
+    "\langleD_wedge; T_bowtie; R_superset; P_pm; F_hbar; K_fast; G_beth; Gamma_otimes; Phi_sub; 1:1\rangle"
+)
+print(notation.dimensionality)  # Dimensionality.MOLECULAR
+print(notation.stoichiometry)   # "1:1"
+\end{lstlisting}
+
+\subsubsection{Serialization}
+
+Synthons support serialization to dictionaries and JSON for easy storage and transmission.
+
+\begin{lstlisting}[language=Python]
+# To Dictionary
+data = carboxylic_dimer.to_dict()
+
+# To JSON
+json_str = carboxylic_dimer.to_json()
+
+# From JSON
+new_synthon = Synthon.from_json(json_str)
+\end{lstlisting}
+
+\subsection{SynthonCatalog: Storage and Discovery}
+
+The \texttt{SynthonCatalog} acts as a centralized repository for synthons, enabling advanced search and cross-domain reasoning.
+
+\subsubsection{Registration}
+
+Registering synthons allows you to retrieve them by name later or include them in global searches.
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.registry import global_catalog
+
+# The catalog is automatically populated with defaults on CLI start,
+# but you can register your own:
+global_catalog.register(carboxylic_dimer)
+\end{lstlisting}
+
+\subsubsection{Searching}
+
+The catalog supports indexed searches by any of the ten primitives.
+
+\begin{lstlisting}[language=Python]
+# Search for all high-fidelity synthons
+high_f = global_catalog.search(fidelity=Fidelity.HIGH)
+
+# Search for all temporal synthons
+temporal = global_catalog.search_by_domain("temporal")
+\end{lstlisting}
+
+\subsubsection{Cross-Domain Analogy Search}
+
+One of the most powerful features of SynthOmnicon is the ability to find ''analogs'' across different domains (e.g., finding a temporal process that behaves like a molecular H-bond dimer).
+
+\begin{lstlisting}[language=Python]
+# Find temporal synthons that are topologically and functionally 
+# analogous to a molecular carboxylic acid dimer
+analogs = global_catalog.find_cross_domain_analogs(
+    carboxylic_dimer, 
+    target_domain="temporal"
+)
+\end{lstlisting}
+
+\subsection{Constraint Propagation Engine}
+
+The \texttt{ConstraintEngine} and \texttt{FidelityPropagator} are used to analyze how synthons interact and how their individual constraints combine to influence the overall system.
+
+\subsubsection{Pairwise Compatibility}
+
+Check if two synthons can interact based on their primitives (recognition mode, polarity, dimensionality, etc.).
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.constraints import ConstraintEngine
+
+engine = ConstraintEngine()
+report = engine.check_pair_compatibility(synthon_a, synthon_b)
+
+if report.is_compatible:
+    print(f"Compatible! Shared domains: {report.details['shared_domains']}")
+else:
+    print(f"Incompatible: {report.result.name}")
+\end{lstlisting}
+
+\subsubsection{Fidelity Propagation and Cooperativity}
+
+Individual synthon fidelities often amplify when combined in specific topologies (e.g., cyclic motifs show superlinear cooperativity).
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.constraints import FidelityPropagator
+
+propagator = FidelityPropagator()
+
+# Propagate fidelity across a list of interacting synthons
+total_fidelity = propagator.propagate([synthon_a, synthon_b, synthon_c])
+
+# Compute cooperativity factors
+coop = propagator.compute_cooperativity_factor([synthon_a, synthon_b])
+print(f"Total cooperativity: {coop['total_cooperativity']:.2f}")
+\end{lstlisting}
+
+\subsection{Thermodynamics: Quantifying Efficiency}
+
+SynthOmnicon introduces formal metrics to quantify how effectively physical energy ($\Delta G$) is converted into structural information ($I$) with a given reliability ($F$).
+
+\subsubsection{$\eta_{CP}$ and $\xi_{CP}$}
+
+\begin{itemize}
+    \item \textbf{$\eta_{CP}$ (Efficiency)}: The ratio of reliable information gain to the energy cost (relative to the Landauer limit).
+    \item \textbf{$\xi_{CP}$ (Inefficiency Index)}: The negative log of efficiency, measured in nats.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.thermodynamics import compute_eta_CP
+
+# Calculate metrics for a carboxylic acid dimer (DeltaG(298K, gas) = -12 kJ/mol)
+result = compute_eta_CP(carboxylic_dimer, delta_g=-12.0)
+
+print(f"Efficiency (\eta_CP): {result.eta_CP:.2e}")
+print(f"Inefficiency (\xi_CP): {result.xi_CP:.2f} nats")
+print(f"Assessment: {result.efficiency_description}")
+\end{lstlisting}
+
+\subsubsection{Landauer Benchmarking}
+
+Compare your system's efficiency directly to the theoretical minimum energy required to process the equivalent amount of information.
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.thermodynamics import benchmark_against_landauer
+
+benchmark = benchmark_against_landauer(carboxylic_dimer, delta_g=-12.0)
+print(f"Overhead: {benchmark['overhead_ratio']:.1e}x Landauer limit")
+\end{lstlisting}
+
+\subsection{Domain-Specific Agents}
+
+SynthOmnicon includes specialized agents that apply the core framework to specific chemical domains.
+
+\subsubsection{Molecular Agent}
+
+Used for retrosynthetic analysis and molecular bond disconnection.
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.domains.molecular import MolecularSynthonAgent
+
+mol_agent = MolecularSynthonAgent()
+analysis = mol_agent.analyze_reaction_center("CC(=O)O")
+print(f"Disconnection Feasibility: {analysis.disconnection_feasibility}")
+\end{lstlisting}
+
+\subsubsection{Supramolecular Agent}
+
+Focuses on spatial organization and cooperative effects in non-covalent networks.
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.domains.supramolecular import SupramolecularSynthonAgent
+
+supra_agent = SupramolecularSynthonAgent()
+coop = supra_agent.compute_cooperativity_induction(num_bonds=3)
+\end{lstlisting}
+
+\subsubsection{Temporal Agent}
+
+Analyzes time-dependent processes, catalytic cycles, and temporal reliability.
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.domains.temporal import TemporalSynthonAgent
+
+temp_agent = TemporalSynthonAgent()
+fidelity = temp_agent.compute_fidelity_per_cycle(k_cat=1.0, k_side=0.001)
+\end{lstlisting}
+
+\subsection{AI-Powered Synthon Generation}
+
+SynthOmnicon includes an LLM-powered agent that can automatically generate synthons from natural language descriptions or SMILES strings.
+
+\subsubsection{SynthonGeneratorAgent}
+
+The \texttt{SynthonGeneratorAgent} uses advanced language models to analyze chemical descriptions and map them to all ten primitives.
+
+\begin{lstlisting}[language=Python]
+import asyncio
+from agents.synthon_generator_agent import SynthonGeneratorAgent
+from synthomnicon.provider_config import build_agent_config
+
+async def main():
+    # Use config-driven defaults (model=None uses provider default)
+    config = build_agent_config(provider="anthropic", model=None)
+    agent = SynthonGeneratorAgent(config)
+
+    # Generate from natural language description
+    result = await agent.generate_from_description(
+        "carboxylic acid dimer with cyclic hydrogen bonding",
+        delta_g=-12.0,  # Optional: for thermodynamic analysis (DeltaG(298K, gas) for acid dimer)
+        auto_register=True  # Automatically add to catalog
+    )
+
+    print(f"Generated: {result.synthon.name}")
+    print(f"Notation: {result.synthon.to_notation()}")
+    print(f"Confidence: {result.confidence:.1%}")
+    print(f"Reasoning: {result.reasoning}")
+
+    # Access thermodynamic metrics if delta_g was provided
+    if result.thermodynamic_metrics:
+        print(f"\eta_CP: {result.thermodynamic_metrics['eta_CP']:.2e}")
+        print(f"\xi_CP: {result.thermodynamic_metrics['xi_CP']:.4f} nats")
+
+asyncio.run(main())
+\end{lstlisting}
+
+\subsubsection{Generation from SMILES}
+
+\begin{lstlisting}[language=Python]
+from agents.synthon_generator_agent import SynthonGeneratorAgent
+from synthomnicon.provider_config import build_agent_config
+
+config = build_agent_config(provider="anthropic", model=None)
+agent = SynthonGeneratorAgent(config)
+
+result = await agent.generate_from_smiles(
+    "CC(=O)O",  # Acetic acid
+    name="acetic_acid",
+    functional_groups=["carboxylic_acid"],
+    auto_register=True
+)
+
+print(f"Generated synthon: {result.synthon.to_notation()}")
+\end{lstlisting}
+
+\subsubsection{Convenience Function}
+
+For quick synthon generation, use the \texttt{generate\_synthon} function:
+
+\begin{lstlisting}[language=Python]
+from agents.synthon_generator_agent import generate_synthon
+
+result = await generate_synthon(
+    "DNA adenine-thymine base pair",
+    provider="qwen",
+    model="qwen3-max",
+    delta_g=-80.0
+)
+
+print(f"Notation: {result.synthon.to_notation()}")
+print(f"\xi_CP: {result.thermodynamic_metrics['xi_CP']:.4f} nats")
+\end{lstlisting}
+
+\subsubsection{CLI Commands for AI Generation}
+
+The CLI is accessible via both \texttt{synthomnicon} and the short alias \texttt{syncon}:
+
+\begin{lstlisting}[language=bash]
+# Both commands are equivalent:
+synthomnicon generate "carboxylic acid dimer" --delta-g -12.0
+syncon generate "carboxylic acid dimer" --delta-g -12.0
+
+# Generate from SMILES string
+syncon generate-smiles "CC(=O)O" --name acetic_acid
+
+# Specify provider and model
+syncon generate "proline catalyzed aldol cycle" \
+    --provider qwen \
+    --model qwen3-max
+
+# Save result to file
+syncon generate "triple hydrogen bond array" \
+    --output result.json
+
+# Generate without auto-registration
+syncon generate "test system" --no-register
+\end{lstlisting}
+
+\paragraph{Grounding-Controlled Registration (Fix 1 --- NEW in v2.1.3)}
+
+\begin{lstlisting}[language=bash]
+# Block registration if grounding validation fails
+syncon generate "carboxylic acid dimer" --strict-grounding
+
+# Force registration despite failures --- logs to audit trail
+syncon generate "novel quantum system" \
+    --override-grounding \
+    --override-reason "speculative entry, grounding pending publication"
+
+# Register in the 'speculative' domain (Fix 5 quarantine)
+syncon generate "quantum tunneling synthon" --speculative
+
+# Combine: speculative + override
+syncon generate "..." --speculative --override-grounding \
+    --override-reason "theoretical proposal"
+\end{lstlisting}
+
+\textbf{Grounding flag semantics:}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Flag} & \textbf{Effect} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{--strict-grounding} & Raises \texttt{GroundingValidationError} if any primitive fails grounding \\
+\texttt{--override-grounding} & Allows registration despite failure --- \textbf{requires} \texttt{--override-reason} \\
+\texttt{--override-reason TEXT} & Justification string logged to audit trail \\
+\texttt{--speculative} & Sets \texttt{domain=''speculative''} in \texttt{CatalogEntry} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Agent Framework CLI}
+
+The AjintK agent framework is accessible via the \texttt{agents} subcommand:
+
+\begin{lstlisting}[language=bash]
+# List all available agents
+syncon agents list
+
+# Run SynthonGeneratorAgent from CLI
+syncon agents run -d "carboxylic acid dimer" -g -12.0
+syncon agents run --provider qwen --model qwen3-max -d "DNA base pair"
+
+# Generate from SMILES via agent
+syncon agents from-smiles "CC(=O)O" --name acetic_acid
+syncon agents from-smiles "CC(=O)O" -o result.json
+\end{lstlisting}
+
+\subsubsection{Additional CLI Commands}
+
+\paragraph{Compare Synthons}
+
+\begin{lstlisting}[language=bash]
+# Compare multiple synthons side-by-side
+synthomnicon compare carboxylic_acid_dimer adenine_thymine_pair
+
+# Include thermodynamic comparison
+synthomnicon compare synthon1 synthon2 --delta-g -52.0 -45.0 --include-thermo
+\end{lstlisting}
+
+\paragraph{Catalog Tree View}
+
+\begin{lstlisting}[language=bash]
+# View catalog as hierarchical tree
+synthomnicon catalog tree
+
+# Filter by domain
+synthomnicon catalog tree --domain molecular
+\end{lstlisting}
+
+\paragraph{Export Catalog}
+
+\begin{lstlisting}[language=bash]
+# Export to JSON
+synthomnicon export --format json --output synthons.json
+
+# Export to CSV
+synthomnicon export --format csv --output synthons.csv
+
+# Export specific domain
+synthomnicon export --domain temporal --format yaml
+\end{lstlisting}
+
+\subsection{Autonomous Synthon Discovery}
+
+The \texttt{AutonomousSynthonDiscoveryAgent} enables continuous, self-directed synthon discovery. The agent autonomously proposes novel chemical systems, validates them against existing knowledge, and registers valid synthons to the persistent catalog.
+
+\subsubsection{Running Autonomous Discovery}
+
+\begin{lstlisting}[language=bash]
+# Basic: 10 cycles, 30 minutes
+syncon agents discover
+
+# Extended campaign: 100 cycles, 2 hours
+syncon agents discover --cycles 100 --duration 120
+
+# Focused exploration: halogen bonding
+syncon agents discover --focus "halogen bonding" --cycles 50
+
+# Different provider with lower confidence threshold
+syncon agents discover --provider qwen --confidence 0.6 --cycles 30
+\end{lstlisting}
+
+\subsubsection{Python API}
+
+\begin{lstlisting}[language=Python]
+import asyncio
+from agents.autonomous_synthon_discovery_agent import (
+    AutonomousSynthonDiscoveryAgent,
+    AutonomousRunConfig,
+    run_autonomous_discovery,
+)
+from synthomnicon.provider_config import build_agent_config
+
+# Method 1: Convenience function
+results = await run_autonomous_discovery(
+    max_cycles=50,
+    max_minutes=60,
+    provider="anthropic",
+    focus="catalysis",
+)
+
+# Method 2: Full control
+config = build_agent_config(provider="anthropic", model=None)
+agent = AutonomousSynthonDiscoveryAgent(config)
+
+run_config = AutonomousRunConfig(
+    max_cycles=100,
+    max_duration_minutes=120,
+    min_confidence_threshold=0.7,
+    target_domains=["molecular", "supramolecular"],
+    focus_areas=["halogen bonding", "chalcogen bonding"],
+    save_interval=10,
+)
+
+results = await agent.run_autonomous(run_config)
+
+# Access results
+print(f"Cycles completed: {agent.stats['cycles_completed']}")
+print(f"Synthons registered: {agent.stats['synthons_registered']}")
+print(f"Success rate: {agent.stats['synthons_registered'] / agent.stats['cycles_completed'] * 100:.1f}%")
+\end{lstlisting}
+
+\subsubsection{Configuration Options}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Parameter} & \textbf{Type} & \textbf{Default} & \textbf{Description} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{max\_cycles} & int & 100 & Maximum discovery cycles \\
+\texttt{max\_duration\_minutes} & float & 60.0 & Maximum runtime \\
+\texttt{min\_confidence\_threshold} & float & 0.7 & Minimum confidence for registration \\
+\texttt{target\_domains} & List{[}str{]} & All & Domains to explore \\
+\texttt{focus\_areas} & Optional{[}List{[}str{]}{]} & None & Specific chemistry focus \\
+\texttt{save\_interval} & int & 10 & Save progress every N cycles \\
+\texttt{output\_dir} & Optional{[}Path{]} & None & Output directory \\
+\texttt{diversity\_mode} & bool & True & Actively avoid repeats \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Output Files}
+
+The agent saves to \texttt{./discovery\_output/} (or custom \texttt{--output}):
+
+\begin{itemize}
+    \item \texttt{discovery\_history\_*.json} --- Cycle-by-cycle results
+    \item \texttt{discovery\_stats\_*.json} --- Statistics and configuration
+    \item \texttt{catalog\_*.json} --- Catalog export at checkpoint
+\end{itemize}
+
+\subsubsection{Validation Results}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Result} & \textbf{Icon} & \textbf{Description} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{valid\_novel} &  & Successfully registered \\
+\texttt{duplicate\_exists} & \otimes & Already in catalog \\
+\texttt{invalid\_chemistry} &  & Chemically invalid \textbf{or axiom violation} \\
+\texttt{literature\_conflict} &  & Conflicts with known systems \\
+\texttt{low\_confidence} & ? & Below threshold \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Axiom Validation (March 14, 2026)}
+
+\textbf{All synthons are now validated against composition axioms before registration.} This prevents physically impossible primitive combinations from being registered, ensuring catalog integrity.
+
+\textbf{Hard constraints (automatic rejection):}
+
+\begin{enumerate}
+    \item 
+    \textbf{Axiom 1 (Cyclic Closure)}: Cyclic self-complementary synthons (T\_⋈/P\_$\pm$) cannot have low fidelity (F\_ell)
+
+    \begin{itemize}
+    \item \emph{Rationale}: Cyclic closure amplifies fidelity through cooperativity
+    \item \emph{Example rejection}: \texttt{T\_bowtie + P\_pm\_sym + F\_ell} $\rightarrow$ rejected
+\end{itemize}
+
+    \item 
+    \textbf{Axiom 4 (Sequential Grammar)}: Sequential grammar ($\Gamma$\_$\rightarrow$) requires temporal (D\_$\infty$) or catalytic (R\_‡) dimension
+
+    \begin{itemize}
+    \item \emph{Rationale}: Ordered recognition requires state change mechanism
+    \item \emph{Example rejection}: \texttt{D\_triangle + R\_superset + Gamma\_seq} $\rightarrow$ rejected
+    \item \emph{Example acceptance}: \texttt{D\_infinity + R\_superset + Gamma\_seq} $\rightarrow$ accepted (has temporal dimension)
+\end{itemize}
+
+\end{enumerate}
+
+\textbf{Soft constraints (flagged for review):}
+
+\begin{itemize}
+    \item Axiom 2 (Local Grammar Barrier)
+    \item Axiom 3 (Cooperative Induction)
+    \item Axiom 5 (Criticality)
+\end{itemize}
+
+Synthons with soft axiom violations are registered but flagged in metadata:
+
+\begin{lstlisting}[language=Python]
+synthon.metadata["axiom_validated"] = True
+synthon.metadata["axiom_violations"] = 1  # Count of soft violations
+synthon.metadata["axiom_warnings"] = ["Axiom 2 violation detected - flagged for review"]
+\end{lstlisting}
+
+\textbf{Viewing axiom validation results:}
+
+\begin{lstlisting}[language=Python]
+for result in results:
+    if result.validation_result == ValidationResult.INVALID_CHEMISTRY:
+        if "AXIOM" in result.reasoning:
+            print(f"Axiom violation: {result.reasoning}")
+    
+    if result.synthon and result.synthon.metadata.get("axiom_warnings"):
+        print(f"Warning: {result.synthon.name} - {result.synthon.metadata['axiom_warnings']}")
+\end{lstlisting}
+
+\textbf{References:}
+
+\begin{itemize}
+    \item See \texttt{AXIOM\_VALIDATION\_FIX.md} for full technical details
+    \item See \texttt{QUANTSYNTHONICON.md} Section IV for axiom definitions
+    \item See \texttt{test\_axiom\_validation.py} for validation test suite
+\end{itemize}
+
+\subsubsection{Example Session}
+
+\begin{lstlisting}[language=bash]
+$ syncon agents discover --focus "nitroso radicals" --cycles 20
+
+======================================================================
+AUTONOMOUS SYNTHON DISCOVERY AGENT
+======================================================================
+Configuration:
+  Max cycles: 20
+  Max duration: 30.0 minutes
+  Min confidence: 0.7
+  Focus areas: ['nitroso radicals']
+======================================================================
+
+==================================================
+CYCLE 1/20
+==================================================
+
+[] valid_novel
+    Name: nitroso_radical_halogen_bonding_synthon_pair
+    Notation: \langleD_wedge; T_linear; R_superset; P_pm; F_eth; K_fast; G_beth; Gamma_otimes; Phi_sub; 1:1\rangle
+    Confidence: 80.0%
+
+==================================================
+CYCLE 2/20
+==================================================
+
+[] valid_novel
+    Name: nitroso_radical_anion_pi_synthon_pair
+    Notation: \langleD_wedge; T_linear; R_superset; P_directional; F_hbar; K_fast; G_beth; Gamma_otimes; Phi_sub; 1:1\rangle
+    Confidence: 90.0%
+
+...
+
+======================================================================
+DISCOVERY RUN COMPLETE
+======================================================================
+Duration: 3.2 minutes
+Cycles completed: 20
+Synthons registered: 15
+Success rate: 75.0%
+
+Catalog now contains 1,298 synthons
+======================================================================
+\end{lstlisting}
+
+\subsubsection{Catalog Persistence}
+
+All synthons are automatically persisted to \texttt{\textasciitilde{}/.synthomnicon/catalog.json}:
+
+\begin{itemize}
+    \item \textbf{Auto-save}: After each registration
+    \item \textbf{Auto-load}: On startup
+    \item \textbf{Permanent}: Survives across sessions
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon import global_catalog
+
+# Catalog persists across runs
+print(f"Catalog contains {len(global_catalog)} synthons")
+
+# Access auto-discovered synthons
+auto_synthons = [
+    s for s in global_catalog._synthons.values()
+    if s.metadata.get('auto_discovered')
+]
+print(f"Auto-discovered: {len(auto_synthons)}")
+\end{lstlisting}
+
+\subsection{Integration with AjintK Multi-Agent Framework}
+
+SynthOmnicon is built on top of the AjintK multi-agent framework, allowing for complex, distributed chemical reasoning.
+
+\subsubsection{Orchestrator Usage}
+
+The \texttt{AgentOrchestrator} manages multiple agents and their communication.
+
+\begin{lstlisting}[language=Python]
+from framework.orchestrator import AgentOrchestrator
+from synthomnicon.domains.molecular import MolecularSynthonAgent
+
+orchestrator = AgentOrchestrator()
+orchestrator.register_agent("molecular_expert", MolecularSynthonAgent())
+
+# Run a task through the orchestrator
+result = asyncio.run(orchestrator.run_agent(
+    "molecular_expert",
+    task="Analyze bond disconnections for caffeine"
+))
+\end{lstlisting}
+
+\subsection{Advanced Topics and Troubleshooting}
+
+\subsubsection{Best Practices}
+
+\begin{itemize}
+    \item \textbf{Registry over Raw Objects}: Always prefer registering synthons in the \texttt{global\_catalog} to enable cross-domain reasoning features.
+    \item \textbf{Fidelity Calibration}: Fidelity values should be calibrated against known experimental benchmarks (see \texttt{QUANTSYNTHONICON.md}).
+    \item \textbf{Domain Overlap}: When modeling complex materials like MOFs, use hybrid dimensionality synthons to capture both molecular and supramolecular constraints.
+    \item \textbf{AI Generation Confidence}: Review the confidence scores and reasoning from AI-generated synthons before using them in critical analyses.
+\end{itemize}
+
+\subsubsection{Troubleshooting}
+
+\begin{itemize}
+    \item \textbf{\texttt{NameError: name 'cls' is not defined}}: Ensure you are using the latest version of the framework where enum property references have been fixed.
+    \item \textbf{\texttt{ValueError: mutable default ... not allowed}}: Occurs if dataclasses use shared dicts. Use \texttt{default\_factory} for all dictionary fields.
+    \item \textbf{Integration Test Failures}: Run \texttt{python3 test\_integration.py} to diagnose issues. Check your Python version (3.12+ recommended).
+    \item \textbf{AI Generation Errors}: Ensure API keys are set for your chosen provider. If generation fails, try a different provider with \texttt{--provider qwen} or \texttt{--provider google}.
+\end{itemize}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsection{Section 7. Protocol Suite (v0.3.0)}
+
+\subsubsection{SYNTHONIC\_PERTURBATION}
+
+Controlled perturbation of the 10-primitive tuple to identify load-bearing vs. decorative primitives.
+Full spec: \texttt{SYNTHONIC\_PERTURBATION.md}.
+
+\paragraph{Python API}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon import PerturbationEngine
+from synthomnicon.registry import global_catalog
+
+dimer = global_catalog.get("carboxylic_acid_dimer")
+engine = PerturbationEngine()
+
+# Full primitive Jacobian --- all primitives +/-1 tier
+jac = engine.sweep_all(dimer, delta_g=-12.0)
+print(f"Baseline \xi_CP: {jac.baseline_xi_CP:.3f} nats")
+print(f"Most sensitive: {jac.most_sensitive.primitive_name}")
+
+for pr in sorted(jac.results, key=lambda x: abs(x.delta_xi_CP), reverse=True):
+    print(f"  {pr.primitive_name:<20}  {pr.delta_xi_CP:+.4f} nats  [{pr.sensitivity}]")
+
+# Fault injection --- single points of failure
+fault = engine.fault_injection(dimer, delta_g=-12.0)
+print(f"Robust: {fault['system_robust']}")
+print(f"Single points of failure: {fault['single_points_of_failure']}")
+
+# Path to target \xi_CP
+path = engine.find_path_to_target(dimer, delta_g=-12.0, target_xi_CP=7.5, optimize_primitives=["F", "K"])
+print(f"Target reached: {path['target_reached']}")
+\end{lstlisting}
+
+\paragraph{CLI}
+
+\begin{lstlisting}[language=bash]
+# Full Jacobian sweep
+syncon perturb sweep carboxylic_acid_dimer --delta-g -12.0
+
+# JSON output
+syncon perturb sweep carboxylic_acid_dimer --delta-g -12.0 --format json
+
+# Fault injection
+syncon perturb fault-injection carboxylic_acid_dimer --delta-g -12.0
+
+# Path to target
+syncon perturb pathfind carboxylic_acid_dimer --delta-g -12.0 --target 7.5 --optimize F,K
+\end{lstlisting}
+
+\textbf{Sensitivity labels}: \texttt{CRITICAL} ($\Delta$\xi\_CP $\geq$ 3.0 nats), \texttt{HIGH} ($\geq$ 1.5), \texttt{MEDIUM} ($\geq$ 0.5), \texttt{LOW} (\textless{} 0.5).
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{SYNTHONIC\_TRAJECTORY}
+
+Encode D\_$\infty$ systems as ordered step sequences; validate Axiom 6 (temporal grounding) and kinetic accessibility.
+Full spec: \texttt{SYNTHONIC\_TRAJECTORY.md}.
+
+\paragraph{Python API}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon import TemporalSynthonAgent, Synthon
+from synthomnicon.models import (
+    Dimensionality, Topology, RecognitionMode, Polarity,
+    Fidelity, KineticCharacter, Granularity, InteractionGrammar,
+)
+
+agent = TemporalSynthonAgent("proline_aldol_cycle")
+
+# Build step synthons (all must have D_inf or R_‡ for Axiom 4)
+base = dict(
+    dimensionality=Dimensionality.TEMPORAL,
+    topology=Topology.CYCLIC_BOWTIE,
+    recognition_mode=RecognitionMode.DYNAMIC_CATALYTIC,
+    polarity=Polarity.DONOR_ACCEPTOR,
+    granularity=Granularity.MESOSCALE,
+    interaction_grammar=InteractionGrammar.SELECTIVE_SEQ,
+)
+enamine  = Synthon(name="enamine_formation",  fidelity=Fidelity.HIGH,   kinetic_character=KineticCharacter.FAST,     **base)
+ts       = Synthon(name="c_c_bond_form",       fidelity=Fidelity.MEDIUM, kinetic_character=KineticCharacter.MODERATE, **base)
+hydrol   = Synthon(name="hydrolysis_reset",    fidelity=Fidelity.HIGH,   kinetic_character=KineticCharacter.FAST,     **base)
+
+agent.add_step(enamine,  "enamine_formation",  delta_g=-15.0)
+agent.add_step(ts,       "c_c_bond_form",       delta_g_ddagger=97.0)   # rate-determining
+agent.add_step(hydrol,   "hydrolysis_reset",    delta_g=-25.0, is_reset=True)
+
+result = agent.validate_all()
+print(f"Valid: {result.overall_valid}")
+print(f"Axiom 6 satisfied: {result.axiom6_satisfied}")
+print(f"Reset step: {result.reset_step}")
+print(f"Kinetic traps: {result.kinetic_traps}")
+print(f"Full cycle candidacy: {result.full_cycle_candidacy:.3f}")
+\end{lstlisting}
+
+\paragraph{CLI}
+
+\begin{lstlisting}[language=bash]
+# Validate a named set of steps (must exist in catalog)
+syncon trajectory validate --steps enamine_formation,c_c_bond_form,hydrolysis_reset --reset hydrolysis_reset
+
+# Criticality scan per step
+syncon trajectory criticality --steps enamine_formation,c_c_bond_form,hydrolysis_reset --varma-probe
+\end{lstlisting}
+
+\textbf{Key checks}:
+
+\begin{itemize}
+    \item \textbf{Axiom 4} (per step): must have \texttt{D\_inf} or \texttt{R\_‡} (dynamic catalytic)
+    \item \textbf{Axiom 6} (cycle): reset step returns system to S\_t0 (keyword or \texttt{is\_reset=True})
+    \item \textbf{K\_trap / $\Delta$G‡ \textgreater{} 100 kJ/mol}: flagged in \texttt{kinetic\_traps}
+\end{itemize}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{SYNTHONIC\_ENSEMBLER}
+
+Multi-synthon composition: pairwise compatibility, emergent properties, system \xi\_CP.
+Full spec: \texttt{SYNTHONIC\_ENSEMBLER.md}.
+
+\paragraph{Python API}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon import EnsembleCatalog
+
+ensemble = EnsembleCatalog()
+ensemble.add("carboxylic_acid_dimer")    # by catalog name
+ensemble.add("proline_aldol_cycle")
+ensemble.add("nitroso_radical_cucurbituril_anion_rotaxane_synthon")
+
+# Pairwise compatibility + emergent properties
+report = ensemble.check_pairwise()
+print(f"Consistent: {report.is_consistent}")
+print(f"Score: {report.consistency_score:.0%}")
+
+for entry in report.pairwise_matrix:
+    print(f"  {entry.component_a} <-> {entry.component_b}: {entry.result}")
+
+for ep in report.emergent_properties:
+    print(f"  {ep.property_name}: detected={ep.detected}")
+
+for axiom, status in report.axiom_propagation.items():
+    print(f"  {axiom}: {status}")
+
+# System-level \xi_CP with interface overhead
+result = ensemble.compute_system_xi_CP(delta_g_assembly=-85.0, interface_overhead_bits=1.5)
+print(f"\xi_CP system: {result['xi_CP_system_nats']:.4f} nats [{result['efficiency_tier']}]")
+\end{lstlisting}
+
+\paragraph{CLI}
+
+\begin{lstlisting}[language=bash]
+# Pairwise matrix + emergent properties
+syncon ensemble check --components carboxylic_acid_dimer,proline_aldol_cycle
+
+# Criticality probe across ensemble
+syncon ensemble probe --criticality --components carboxylic_acid_dimer,proline_aldol_cycle
+
+# System thermodynamics
+syncon ensemble thermo --components carboxylic_acid_dimer,proline_aldol_cycle --delta-g-assembly -85.0
+\end{lstlisting}
+
+\textbf{Emergent properties detected}:
+
+\begin{itemize}
+    \item \texttt{Emergent Criticality} --- ensemble degeneracy\_strength \textgreater{} individual average + 0.10 and $\geq$ 0.40
+    \item \texttt{Granularity Amplification (G\_ב -\textgreater{} G\_ג)} --- $\geq$3 G\_ב components with Axiom 3 superlinear induction
+    \item \texttt{Interface Fidelity Degradation} --- incompatible pair(s) with mean F \textgreater{} 0.5
+\end{itemize}
+
+\textbf{Interface overhead rule}: each additional bit of overhead adds \texttt{ln(2) \textasciitilde{}= 0.693 nats} to \xi\_CP via Landauer identity.
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{SYNTHONIC\_RETRODESIGN}
+
+Constraint-directed retrosynthetic decomposition: recursive axiom-pruned tree.
+Full spec: \texttt{SYNTHONIC\_RETRODESIGN.md}.
+
+\paragraph{Python API}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon import RetrodesignEngine
+
+engine = RetrodesignEngine()
+
+# Decompose by catalog name
+tree = engine.decompose(
+    "carboxylic_acid_dimer",
+    max_depth=3,
+    prune_axioms=[1, 2, 4, 6],
+)
+
+print(f"Valid decompositions : {len(tree.valid_leaves)}")
+print(f"Pruned branches      : {tree.pruned_count}")
+print(f"Valid synthon set    : {tree.valid_synthon_set}")
+
+# Decompose by notation string (9-primitive \langle...\rangle format)
+target = SynthonNotation.from_string(
+    "\langle{D_triangle, D_infinity}; T_cage; R_superset+ddagger; "
+    "P_pm; F_eth; K_mod; G_gimel; Gamma_and(SELECTIVE); Phi_sub\rangle"
+)
+# or pass the string directly
+tree2 = engine.decompose(notation_str, max_depth=2)
+
+# Walk the full tree
+def walk(node, depth=0):
+    status = "PRUNED" if node.is_pruned else ("LEAF" if node.is_leaf else "node")
+    print("  " * depth + f"[{status}] {node.branch_name}")
+    for v in node.violations:
+        print("  " * depth + f"   Axiom {v.axiom}: {v.condition}")
+    for child in node.children:
+        walk(child, depth + 1)
+
+walk(tree.root)
+\end{lstlisting}
+
+\paragraph{CLI}
+
+\begin{lstlisting}[language=bash]
+# Decompose by catalog name
+syncon retrodesign carboxylic_acid_dimer
+
+# Custom depth and axiom set
+syncon retrodesign carboxylic_acid_dimer --max-depth 4 --prune-axioms 1,4,6
+
+# Decompose by notation string
+syncon retrodesign "\langle{D_triangle, D_infinity}; T_cage; R_superset; P_pm; F_eth; K_mod; G_gimel; Gamma_and(SELECTIVE); Phi_sub\rangle"
+
+# JSON output
+syncon retrodesign carboxylic_acid_dimer --format json
+\end{lstlisting}
+
+\textbf{Pruning rules}:
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Axiom} & \textbf{Name} & \textbf{Condition} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+1 & Fidelity Floor & \texttt{T\_⋈ + P\_+/- + F\_\ell -\textgreater{} PRUNE} \\
+2 & Propagation Barrier & sub-tuple claims \texttt{G\_ℵ} but lacks \texttt{\Gamma\_or} or \texttt{T\_network} $\rightarrow$ PRUNE \\
+4 & Grammar Mismatch & \texttt{\Gamma\_-\textgreater{}} without \texttt{D\_inf} or \texttt{R\_‡} $\rightarrow$ PRUNE \\
+6 & Grounding Fail & \texttt{D\_inf} without reset mechanism $\rightarrow$ FLAG \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{Demo Script}
+
+\begin{lstlisting}[language=bash]
+python examples/demo_protocols.py
+\end{lstlisting}
+
+Runs all four protocols in sequence with calibrated reference values:
+
+\begin{itemize}
+    \item Protocol 1: \texttt{carboxylic\_acid\_dimer} $\Delta$G = $-$12.0 kJ/mol $\rightarrow$ \xi\_CP $\approx$ 6.81 nats, Granularity most sensitive ($\Delta$\xi = $-$0.60 nats, MEDIUM)
+    \item Protocol 2: \texttt{proline\_aldol\_cycle} 3-step cycle, all continuity checks PASS, Axiom 6 satisfied, reset at \texttt{hydrolysis\_reset}
+    \item Protocol 3: 3-component ensemble (molecular + temporal + mechanical), Interface Fidelity Degradation detected, system \xi\_CP $\approx$ 9.81 nats {[}LOW with 1.5-bit overhead{]}
+    \item Protocol 4: \texttt{carboxylic\_acid\_dimer} $\rightarrow$ 3 valid leaves, 0 pruned; \texttt{proline\_aldol\_cycle} $\rightarrow$ 1 valid leaf, 2 pruned (Axiom 4 enforced)
+\end{itemize}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\emph{For more detailed information on the underlying theory, refer to \textbf{QUANTSYNTHONICON.md}.}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsection{Tuple Algebra and Compositional Design (v0.3.2)}
+
+The ten-tuple is a typed mathematical object. \texttt{synthomnicon/algebra.py} implements the full algebra over the tuple space. All six operations are exposed via CLI and Python API.
+
+\subsubsection{\texttt{syncon meet} --- Lattice Meet (Greatest Lower Bound)}
+
+\begin{lstlisting}[language=bash]
+syncon meet SYNTHON_A SYNTHON_B [--format text|json]
+\end{lstlisting}
+
+Computes the componentwise minimum: for ordered primitives (F, K, G) takes the lower value; for categorical primitives (D, T, R, P, $\Gamma$, $\Phi$, S) returns the shared value or \textbf{CONFLICT} if they differ. The result is the ''most conservative valid synthon below both inputs'' --- the guaranteed design floor of any system that must satisfy both.
+
+\textbf{Example:}
+
+\begin{lstlisting}[language=bash]
+syncon meet Dithiadiazolyl_Phthalocyanine_Columnar_Stacking_Synthon \
+            nitroso_radical_redox_synthon_pair
+\end{lstlisting}
+
+Output:
+
+\begin{lstlisting}
+Meet: Dithia ⊓ nitroso
+/----------+------------------+------------------+-------------------\
+| Prim   | Dithia         | nitroso        | Result          |
+|-----------+------------------+------------------+-------------------|
+| D      | D_molecular    | D_molecular    | D_molecular     |
+| T      | T_cyclic       | T_cyclic       | T_cyclic        |
+| R      | R_non_covalent | R_non_covalent | R_non_covalent  |
+| F      | F_hbar         | F_eth          | F_eth  v        |
+| K      | K_mod          | K_fast         | K_fast v (wait) |
+| G      | G_gimel        | G_beth         | G_beth v        |
+| Phi    | Phi_sub        | Phi_sub        | Phi_sub         |
+\-----------+------------------+------------------+-------------------/
+Result: \langleD_and; T_⋈; R_\supseteq; P_...;  F_eth; K_fast; G_ב; \Gamma_...; Phi_sub; S\rangle
+\end{lstlisting}
+
+CONFLICT primitives are shown in red. A meet with no conflicts means the two synthons are mutually substitutable within the partial order.
+
+\textbf{Python API:}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.algebra import meet
+result = meet(s1, s2)
+print(result.to_notation())   # unified notation
+print(result.conflicts)       # list of conflicted primitive names
+print(result.is_valid)        # True if no CONFLICT sentinels
+\end{lstlisting}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{\texttt{syncon join} --- Lattice Join (Least Upper Bound)}
+
+\begin{lstlisting}[language=bash]
+syncon join SYNTHON_A SYNTHON_B [--format text|json]
+\end{lstlisting}
+
+Componentwise maximum: for ordered primitives takes the higher value; for categoricals, shared value or CONFLICT. The result is the ''minimal synthon that subsumes both'' --- the minimal ceiling of the design space spanned by the two inputs.
+
+\textbf{Key use case:} \texttt{join} is how to find the minimal upgrade that satisfies both of two design targets. If \texttt{join(s1, s2)} has no CONFLICTs, there exists a valid synthon above both.
+
+\textbf{Criticality rule:} $\Phi_c$ dominates in both meet and join. If either input has $\Phi_c$, the output has $\Phi_c$. This encodes the physical fact that criticality is not a property that can be averaged away.
+
+\textbf{Python API:}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.algebra import join
+result = join(s1, s2)
+\end{lstlisting}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{\texttt{syncon path} --- Valid-Swap Path Search}
+
+\begin{lstlisting}[language=bash]
+syncon path SOURCE DESTINATION [--max-hops 5] [--xi-tolerance 2.0]
+\end{lstlisting}
+
+BFS over the directed valid-swap graph. Edges exist where \texttt{HotSwapEngine} returns APPROVED or CONDITIONAL. Restricted to the same $\{D, T\}$ cluster (cross-domain edges always fail the HotSwap D/T exact-match requirement). Accumulates $|\Delta\xi_{CP}|$ along the path; terminates if the cumulative cost exceeds \texttt{--xi-tolerance}.
+
+\textbf{Important:} The path graph is \textbf{asymmetric}. \texttt{path(A -\textgreater{} B)} may succeed while \texttt{path(B -\textgreater{} A)} fails. This happens whenever B has lower F than A --- the F-floor constraint blocks downgrade edges. This is correct behavior: a swap is not the same operation as its reverse.
+
+\textbf{Example:}
+
+\begin{lstlisting}[language=bash]
+# This succeeds (1 hop, Delta\xi = +0.312 nat):
+syncon path Dithiadiazolyl_Phthalocyanine_Columnar_Stacking_Synthon \
+            nitroso_radical_redox_synthon_pair
+
+# This fails (F downgrade blocked):
+syncon path nitroso_radical_redox_synthon_pair \
+            Dithiadiazolyl_Phthalocyanine_Columnar_Stacking_Synthon
+\end{lstlisting}
+
+Output (success):
+
+\begin{lstlisting}
+Path: Dithia -> nitroso
+Hop 1: Dithia -> nitroso   Delta\xi = +0.312 nat   [APPROVED]
+Total Delta\xi_CP: 0.312 nat   Hops: 1
+\end{lstlisting}
+
+\textbf{Python API:}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.algebra import find_path
+from synthomnicon.registry import global_catalog
+
+path = find_path(s1, s2, catalog=global_catalog, max_hops=5, xi_tolerance=2.0)
+if path.found:
+    for hop in path.hops:
+        print(f"  {hop.source.name} -> {hop.dest.name}  Delta\xi = {hop.delta_xi:+.3f}")
+\end{lstlisting}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{\texttt{syncon tensor} --- Ensemble Prediction (Tensor Product)}
+
+\begin{lstlisting}[language=bash]
+syncon tensor SYNTHON_A SYNTHON_B [--lambda 0.5] [--format text|json]
+\end{lstlisting}
+
+Computes the effective primitive tuple of a two-component assembly. Composition rules:
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Primitive} & \textbf{Rule} & \textbf{Physical meaning} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+D & Set union & Ensemble spans all dimensions of components \\
+T & Max (promote) & Most complex topology governs assembly \\
+R & Promote (dynamic \textgreater{} static) & Dominant interaction governs propagation \\
+P & Donor-acceptor if both present & Mixed polarity creates directional system \\
+\textbf{F} & \textbf{Min (bottleneck)} & Weakest fidelity limits the ensemble \\
+\textbf{K} & \textbf{Min (bottleneck)} & Slowest step governs kinetics \\
+G & Max & Largest-scale control propagates up \\
+$\Gamma$ & AND-composition & Partner requirements are additive \\
+$\Phi$ & $\Phi$\_c propagates & Criticality is contagious \\
+S & Product & Combined assembly has product valency \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{\xi correction:} $\xi_{\text{ens}} = \xi_1 + \xi_2 - \lambda \cdot I(s_1; s_2)$, where $I(s_1; s_2)$ is the mutual information between tuple vectors (shared primitive values), and $\lambda$ is the overlap discount (default 0.5).
+
+\textbf{Important consequence:} If \texttt{tensor(s1, s2)} drops F to $F_{\eth}$, a subsequent \texttt{criticality\_lift} on the result will be BLOCKED --- the F floor is correctly enforced without any explicit guard in the downstream pipeline.
+
+\textbf{Python API:}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.algebra import tensor
+result = tensor(s1, s2, lambda_=0.5)
+print(result.to_notation())     # effective tuple
+print(result.xi_ensemble)       # effective \xi_CP
+print(result.overlap_discount)  # lambda . I(s₁;s₂) correction
+\end{lstlisting}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{\texttt{syncon lift} --- Natural Transformation (Cross-Domain Migration)}
+
+\begin{lstlisting}[language=bash]
+syncon lift SYNTHON_NAME TARGET [--format text|json]
+\end{lstlisting}
+
+where \texttt{TARGET} is one of: \texttt{temporal}, \texttt{spatial}, \texttt{critical}, \texttt{molecular}.
+
+Applies a primitive-rewriting map that migrates the synthon to a new domain while preserving as much structure as possible. Output shows a side-by-side diff of changed primitives.
+
+\textbf{Available lifts:}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Target} & \textbf{Primitive changes} & \textbf{Guard condition} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{temporal} & D\_$\land$$\rightarrow$D\_$\infty$, R$\rightarrow$R\_‡, K\_fast$\rightarrow$K\_mod, $\Gamma$$\rightarrow$$\Gamma$\_$\rightarrow$(SEQUENTIAL) & None \\
+\texttt{spatial} & D\_$\land$$\rightarrow$D\_△, T$\rightarrow$T\_□ if not spatial, G\_ב$\rightarrow$G\_ג & None \\
+\texttt{critical} & $\Phi$\_sub$\rightarrow$$\Phi$\_c, G$\rightarrow$G\_ℵ & \textbf{F $\geq$ F\_\hbar required} (Axiom 5) \\
+\texttt{molecular} & D\_$\infty$$\rightarrow$D\_$\land$, R\_‡$\rightarrow$R\_\subseteq, $\Gamma$\_$\rightarrow$$\rightarrow$$\Gamma$\_$\land$(SELECTIVE) & None (forgetful) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Criticality lift guard (Axiom 5 enforcement):} If F \textless{} F\_\hbar, the lift is BLOCKED with explanation. A synthon must have high thermodynamic fidelity to carry a reliable criticality signature.
+
+\textbf{Example:}
+
+\begin{lstlisting}[language=bash]
+syncon lift Dithiadiazolyl_Phthalocyanine_Columnar_Stacking_Synthon critical
+\end{lstlisting}
+
+Output:
+
+\begin{lstlisting}
+Lift: critical --- Dithia
+Changed primitives:
+  Phi: Phi_sub -> Phi_c
+  G: G_gimel -> G_aleph
+Result: \langleD_and; T_⋈; R_\supseteq; P_+; F_\hbar; K_mod; G_ℵ; \Gamma_and(SPECIFIC); Phi_c; 1:1\rangle
+Note: Axiom 6 injection: temporal lift requires closed-cycle grounding before assembly.
+\end{lstlisting}
+
+\textbf{Python API:}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.algebra import criticality_lift, lift_to_temporal, lift_to_spatial, project_to_molecular
+
+result = criticality_lift(s)
+if result.blocked:
+    print(f"BLOCKED: {result.block_reason}")
+else:
+    print(result.result_synthon.to_notation())
+    for warning in result.warnings:
+        print(f"  Warning: {warning}")
+\end{lstlisting}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{\texttt{syncon pipeline} --- Composable Design Pipeline}
+
+\begin{lstlisting}[language=bash]
+syncon pipeline START_SYNTHON --step STEP [--step STEP ...]
+\end{lstlisting}
+
+A composable pipeline that chains algebra operations with automatic \xi\_CP threading and fail-fast logging. Implements a Writer+Maybe monad: each step carries the accumulated cost (Writer) and continues from the last valid state even on BLOCKED steps (soft Maybe).
+
+\textbf{Step syntax:}
+
+\begin{lstlisting}
+op:argument[:key=value[:key=value...]]
+\end{lstlisting}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Step} & \textbf{Syntax} & \textbf{Operation} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+meet & \texttt{meet:synthon\_name} & Lattice meet with named synthon \\
+join & \texttt{join:synthon\_name} & Lattice join with named synthon \\
+tensor & \texttt{tensor:synthon\_name} or \texttt{tensor:synthon\_name:lambda=0.3} & Tensor product \\
+lift & \texttt{lift:temporal} / \texttt{lift:spatial} / \texttt{lift:critical} / \texttt{lift:molecular} & Natural transformation \\
+path & \texttt{path:target\_name} or \texttt{path:target\_name:xi\_tolerance=1.5} & Path search to target \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Full example:}
+
+\begin{lstlisting}[language=bash]
+syncon pipeline Dithiadiazolyl_Phthalocyanine_Columnar_Stacking_Synthon \
+  --step join:nitroso_radical_redox_synthon_pair \
+  --step lift:critical \
+  --step path:Varma_synthon:xi_tolerance=1.5
+\end{lstlisting}
+
+Output:
+
+\begin{lstlisting}
+Pipeline trace:
+  Start:  Dithia     \langle...; F_\hbar; K_mod; G_ג; ...; Phi_sub; 1:1\rangle
+--------------------------------------------------------------
+  Step 1: join(nitroso)
+    F: F_eth -> F_hbar (max)   K: K_fast -> K_mod   G: G_beth -> G_gimel
+    Delta\xi_CP = +0.519 nat       [PASS]
+  Step 2: lift(critical)
+    Phi: Phi_sub -> Phi_c   G: G_gimel -> G_aleph
+    F = F_hbar >= F_hbar    eligibility gate passed
+    Delta\xi_CP = +0.000 nat    [PASS]
+  Step 3: path(Varma_synthon, tol=1.5)
+    Hop 1: ... -> Varma   Delta\xi = +0.847 nat   [APPROVED]
+    Delta\xi_CP = +0.847 nat    [PASS]
+--------------------------------------------------------------
+  Final:  \langle...; F_\hbar; K_mod; G_ℵ; ...; Phi_c; 1:1\rangle
+  Total Delta\xi_CP: 1.366 nat   Steps: 3   Blocked: 0
+\end{lstlisting}
+
+\textbf{Python API (direct monadic chaining):}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.algebra import DesignPipeline
+from synthomnicon.registry import global_catalog
+
+nitroso = global_catalog["nitroso_radical_redox_synthon_pair"]
+varma   = global_catalog["Varma_synthon"]
+
+result = (
+    DesignPipeline
+    .start(dithia)
+    .join(nitroso)
+    .lift("critical")
+    .path("Varma_synthon")
+    .result()
+)
+
+result.print_trace()
+print(f"Total Delta\xi_CP: {result.total_delta_xi:.3f} nat")
+print(f"Final tuple: {result.current_synthon.to_notation()}")
+print(f"Blocked steps: {result.blocked_count}")
+\end{lstlisting}
+
+\textbf{Pipeline semantics:}
+
+\begin{itemize}
+    \item \textbf{Writer effect}: \texttt{total\_delta\_xi} accumulates across all steps.
+    \item \textbf{Maybe effect}: BLOCKED steps are logged but do not terminate the pipeline. The pipeline continues from the last successfully transformed synthon.
+    \item \textbf{Fail condition}: A step that \textbf{raises an exception} (e.g., synthon not found, BFS graph unreachable) terminates the pipeline with an ERROR status distinct from BLOCKED.
+\end{itemize}
+
+\textbf{Behavioral verification:}
+
+\begin{enumerate}
+    \item \textbf{F-bottleneck propagation}: \texttt{tensor(A, B)} dropping F to F\_eth $\rightarrow$ subsequent \texttt{lift:critical} is BLOCKED without any explicit guard needed.
+    \item \textbf{Path asymmetry}: \texttt{path:nitroso} from Dithia succeeds (F upgrade direction); \texttt{path:Dithia} from nitroso fails (F downgrade blocked).
+    \item \textbf{Join-enables-path}: \texttt{join(nitroso)} upgrades F to F\_hbar $\rightarrow$ \texttt{path:Varma} at $\Delta$\xi = +0.847 nat succeeds where it would have failed from the lower-F starting point.
+\end{enumerate}
+
+\subsubsection{\texttt{syncon distance} --- Tuple Distance (v0.4.0)}
+
+\begin{lstlisting}[language=bash]
+syncon distance SYNTHON_A SYNTHON_B [--directed] [--format text|json]
+\end{lstlisting}
+
+Computes the weighted Hamming-style distance between two synthon tuples in the eleven-primitive space. By default reports the \textbf{symmetric} distance d(A, B) = d(B, A). With \texttt{--directed}, also reports the asymmetric directed distances d(A$\rightarrow$B) and d(B$\rightarrow$A) and the asymmetry index.
+
+\textbf{Primitive weights} (default):
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Primitive} & \textbf{Weight} & \textbf{Notes} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+D & 1.5 & Dimensionality --- highest weight (structural backbone) \\
+T & 1.2 & Topology \\
+R & 1.0 & Reactivity \\
+P & 0.8 & Polarity \\
+F & 1.0 & Fidelity (with asymmetric F-floor penalty) \\
+K & 0.6 & Kinetics \\
+G & 0.9 & Granularity \\
+$\Gamma$ & 0.7 & Grammar \\
+$\Phi$ & 1.1 & Criticality phase \\
+S & 0.08 & Stoichiometry \\
+$\Omega$ & 0.7 & Topological protection index (when set) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Example:}
+
+\begin{lstlisting}[language=bash]
+syncon distance photon electron
+\end{lstlisting}
+
+\textbf{Example output (text):}
+
+\begin{lstlisting}
+Distance: photon <-> electron
+  d(sym) = 3.20
+  d(photon -> electron) = 3.05
+  d(electron -> photon) = 3.35
+  Asymmetry = 0.30
+
+  Primitive breakdown:
+    D    0.00   D_inf <-> D_inf            [match]
+    T    1.20   T_x <-> T_|            [mismatch]
+    R    0.00   R_irr <-> R_irr        [match]
+    P    0.80   P_gamma <-> P_e            [mismatch]
+    F    0.00   F_\hbar <-> F_\hbar            [match]
+    K    0.00   K_fast <-> K_fast      [match]
+    G    0.90   G_ℵ <-> G_ℵ            [match]
+    \Gamma    0.00   \Gamma_\otimes <-> \Gamma_\otimes            [match]
+    Phi    0.00   Phi_sub <-> Phi_sub        [match]
+    S    0.30   None <-> None          [match]
+    \Omega    ---      (not set on either)
+\end{lstlisting}
+
+\textbf{JSON output} (\texttt{--format json}):
+
+\begin{lstlisting}[language=JSON]
+{
+  "synthon_a": "photon",
+  "synthon_b": "electron",
+  "d_sym": 3.20,
+  "d_a_to_b": 3.05,
+  "d_b_to_a": 3.35,
+  "asymmetry": 0.30,
+  "primitives": {
+    "T": {"weight": 1.2, "match": false},
+    "P": {"weight": 0.8, "match": false}
+  }
+}
+\end{lstlisting}
+
+\textbf{Python API:}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.algebra import tuple_distance
+
+d = tuple_distance(synthon_a, synthon_b)
+print(f"Distance: {d:.3f}")
+\end{lstlisting}
+
+\textbf{Quantum particle distance results} (v0.4.0 playground):
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Pair} & \textbf{d(sym)} & \textbf{Dominant mismatch} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+proton $\leftrightarrow$ electron & 1.50 & P (charge sign) \\
+spin $\leftrightarrow$ qubit & 2.10 & T + K (spatial $\leftrightarrow$ linear; trap $\leftrightarrow$ slow) \\
+photon $\leftrightarrow$ qubit & 3.80 & T + P + K \\
+proton $\leftrightarrow$ spin & 6.00 & Max separation (T + P + K + G stacking) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{Combined Workflow Example}
+
+\begin{lstlisting}[language=bash]
+# Step 0: Measure primitive-space separation
+syncon distance Dithia nitroso --directed   # d(sym)=2.10; asymmetry=0.40
+
+# Step 1: Check whether two synthons are lattice-compatible
+syncon meet Dithia nitroso         # identifies F/K/G gaps
+syncon join Dithia nitroso         # identifies minimal common ceiling
+
+# Step 2: Can we swap directly?
+syncon hotswap Dithia nitroso      # HotSwap check
+syncon path Dithia nitroso         # finds 1-hop path, Delta\xi = +0.312 nat
+
+# Step 3: What does the ensemble look like?
+syncon tensor Dithia nitroso       # effective tuple (F->min->F_eth, K->min->K_mod)
+
+# Step 4: Can we lift the joined ensemble to critical?
+syncon pipeline Dithia \
+  --step join:nitroso \
+  --step lift:critical \
+  --step path:Varma:xi_tolerance=1.5
+# -> join restores F_hbar -> criticality lift passes -> path to Varma succeeds
+\end{lstlisting}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{DesignPipeline Python API}
+
+\begin{lstlisting}[language=Python]
+from synthomnicon.algebra import DesignPipeline, global_catalog
+
+# Load starting synthon
+start = global_catalog.get("proline_aldol_cycle")
+
+# Build a multi-stage pipeline
+pipeline = (
+    DesignPipeline()
+    .start(start)
+    .meet("amide_dimer")              # lattice meet
+    .join("carboxylic_acid_dimer")    # lattice join
+    .tensor("nitroso_radical_redox_synthon_pair", lambda_=0.5)
+    .lift("critical")                 # natural transformation
+    .path("soai_pyrimidyl_autocatalytic_cycle", xi_tolerance=2.0)
+)
+
+# Execute and get results
+result = pipeline.result()
+
+# Inspect results
+print(f"Final synthon: {result.current_synthon.name}")
+print(f"Total Delta\xi_CP: {result.total_delta_xi:+.3f} nat")
+print(f"Steps: {len(result.steps)}, Blocked: {result.blocked_count}")
+
+# Print full trace
+result.print_trace()
+\end{lstlisting}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsection{Design Scripts (\texttt{.syn} DSL) --- Complete Reference}
+
+\textbf{Version:} 0.4.1 (Phase 3a --- Monadic Foundation $\cdot$ Molecular Domain Catalog)
+\textbf{Total Scripts:} 20 (Batch 1: 01-05 + corrected; Batch 2: 06-16)
+\textbf{Success Rate:} 18/20 (90\%) --- 2 intentional F-floor pedagogical demonstrations (01, 04)
+
+\subsubsection{Quick Reference Table}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Script} & \textbf{Status} & \textbf{$\Delta$\xi\_CP (nat)} & \textbf{Key Demonstration} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\textbf{Batch 1} &  &  &  \\
+\texttt{01\_soai\_criticality\_path.syn} &  Blocked (pedagogical) & 0.000 & F-floor gate: proline(F\_eth) cannot lift to $\Phi$\_c \\
+\texttt{01b\_soai\_criticality\_corrected.syn} &  \textbf{SUCCESS} & 0.000 & Factor 7 fires; $\Phi$\_c lift; meet preserves $\Phi$\_c \\
+\texttt{02\_tensor\_ensemble\_design.syn} &  Partial & 13.624 & Tensor fidelity bottleneck \\
+\texttt{02b\_tensor\_ensemble\_corrected.syn} &  \textbf{SUCCESS} & 13.624 & Tensor $\rightarrow$ join $\rightarrow$ lift \\
+\texttt{03\_retrosynthetic\_meet\_join.syn} &  \textbf{SUCCESS} & 0.000 & meet(F\_\hbar, F\_eth)$\rightarrow$F\_eth; join$\rightarrow$F\_\hbar \\
+\texttt{04\_hybrid\_spatial\_temporal.syn} &  Blocked (pedagogical) & 16.802 & Tensor succeeds; F\_eth bottleneck blocks $\Phi$\_c lift \\
+\texttt{04b\_hybrid\_spatial\_temporal\_corrected.syn} &  \textbf{SUCCESS} & 15.425 & D\_△$\infty$ hybrid; Axiom 6 pass; lift \\
+\texttt{05\_varma\_probe\_validation.syn} &  Partial & 0.000 & Varma probe, path limits \\
+\texttt{05b\_varma\_probe\_corrected.syn} &  \textbf{SUCCESS} & 0.000 & Varma + idempotent join \\
+\textbf{Batch 2} &  &  &  \\
+\texttt{06\_catalytic\_cycle\_optimization.syn} &  \textbf{SUCCESS} & 0.962 & 1-hop path + lift; total cost \textless{} 5.0 nat \\
+\texttt{07\_supramolecular\_cage\_assembly.syn} &  \textbf{SUCCESS} & 27.518 & Sequential tensor $\times$2 \\
+\texttt{08\_retrodesign\_search.syn} &  \textbf{SUCCESS} & 0.000 & T\_\textbar{} cluster navigation \\
+\texttt{09\_cross\_domain\_analogy.syn} &  \textbf{SUCCESS} & 0.000 & Supramolecular analogy \\
+\texttt{10\_hierarchical\_ensemble.syn} &  \textbf{SUCCESS} & 13.016 & \textbf{tensor(CH₃⁻, CH₃⁺); MI discount 7.100 nat} \\
+\texttt{11\_criticality\_ensemble\_validation.syn} &  \textbf{SUCCESS} & 0.000 & Full Varma + Axiom 6 \\
+\texttt{12\_thermodynamic\_efficiency.syn} &  \textbf{SUCCESS} & 12.577 & crown(F\_eth) \otimes CB $\rightarrow$ F\_eth; MI 5.698 nat \\
+\texttt{13\_multi\_hop\_path\_discovery.syn} &  \textbf{SUCCESS} & 0.000 & Extended path search \\
+\texttt{14\_complex\_strategy\_composition.syn} &  \textbf{SUCCESS} & 0.000 & lift$\rightarrow$BLOCKED; mplus$\rightarrow$join(F\_\hbar)$\rightarrow$lift $\Phi$\_c \\
+\texttt{15\_dna\_base\_pair\_lattice.syn} &  \textbf{SUCCESS} & 0.000 & Biological H-bond systems \\
+\texttt{16\_mof\_inspired\_network.syn} &  \textbf{SUCCESS} & 13.741 & cryptand \otimes CB{[}n{]} $\rightarrow$ T\_cage, F\_\hbar; MI 8.588 nat \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Running Design Scripts}
+
+\begin{lstlisting}[language=bash]
+# Run a single design (text output)
+syncon run designs/03_retrosynthetic_meet_join.syn
+
+# Run with JSON output and save
+syncon run designs/14_complex_strategy_composition.syn --format json --save result.json
+
+# Dry-run (parse + validate without executing)
+syncon run designs/06_catalytic_cycle_optimization.syn --dry-run
+
+# Override output format
+syncon run designs/10_hierarchical_ensemble.syn --format json
+\end{lstlisting}
+
+\subsubsection{Featured Designs (Deep Dive)}
+
+\paragraph{Design 03: Retrosynthetic Meet/Join }
+
+\textbf{Goal:} Demonstrate lattice operations on H-bonded dimers
+
+\textbf{Result:} 5/5 steps, $\Delta$\xi\_CP = 0.000 nat
+
+\begin{lstlisting}
+1. [PASS]  meet(amide_dimer)  F: F_hbar ⊓ F_eth -> F_eth
+2. [ASSERT_PASS]  topology == T_bowtie
+3. [ASSERT_PASS]  fidelity == F_eth
+4. [PASS]  join(carboxylic_acid_dimer)  F: F_eth ⊔ F_hbar -> F_hbar
+5. [ASSERT_PASS]  fidelity == F_hbar
+\end{lstlisting}
+
+\textbf{Key Insights:}
+
+\begin{itemize}
+    \item Meet/join form a lattice on ordered primitives (F, K, G)
+    \item Categorical primitives (D, T, R, P, $\Gamma$) require exact match
+    \item Zero thermodynamic cost (abstract algebraic transformations)
+\end{itemize}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\paragraph{Design 10: Hierarchical Ensemble (Highest MI Discount) }
+
+\textbf{Goal:} Multi-stage assembly with anion-cation pairing
+
+\textbf{Result:} 7/7 steps, $\Delta$\xi\_CP = 12.424 nat, \textbf{MI discount = 8.283 nat}
+
+\begin{lstlisting}
+1. [PASS]  join(carbonyl)  F->F_eth
+2. [PASS]  path(methyl_anion)  1 hop
+3. [PASS]  tensor(methyl_cation, lambda=0.6)  Delta\xi=+12.424 nat  discount=8.283
+4. [ASSERT_PASS]  topology == T_linear
+5. [ASSERT_PASS]  fidelity == F_eth
+\end{lstlisting}
+
+\textbf{Key Insights:}
+
+\begin{itemize}
+    \item \textbf{Highest observed MI discount (8.283 nat)}
+    \item Complementary charges maximize mutual information
+    \item Without MI: cost would be 20.7 nat (actual: 12.4 nat)
+\end{itemize}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\paragraph{Design 14: Complex Strategy Composition (Nested Or-Patterns) }
+
+\textbf{Goal:} Three-level fallback chain for robust criticality ascent
+
+\textbf{Result:} 9/9 steps, $\Delta$\xi\_CP = 0.362 nat
+
+\begin{lstlisting}
+1. [BLOCKED]  lift(critical)  F-floor not met
+2. [PASS]  mplus(fallback)  switching to fallback
+3. [BLOCKED]  join(redox_pair)  CONFLICT on R, P, \Gamma
+4. [PASS]  mplus(fallback)  switching to fallback
+5. [PASS]  path(redox_pair)  Delta\xi=+0.362 nat  1 hop
+6. [PASS]  lift(critical)  Phi: None -> Phi_c
+7. [ASSERT_PASS]  criticality_phase == Phi_c
+8. [ASSERT_PASS]  phi_c_score > 0.3
+9. [ASSERT_PASS]  output.assert(steps <= 15)
+\end{lstlisting}
+
+\textbf{Key Insights:}
+
+\begin{itemize}
+    \item \textbf{Nested or-patterns work flawlessly}
+    \item Fallback chain: lift $\rightarrow$ join $\rightarrow$ path
+    \item Final pathway cost: 0.362 nat (1-hop path + lift)
+    \item Demonstrates robust error recovery in design pipelines
+\end{itemize}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\paragraph{Design 11: Criticality Ensemble Validation }
+
+\textbf{Goal:} Comprehensive Varma probe validation
+
+\textbf{Result:} 8/8 steps, $\Delta$\xi\_CP = 0.000 nat
+
+\begin{lstlisting}
+1. [PASS]  lift(critical)  Phi: None -> Phi_c
+2. [ASSERT_PASS]  phi_c_score > 0.3
+3. [ASSERT_PASS]  criticality_phase == Phi_c
+4. [ASSERT_PASS]  axiom6_satisfied
+5. [PASS]  join(self)  idempotent
+6. [ASSERT_PASS]  criticality preserved
+7. [ASSERT_PASS]  fidelity == F_hbar
+8. [ASSERT_PASS]  output.assert(criticality_ok == true)
+\end{lstlisting}
+
+\textbf{Key Insights:}
+
+\begin{itemize}
+    \item All Varma probe predicates validated
+    \item Axiom 6 temporal grounding satisfied
+    \item Idempotent join preserves criticality phase
+\end{itemize}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{Thermodynamic Metrics Summary}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Operation Type} & \textbf{Typical $\Delta$\xi\_CP (nat)} & \textbf{Notes} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{meet} / \texttt{join} & 0.000 & Abstract lattice ops \\
+\texttt{lift} & 0.000 & Natural transformation \\
+\texttt{path} (1 hop) & 0.000--0.500 & Same D/T cluster \\
+\texttt{path} (multi-hop) & 0.500--2.000 & Cross-cluster \\
+\texttt{tensor} (cage \otimes bowl) & 12--16 & High cost ensemble \\
+\texttt{tensor} (anion-cation) & 12--14 & \textbf{8.3 nat MI discount} \\
+\texttt{tensor} (sequential $\times$2) & 25--30 & Accumulated cost \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Note:} Lattice operations and lifts are abstract algebraic transformations (zero cost). Tensor products model physical co-assembly and carry \xi\_CP predictions with mutual information discounts.
+
+\subsubsection{Constraint Enforcement (Floor Gates)}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Gate} & \textbf{Condition} & \textbf{Blocked If} & \textbf{Evidence} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\textbf{F-floor} (criticality) & F $\geq$ F\_hbar & F = F\_eth or F\_ell & Designs 01, 04 (pedagogical demos) \\
+\textbf{D-floor} (criticality) & D = D\_$\infty$ OR G $\geq$ G\_gimel & D = D\_triangle, G = G\_beth & Design 04 (after tensor bottleneck) \\
+\textbf{D/T match} (path) & Same \{D, T\} cluster & D or T differs & Designs 08, 09, 13 \\
+\textbf{Axiom 6} (temporal) & Reset block OR flux & D\_$\infty$ without grounding & Design 11 validates \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{File Index}
+
+\begin{lstlisting}
+designs/
+|---- Batch 1 (01-05 + corrected)
+|   |---- 01_soai_criticality_path.syn
+|   |---- 01b_soai_criticality_corrected.syn
+|   |---- 02_tensor_ensemble_design.syn
+|   |---- 02b_tensor_ensemble_corrected.syn
+|   |---- 03_retrosynthetic_meet_join.syn      <- Featured
+|   |---- 04_hybrid_spatial_temporal.syn
+|   |---- 04b_hybrid_spatial_temporal_corrected.syn
+|   |---- 05_varma_probe_validation.syn
+|   \---- 05b_varma_probe_corrected.syn
+|---- Batch 2 (06-16)
+|   |---- 06_catalytic_cycle_optimization.syn
+|   |---- 07_supramolecular_cage_assembly.syn
+|   |---- 08_retrodesign_search.syn
+|   |---- 09_cross_domain_analogy.syn
+|   |---- 10_hierarchical_ensemble.syn         <- Highest MI
+|   |---- 11_criticality_ensemble_validation.syn
+|   |---- 12_thermodynamic_efficiency.syn
+|   |---- 13_multi_hop_path_discovery.syn
+|   |---- 14_complex_strategy_composition.syn  <- Nested or
+|   |---- 15_dna_base_pair_lattice.syn
+|   \---- 16_mof_inspired_network.syn
+\---- DESIGN_SUMMARY.md / DESIGN_SUMMARY_BATCH2.md
+
+results/
+\---- [20 JSON result files]
+\end{lstlisting}
+
+\subsubsection{Canonical Cross-Domain Demo (\texttt{TENSOR\_OPS\_DEMO.py})}
+
+\texttt{TENSOR\_OPS\_DEMO.py} is the definitive worked-example document for all seven algebraic operations. It is structured for readers familiar with tensor mathematics (category theory, functional analysis, lattice algebra) and serves as both a tutorial and a validation suite.
+
+\textbf{Run:}
+
+\begin{lstlisting}[language=bash]
+# Run all 7 sections (18 examples total, ~2--3 min)
+python TENSOR_OPS_DEMO.py
+
+# Run a single section
+python TENSOR_OPS_DEMO.py --section meet
+python TENSOR_OPS_DEMO.py --section join
+python TENSOR_OPS_DEMO.py --section tensor
+python TENSOR_OPS_DEMO.py --section lift
+python TENSOR_OPS_DEMO.py --section path
+python TENSOR_OPS_DEMO.py --section pipeline
+python TENSOR_OPS_DEMO.py --section decomp
+\end{lstlisting}
+
+\textbf{Section Map:}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{§} & \textbf{Operation} & \textbf{Key Examples} & \textbf{Category-Theory Translation} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+1 & \textbf{meet} & (1) Hv1 closed⊓open --- $\Phi$\_c absorbing; (2) drug scaffold GLB; (3) AtHv1\_silent⊓PsHv1 --- K\_trap isolates & Product / Heyting GLB \\
+2 & \textbf{join} & (1) Hv1 cross-species LUB; (2) pharmacophore ceiling; (3) Cooper pair⊔TI surface --- $\Omega$\_Z survives & Coproduct / F-floor ratchet \\
+3 & \textbf{tensor} & (1) electron\otimeshole $\rightarrow$ exciton theorem (T\_linear, no promotion); (2) Majorana\otimesMajorana $\rightarrow$ T\_braid special rule; (3) Cooper pair\otimesphonon $\rightarrow$ full superconductor & Bifunctor; \xi\_ens = \xi₁+\xi₂$-$$\lambda$I \\
+4 & \textbf{lift} & (1) AtHv1\_silent lift(critical) $\rightarrow$ BLOCKED (K\_trap gate); (2) molecular$\rightarrow$temporal (loop-space functor $\Omega$); (3) temporal$\rightarrow$spatial (classifying space B(G)) & Natural transformation; +2.303 nat = ln10 \\
+5 & \textbf{path} & (1) AtHv1\_silent$\rightarrow$Hv1\_human\_open --- 3-hop Kleisli geodesic; (2) 2GBI$\rightarrow$HIF inhibitor scaffold migration; (3) magnon$\rightarrow$Cooper pair --- blocked (D/T gate) & Lawvere metric geodesic \\
+6 & \textbf{pipeline} & (1) Hv1 cross-species conservation (hv1\_paper\_reproduction.syn v6); (2) SynthonM do-notation chain; (3) fallback or-pattern (mplus) & WriterT+StateT+MaybeT Kleisli \\
+7 & \textbf{decomp} & (1) cofactor(Cooper pair, electron) $\rightarrow$ K\_slow+G\_meso+T\_bowtie+$\Phi$\_c; (2) principal\_decomp Birkhoff atoms; (3) Heyting complement (satisfied=False anatomy) & Inverse bifunctor; Birkhoff theorem \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Inline synthon definitions:} 16 synthons defined directly in the script --- all registered to \texttt{global\_catalog}. Includes: \texttt{Hv1\_human\_closed}, \texttt{Hv1\_human\_open}, \texttt{AtHv1\_silent}, \texttt{AtHv1\_primed}, \texttt{PsHv1\_constitutive}, \texttt{2GBI\_inhibitor}, \texttt{HIF\_inhibitor}, \texttt{cooper\_pair}, \texttt{majorana\_fermion}, \texttt{TI\_surface\_state}, \texttt{phonon}, \texttt{magnon}, \texttt{electron}, \texttt{hole}, \texttt{GNF2\_inhibitor}, \texttt{imatinib}.
+
+\textbf{For \texttt{SYNTHONICON\_LANG.md} readers:} §''Algebraic Operations Reference'' in \texttt{SYNTHONICON\_LANG.md} contains the formal specification; this demo is the executable companion.
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsubsection{Next Steps (Phase 3b)}
+
+\begin{enumerate}
+    \item \textbf{Refinement Types:} Move axiom checks to Pydantic v2 validators
+    \item \textbf{Predicate Expansion:} Add \texttt{kinetic\_character}, \texttt{dimensionality}, \texttt{granularity} to assert grammar
+    \item \textbf{Path Search Optimization:} Add caching for repeated probe calls
+    \item \textbf{Strategy Library:} Build reusable strategy patterns for common design motifs
+    \item \textbf{Cost Optimization:} Implement heuristic search for minimum-cost pathways
+\end{enumerate}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\subsection{LLM Tool Layer (v0.4.5)}
+
+\texttt{synthon\_tool.py} and \texttt{synthon\_agent.py} implement the SynthOmnicon LLM tool layer --- a structured interface that lets any tool-calling LLM interact with the live algebra without being able to hallucinate impossible chemistry. Every proposal is immediately rejected with a precise axiom trace if it fails.
+
+\subsubsection{\texttt{syncon tool} --- Single-Shot Tool Dispatch}
+
+\begin{lstlisting}
+syncon tool OPERATION [OPTIONS]
+\end{lstlisting}
+
+Runs one SynthonTool operation and prints the result (text or JSON).
+
+\textbf{Operations and their required options:}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Operation} & \textbf{Required options} & \textbf{Description} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{validate} & \texttt{--name NAME} & Full axiom validation on a catalog entry \\
+\texttt{criticality} & \texttt{--name NAME} {[}--xi-r FLOAT{]} {[}--xi-tau FLOAT{]} & Varma $\Phi$\_c probe \\
+\texttt{path} & \texttt{--src SRC --dst DST} {[}--max-hops INT{]} & HotSwap path search \\
+\texttt{analogies} & \texttt{--name NAME} {[}--limit INT{]} & Nearest catalog neighbors \\
+\texttt{distance} & \texttt{--a A --b B} & Symmetric + directed distances \\
+\texttt{meet} & \texttt{--a A --b B} & Lattice meet (shared primitive floor + CONFLICT levers) \\
+\texttt{generate} & \texttt{--description TEXT} {[}--name NAME{]} {[}--delta-g FLOAT{]} & Generate + validate from NL \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Examples:}
+
+\begin{lstlisting}[language=bash]
+# Pairwise distance
+syncon tool distance --a allosteric_domain --b active_site
+# ● OK  operation=distance
+# Distance: 5.400
+# d(allosteric_domain->active_site) = 5.400
+# d(active_site->allosteric_domain) = 5.400
+
+# Criticality probe with correlation data
+syncon tool criticality --name allosteric_domain --xi-r 8.5 --xi-tau 1e10
+
+# Find 3 nearest catalog neighbors
+syncon tool analogies --name condensate_liquid --limit 3
+
+# HotSwap path with up to 8 hops
+syncon tool path --src condensate_liquid --dst condensate_gel --max-hops 8
+
+# Lattice meet: find shared primitive floor and state-switching levers
+syncon tool meet --a condensate_liquid --b condensate_gel
+
+# Generate and axiom-validate from natural language
+syncon tool generate --description "bivalent allosteric inhibitor" --name my_inhibitor
+
+# JSON output
+syncon tool distance --a allosteric_domain --b active_site --format json
+\end{lstlisting}
+
+\subsubsection{\texttt{syncon design} --- Autonomous LLM Design Agent}
+
+\begin{lstlisting}
+syncon design --goal TEXT [OPTIONS]
+\end{lstlisting}
+
+Runs the autonomous \texttt{SynthonDesignAgent} loop: the LLM proposes a synthon encoding, every proposal is immediately axiom-validated, the $\Phi$\_c probe is applied, and the loop continues until convergence criteria are met or \texttt{--max-iterations} is reached.
+
+\textbf{Options:}
+
+\begin{table}[htbp]
+\centering
+\small
+\rowcolors{1}{white}{white}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\rowcolor{gray!25}\textbf{Option} & \textbf{Default} & \textbf{Description} \\
+\midrule
+\rowcolors{1}{white}{gray!10}
+\texttt{--goal TEXT} & (required) & Natural-language design goal \\
+\texttt{--target NAME} & None & Catalog entry to require a HotSwap path to \\
+\texttt{--phi-c-min FLOAT} & 0.70 & Minimum $\Phi$\_c score for convergence \\
+\texttt{--xi-cp-max FLOAT} & 12.0 & Maximum \xi\_CP (nats) for convergence \\
+\texttt{--max-iterations INT} & 10 & Maximum LLM refinement iterations \\
+\texttt{--model TEXT} & claude-sonnet-4-6 & Claude model ID \\
+\texttt{--quiet} & False & Suppress per-iteration output \\
+\texttt{--output PATH} & None & Save full iteration history as JSON \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Examples:}
+
+\begin{lstlisting}[language=bash]
+# Basic design run
+syncon design --goal "bivalent allosteric ABL inhibitor that closes T_perp to T_in gap"
+
+# With target path requirement and tighter convergence
+syncon design \
+  --goal "near-critical condensate scaffold with global coordination" \
+  --target allosteric_domain \
+  --phi-c-min 0.75 \
+  --xi-cp-max 10.0 \
+  --max-iterations 8
+
+# Quiet mode, save JSON history
+syncon design \
+  --goal "programmable DNA origami scaffold" \
+  --quiet \
+  --output design_history.json
+\end{lstlisting}
+
+\textbf{Convergence output (Rich table):}
+
+\begin{lstlisting}
+ Iter  Status        Phi_c     \xi_CP   Stop reason
+---------------------------------------------------------
+   1   ↻ iterating   0.62    13.1
+   2   ↻ iterating   0.68    12.8
+   3    CONVERGED  0.73    11.4   Phi_c=0.730 >= 0.70, \xi_CP=11.40 <= 12.0
+\end{lstlisting}
+
+\subsubsection{Python API}
+
+\begin{lstlisting}[language=Python]
+from synthon_tool import SynthonTool, ToolResponse
+
+# All operations return ToolResponse dataclass
+r: ToolResponse = SynthonTool.distance("allosteric_domain", "active_site")
+print(r.status)       # "ok"
+print(r.distance)     # 5.4
+print(r.to_json())    # full JSON
+
+# Dispatch by operation name (used by agent)
+r = SynthonTool.dispatch("criticality", name="allosteric_domain", xi_r=8.5)
+
+# Full agent loop
+from synthon_agent import SynthonDesignAgent, ConvergenceCriteria
+
+agent = SynthonDesignAgent(
+    goal="bivalent allosteric ABL inhibitor",
+    criteria=ConvergenceCriteria(phi_c_min=0.70, xi_cp_max=12.0),
+    model="claude-sonnet-4-6",
+    verbose=True,
+)
+history = agent.run(max_iterations=10)
+
+# Each record in history:
+for r in history:
+    print(r.iteration, r.phi_c_score, r.xi_cp, r.converged)
+\end{lstlisting}
+
+\subsubsection{Using \texttt{SYNTHON\_TOOL\_SCHEMA} with any LLM API}
+
+\begin{lstlisting}[language=Python]
+from synthon_tool import SYNTHON_TOOL_SCHEMA, SynthonTool
+
+# Pass to Anthropic messages.create()
+import anthropic
+client = anthropic.Anthropic()
+response = client.messages.create(
+    model="claude-sonnet-4-6",
+    max_tokens=1024,
+    tools=[SYNTHON_TOOL_SCHEMA],
+    messages=[{"role": "user", "content": "Find the nearest analog to allosteric_domain"}],
+)
+
+# Dispatch incoming tool_use blocks
+for block in response.content:
+    if block.type == "tool_use":
+        op = block.input.pop("operation")
+        result = SynthonTool.dispatch(op, **block.input)
+        print(result.to_json())
+\end{lstlisting}
+
+The same \texttt{SYNTHON\_TOOL\_SCHEMA} works with OpenAI-format APIs (pass as \texttt{tools={[}SYNTHON\_TOOL\_SCHEMA{[}''function''{]}{]}} with \texttt{type=''function''} wrapping).
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\emph{For more detailed information on the underlying theory, refer to \textbf{QUANTSYNTHONICON.md} and \textbf{SYNTHONICON.md Section VI}.}
+
+
+\end{document}

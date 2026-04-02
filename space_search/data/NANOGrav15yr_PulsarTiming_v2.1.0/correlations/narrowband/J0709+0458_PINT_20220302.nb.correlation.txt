@@ -1,0 +1,4 @@
+OM         T0         +0.999999989134803
+DMX_*      DMX_*          10 correlations larger than 0.9
+DMX_*      FD1             5 correlations larger than 0.9
+DMX_*      Offset          2 correlations larger than 0.9

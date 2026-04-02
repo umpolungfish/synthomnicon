@@ -1,0 +1,8 @@
+J2229+2643_430_PUPPI_efac
+J2229+2643_430_PUPPI_log10_ecorr
+J2229+2643_430_PUPPI_log10_equad
+J2229+2643_L-wide_PUPPI_efac
+J2229+2643_L-wide_PUPPI_log10_ecorr
+J2229+2643_L-wide_PUPPI_log10_equad
+J2229+2643_red_noise_gamma
+J2229+2643_red_noise_log10_A

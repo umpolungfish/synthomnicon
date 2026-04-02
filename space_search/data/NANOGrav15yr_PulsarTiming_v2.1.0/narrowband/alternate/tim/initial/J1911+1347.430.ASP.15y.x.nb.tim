@@ -1,0 +1,6 @@
+MODE 1
+FORMAT 1
+54506.000038.3.000.000.15y.x.ff 424.000000 54506.645113985665105   6.297  ao  -fe 430 -be ASP -f 430_ASP -bw 4 -tobs 602.27 -tmplt J1911+1347.430.PUPPI.15y.x.sum.sm -gof 0.979 -nbin 2048 -nch 1 -chan 1 -subint 0 -snr 19.091 -wt 0.21087 -flux 4.59807 -fluxe 0.24 -proc 15y -pta NANOGrav -ver TEMP -to -0.789e-6
+54506.000038.3.000.000.15y.x.ff 428.000000 54506.645113992440142   6.219  ao  -fe 430 -be ASP -f 430_ASP -bw 4 -tobs 602.27 -tmplt J1911+1347.430.PUPPI.15y.x.sum.sm -gof 1.02 -nbin 2048 -nch 1 -chan 2 -subint 0 -snr 19.38 -wt 0.22807 -flux 4.54098 -fluxe 0.23 -proc 15y -pta NANOGrav -ver TEMP -to -0.789e-6
+54506.000038.3.000.000.15y.x.ff 432.000000 54506.645113949647622   4.718  ao  -fe 430 -be ASP -f 430_ASP -bw 4 -tobs 602.27 -tmplt J1911+1347.430.PUPPI.15y.x.sum.sm -gof 1.1 -nbin 2048 -nch 1 -chan 3 -subint 0 -snr 24.611 -wt 0.231 -flux 5.84068 -fluxe 0.24 -proc 15y -pta NANOGrav -ver TEMP -to -0.789e-6
+54506.000038.3.000.000.15y.x.ff 436.000000 54506.645113964759346   5.540  ao  -fe 430 -be ASP -f 430_ASP -bw 4 -tobs 602.27 -tmplt J1911+1347.430.PUPPI.15y.x.sum.sm -gof 1.06 -nbin 2048 -nch 1 -chan 4 -subint 0 -snr 22.068 -wt 0.25189 -flux 4.71643 -fluxe 0.21 -proc 15y -pta NANOGrav -ver TEMP -to -0.789e-6

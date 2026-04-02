@@ -1,0 +1,834 @@
+"""
+Synthon Generator Agent — AjintK-powered agent for automatic synthon generation.
+
+This module implements an LLM agent that analyzes chemical descriptions,
+SMILES strings, or natural language queries to automatically generate
+Synthon objects with correctly assigned seven primitives.
+"""
+from __future__ import annotations
+
+import json
+import re
+from typing import Dict, List, Any, Optional, Tuple
+from dataclasses import dataclass, field
+
+from framework import BaseAgent, ToolDefinitions
+from synthomnicon import (
+    Synthon, Dimensionality, Topology, RecognitionMode,
+    Polarity, Fidelity, Granularity, InteractionGrammar,
+    KineticCharacter, CriticalityPhase,  # NEW
+    global_catalog, parse_notation
+)
+from synthomnicon.thermodynamics import compute_eta_CP, get_reference
+from synthomnicon.criticality import analyze_criticality  # NEW
+
+
+@dataclass
+class SynthonGenerationResult:
+    """Result of AI-powered synthon generation."""
+    synthon: Synthon
+    confidence: float  # 0.0-1.0 confidence in primitive assignments
+    reasoning: str  # LLM explanation for assignments
+    alternatives: List[Synthon] = field(default_factory=list)
+    thermodynamic_metrics: Optional[Dict[str, Any]] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+class SynthonGeneratorAgent(BaseAgent):
+    """
+    AjintK agent for automatic synthon generation from chemical descriptions.
+
+    This agent leverages LLM reasoning to:
+    1. Parse natural language descriptions of chemical systems
+    2. Analyze SMILES strings and molecular structures
+    3. Assign the seven primitives based on chemical knowledge
+    4. Generate unified notation
+    5. Compute thermodynamic efficiency metrics
+    6. Register generated synthons to the catalog
+
+    Usage:
+        from synthomnicon.provider_config import build_agent_config
+        
+        config = build_agent_config(provider="anthropic", model=None)
+        agent = SynthonGeneratorAgent(config)
+        result = await agent.generate_from_description(
+            "carboxylic acid dimer with cyclic hydrogen bonding"
+        )
+    """
+
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(
+            agent_id="synthon_generator",
+            name="Synthon Generator",
+            description="AI-powered agent for automatic synthon generation from chemical descriptions",
+            capabilities=[
+                "natural_language_synthon_generation",
+                "smiles_analysis",
+                "primitive_assignment",
+                "thermodynamic_analysis",
+                "catalog_registration",
+            ],
+            config=config,
+            persona="Expert computational chemist specializing in the Unified Synthonicon framework. "
+                    "You excel at analyzing chemical systems and mapping them to the seven primitives: "
+                    "Dimensionality (D), Topology (T), Recognition Mode (R), Polarity (P), "
+                    "Fidelity (F), Granularity (G), and Interaction Grammar (Γ). "
+                    "Your analyses are precise, well-reasoned, and grounded in chemical principles."
+        )
+        # Override provider setup to respect config strictly
+        self.provider = self._setup_llm_provider_strict()
+
+    def _setup_llm_provider_strict(self):
+        """Setup LLM provider without fallback to Anthropic."""
+        from framework.enhanced_llm_provider import get_llm_provider
+        
+        provider_name = self.config.get("provider", "anthropic")
+        model = self.config.get("model", None)
+        
+        # Handle provider/model format like "deepseek/deepseek-chat"
+        if "/" in provider_name:
+            parts = provider_name.split("/", 1)
+            provider_name = parts[0]
+            model = parts[1] if len(parts) > 1 else model
+        
+        try:
+            return get_llm_provider(provider_name, model=model)
+        except ValueError as e:
+            # Don't fallback - just raise
+            raise e
+
+    def _generate_rule_based(self, description: str, name: Optional[str] = None) -> SynthonGenerationResult:
+        """
+        Rule-based synthon generation fallback when no API keys available.
+        Uses keyword matching and chemical heuristics.
+        
+        Extended to support nine primitives: D, T, R, P, F, K, G, Γ, Φ
+        """
+        description_lower = description.lower()
+
+        # Keyword-based primitive assignment
+        dimensionality = Dimensionality.MOLECULAR
+        topology = Topology.LINEAR
+        recognition_mode = RecognitionMode.NON_COVALENT
+        polarity = Polarity.SELF_COMPLEMENTARY_PSEUDO  # Updated
+        fidelity = Fidelity.MEDIUM
+        kinetic_character = KineticCharacter.MODERATE  # NEW
+        granularity = Granularity.LOCAL
+        interaction_grammar = InteractionGrammar.SELECTIVE_AND  # Updated
+        criticality_phase = None  # NEW
+
+        reasoning_parts = []
+        
+        # Dimensionality detection
+        if any(kw in description_lower for kw in ["crystal", "packing", "co-crystal", "supramolecular", "framework", "mof"]):
+            dimensionality = Dimensionality.SUPRAMOLECULAR
+            reasoning_parts.append("Supramolecular domain detected (crystal packing/framework).")
+        elif any(kw in description_lower for kw in ["cycle", "catalytic", "oscillator", "temporal", "reaction cycle"]):
+            dimensionality = Dimensionality.TEMPORAL
+            reasoning_parts.append("Temporal domain detected (catalytic cycle/oscillator).")
+        else:
+            reasoning_parts.append("Molecular domain (point-like reactivity).")
+        
+        # Topology detection
+        if any(kw in description_lower for kw in ["dimer", "cyclic", "ring", "r22(8)", "r₂²(8)"]):
+            topology = Topology.CYCLIC_BOWTIE
+            reasoning_parts.append("Cyclic topology (dimer/ring motif).")
+        elif any(kw in description_lower for kw in ["chain", "catemer", "polymer", "linear"]):
+            topology = Topology.CHAIN
+            reasoning_parts.append("Chain topology (catemer/polymer).")
+        elif any(kw in description_lower for kw in ["network", "framework", "3d"]):
+            topology = Topology.NETWORK
+            reasoning_parts.append("Network topology (3D framework).")
+        
+        # Recognition mode detection
+        if any(kw in description_lower for kw in ["hydrogen bond", "h-bond", "h bond"]):
+            recognition_mode = RecognitionMode.NON_COVALENT
+            reasoning_parts.append("Non-covalent recognition (hydrogen bonding).")
+        elif any(kw in description_lower for kw in ["covalent", "bond formation"]):
+            recognition_mode = RecognitionMode.COVALENT
+            reasoning_parts.append("Covalent recognition mode.")
+        elif any(kw in description_lower for kw in ["catalytic", "dynamic", "reversible"]):
+            recognition_mode = RecognitionMode.DYNAMIC_CATALYTIC
+            reasoning_parts.append("Dynamic catalytic recognition.")
+        elif any(kw in description_lower for kw in ["halogen bond", "x-bond", "σ-hole", "sigma-hole"]):
+            recognition_mode = RecognitionMode.NON_COVALENT
+            reasoning_parts.append("Non-covalent recognition (halogen bonding).")
+        elif any(kw in description_lower for kw in ["mechanical", "rotaxane", "catenane", "interlocked"]):
+            recognition_mode = RecognitionMode.MECHANICAL
+            reasoning_parts.append("Mechanical bond recognition.")
+        
+        # Polarity detection
+        if any(kw in description_lower for kw in ["acid", "carboxylic", "amide", "self-complementary", "homodimer"]):
+            polarity = Polarity.SELF_COMPLEMENTARY
+            reasoning_parts.append("Self-complementary polarity (acid/amide motif).")
+        elif any(kw in description_lower for kw in ["pyridine", "base", "acceptor"]):
+            polarity = Polarity.ACCEPTOR
+            reasoning_parts.append("Acceptor polarity (basic site).")
+        elif any(kw in description_lower for kw in ["donor", "nucleophile", "anion"]):
+            polarity = Polarity.DONOR
+            reasoning_parts.append("Donor polarity (nucleophilic site).")
+        elif any(kw in description_lower for kw in ["hetero", "acid-base", "co-crystal"]):
+            polarity = Polarity.DONOR_ACCEPTOR
+            reasoning_parts.append("Directional donor-acceptor polarity.")
+        
+        # Fidelity detection
+        if any(kw in description_lower for kw in ["robust", "reliable", "classic", "high-fidelity", "f_hbar", "f_ℏ"]):
+            fidelity = Fidelity.HIGH
+            reasoning_parts.append("High fidelity (robust, geometry-enforcing).")
+        elif any(kw in description_lower for kw in ["weak", "probabilistic", "low-fidelity", "f_ell", "f_ℓ"]):
+            fidelity = Fidelity.LOW
+            reasoning_parts.append("Low fidelity (probabilistic, competition-sensitive).")
+        else:
+            fidelity = Fidelity.MEDIUM
+            reasoning_parts.append("Medium fidelity (context-dependent).")
+        
+        # Granularity detection
+        if any(kw in description_lower for kw in ["network", "framework", "global", "extended"]):
+            granularity = Granularity.GLOBAL
+            reasoning_parts.append("Global granularity (network-scale control).")
+        elif any(kw in description_lower for kw in ["motif", "cluster", "mesoscale"]):
+            granularity = Granularity.MESOSCALE
+            reasoning_parts.append("Mesoscale granularity (motif-level control).")
+        else:
+            granularity = Granularity.LOCAL
+            reasoning_parts.append("Local granularity (single interaction).")
+        
+        # Interaction grammar detection
+        if any(kw in description_lower for kw in ["specific", "lock-and-key", "selective", "otimes"]):
+            interaction_grammar = InteractionGrammar.SPECIFIC
+            reasoning_parts.append("Specific interaction grammar (one partner).")
+        elif any(kw in description_lower for kw in ["broad", "promiscuous", "many partners"]):
+            interaction_grammar = InteractionGrammar.BROAD
+            reasoning_parts.append("Broad interaction grammar (many partners).")
+        else:
+            interaction_grammar = InteractionGrammar.SELECTIVE
+            reasoning_parts.append("Selective interaction grammar (3-10 partners).")
+        
+        # Generate name if not provided
+        synthon_name = name or f"synthon_{description[:30].replace(' ', '_').replace('-', '_')}"
+
+        synthon = Synthon(
+            name=synthon_name,
+            dimensionality=dimensionality,
+            topology=topology,
+            recognition_mode=recognition_mode,
+            polarity=polarity,
+            fidelity=fidelity,
+            kinetic_character=kinetic_character,  # NEW
+            granularity=granularity,
+            interaction_grammar=interaction_grammar,
+            criticality_phase=criticality_phase,  # NEW
+            description=description,
+            metadata={"auto_generated": True, "generation_method": "rule_based"}
+        )
+        
+        return SynthonGenerationResult(
+            synthon=synthon,
+            confidence=0.65,  # Lower confidence for rule-based
+            reasoning="Rule-based analysis (no API key available): " + " ".join(reasoning_parts),
+            alternatives=[],
+            thermodynamic_metrics=None,
+            metadata={
+                "input_description": description,
+                "generation_method": "rule_based",
+                "provider": "rule_based_fallback"
+            }
+        )
+
+    def get_tools(self) -> List[Dict[str, Any]]:
+        """Declare tools available for autonomous synthon generation."""
+        return [
+            ToolDefinitions.file_read(),
+            ToolDefinitions.file_write(),
+            ToolDefinitions.json_load(),
+            ToolDefinitions.json_save(),
+            ToolDefinitions.run_command(),
+        ]
+
+    async def generate_from_description(
+        self,
+        description: str,
+        name: Optional[str] = None,
+        delta_g: Optional[float] = None,
+        auto_register: bool = True,
+        require_grounding: bool = False,  # NEW: Require mechanistic grounding
+        smiles: Optional[str] = None,  # NEW: For RDKit ΔG estimation
+    ) -> SynthonGenerationResult:
+        """
+        Generate a synthon from a natural language description.
+
+        Args:
+            description: Chemical description (e.g., "carboxylic acid dimer with cyclic H-bonding")
+            name: Optional name for the synthon (auto-generated if not provided)
+            delta_g: Optional free energy value for thermodynamic analysis
+            auto_register: Whether to automatically register to catalog
+            require_grounding: Whether to require mechanistic grounding validation
+            smiles: Optional SMILES for RDKit-based ΔG estimation
+
+        Returns:
+            SynthonGenerationResult with generated synthon and analysis
+        """
+        # Extract mechanistic justifications if grounding requested
+        grounding_result = None
+        if require_grounding or smiles:
+            try:
+                from synthomnicon.llm_grounding import extract_and_validate
+                is_valid, grounding_result = extract_and_validate(
+                    description, smiles=smiles, require_full_grounding=require_grounding
+                )
+                
+                # Use extracted ΔG if not provided
+                if delta_g is None and grounding_result.delta_g_value is not None:
+                    delta_g = grounding_result.delta_g_value
+                    
+            except ImportError:
+                if require_grounding:
+                    raise RuntimeError("LLM grounding module not available but required")
+                # Otherwise continue without grounding
+
+        # Build the analysis prompt
+        prompt = self._build_generation_prompt(description, name)
+
+        try:
+            # Call LLM for synthon generation
+            raw_response = await self.call_llm(
+                prompt=prompt,
+                max_tokens=self.config.get("max_tokens", 4000),
+                temperature=0.3,  # Lower temperature for more deterministic output
+                system=self._get_system_prompt()
+            )
+
+            # Parse the response
+            synthon_data, reasoning, confidence, alternatives = self._parse_llm_response(raw_response)
+
+            # Create the synthon
+            synthon = self._create_synthon_from_data(synthon_data, description)
+
+        except Exception as e:
+            # Fall back to rule-based generation
+            console = None
+            try:
+                from rich.console import Console
+                console = Console()
+                console.print(f"[yellow]LLM API failed ({type(e).__name__}), using rule-based fallback...[/yellow]")
+            except:
+                pass
+
+            return self._generate_rule_based(description, name)
+
+        # Compute thermodynamic metrics if delta_g provided
+        thermo_metrics = None
+        if delta_g is not None:
+            try:
+                result = compute_eta_CP(synthon, delta_g)
+                thermo_metrics = {
+                    "delta_g": delta_g,
+                    "eta_CP": result.eta_CP,
+                    "xi_CP": result.xi_CP,
+                    "efficiency_description": result.efficiency_description,
+                }
+            except Exception:
+                thermo_metrics = {"delta_g": delta_g, "error": "Could not compute metrics"}
+
+        # Register to catalog if requested
+        if auto_register and synthon.name not in global_catalog:
+            global_catalog.register(synthon)
+
+        # Build result metadata with grounding info
+        metadata = {
+            "input_description": description,
+            "provider": self.config.get("provider"),
+            "model": self.config.get("model"),
+        }
+        
+        if grounding_result:
+            metadata["grounding"] = {
+                "is_fully_grounded": grounding_result.is_fully_grounded,
+                "justifications": grounding_result.justifications,
+                "delta_g_value": grounding_result.delta_g_value,
+                "delta_g_justification": grounding_result.delta_g_justification,
+                "confidence": grounding_result.confidence,
+            }
+
+        return SynthonGenerationResult(
+            synthon=synthon,
+            confidence=confidence,
+            reasoning=reasoning,
+            alternatives=alternatives,
+            thermodynamic_metrics=thermo_metrics,
+            metadata=metadata,
+        )
+
+    async def generate_from_smiles(
+        self,
+        smiles: str,
+        name: Optional[str] = None,
+        functional_groups: Optional[List[str]] = None,
+        auto_register: bool = True,
+    ) -> SynthonGenerationResult:
+        """
+        Generate a synthon from a SMILES string.
+
+        Args:
+            smiles: SMILES string of the molecule
+            name: Optional name for the synthon
+            functional_groups: Optional list of functional groups to consider
+            auto_register: Whether to automatically register to catalog
+
+        Returns:
+            SynthonGenerationResult with generated synthon and analysis
+        """
+        # Build the SMILES analysis prompt
+        prompt = self._build_smiles_prompt(smiles, functional_groups)
+
+        # Call LLM for SMILES analysis
+        raw_response = await self.call_llm(
+            prompt=prompt,
+            max_tokens=self.config.get("max_tokens", 4000),
+            temperature=0.2,  # Even lower for structure analysis
+            system=self._get_system_prompt()
+        )
+
+        # Parse the response
+        synthon_data, reasoning, confidence, alternatives = self._parse_llm_response(raw_response)
+
+        # Create the synthon
+        synthon_name = name or f"synthon_{smiles[:20].replace('/', '_').replace('\\', '_')}"
+        synthon = self._create_synthon_from_data(synthon_data, f"SMILES: {smiles}")
+        synthon.name = synthon_name
+        synthon.metadata["smiles"] = smiles
+
+        # Register to catalog if requested
+        if auto_register and synthon.name not in global_catalog:
+            global_catalog.register(synthon)
+
+        return SynthonGenerationResult(
+            synthon=synthon,
+            confidence=confidence,
+            reasoning=reasoning,
+            alternatives=alternatives,
+            metadata={
+                "input_smiles": smiles,
+                "functional_groups": functional_groups or [],
+                "provider": self.config.get("provider"),
+                "model": self.config.get("model"),
+            }
+        )
+
+    async def generate_batch(
+        self,
+        descriptions: List[str],
+        names: Optional[List[str]] = None,
+        auto_register: bool = True,
+    ) -> List[SynthonGenerationResult]:
+        """
+        Generate multiple synthons in batch.
+
+        Args:
+            descriptions: List of chemical descriptions
+            names: Optional list of names (must match length of descriptions)
+            auto_register: Whether to automatically register to catalog
+
+        Returns:
+            List of SynthonGenerationResult objects
+        """
+        if names is None:
+            names = [None] * len(descriptions)
+
+        results = []
+        for desc, name in zip(descriptions, names):
+            try:
+                result = await self.generate_from_description(desc, name, auto_register=auto_register)
+                results.append(result)
+            except Exception as e:
+                results.append(SynthonGenerationResult(
+                    synthon=None,
+                    confidence=0.0,
+                    reasoning=f"Error: {str(e)}",
+                    metadata={"error": str(e)}
+                ))
+
+        return results
+
+    def _get_system_prompt(self) -> str:
+        """Get the system prompt for synthon generation."""
+        return """<role>You are an expert computational chemist specializing in the Unified Synthonicon framework.</role>
+
+<task>You **MUST** analyze chemical systems and map them to the seven primitives with **PRECISION** and **CHEMICAL ACCURACY**.</task>
+
+<primitives>
+1. **Dimensionality (D)**: Where does this synthon operate?
+   - **D_wedge** (D_∧): Molecular domain — point-like reactivity
+   - **D_triangle** (D_△): Supramolecular domain — 3D crystal packing
+   - **D_infinity** (D_∞): Temporal domain — periodic sequences/cycles
+
+2. **Topology (T)**: What is the connectivity pattern?
+   - **T_bowtie** (T_⋈): Cyclic motifs (dimers, catalytic cycles)
+   - **T_chains** (T_≫): Chain structures (polymers)
+   - **T_square** (T_□): Hub nodes (MOF SBUs)
+
+3. **Recognition Mode (R)**: What physical mechanism enables interaction?
+   - **R_subset** (R_⊆): Covalent bonds
+   - **R_superset** (R_⊇): Non-covalent (H-bonds, halogen bonds)
+   - **R_dagger** (R_‡): Dynamic/catalytic processes
+   - **R_mechanical** (R_⇔): Mechanical bonds (rotaxanes)
+
+4. **Polarity (P)**: What is the directional character?
+   - **P_plus** (P+): Acceptor/electrophile
+   - **P_minus** (P-): Donor/nucleophile
+   - **P_pm** (P_±): Self-complementary
+   - **P_directional** (P_+-): Donor-acceptor pairs
+
+5. **Fidelity (F)**: How reliable is the interaction?
+   - **F_hbar** (F_ℏ): High — dominant, geometry-enforcing
+   - **F_eth** (F_ℇ): Medium — context-dependent
+   - **F_ell** (F_ℓ): Low — probabilistic
+
+6. **Granularity (G)**: What scale of control?
+   - **G_beth** (G_ב): Local — single bond/interaction
+   - **G_gimel** (G_ג): Mesoscale — motif/cluster
+   - **G_aleph** (G_א): Global — network/framework
+
+7. **Interaction Grammar (Γ)**: Partner selection logic?
+   - **Gamma_otimes** (Γ_⊗): Specific — one partner
+   - **Gamma_odot** (Γ_⊙): Selective — 3-10 partners
+   - **Gamma_bigcirc** (Γ_○): Broad — many partners
+</primitives>
+
+<output_format>You **MUST** respond with a **VALID JSON OBJECT** in this **EXACT** format:
+```json
+{
+  "synthon": {
+    "dimensionality": "D_wedge",
+    "topology": "T_bowtie",
+    "recognition_mode": "R_superset",
+    "polarity": "P_pm",
+    "fidelity": "F_hbar",
+    "granularity": "G_beth",
+    "interaction_grammar": "Gamma_otimes"
+  },
+  "confidence": 0.85,
+  "reasoning": "Detailed explanation of primitive assignments...",
+  "alternatives": [
+    {
+      "dimensionality": "D_wedge",
+      "topology": "T_linear",
+      "recognition_mode": "R_superset",
+      "polarity": "P_pm",
+      "fidelity": "F_eth",
+      "granularity": "G_beth",
+      "interaction_grammar": "Gamma_selective"
+    }
+  ]
+}
+```
+</output_format>
+
+<reference_systems>Base your analysis on **CHEMICAL PRINCIPLES** from QUANTSYNTHONICON.md:
+- Carboxylic acid dimers are **SELF-COMPLEMENTARY** (P_pm), **CYCLIC** (T_bowtie), **HIGH FIDELITY** (F_hbar)
+- Catalytic cycles are **TEMPORAL** (D_infinity), **DYNAMIC** (R_dagger), **MEDIUM FIDELITY** (F_eth)
+- MOFs are **SUPRAMOLECULAR** (D_triangle), **HUB NODES** (T_square), **GLOBAL** (G_aleph)
+</reference_systems>
+
+<mechanistic_constraints>
+**MECHANISTIC CONSTRAINTS (AXIOMS) — YOU MUST SATISFY ALL:**
+
+<axiom_6>**AXIOM 6 — D_infinity (TEMPORAL) REQUIRES CLOSED CYCLE:**
+You **MUST** use D_infinity **ONLY IF** the system has:
+- A **CLOSED** catalytic/reaction cycle
+- A **SPECIFIABLE** reset mechanism (hydrolysis, product release, energy input)
+- **EXAMPLES**: proline aldol cycle, imine condensation, oscillatory reactions
+
+You **MUST NOT** use D_infinity for:
+- **STATIC** molecules (allenes, cumulenes, rods) → **USE D_wedge**
+- Crystal packing → **USE D_triangle**
+- Dimers/complexes **WITHOUT** cycles → **USE D_wedge**
+</axiom_6>
+
+<axiom_7>**AXIOM 7 — TOPOLOGY MUST MATCH ACTUAL CONNECTIVITY:**
+You **MUST** use T_bowtie (cyclic) **ONLY FOR**:
+- **CLOSED RING** motifs (R₂²(8) dimers, base pairs)
+- **CYCLIC** H-bond arrays
+
+You **MUST** use T_chains (linear) **FOR**:
+- **EXTENDED** chains, rods, polymers
+- **CUMULENES**, allenes, catemers
+
+You **MUST** use T_square (hub/node) **FOR**:
+- **METAL** coordination centers
+- **MOF** secondary building units
+</axiom_7>
+
+<axiom_8>**AXIOM 8 — RECOGNITION MODE MUST MATCH INTERACTION PHYSICS:**
+You **MUST** use R_superset (non-covalent) **FOR**:
+- **H-BONDING**, electrostatic, dispersion, σ-hole interactions
+- **NO** bond formation/breaking
+
+You **MUST** use R_subset (covalent) **FOR**:
+- **ELECTRON** sharing, σ/π bond formation
+
+You **MUST** use R_dagger (catalytic/dynamic) **FOR**:
+- **TRANSITION STATE** stabilization, barrier reduction
+- **REVERSIBLE** bond formation with error correction
+
+You **MUST** use R_mechanical **FOR**:
+- **STERIC** clipping, topological entanglement
+- **ROTAXANES**, catenanes
+</axiom_8>
+</mechanistic_constraints>
+
+<requirements>You **MUST**:
+1. **ANALYZE** the chemical description **THOROUGHLY**
+2. **MAP** each feature to the **CORRECT** primitive
+3. **SATISFY** all mechanistic constraints (Axioms 6, 7, 8)
+4. **PROVIDE** detailed reasoning for **EACH** primitive assignment
+5. **INCLUDE** at least one alternative interpretation
+6. **ASSIGN** confidence based on chemical certainty
+</requirements>
+"""
+
+    def _build_generation_prompt(self, description: str, name: Optional[str]) -> str:
+        """Build the prompt for synthon generation from description."""
+        name_instruction = f"You **MUST** name it '{name}'." if name else "You **MUST** generate an appropriate name."
+        return f"""<task>You **MUST** analyze the following chemical system and generate a synthon representation.</task>
+
+<input>
+**Chemical Description:**
+{description}
+</input>
+
+<instructions>
+You **MUST**:
+1. **IDENTIFY** the key structural and functional features
+2. **MAP** each feature to the **CORRECT** primitive
+3. **CONSIDER** reference systems from QUANTSYNTHONICON.md:
+   - Carboxylic acid dimer: ⟨D_wedge; T_bowtie; R_superset; P_pm; F_hbar; G_beth; Gamma_otimes⟩
+   - DNA base pairs: **HIGH FIDELITY**, specific pairing
+   - Catalytic cycles: **TEMPORAL** domain, dynamic recognition
+4. {name_instruction}
+</instructions>
+
+<output>You **MUST** provide your complete analysis as a **JSON OBJECT**.</output>
+"""
+
+    def _build_smiles_prompt(self, smiles: str, functional_groups: Optional[List[str]]) -> str:
+        """Build the prompt for synthon generation from SMILES."""
+        fg_section = f"<functional_groups>**Functional Groups:** {functional_groups}</functional_groups>" if functional_groups else ""
+        return f"""<task>You **MUST** analyze the following molecular structure and generate a synthon representation.</task>
+
+<input>
+**SMILES String:**
+{smiles}
+{fg_section}
+</input>
+
+<instructions>
+You **MUST**:
+1. **PARSE** the SMILES to identify key structural features
+2. **DETERMINE** the dominant functional groups and their interactions
+3. **MAP** to the seven primitives based on:
+   - Molecular structure → **D_wedge** (typically)
+   - Functional group geometry → **Topology**
+   - Interaction type → **Recognition Mode**
+   - Electronic character → **Polarity**
+   - Bond strength/specificity → **Fidelity**
+   - Size of motif → **Granularity**
+   - Partner specificity → **Interaction Grammar**
+</instructions>
+
+<output>You **MUST** provide your analysis as a **JSON OBJECT**.</output>
+"""
+
+    def _parse_llm_response(
+        self,
+        response: str
+    ) -> Tuple[Dict[str, str], str, float, List[Dict[str, str]]]:
+        """Parse the LLM response into synthon data and metadata."""
+        # Extract JSON from response
+        json_blocks = self.extract_json_blocks(response)
+
+        if not json_blocks:
+            # Fallback: try to extract primitive values with regex
+            return self._parse_with_regex(response)
+
+        data = json_blocks[0]
+
+        # Extract synthon data
+        synthon_data = data.get("synthon", {})
+
+        # Extract reasoning
+        reasoning = data.get("reasoning", "No reasoning provided.")
+
+        # Extract confidence
+        confidence = data.get("confidence", 0.7)
+        if not isinstance(confidence, (int, float)):
+            confidence = 0.7
+
+        # Extract alternatives
+        alternatives = data.get("alternatives", [])
+        if not isinstance(alternatives, list):
+            alternatives = []
+
+        return synthon_data, reasoning, float(confidence), alternatives
+
+    def _parse_with_regex(self, response: str) -> Tuple[Dict[str, str], str, float, List]:
+        """Fallback parsing using regex for primitive values."""
+        primitives = {}
+
+        # Try to extract each primitive
+        patterns = {
+            "dimensionality": r"[\"']?dimensionality[\"']?\s*[:=]\s*[\"']?(D_\w+)[\"']?",
+            "topology": r"[\"']?topology[\"']?\s*[:=]\s*[\"']?(T_\w+)[\"']?",
+            "recognition_mode": r"[\"']?recognition[_ ]?mode[\"']?\s*[:=]\s*[\"']?(R_\w+)[\"']?",
+            "polarity": r"[\"']?polarity[\"']?\s*[:=]\s*[\"']?(P_\w+)[\"']?",
+            "fidelity": r"[\"']?fidelity[\"']?\s*[:=]\s*[\"']?(F_\w+)[\"']?",
+            "granularity": r"[\"']?granularity[\"']?\s*[:=]\s*[\"']?(G_\w+)[\"']?",
+            "interaction_grammar": r"[\"']?interaction[_ ]?grammar[\"']?\s*[:=]\s*[\"']?(Gamma_\w+)[\"']?",
+        }
+
+        for key, pattern in patterns.items():
+            match = re.search(pattern, response, re.IGNORECASE)
+            if match:
+                primitives[key] = match.group(1)
+
+        # Set defaults for missing primitives
+        defaults = {
+            "dimensionality": "D_wedge",
+            "topology": "T_linear",
+            "recognition_mode": "R_superset",
+            "polarity": "P_pm",
+            "fidelity": "F_eth",
+            "granularity": "G_beth",
+            "interaction_grammar": "Gamma_selective",
+        }
+
+        for key, default in defaults.items():
+            if key not in primitives:
+                primitives[key] = default
+
+        # Extract reasoning (text after "reasoning" or "analysis")
+        reasoning_match = re.search(r"(?:reasoning|analysis)[:\s]+(.+?)(?:$|```|\n\n)", response, re.DOTALL | re.IGNORECASE)
+        reasoning = reasoning_match.group(1).strip() if reasoning_match else "Parsed from response."
+
+        return primitives, reasoning, 0.5, []
+
+    def _create_synthon_from_data(
+        self,
+        data: Dict[str, str],
+        description: str
+    ) -> Synthon:
+        """Create a Synthon object from parsed data.
+        
+        Extended to support nine primitives: D, T, R, P, F, K, G, Γ, Φ
+        """
+        # Map string values to enum members
+        dimensionality = Dimensionality.from_symbol(data.get("dimensionality", "D_wedge"))
+        topology = Topology.from_symbol(data.get("topology", "T_linear"))
+        recognition_mode = RecognitionMode.from_symbol(data.get("recognition_mode", "R_superset"))
+        polarity = Polarity.from_symbol(data.get("polarity", "P_pm_pseudo"))
+        fidelity = Fidelity.from_symbol(data.get("fidelity", "F_eth"))
+        kinetic_character = KineticCharacter.from_symbol(data.get("kinetic_character", "K_mod"))  # NEW
+        granularity = Granularity.from_symbol(data.get("granularity", "G_beth"))
+        interaction_grammar = InteractionGrammar.from_symbol(data.get("interaction_grammar", "Gamma_and(SELECTIVE)"))
+        
+        # Criticality phase (optional)
+        crit_phase_str = data.get("criticality_phase")
+        criticality_phase = CriticalityPhase.from_symbol(crit_phase_str) if crit_phase_str else None  # NEW
+
+        # Generate name from description if not provided
+        name = data.get("name", f"synthon_{description[:30].replace(' ', '_').replace('-', '_')}")
+
+        return Synthon(
+            name=name,
+            dimensionality=dimensionality,
+            topology=topology,
+            recognition_mode=recognition_mode,
+            polarity=polarity,
+            fidelity=fidelity,
+            kinetic_character=kinetic_character,  # NEW
+            granularity=granularity,
+            interaction_grammar=interaction_grammar,
+            criticality_phase=criticality_phase,  # NEW
+            description=description,
+            metadata={"auto_generated": True}
+        )
+
+    async def run(self, task: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Execute the synthon generation task.
+
+        This is the main entry point for the AjintK framework.
+        """
+        try:
+            # Parse the task to determine the generation mode
+            task_lower = task.lower()
+
+            if "smiles" in task_lower:
+                # Extract SMILES from task
+                smiles_match = re.search(r'[A-Za-z0-9@+\-\[\]\(\)=#]+', task)
+                if smiles_match:
+                    smiles = smiles_match.group(0)
+                    result = await self.generate_from_smiles(smiles)
+                else:
+                    return {
+                        "status": "error",
+                        "error": "Could not extract SMILES string from task",
+                    }
+            else:
+                # Treat as natural language description
+                result = await self.generate_from_description(task)
+
+            return {
+                "status": "success",
+                "findings": f"Generated synthon: {result.synthon.name}\n"
+                           f"Notation: {result.synthon.to_notation()}\n"
+                           f"Confidence: {result.confidence:.2f}\n"
+                           f"Reasoning: {result.reasoning}",
+                "artifacts": self.artifacts,
+                "metadata": {
+                    "synthon_name": result.synthon.name,
+                    "notation": result.synthon.to_notation(),
+                    "confidence": result.confidence,
+                    "thermodynamic_metrics": result.thermodynamic_metrics,
+                }
+            }
+
+        except Exception as e:
+            return {
+                "status": "error",
+                "error": str(e),
+                "findings": None,
+            }
+
+
+# Convenience function for quick synthon generation
+async def generate_synthon(
+    description: str,
+    provider: str = "anthropic",
+    model: Optional[str] = None,
+    delta_g: Optional[float] = None,
+) -> SynthonGenerationResult:
+    """
+    Convenience function for quick synthon generation.
+
+    Args:
+        description: Chemical description
+        provider: LLM provider to use (default: "anthropic")
+        model: Model name (default: provider-specific default from config)
+        delta_g: Optional free energy for thermodynamic analysis
+
+    Returns:
+        SynthonGenerationResult
+
+    Example:
+        >>> result = await generate_synthon(
+        ...     "carboxylic acid dimer with cyclic hydrogen bonding",
+        ...     delta_g=-52.0
+        ... )
+        >>> print(result.synthon.to_notation())
+    """
+    from synthomnicon.provider_config import build_agent_config
+    
+    config = build_agent_config(provider=provider, model=model, max_tokens=4000)
+    agent = SynthonGeneratorAgent(config)
+    return await agent.generate_from_description(description, delta_g=delta_g)

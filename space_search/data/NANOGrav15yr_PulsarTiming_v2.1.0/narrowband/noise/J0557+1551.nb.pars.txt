@@ -1,0 +1,8 @@
+J0557+1551_L-wide_PUPPI_efac
+J0557+1551_L-wide_PUPPI_log10_ecorr
+J0557+1551_L-wide_PUPPI_log10_equad
+J0557+1551_S-wide_PUPPI_efac
+J0557+1551_S-wide_PUPPI_log10_ecorr
+J0557+1551_S-wide_PUPPI_log10_equad
+J0557+1551_red_noise_gamma
+J0557+1551_red_noise_log10_A

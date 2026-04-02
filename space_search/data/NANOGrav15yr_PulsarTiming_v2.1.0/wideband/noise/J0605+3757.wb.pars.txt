@@ -1,0 +1,10 @@
+J0605+3757_Rcvr1_2_GUPPI_dmefac
+J0605+3757_Rcvr1_2_GUPPI_efac
+J0605+3757_Rcvr1_2_GUPPI_log10_dmequad
+J0605+3757_Rcvr1_2_GUPPI_log10_t2equad
+J0605+3757_Rcvr_800_GUPPI_dmefac
+J0605+3757_Rcvr_800_GUPPI_efac
+J0605+3757_Rcvr_800_GUPPI_log10_dmequad
+J0605+3757_Rcvr_800_GUPPI_log10_t2equad
+J0605+3757_red_noise_gamma
+J0605+3757_red_noise_log10_A

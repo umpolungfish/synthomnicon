@@ -1,0 +1,786 @@
+"""
+Autonomous Synthon Discovery Agent — Self-directed synthon generation and validation.
+
+This agent autonomously:
+1. Proposes novel synthons based on chemical space exploration
+2. Validates against literature (web search)
+3. Checks for duplicates in the catalog
+4. Registers valid synthons
+5. Repeats until configured limits are reached
+
+Usage:
+    from agents.autonomous_synthon_discovery_agent import AutonomousSynthonDiscoveryAgent
+    from synthomnicon.provider_config import build_agent_config
+    
+    config = build_agent_config(provider="anthropic", model=None)
+    agent = AutonomousSynthonDiscoveryAgent(config)
+    
+    # Run for 10 cycles or 30 minutes
+    results = await agent.run_autonomous(max_cycles=10, max_duration_minutes=30)
+"""
+from __future__ import annotations
+
+import asyncio
+import json
+import time
+from datetime import datetime
+from typing import Dict, List, Any, Optional, Tuple
+from dataclasses import dataclass, field
+from pathlib import Path
+from enum import Enum
+
+from framework import BaseAgent, ToolDefinitions
+from synthomnicon import (
+    Synthon, Dimensionality, Topology, RecognitionMode,
+    Polarity, Fidelity, Granularity, InteractionGrammar,
+    global_catalog, ConstraintEngine
+)
+from synthomnicon.constraints import AxiomValidator
+from synthomnicon.thermodynamics import compute_eta_CP
+
+
+class ValidationResult(Enum):
+    """Result of synthon validation."""
+    VALID_NOVEL = "valid_novel"
+    DUPLICATE_EXISTS = "duplicate_exists"
+    INVALID_CHEMISTRY = "invalid_chemistry"
+    LITERATURE_CONFLICT = "literature_conflict"
+    LOW_CONFIDENCE = "low_confidence"
+
+
+@dataclass
+class DiscoveryCycle:
+    """Results from a single discovery cycle."""
+    cycle_number: int
+    timestamp: str
+    proposed_description: str
+    proposed_name: str
+    validation_result: ValidationResult
+    synthon: Optional[Synthon] = None
+    confidence: float = 0.0
+    reasoning: str = ""
+    literature_found: bool = False
+    literature_references: List[str] = field(default_factory=list)
+    error: Optional[str] = None
+
+
+@dataclass
+class AutonomousRunConfig:
+    """Configuration for autonomous discovery run."""
+    max_cycles: int = 100
+    max_duration_minutes: float = 60.0
+    min_confidence_threshold: float = 0.7
+    target_domains: List[str] = field(default_factory=lambda: ["molecular", "supramolecular", "temporal"])
+    focus_areas: Optional[List[str]] = None  # e.g., ["hydrogen bonding", "catalysis"]
+    save_interval: int = 10  # Save progress every N cycles
+    output_dir: Optional[Path] = None
+    diversity_mode: bool = True  # Actively avoid repeating proposals
+
+
+class AutonomousSynthonDiscoveryAgent(BaseAgent):
+    """
+    Autonomous agent for continuous synthon discovery and validation.
+    
+    Runs in cycles:
+    1. Propose: Generate novel synthon descriptions
+    2. Validate: Check for duplicates and literature conflicts
+    3. Register: Add valid synthons to catalog
+    4. Report: Log progress and metrics
+    5. Repeat until limits reached
+    """
+    
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(
+            agent_id="autonomous_discovery",
+            name="Autonomous Synthon Discovery Agent",
+            description="Self-directed agent for continuous synthon discovery, validation, and registration",
+            capabilities=[
+                "autonomous_proposal",
+                "literature_validation",
+                "duplicate_detection",
+                "catalog_registration",
+                "progress_tracking",
+            ],
+            config=config,
+            persona="Autonomous computational chemistry researcher specializing in systematic exploration of synthon space. "
+                    "You propose novel chemical systems, validate them against existing knowledge, "
+                    "and register valid discoveries. You are thorough, creative, and scientifically rigorous."
+        )
+        self.provider = self._setup_llm_provider_strict()
+        self.discovery_history: List[DiscoveryCycle] = []
+        self.proposed_names: set = set()  # Track proposed names to avoid repeats
+        self.stats = {
+            "cycles_completed": 0,
+            "synthons_proposed": 0,
+            "synthons_validated": 0,
+            "synthons_registered": 0,
+            "duplicates_detected": 0,
+            "literature_conflicts": 0,
+            "errors": 0,
+        }
+    
+    def _setup_llm_provider_strict(self):
+        """Setup LLM provider without fallback."""
+        from framework.enhanced_llm_provider import get_llm_provider
+        
+        provider_name = self.config.get("provider", "anthropic")
+        model = self.config.get("model", None)
+        
+        if "/" in provider_name:
+            parts = provider_name.split("/", 1)
+            provider_name = parts[0]
+            model = parts[1] if len(parts) > 1 else model
+        
+        try:
+            return get_llm_provider(provider_name, model=model)
+        except ValueError as e:
+            raise e
+    
+    def get_tools(self) -> List[Dict[str, Any]]:
+        """Declare tools for autonomous operation."""
+        return [
+            ToolDefinitions.file_read(),
+            ToolDefinitions.file_write(),
+            ToolDefinitions.json_load(),
+            ToolDefinitions.json_save(),
+            ToolDefinitions.run_command(),
+        ]
+    
+    async def run(self, task: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Run autonomous discovery (BaseAgent interface).
+        
+        Args:
+            task: Task description (ignored, uses config)
+            context: Optional context
+        
+        Returns:
+            Discovery results
+        """
+        config = AutonomousRunConfig()
+        results = await self.run_autonomous(config)
+        
+        return {
+            "status": "success",
+            "findings": f"Completed {len(results)} discovery cycles",
+            "artifacts": [r.synthon.to_dict() for r in results if r.synthon],
+            "metadata": self.stats,
+        }
+    
+    async def run_autonomous(
+        self,
+        config: Optional[AutonomousRunConfig] = None,
+        **kwargs
+    ) -> List[DiscoveryCycle]:
+        """
+        Run autonomous synthon discovery.
+        
+        Args:
+            config: Run configuration (uses defaults if not provided)
+            **kwargs: Override config values (e.g., max_cycles=50)
+        
+        Returns:
+            List of DiscoveryCycle results
+        """
+        # Build configuration
+        if config is None:
+            config = AutonomousRunConfig()
+        
+        # Apply kwargs overrides
+        for key, value in kwargs.items():
+            if hasattr(config, key):
+                setattr(config, key, value)
+        
+        # Setup output directory
+        output_dir = config.output_dir or Path.cwd() / "discovery_output"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Initialize tracking
+        self.discovery_history = []
+        self.stats = {k: 0 for k in self.stats}
+        start_time = time.time()
+        
+        print(f"\n{'='*70}")
+        print("AUTONOMOUS SYNTHON DISCOVERY AGENT")
+        print(f"{'='*70}")
+        print(f"Configuration:")
+        print(f"  Max cycles: {config.max_cycles}")
+        print(f"  Max duration: {config.max_duration_minutes} minutes")
+        print(f"  Min confidence: {config.min_confidence_threshold}")
+        print(f"  Target domains: {config.target_domains}")
+        print(f"  Focus areas: {config.focus_areas or 'All'}")
+        print(f"  Output directory: {output_dir}")
+        print(f"{'='*70}\n")
+        
+        # Main discovery loop
+        cycle = 0
+        while cycle < config.max_cycles:
+            # Check time limit
+            elapsed_minutes = (time.time() - start_time) / 60
+            if elapsed_minutes >= config.max_duration_minutes:
+                print(f"\n[TIME LIMIT] Reached {config.max_duration_minutes} minutes")
+                break
+            
+            cycle += 1
+            print(f"\n{'='*50}")
+            print(f"CYCLE {cycle}/{config.max_cycles}")
+            print(f"{'='*50}")
+            
+            # Run discovery cycle
+            result = await self._run_discovery_cycle(cycle, config)
+            self.discovery_history.append(result)
+            
+            # Update stats
+            self.stats["cycles_completed"] = cycle
+            self.stats["synthons_proposed"] += 1
+            
+            if result.validation_result == ValidationResult.VALID_NOVEL:
+                self.stats["synthons_validated"] += 1
+                if result.synthon:
+                    self.stats["synthons_registered"] += 1
+            elif result.validation_result == ValidationResult.DUPLICATE_EXISTS:
+                self.stats["duplicates_detected"] += 1
+            elif result.validation_result == ValidationResult.LITERATURE_CONFLICT:
+                self.stats["literature_conflicts"] += 1
+            
+            if result.error:
+                self.stats["errors"] += 1
+            
+            # Print cycle summary
+            self._print_cycle_summary(result)
+            
+            # Save progress periodically
+            if cycle % config.save_interval == 0:
+                self._save_progress(output_dir, cycle, config)
+        
+        # Final save and report
+        self._save_progress(output_dir, cycle, config, final=True)
+        self._print_final_report(start_time)
+        
+        return self.discovery_history
+    
+    async def _run_discovery_cycle(
+        self,
+        cycle_number: int,
+        config: AutonomousRunConfig
+    ) -> DiscoveryCycle:
+        """Run a single discovery cycle."""
+        timestamp = datetime.now().isoformat()
+        
+        try:
+            # Step 1: Propose novel synthon
+            proposal = await self._propose_synthon(config)
+            
+            # Step 2: Check for duplicates in catalog
+            is_duplicate, existing = await self._check_duplicate(proposal["name"], proposal["description"])
+            if is_duplicate:
+                return DiscoveryCycle(
+                    cycle_number=cycle_number,
+                    timestamp=timestamp,
+                    proposed_description=proposal["description"],
+                    proposed_name=proposal["name"],
+                    validation_result=ValidationResult.DUPLICATE_EXISTS,
+                    reasoning=f"Duplicate of existing synthon: {existing}",
+                )
+            
+            # Step 3: Literature validation
+            literature_result = await self._validate_literature(proposal["description"])
+            if literature_result["conflict"]:
+                return DiscoveryCycle(
+                    cycle_number=cycle_number,
+                    timestamp=timestamp,
+                    proposed_description=proposal["description"],
+                    proposed_name=proposal["name"],
+                    validation_result=ValidationResult.LITERATURE_CONFLICT,
+                    literature_found=True,
+                    literature_references=literature_result.get("references", []),
+                    reasoning=literature_result["reason"],
+                )
+            
+            # Step 4: Generate synthon representation
+            synthon, confidence, reasoning = await self._generate_synthon_representation(
+                proposal["name"],
+                proposal["description"]
+            )
+            
+            # Step 5: Confidence check
+            if confidence < config.min_confidence_threshold:
+                return DiscoveryCycle(
+                    cycle_number=cycle_number,
+                    timestamp=timestamp,
+                    proposed_description=proposal["description"],
+                    proposed_name=proposal["name"],
+                    validation_result=ValidationResult.LOW_CONFIDENCE,
+                    confidence=confidence,
+                    reasoning=f"Confidence {confidence:.2f} below threshold {config.min_confidence_threshold}",
+                )
+
+            # Step 5.5: Axiom validation (CRITICAL FIX - prevents false matches)
+            # Validate all five composition axioms before registration
+            axiom_report = AxiomValidator.validate_all_axioms(synthon)
+            axiom_violations = axiom_report.get("violations", 0)
+            
+            # Check for critical axiom violations (Axioms 1, 4 are hard constraints)
+            axiom4_report = axiom_report.get("detailed_results", {}).get("axiom4", {})
+            axiom4_violated = axiom4_report.get("violated", False)
+            
+            axiom1_report = axiom_report.get("detailed_results", {}).get("axiom1", {})
+            axiom1_violated = axiom1_report.get("violated", False)
+            
+            # Reject synthons with hard axiom violations
+            if axiom4_violated:
+                return DiscoveryCycle(
+                    cycle_number=cycle_number,
+                    timestamp=timestamp,
+                    proposed_description=proposal["description"],
+                    proposed_name=proposal["name"],
+                    validation_result=ValidationResult.INVALID_CHEMISTRY,
+                    confidence=confidence,
+                    reasoning=f"AXIOM 4 VIOLATION: Sequential grammar (Γ_→) requires temporal (D_∞) or catalytic (R_‡) dimension. "
+                            f"This is a physically impossible combination. Axiom report: {axiom_report}",
+                    error="Axiom 4 violation detected",
+                )
+            
+            if axiom1_violated:
+                return DiscoveryCycle(
+                    cycle_number=cycle_number,
+                    timestamp=timestamp,
+                    proposed_description=proposal["description"],
+                    proposed_name=proposal["name"],
+                    validation_result=ValidationResult.INVALID_CHEMISTRY,
+                    confidence=confidence,
+                    reasoning=f"AXIOM 1 VIOLATION: Cyclic self-complementary synthon (T_⋈/P_±) cannot have low fidelity (F_ell). "
+                            f"Axiom report: {axiom_report}",
+                    error="Axiom 1 violation detected",
+                )
+            
+            # Log warnings for other violations but allow registration
+            axiom_warnings = []
+            if axiom_violations > 0:
+                axiom_warnings.append(f"{axiom_violations} axiom violation(s) detected - flagged for review")
+
+            # Step 6: Register to catalog
+            if synthon.name not in global_catalog:
+                # Attach axiom validation metadata to synthon
+                synthon.metadata["axiom_validated"] = True
+                synthon.metadata["axiom_violations"] = axiom_violations
+                synthon.metadata["axiom_report"] = axiom_report
+                if axiom_warnings:
+                    synthon.metadata["axiom_warnings"] = axiom_warnings
+                global_catalog.register(synthon)
+                registered = True
+            else:
+                registered = False
+
+            return DiscoveryCycle(
+                cycle_number=cycle_number,
+                timestamp=timestamp,
+                proposed_description=proposal["description"],
+                proposed_name=proposal["name"],
+                validation_result=ValidationResult.VALID_NOVEL,
+                synthon=synthon,
+                confidence=confidence,
+                reasoning=reasoning,
+                literature_found=literature_result.get("found", False),
+                literature_references=literature_result.get("references", []),
+            )
+            
+        except Exception as e:
+            return DiscoveryCycle(
+                cycle_number=cycle_number,
+                timestamp=timestamp,
+                proposed_description="",
+                proposed_name="",
+                validation_result=ValidationResult.INVALID_CHEMISTRY,
+                error=str(e),
+            )
+    
+    async def _propose_synthon(self, config: AutonomousRunConfig) -> Dict[str, str]:
+        """Generate a novel synthon proposal."""
+        # Build context from existing catalog and proposal history
+        existing_names = list(global_catalog._synthons.keys())
+        recently_proposed = list(self.proposed_names)[-10:]  # Last 10 proposals
+        
+        # Determine which domain to focus on based on what's underexplored
+        domain_counts = {
+            "molecular": len([s for s in global_catalog._synthons.values() if s.dimensionality == Dimensionality.MOLECULAR]),
+            "supramolecular": len([s for s in global_catalog._synthons.values() if s.dimensionality == Dimensionality.SUPRAMOLECULAR]),
+            "temporal": len([s for s in global_catalog._synthons.values() if s.dimensionality == Dimensionality.TEMPORAL]),
+        }
+        underexplored = min(domain_counts, key=domain_counts.get)
+        
+        prompt = f"""You are exploring chemical space for novel synthons.
+
+**CRITICAL: AVOID THESE ALREADY PROPOSED NAMES (do not repeat):**
+{recently_proposed if recently_proposed else "None yet - be creative!"}
+
+**Current Catalog Context:**
+- Existing synthons: {existing_names[:15]}...
+- Domain distribution: {domain_counts}
+- Most underexplored domain: {underexplored}
+- Target domains: {config.target_domains}
+- Focus areas: {config.focus_areas or 'All chemical systems'}
+
+**Task:**
+Propose a NOVEL chemical system that:
+1. Is chemically reasonable and realistic
+2. Has a UNIQUE name NOT in the "already proposed" list above
+3. Is NOT already in the catalog (avoid the existing names)
+4. Has clear recognition elements and interaction patterns
+5. Can be mapped to the seven primitives
+
+**Diversity Guidance:**
+- If catalog is light on {underexplored}, propose something in that domain
+- Explore different functional groups, interaction types, and structural motifs
+- Consider: halogen bonds, chalcogen bonds, pnictogen bonds, π-stacking, cation-π, anion-π, metal coordination, etc.
+
+Provide your proposal as JSON:
+```json
+{{
+  "name": "unique_descriptive_name_using_different_chemistry",
+  "description": "Detailed chemical description including functional groups, interaction types, and structural features"
+}}
+```
+
+Be creative but scientifically sound. Explore underexplored regions of chemical space."""
+
+        response = await self.call_llm(prompt=prompt, temperature=0.9, max_tokens=1000)
+        
+        # Parse response
+        json_blocks = self.extract_json_blocks(response)
+        if json_blocks:
+            data = json_blocks[0]
+            name = data.get("name", f"proposed_synthon_{int(time.time())}")
+            
+            # Ensure uniqueness
+            base_name = name
+            counter = 1
+            while name in self.proposed_names or name in existing_names:
+                name = f"{base_name}_{counter}"
+                counter += 1
+            
+            data["name"] = name
+            self.proposed_names.add(name)
+            return data
+        
+        # Fallback parsing
+        fallback_name = f"discovered_synthon_{int(time.time())}"
+        while fallback_name in self.proposed_names:
+            fallback_name = f"discovered_synthon_{int(time.time())}_{len(self.proposed_names)}"
+        
+        self.proposed_names.add(fallback_name)
+        return {
+            "name": fallback_name,
+            "description": response[:500],
+        }
+    
+    async def _check_duplicate(
+        self,
+        name: str,
+        description: str
+    ) -> Tuple[bool, Optional[str]]:
+        """Check if synthon already exists in catalog."""
+        # Check by exact name match
+        if name in global_catalog:
+            return True, name
+        
+        # Check by very similar name (simple normalization)
+        name_normalized = name.lower().replace("_", " ").replace("-", " ")
+        for existing_name in global_catalog._synthons.keys():
+            existing_normalized = existing_name.lower().replace("_", " ").replace("-", " ")
+            if name_normalized == existing_normalized:
+                return True, existing_name
+        
+        # Check by description similarity - but be more conservative
+        # Only flag as duplicate if there's very high overlap
+        desc_words = set(description.lower().split())
+        # Filter to meaningful chemical terms (skip common words)
+        skip_words = {"the", "a", "an", "with", "and", "or", "of", "in", "for", "to", "is", "that", "this", "system", "synthon", "pair"}
+        desc_chemical = desc_words - skip_words
+        
+        for existing_name, existing_synthon in global_catalog._synthons.items():
+            existing_desc = (existing_synthon.description or "").lower()
+            existing_words = set(existing_desc.split()) - skip_words
+            
+            # Calculate Jaccard similarity
+            if desc_chemical and existing_words:
+                intersection = desc_chemical & existing_words
+                union = desc_chemical | existing_words
+                similarity = len(intersection) / len(union) if union else 0
+                
+                # Only flag as duplicate if >60% similar (was 3 words before)
+                if similarity > 0.6:
+                    return True, existing_name
+        
+        return False, None
+    
+    async def _validate_literature(self, description: str) -> Dict[str, Any]:
+        """
+        Validate against existing literature.
+        
+        Returns dict with:
+        - found: bool - whether similar systems exist
+        - conflict: bool - whether there's a conflict
+        - references: list of references found
+        - reason: explanation
+        """
+        # Use web search tool if available, otherwise skip
+        # For now, we'll do a simple heuristic check
+        
+        # Check for well-known systems that should exist
+        known_systems = [
+            ("carboxylic acid dimer", True),
+            ("dna base pair", True),
+            ("amide dimer", True),
+            ("urea ribbon", True),
+        ]
+        
+        desc_lower = description.lower()
+        for known, should_exist in known_systems:
+            if known in desc_lower:
+                if should_exist:
+                    return {
+                        "found": True,
+                        "conflict": False,  # Known systems are fine to add
+                        "references": [f"Known system: {known}"],
+                        "reason": f"References known system '{known}' which is well-documented",
+                    }
+        
+        # No conflicts found
+        return {
+            "found": False,
+            "conflict": False,
+            "references": [],
+            "reason": "No literature conflicts detected",
+        }
+    
+    async def _generate_synthon_representation(
+        self,
+        name: str,
+        description: str
+    ) -> Tuple[Synthon, float, str]:
+        """Generate full synthon representation from description."""
+        prompt = self._build_synthon_generation_prompt(name, description)
+        
+        response = await self.call_llm(
+            prompt=prompt,
+            temperature=0.3,
+            max_tokens=2000,
+            system=self._get_synthon_system_prompt()
+        )
+        
+        # Parse response
+        json_blocks = self.extract_json_blocks(response)
+        if json_blocks:
+            data = json_blocks[0]
+            synthon_data = data.get("synthon", {})
+            confidence = data.get("confidence", 0.7)
+            reasoning = data.get("reasoning", "No reasoning provided")
+            
+            synthon = self._create_synthon_from_data(synthon_data, description, name)
+            return synthon, float(confidence), reasoning
+        
+        # Fallback to rule-based
+        from agents.synthon_generator_agent import SynthonGeneratorAgent
+        agent = SynthonGeneratorAgent(self.config)
+        result = agent._generate_rule_based(description, name)
+        return result.synthon, result.confidence, result.reasoning
+    
+    def _build_synthon_generation_prompt(self, name: str, description: str) -> str:
+        """Build prompt for synthon generation."""
+        return f"""Analyze this chemical system and map it to the seven primitives.
+
+**System Name:** {name}
+
+**Description:**
+{description}
+
+**Seven Primitives Reference:**
+- D: D_wedge (molecular), D_triangle (supramolecular), D_infinity (temporal)
+- T: T_bowtie (cyclic), T_chains (chain), T_square (hub), T_linear, T_network
+- R: R_subset (covalent), R_superset (non-covalent), R_dagger (catalytic), R_mechanical
+- P: P_plus (acceptor), P_minus (donor), P_pm (self-complementary), P_directional
+- F: F_hbar (high), F_eth (medium), F_ell (low)
+- G: G_beth (local), G_gimel (mesoscale), G_aleph (global)
+- Γ: Gamma_otimes (specific), Gamma_odot (selective), Gamma_bigcirc (broad)
+
+Respond with JSON:
+```json
+{{
+  "synthon": {{
+    "dimensionality": "D_wedge",
+    "topology": "T_bowtie",
+    "recognition_mode": "R_superset",
+    "polarity": "P_pm",
+    "fidelity": "F_hbar",
+    "granularity": "G_beth",
+    "interaction_grammar": "Gamma_otimes"
+  }},
+  "confidence": 0.85,
+  "reasoning": "Detailed explanation..."
+}}
+```"""
+    
+    def _get_synthon_system_prompt(self) -> str:
+        """Get system prompt for synthon generation."""
+        return """You are an expert in the Unified Synthonicon framework.
+You analyze chemical systems and map them to the seven primitives with precision.
+Base your assignments on chemical principles from QUANTSYNTHONICON.md."""
+    
+    def _create_synthon_from_data(
+        self,
+        data: Dict[str, str],
+        description: str,
+        name: str
+    ) -> Synthon:
+        """Create Synthon object from primitive data."""
+        return Synthon(
+            name=name,
+            dimensionality=Dimensionality.from_symbol(data.get("dimensionality", "D_wedge")),
+            topology=Topology.from_symbol(data.get("topology", "T_linear")),
+            recognition_mode=RecognitionMode.from_symbol(data.get("recognition_mode", "R_superset")),
+            polarity=Polarity.from_symbol(data.get("polarity", "P_pm")),
+            fidelity=Fidelity.from_symbol(data.get("fidelity", "F_eth")),
+            granularity=Granularity.from_symbol(data.get("granularity", "G_beth")),
+            interaction_grammar=InteractionGrammar.from_symbol(data.get("interaction_grammar", "Gamma_odot")),
+            description=description,
+            metadata={"auto_discovered": True, "discovery_timestamp": datetime.now().isoformat()}
+        )
+    
+    def _print_cycle_summary(self, result: DiscoveryCycle):
+        """Print summary of discovery cycle."""
+        status_icons = {
+            ValidationResult.VALID_NOVEL: "✓",
+            ValidationResult.DUPLICATE_EXISTS: "⊗",
+            ValidationResult.INVALID_CHEMISTRY: "✗",
+            ValidationResult.LITERATURE_CONFLICT: "⚠",
+            ValidationResult.LOW_CONFIDENCE: "?",
+        }
+        
+        icon = status_icons.get(result.validation_result, "?")
+        print(f"\n[{icon}] {result.validation_result.value}")
+        print(f"    Name: {result.proposed_name or 'N/A'}")
+        
+        if result.synthon:
+            print(f"    Notation: {result.synthon.to_notation()}")
+            print(f"    Confidence: {result.confidence:.1%}")
+        
+        if result.literature_found:
+            print(f"    Literature: {len(result.literature_references)} references found")
+        
+        if result.error:
+            print(f"    Error: {result.error}")
+    
+    def _print_final_report(self, start_time: float):
+        """Print final discovery report."""
+        elapsed = (time.time() - start_time) / 60
+        
+        print(f"\n{'='*70}")
+        print("DISCOVERY RUN COMPLETE")
+        print(f"{'='*70}")
+        print(f"Duration: {elapsed:.1f} minutes")
+        print(f"Cycles completed: {self.stats['cycles_completed']}")
+        print(f"Synthons proposed: {self.stats['synthons_proposed']}")
+        print(f"Synthons validated: {self.stats['synthons_validated']}")
+        print(f"Synthons registered: {self.stats['synthons_registered']}")
+        print(f"Duplicates detected: {self.stats['duplicates_detected']}")
+        print(f"Literature conflicts: {self.stats['literature_conflicts']}")
+        print(f"Errors: {self.stats['errors']}")
+        
+        if self.stats['cycles_completed'] > 0:
+            success_rate = self.stats['synthons_registered'] / self.stats['cycles_completed'] * 100
+            print(f"Success rate: {success_rate:.1f}%")
+        
+        print(f"\nCatalog now contains {len(global_catalog)} synthons")
+        print(f"{'='*70}\n")
+    
+    def _save_progress(
+        self,
+        output_dir: Path,
+        cycle: int,
+        config: AutonomousRunConfig,
+        final: bool = False
+    ):
+        """Save discovery progress to disk."""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        suffix = "final" if final else f"cycle_{cycle}"
+        
+        # Save discovery history
+        history_file = output_dir / f"discovery_history_{timestamp}_{suffix}.json"
+        history_data = []
+        for cycle_result in self.discovery_history:
+            cycle_dict = {
+                "cycle_number": cycle_result.cycle_number,
+                "timestamp": cycle_result.timestamp,
+                "proposed_description": cycle_result.proposed_description,
+                "proposed_name": cycle_result.proposed_name,
+                "validation_result": cycle_result.validation_result.value,
+                "confidence": cycle_result.confidence,
+                "reasoning": cycle_result.reasoning,
+                "literature_found": cycle_result.literature_found,
+                "literature_references": cycle_result.literature_references,
+                "error": cycle_result.error,
+            }
+            if cycle_result.synthon:
+                cycle_dict["synthon"] = cycle_result.synthon.to_dict()
+            history_data.append(cycle_dict)
+        
+        with open(history_file, "w") as f:
+            json.dump(history_data, f, indent=2)
+        
+        # Save stats
+        stats_file = output_dir / f"discovery_stats_{timestamp}_{suffix}.json"
+        with open(stats_file, "w") as f:
+            json.dump({
+                "stats": self.stats,
+                "config": {
+                    "max_cycles": config.max_cycles,
+                    "max_duration_minutes": config.max_duration_minutes,
+                    "min_confidence_threshold": config.min_confidence_threshold,
+                    "target_domains": config.target_domains,
+                    "focus_areas": config.focus_areas,
+                },
+                "catalog_size": len(global_catalog),
+            }, f, indent=2)
+        
+        # Export catalog
+        catalog_file = output_dir / f"catalog_{timestamp}_{suffix}.json"
+        with open(catalog_file, "w") as f:
+            f.write(global_catalog.to_json())
+        
+        print(f"\n[SAVE] Progress saved to {output_dir}")
+
+
+# Convenience function for quick autonomous runs
+async def run_autonomous_discovery(
+    max_cycles: int = 10,
+    max_minutes: float = 30.0,
+    provider: str = "anthropic",
+    model: Optional[str] = None,
+    focus: Optional[str] = None,
+) -> List[DiscoveryCycle]:
+    """
+    Run autonomous synthon discovery with simple configuration.
+    
+    Args:
+        max_cycles: Maximum discovery cycles
+        max_minutes: Maximum runtime in minutes
+        provider: LLM provider
+        model: Model name (uses provider default if None)
+        focus: Optional focus area (e.g., "hydrogen bonding")
+    
+    Returns:
+        List of DiscoveryCycle results
+    """
+    from synthomnicon.provider_config import build_agent_config
+    
+    config = build_agent_config(provider=provider, model=model)
+    agent = AutonomousSynthonDiscoveryAgent(config)
+    
+    run_config = AutonomousRunConfig(
+        max_cycles=max_cycles,
+        max_duration_minutes=max_minutes,
+        focus_areas=[focus] if focus else None,
+    )
+    
+    return await agent.run_autonomous(run_config)

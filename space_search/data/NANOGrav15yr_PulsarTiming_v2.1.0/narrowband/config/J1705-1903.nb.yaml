@@ -1,0 +1,69 @@
+source: J1705-1903
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J1705-1903_PINT_20220307.nb.par
+compare-model: archive/J1705-1903_PINT_20220304.nb.par
+toas:
+- J1705-1903.Rcvr1_2.GUPPI.15y.x.nb.tim
+- J1705-1903.Rcvr_800.GUPPI.15y.x.nb.tim
+
+free-params: [ELONG, ELAT, PMELONG, PMELAT, PX, F0, F1, A1, FB0, TASC, FB1, FB2, FB3,
+  FB4, EPS1, EPS2, JUMP1, FD1, FD2, FB5]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220307.Noise.nb.a7a9dea/
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220304.Noise.nb.0516a75/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J1705-1903.nb/J1705-1903.nb_excise.tim
+  no-corner: true
+
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  bad-file:
+  prob-outlier: 0.1
+  orb-phase-range: [0.1, 0.4]
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+
+changelog:
+- '2020-11-03 joe.swiggum INIT: YAML created (as J1705-1903.yaml)'
+- '2021-03-05 gabriella.agazie CURATE: bad file:guppi_58787_J1705-1903'
+- '2021-03-30 gabriella.agazie ADD: FB1,FB2,FB3'
+- '2021-06-25 kathryn.crowter CURATE: Took out all bad_toa and bad_epoch'
+- '2021-06-30 kathryn.crowter ADD: FD1, FD2'
+- '2021-09-08 thankful.cromartie NOISE: switched to 20210907.Noise.nb.554d5ea'
+- '2021-09-13 thankful.cromartie ADD: FB4'
+- '2021-09-17 thankful.cromartie NOISE: switched to 20210914.Noise.nb.7d3eff0'
+- '2021-09-17 thankful.cromartie READY_FOR: v1.0'
+- '2021-09-24 joe.swiggum NOTE: updated AO/GBO coords (pint v0.8.3) and refit'
+- '2021-09-30 joe.swiggum NOTE: par file handed off to DWG for v1.0 is J1705-1903_PINT_20210928.nb.par'
+- '2021-12-16 joe.swiggum CURATE: eclipsing, orb-phase-range added to cut potentially
+  affected TOAs'
+- '2022-01-19 joe.swiggum CURATE: increased eclipsing cut to 30 pct orbital phase'
+- '2022-02-28 joe.swiggum ADD: EPS1DOT, EPS2DOT, FB5'
+- '2022-02-28 joe.swiggum REMOVE: EPS1DOT, EPS2DOT'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

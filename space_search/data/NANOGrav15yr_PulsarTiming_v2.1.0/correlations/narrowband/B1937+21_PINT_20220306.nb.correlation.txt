@@ -1,0 +1,22 @@
+FD2        FD1        -0.999999393148098
+FD3        FD1        +0.999918478688915
+FD3        FD2        -0.999918131017936
+Offset     FD1        -0.999754993530744
+Offset     FD2        +0.999754127536191
+Offset     FD3        -0.999685094353201
+FD4        FD3        -0.998729112439792
+FD4        FD1        -0.998043220906496
+FD4        FD2        +0.998025905618371
+Offset     FD4        +0.997856223075241
+FD5        FD4        -0.995749201261694
+FD5        FD3        +0.989906831744214
+FD5        FD1        +0.988198204896997
+FD5        FD2        -0.988138388074948
+Offset     FD5        -0.988093248438356
+DMX_*      DMX_*       34191 correlations larger than 0.9
+DMX_*      FD1           262 correlations larger than 0.9
+DMX_*      FD2           262 correlations larger than 0.9
+DMX_*      FD3           262 correlations larger than 0.9
+DMX_*      FD4           262 correlations larger than 0.9
+DMX_*      FD5           262 correlations larger than 0.9
+DMX_*      Offset        262 correlations larger than 0.9

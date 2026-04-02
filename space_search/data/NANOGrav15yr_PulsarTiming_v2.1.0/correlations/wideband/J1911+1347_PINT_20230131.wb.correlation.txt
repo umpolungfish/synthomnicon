@@ -1,0 +1,7 @@
+JUMP1      DMJUMP2    +0.991009045470452
+Offset     JUMP1      -0.978341332200657
+Offset     DMJUMP2    -0.973760919652435
+DMX_*      DMJUMP2        63 correlations larger than 0.9
+DMX_*      DMX_*        1801 correlations larger than 0.9
+DMX_*      JUMP1          63 correlations larger than 0.9
+DMX_*      Offset         60 correlations larger than 0.9

@@ -1,0 +1,10 @@
+J1012-4235_Rcvr1_2_GUPPI_dmefac
+J1012-4235_Rcvr1_2_GUPPI_efac
+J1012-4235_Rcvr1_2_GUPPI_log10_dmequad
+J1012-4235_Rcvr1_2_GUPPI_log10_t2equad
+J1012-4235_Rcvr_800_GUPPI_dmefac
+J1012-4235_Rcvr_800_GUPPI_efac
+J1012-4235_Rcvr_800_GUPPI_log10_dmequad
+J1012-4235_Rcvr_800_GUPPI_log10_t2equad
+J1012-4235_red_noise_gamma
+J1012-4235_red_noise_log10_A

@@ -1,0 +1,68 @@
+source: J1909-3744gbt
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: J1909-3744gbt_PINT_20220303.nb.par
+compare-model: archive/J1909-3744gbt_PINT_20220223.nb.par
+toas:
+- J1909-3744.Rcvr1_2.GASP.15y.x.nb.tim
+- J1909-3744.Rcvr1_2.GUPPI.15y.x.nb.tim
+- J1909-3744.Rcvr_800.GASP.15y.x.nb.tim
+- J1909-3744.Rcvr_800.GUPPI.15y.x.nb.tim
+
+free-params: [PX, ELONG, ELAT, PMELONG, PMELAT, F0, F1, PB, PBDOT, A1, A1DOT, M2,
+  SINI, TASC, EPS1, EPS2, FD1, JUMP1]
+free-dmx: Yes
+toa-type: NB
+fitter: DownhillGLSFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+outlier: # control outlier analysis runs
+  method: gibbs
+  n-burn: 1000
+  n-samples: 20000
+
+intermediate-results: # use results from previous runs
+  no-corner: true
+  noise-dir: /nanograv/share/15yr/timing/intermediate/20220301.Noise.nb.ac12e98/
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20220222.Noise.nb.4e07003/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220209.Outlier.nb.3460db7/J1909-3744gbt.nb/J1909-3744gbt.nb_excise.tim
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 8
+  bad-toa:
+  - [guppi_56647_J1909-3744_0004.15y.x.ff, 61, 0, snr]
+  - [guppi_58704_J1909-3744_0004.15y.x.ff, 18, 0, snr]
+  - [guppi_57709_J1909-3744_0004.15y.x.ff, 12, 0, snr]
+  - [guppi_57709_J1909-3744_0004.15y.x.ff, 15, 0, snr]
+  - [guppi_57709_J1909-3744_0004.15y.x.ff, 52, 0, snr]
+  - [guppi_57709_J1909-3744_0004.15y.x.ff, 54, 0, snr]
+  - [guppi_57709_J1909-3744_0004.15y.x.ff, 55, 0, snr]
+  - [guppi_57709_J1909-3744_0004.15y.x.ff, 59, 0, snr]
+  - [guppi_57709_J1909-3744_0004.15y.x.ff, 60, 0, snr]
+  bad-range:
+  bad-file:
+  - [guppi_55278_J1909-3744_0003.15y.x.ff, snr]
+  prob-outlier: 0.1
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  cleared: true
+
+changelog:
+- '2021-10-05 joe.swiggum INIT: YAML copied/modified version of J1909-3744.nb.yaml'
+- '2021-10-05 joe.swiggum NOTE: this YAML is for telescope-specific analysis (gbt)'
+- '2021-10-15 joe.swiggum ADD: FD2-4 due to F-test significance'
+- '2021-10-18 joe.swiggum REMOVE: FD2-4 due to F-test significance'
+- '2021-11-15 joe.swiggum CURATE: new outlier results, earlier reasons apply'
+- '2022-03-08 joe.swiggum READY_FOR: v1.1'

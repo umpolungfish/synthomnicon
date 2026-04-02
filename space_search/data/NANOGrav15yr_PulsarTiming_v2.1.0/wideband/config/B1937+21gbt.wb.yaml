@@ -1,0 +1,50 @@
+source: B1937+21gbt
+par-directory: results/
+tim-directory: /nanograv/timing/releases/15y/toagen/releases/2021.08.25-9d8d617/
+timing-model: B1937+21gbt_PINT_20230131.wb.par
+compare-model: archive/B1937+21gbt_PINT_20230125.wb.par
+toas:
+- B1937+21.Rcvr1_2.GASP.15y.x.wb.tim
+- B1937+21.Rcvr1_2.GUPPI.15y.x.wb.tim
+- B1937+21.Rcvr_800.GASP.15y.x.wb.tim
+- B1937+21.Rcvr_800.GUPPI.15y.x.wb.tim
+
+free-params: [PX, ELONG, ELAT, PMELONG, PMELAT, F0, F1, JUMP1, DMJUMP1, DMJUMP2]
+free-dmx: Yes
+toa-type: WB
+fitter: WidebandDownhillFitter
+n-iterations: 20
+ephem: DE440
+bipm: BIPM2019
+
+dmx:  # control dmx windowing/fixing
+  ignore-dmx: false
+  fratio: 1.1
+  max-sw-delay: 0.1 # finer binning when solar wind delay > threshold (us)
+  custom-dmx: [] # designated by [mjd_low,mjd_hi,binsize]
+
+intermediate-results: # use results from previous runs
+  no-corner: true
+  noise-dir: ../15yr-intermediate/20230131.Noise.wb.2868fa95/
+  compare-noise-dir: /nanograv/share/15yr/timing/intermediate/20230125.Noise.wb.4b355601/
+  excised-tim: /nanograv/share/15yr/timing/intermediate/20220913.Outlier.wb.281b67cb/B1937+21gbt.wb/B1937+21gbt.wb_excise.tim
+
+ignore: # toa excision
+  mjd-start:
+  mjd-end: 59072.0
+  snr-cut: 25
+  bad-range:
+  bad-file:
+
+check:  # check before final
+  toa-outliers:
+  dmx-outliers:
+  unusual-params:
+  other:
+  - reduced chi2 far from 1
+  - noise posteriors look bizarre in a few cases, some bimodality
+  cleared: false
+
+changelog:
+- '2020-10-26 joe.swiggum INIT: YAML copied/modified version of B1937+21.wb.yaml'
+- '2020-10-26 joe.swiggum NOTE: this YAML is for telescope-specific analysis (gbt)'

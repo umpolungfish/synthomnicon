@@ -1,0 +1,9 @@
+OMDOT      PB         +0.998783930270992
+OM         T0         +0.995890909443508
+FD2        FD1        -0.969571212350617
+Offset     FD1        -0.968468054242709
+Offset     FD2        +0.902634025375524
+DMX_*      DMX_*        1447 correlations larger than 0.9
+DMX_*      FD1            54 correlations larger than 0.9
+DMX_*      JUMP1          44 correlations larger than 0.9
+DMX_*      Offset         54 correlations larger than 0.9

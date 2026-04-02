@@ -1,0 +1,23 @@
+OM         T0         +0.999999952180729
+FD2        FD1        -0.999993547194025
+Offset     FD1        -0.999975841752136
+Offset     FD2        +0.999973440419356
+FD3        FD2        -0.999689532461111
+Offset     FD3        -0.999644641855356
+FD3        FD1        +0.999618485009917
+FD4        FD3        -0.997936476075294
+FD4        FD2        +0.996146184042713
+Offset     FD4        +0.996111761884342
+FD4        FD1        -0.995973415840415
+FD5        FD4        -0.995192952065537
+FD5        FD3        +0.987054413423385
+Offset     FD5        -0.983348174706444
+FD5        FD2        -0.983317790901978
+FD5        FD1        +0.983062222705638
+DMX_*      DMX_*       18528 correlations larger than 0.9
+DMX_*      FD1           193 correlations larger than 0.9
+DMX_*      FD2           193 correlations larger than 0.9
+DMX_*      FD3           193 correlations larger than 0.9
+DMX_*      FD4           193 correlations larger than 0.9
+DMX_*      FD5           193 correlations larger than 0.9
+DMX_*      Offset        193 correlations larger than 0.9

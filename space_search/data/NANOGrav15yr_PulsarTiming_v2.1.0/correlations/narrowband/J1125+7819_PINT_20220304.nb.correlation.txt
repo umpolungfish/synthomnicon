@@ -1,0 +1,5 @@
+FD2        FD1        -0.995591188656307
+DMX_*      DMX_*        1690 correlations larger than 0.9
+DMX_*      FD1            74 correlations larger than 0.9
+DMX_*      FD2            73 correlations larger than 0.9
+DMX_*      Offset          4 correlations larger than 0.9

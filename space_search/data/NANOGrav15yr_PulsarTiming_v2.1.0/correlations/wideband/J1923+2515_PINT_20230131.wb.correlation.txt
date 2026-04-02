@@ -1,0 +1,3 @@
+Offset     PX         -0.967746007107735
+DMX_*      DMJUMP1         4 correlations larger than 0.9
+DMX_*      DMX_*           7 correlations larger than 0.9
