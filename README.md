@@ -32,13 +32,17 @@ The grammar ($\pi_1$) is one of three irreducible projections of a fundamental i
 
 Inter-projection constraint maps $\mathcal{C}_{ij}$ define what values in projection $j$ are compatible with a given value in projection $i$. Every Millennium Prize Problem is a constraint map problem:
 
-- RH — prove $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\text{neutral}}) = \{ \Re(s) = \tfrac{1}{2} \}$
+| Problem | Constraint Map Statement |
+|---|---|
+| Riemann Hypothesis (RH) | $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\text{neutral}}) = \{ \Re(s) = \tfrac{1}{2} \}$ |
+| Yang–Mills | $\mathcal{C}_{12}(K_{\text{trap}}, G_{\aleph}, \Phi_c) \subseteq [\Delta_{\text{min}}, \infty)$ |
+| Navier–Stokes | $\mathcal{C}_{12}(\Phi_{\text{sub}}, D_{\text{cube}}, K_{\text{mod}}) \subseteq \{E(t) < \infty\}$ |
 
-- Yang–Mills — prove $\mathcal{C}_{12}(K_{\text{trap}}, G_{\aleph}, \Phi_c) \subseteq [\Delta_{\text{min}}, \infty)$
+**Lee–Yang (1952)** is the unique proved instance of $\mathcal{C}_{13}$ and serves as the template for all constraint-map proof strategies.
 
-- Navier–Stokes — prove $\mathcal{C}_{12}(\Phi_{\text{sub}}, D_{\text{cube}}, K_{\text{mod}}) \subseteq \{E(t) < \infty\}$
-
-Lee–Yang (1952) is the unique proved instance of $\mathcal{C}_{13}$ and serves as the template for all constraint-map proof strategies.
+| Proven Instance | Statement |
+|---|---|
+| **P-150** | Lee–Yang zero locus derived as $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — the only known proved non-trivial constraint map instance ✅ |
 
 ---
 
@@ -83,26 +87,42 @@ Mills, L. (https://orcid.org/0000-0003-0003-0552).
 
 ## Repository Structure
 
-```
-syncon_catalog.json          — 318 encoded systems
-syncon_inquiry.py            — Interactive query interface
-syncon_primitive_map.py      — Visualization (MDS + network)
-space_search/
-  primitives.py              — Ordinal maps for all 12 primitives
-PRIMITIVE_PREDICTIONS.md     — 155 predictions (P-1 — P-155)
-SYNTHONICON_DIAPHORICS.md    — Domain encoding compendium
-SYNTHONICON_ONTICS.md        — Ontological foundations
-PRIMITIVE_THEOREMS.md        — Formal theorems §1–§23
-```
+| File | Description |
+|---|---|
+| `syncon_catalog.json` | 318 encoded systems |
+| `syncon_inquiry.py` | Interactive query interface |
+| `syncon_primitive_map.py` | Visualization (MDS + network) |
+| `space_search/primitives.py` | Ordinal maps for all 12 primitives |
+| `PRIMITIVE_PREDICTIONS.md` | 155 predictions (P-1 — P-155) |
+| `SYNTHONICON_DIAPHORICS.md` | Domain encoding compendium |
+| `SYNTHONICON_ONTICS.md` | Ontological foundations |
+| `PRIMITIVE_THEOREMS.md` | Formal theorems §1–§23 |
 
 ---
 
 ## Key Results
 
-- **P-150**: Lee–Yang zero locus derived as $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — the only known proved non-trivial constraint map instance ✅
-- **P-149**: Ouroboricity $\mathcal{O} \geq 3$ is necessary for modeling completeness of $\mathcal{O}_2$ systems (structural Gödel)
-- **P-70**: Inflaton $\equiv$ Higgs $\equiv$ axion — three-scale $K_\text{slow}$ identity
-- **Theorem 001–005**: Consciousness encoding; stellar phenomenology; cosmological arc as experience
-- **RH–Lee-Yang correspondence** (machine-checked in Lean): shared $\Phi_c^{\mathbb{C}}$ encoding; structural distance 5; $P$ mismatch identified as the key gap
+| ID | Statement |
+|---|---|
+| **P-150** | Lee–Yang zero locus derived as $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — the only known proved non-trivial constraint map instance ✅ |
+| **P-149** | Ouroboricity $\mathcal{O} \geq 3$ is necessary for modeling completeness of $\mathcal{O}_2$ systems (structural Gödel) |
+| **P-70** | Inflaton $\equiv$ Higgs $\equiv$ axion — three-scale $K_{\text{slow}}$ identity |
+| **Theorem 001–005** | Consciousness encoding; stellar phenomenology; cosmological arc as experience |
+| **RH–Lee-Yang correspondence** | (machine-checked in Lean): shared $\Phi_c^{\mathbb{C}}$ encoding; structural distance 5; $P$ mismatch identified as the key gap |
 
 *See `PRIMITIVE_PREDICTIONS.md` for the full prediction archive.*
+
+---
+
+## Summary Table: Framework Overview
+
+| Component | Description |
+|---|---|
+| **Primitive Space** | 12-tuple grammar encoding any system |
+| **Three Projections** | $\pi_1$ (structural/grammar), $\pi_2$ (energetic/continuous), $\pi_3$ (ouroboric/closure) |
+| **Constraint Maps** | $\mathcal{C}_{ij}$ — compatibility between projections |
+| **Millennium Problems** | 3/7 encoded as constraint map statements |
+| **Proved Instance** | Lee–Yang (1952) as $\mathcal{C}_{13}$ template |
+| **Catalog Size** | 318 entries across physics, biology, mathematics, cosmology |
+| **Predictions** | 155 (P-1 through P-155) |
+| **Theorems** | §1–§23 formalized |
