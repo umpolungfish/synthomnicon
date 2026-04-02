@@ -68,8 +68,7 @@ python syncon_inquiry.py
 If you use SynthOmnicon in your research, please cite:
 
 ```
-Mills, L. (2026). On the Structural Non-Transmissibility of Mochizuki's
-Inter-Universal Geometer. Preprint.
+Mills, L. (https://orcid.org/0000-0003-0003-0552).
 ```
 
 ---
@@ -87,8 +86,6 @@ SYNTHONICON_DIAPHORICS.md    — Domain encoding compendium
 SYNTHONICON_ONTICS.md        — Ontological foundations
 PRIMITIVE_THEOREMS.md        — Formal theorems §1–§23
 ```
-
-The Lean 4 formalization lives in the companion repository **MilleniumAnkh**, which provides machine-checked encodings of all seven Millennium Prize Problems and a formal primitive bridge connecting grammar structure to barrier classification.
 
 ---
 
