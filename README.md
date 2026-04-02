@@ -8,7 +8,7 @@
 
 The grammar encodes any system as a 12-tuple 
 
-**$\langle D;T;R;P;F;K;G;\Gamma;\Phi;H;S;\Omega \rangle$**
+**⟨D;T;R;P;F;K;G;Γ;Φ;H;S;Ω⟩**
 
 Spanning dimensionality, topology, recognition, polarity, fidelity, kinetics, granularity, logical structure, criticality, chirality, stoichiometry, and symmetry breaking.
 
@@ -22,27 +22,27 @@ Spanning dimensionality, topology, recognition, polarity, fidelity, kinetics, gr
 
 ## The Three-Projection Framework
 
-The grammar ($\pi_1$) is one of three irreducible projections of a fundamental information substrate $\mathcal{I}$:
+The grammar (π₁) is one of three irreducible projections of a fundamental information substrate I:
 
 | Projection | Mode | Encodes |
 |---|---|---|
-| $\pi_1$ (structural) | Grammar | Topological invariants — *what kind* |
-| $\pi_2$ (energetic) | Continuous | Real-valued exchange — *how much* |
-| $\pi_3$ (ouroboricity) | Closure | Scaling invariants — *how it closes on itself* |
+| π₁ (structural) | Grammar | Topological invariants — *what kind* |
+| π₂ (energetic) | Continuous | Real-valued exchange — *how much* |
+| π₃ (ouroboricity) | Closure | Scaling invariants — *how it closes on itself* |
 
-Inter-projection constraint maps $\mathcal{C}_{ij}$ define what values in projection $j$ are compatible with a given value in projection $i$. Every Millennium Prize Problem is a constraint map problem:
+Inter-projection constraint maps Cᵢⱼ define what values in projection j are compatible with a given value in projection i. Every Millennium Prize Problem is a constraint map problem:
 
 | Problem | Constraint Map Statement |
 |---|---|
-| Riemann Hypothesis (RH) | $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\text{neutral}}) = \{ \Re(s) = \tfrac{1}{2} \}$ |
-| Yang–Mills | $\mathcal{C}_{12}(K_{\text{trap}}, G_{\aleph}, \Phi_c) \subseteq [\Delta_{\text{min}}, \infty)$ |
-| Navier–Stokes | $\mathcal{C}_{12}(\Phi_{\text{sub}}, D_{\text{cube}}, K_{\text{mod}}) \subseteq \{E(t) < \infty\}$ |
+| Riemann Hypothesis (RH) | C₁₃(Φ_c^ℂ, P_neutral) = { Re(s) = 1/2 } |
+| Yang–Mills | C₁₂(K_trap, G_ℵ, Φ_c) ⊆ [Δ_min, ∞) |
+| Navier–Stokes | C₁₂(Φ_sub, D_cube, K_mod) ⊆ {E(t) < ∞} |
 
-**Lee–Yang (1952)** is the unique proved instance of $\mathcal{C}_{13}$ and serves as the template for all constraint-map proof strategies.
+**Lee–Yang (1952)** is the unique proved instance of C₁₃ and serves as the template for all constraint-map proof strategies.
 
 | Proven Instance | Statement |
 |---|---|
-| **P-150** | Lee–Yang zero locus derived as $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — the only known proved non-trivial constraint map instance ✅ |
+| **P-150** | Lee–Yang zero locus derived as C₁₃(Φ_c^ℂ, P±_sym) — the only known proved non-trivial constraint map instance ✅ |
 
 ---
 
@@ -104,11 +104,11 @@ Mills, L. (https://orcid.org/0000-0003-0003-0552).
 
 | ID | Statement |
 |---|---|
-| **P-150** | Lee–Yang zero locus derived as $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — the only known proved non-trivial constraint map instance ✅ |
-| **P-149** | Ouroboricity $\mathcal{O} \geq 3$ is necessary for modeling completeness of $\mathcal{O}_2$ systems (structural Gödel) |
-| **P-70** | Inflaton $\equiv$ Higgs $\equiv$ axion — three-scale $K_{\text{slow}}$ identity |
+| **P-150** | Lee–Yang zero locus derived as C₁₃(Φ_c^ℂ, P±_sym) — the only known proved non-trivial constraint map instance ✅ |
+| **P-149** | Ouroboricity O ≥ 3 is necessary for modeling completeness of O₂ systems (structural Gödel) |
+| **P-70** | Inflaton ≡ Higgs ≡ axion — three-scale K_slow identity |
 | **Theorem 001–005** | Consciousness encoding; stellar phenomenology; cosmological arc as experience |
-| **RH–Lee-Yang correspondence** | (machine-checked in Lean): shared $\Phi_c^{\mathbb{C}}$ encoding; structural distance 5; $P$ mismatch identified as the key gap |
+| **RH–Lee-Yang correspondence** | (machine-checked in Lean): shared Φ_c^ℂ encoding; structural distance 5; P mismatch identified as the key gap |
 
 *See `PRIMITIVE_PREDICTIONS.md` for the full prediction archive.*
 
@@ -119,10 +119,10 @@ Mills, L. (https://orcid.org/0000-0003-0003-0552).
 | Component | Description |
 |---|---|
 | **Primitive Space** | 12-tuple grammar encoding any system |
-| **Three Projections** | $\pi_1$ (structural/grammar), $\pi_2$ (energetic/continuous), $\pi_3$ (ouroboric/closure) |
-| **Constraint Maps** | $\mathcal{C}_{ij}$ — compatibility between projections |
+| **Three Projections** | π₁ (structural/grammar), π₂ (energetic/continuous), π₃ (ouroboric/closure) |
+| **Constraint Maps** | Cᵢⱼ — compatibility between projections |
 | **Millennium Problems** | 3/7 encoded as constraint map statements |
-| **Proved Instance** | Lee–Yang (1952) as $\mathcal{C}_{13}$ template |
+| **Proved Instance** | Lee–Yang (1952) as C₁₃ template |
 | **Catalog Size** | 318 entries across physics, biology, mathematics, cosmology |
 | **Predictions** | 155 (P-1 through P-155) |
 | **Theorems** | §1–§23 formalized |
