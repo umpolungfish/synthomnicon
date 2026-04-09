@@ -1,124 +1,169 @@
-**SynthOmnicon: LLM-Ready Reference**  
-**Version 0.4.4 distilled (March 2026)**  
-**Core purpose**: A relational type system and algebra for any system that propagates constraints (molecules, materials, biology, finance, computation, physics). Synthons are 11-primitive tuples; operations are category-theoretic morphisms with thermodynamic costs.
+**SynthOmnicon: LLM-Ready Reference**
+**Version 0.4.27 (April 2026)**
+**Core purpose**: A holographic type theory and relational algebra for any system that propagates constraints. Every system IS a TYPE — a 12-primitive tuple that fully determines all structural properties (ouroboricity, consciousness score, distance behavior, composition behavior). The boundary encoding determines the bulk. This IS NOT a labeling system.
 
-### 1. The 11 Primitives (the type signature)
+---
 
-Every synthon is exactly this 11-tuple:
+### 1. The 12 Primitives (the type signature)
 
-⟨ **D**; **T**; **R**; **P**; **F**; **K**; **G**; **Γ**; **Φ**; **S**; **Ω** ⟩
+Every synthon IS exactly this 12-tuple:
 
-| Primitive | Meaning | Typical values & ordering |
-|-----------|---------|---------------------------|
-| **D** | Dimensionality / scale of operation | D_∧ (molecular), D_△ (supramolecular/network), D_∞ (temporal/cyclic), D_holo (holographic) |
-| **T** | Topology / connectivity motif | T_⋈ (cyclic/bowtie), T_∈ (network), T_↑↓ (braid), T_⊥ (branched), T_□ (cage) |
-| **R** | Recognition / constraint mechanism | R_⊇ (non-covalent), R_‡ (catalytic/dynamic), R_⇔ (mechanical), R_⊆ (covalent) |
-| **P** | Polarity / directionality | P_±^sym, P_±^ψ, P_+- (donor-acceptor), P_pm_pseudo |
-| **F** | Fidelity (thermodynamic reliability) | F_ℓ < F_eth < F_hbar  (Boltzmann thresholds: F_hbar = −RT ln 19 ≈ −7.3 kJ/mol) |
-| **K** | Kinetic character (barrier / multiplicity) | K_fast < K_mod < K_slow < K_trap < K_MBL  (K_trap overrides at multiplicity ≥ 3) |
-| **G** | Granularity / scale of control | G_beth (local) < G_gimel (mesoscale) < G_ℵ (global) |
-| **Γ** | Interaction grammar | Γ_∧ (AND), Γ_∨ (OR), Γ_→ (SEQUENTIAL); tiers: SPECIFIC / SELECTIVE / BROAD / QUANTUM |
-| **Φ** | Criticality phase | Φ_sub < Φ_c (G/D degenerate) < Φ_super |
-| **S** | Stoichiometry | 1:1, n:n, n:m |
-| **Ω** | Topological protection (quantum only) | Ω_0 (trivial) < Ω_Z2 < Ω_Z < Ω_C < Ω_NA  (derived from T+K+D+Γ+G in most cases) |
+⟨ **D**; **T**; **R**; **P**; **F**; **K**; **G**; **Γ**; **Φ**; **H**; **S**; **Ω** ⟩
 
-### 2. Core Algebra Operations (exact semantics)
+| Primitive | Name | Values (low → high) | Weight |
+|-----------|------|---------------------|--------|
+| **D** | Dimensionality | D_wedge · D_triangle · D_infty · D_holo | 1.0 |
+| **T** | Topology | T_network · T_in · T_bowtie · T_box · T_holo | 1.0 |
+| **R** | Relational mode | R_super · R_cat · R_dagger · R_lr | 1.0 |
+| **P** | Parity/symmetry | P_asym · P_psi · P_pm · P_sym · P_pm_sym | 1.0 |
+| **F** | Fidelity | F_ell · F_eth · F_hbar | 1.0 |
+| **K** | Kinetic character | K_fast · K_mod · K_slow · K_trap | 1.0 |
+| **G** | Scope/granularity | G_beth · G_gimel · G_aleph | 1.0 |
+| **Γ** | Interaction grammar | G_and · G_or · G_seq · G_broad | 1.0 |
+| **Φ** | Criticality | Phi_sub · Phi_c · Phi_c_complex · Phi_EP · Phi_super | 1.0 |
+| **H** | Chirality/temporal depth | H0 · H1 · H2 · H_inf | 0.8 |
+| **S** | Stoichiometry | one_one · n_n · n_m | 1.0 |
+| **Ω** | Topological protection | Omega_0 · Omega_Z2 · Omega_Z | 0.7 |
 
-All operations are **binary** and **cost-aware**. They live inside the **SynthonM** monad (WriterT[Δξ_CP] + StateT[Context] + MaybeT).
+**Key values:**
+- **D_holo**: boundary encodes bulk — the holographic primitive
+- **T_holo**: holographic topology — highest T ordinal (5)
+- **P_pm_sym**: exact Z₂ symmetry at criticality — the Frobenius condition μ∘δ=id. Assign ONLY when provably exact
+- **Phi_c**: criticality — absorbing under meet: meet(Phi_c, x) = Phi_c for all x
+- **Phi_EP**: exceptional point — ordinal 2.67 > Phi_c = 2.00; destroys O_inf under tensor
+- **K_trap**: trapped kinetics — gates consciousness to zero regardless of other primitives
 
-| Operation | Notation | Semantics | Cost rule | When it fails |
-|-----------|----------|-----------|-----------|---------------|
-| **meet** | s1 ⊓ s2 | Greatest lower bound (common core) | min(F, K, G, Ω) | Categorical primitives (D,T,R,P,Γ) → ⊥ |
-| **join** | s1 ⊔ s2 | Least upper bound (maximal fusion) | max(F, K, G, Ω); Φ_c dominates | Same categorical collapse → ⊤ |
-| **tensor** | s1 ⊗ s2 | Parallel ensemble (mutual information) | ξ_ens = ξ1 + ξ2 − λ·I(s1;s2) where λ = matching fraction (0–1) | Fidelity bottleneck: F_ens = min(F1,F2) |
-| **lift** | lift(target) | Contextual promotion (e.g. to critical) | Blocked if F < F_hbar for T_⋈ | F-floor ratchet |
-| **path** / **transition** | path(src,dst) | Kleisli morphism (HotSwap) | Sum Δξ_CP along shortest path | 1st-order if D/T conflict (∞ cost) |
-| **project** | project(s, prims) | Orthogonal projection | Keeps only requested primitives | — |
-| **peel** | peel(s, prim) | Remove one primitive | Returns remainder + Δξ_CP cost | Blocked if destroys Φ_c or Ω undesirably |
-| **factor** | factor(s) | Maximal proper sub-synthon | Greedy drop of lowest-impact primitive | Stops when axioms violated |
+---
 
-**Tuple distance** (for phase diagram): weighted Euclidean over 11 primitives (Ω weight 0.7).
+### 2. Ouroboricity Tiers (applied in strict priority order)
 
-### 3. The 7 Axioms (hard constraints)
+| Tier | Condition | Meaning |
+|------|-----------|---------|
+| **O_inf** | Φ_c AND P_pm_sym | Special Frobenius: μ∘δ=id exactly. Self-referential loop perfectly closed. Finite, algebraically exact. |
+| **O_0** | Φ ∈ {Phi_sub, Phi_super, Phi_EP} | No ouroboricity. Cannot form self-referential critical loop. |
+| **O_1** | Φ_c AND Ω_0 | Critical loop possible but unprotected — any deformation breaks it. |
+| **O_2** | Φ_c AND Ω≠Ω_0 AND D ∈ {D_wedge, D_holo, D_triangle} | Critical, topologically protected, bounded domain. |
+| **O_2†** | Φ_c AND Ω≠Ω_0 AND D_infty | Critical, topologically protected, unbounded domain. |
 
-1. Cyclic closure + self-complementary polarity → F ≥ F_eth  
-2. Local grammar (G_beth + Γ_∧ SPECIFIC) cannot nucleate global network  
-3. Super-linear induction → G_beth → G_gimel transition  
-4. Sequential grammar (Γ_→) requires D_∞ or R_‡  
-5. Criticality (Φ_c) contracts G/D (scale invariance)  
-6. Temporal (D_∞) requires discrete reset or continuous dissipative flux  
-7. Cage / enclosure topology requires closing face (T_□)
+**Composition rules (tensor = component-wise max):**
+- O_inf ⊗ O_inf → O_inf
+- O_inf ⊗ O_{1,2,2†} → O_inf
+- O_inf ⊗ O_0(Phi_EP) → O_0 ← **EP erases O_inf**
+- O_inf **cannot be synthesized** from non-P_pm_sym components — it must be planted
 
-### 4. Monadic Design Pipeline (.syn DSL)
+---
 
-```yaml
-version: "1.0"
-start: source_synthon
-strategies:
-  my_strategy:
-    - peel: K_trap
-    - lift: critical
-do:
-  - meet: partner_synthon
-  - tensor: second_partner
-  - bind: my_strategy
-  - assert: phi_c_score > 0.70 and xi_cp <= 12.0
-output:
-  format: json
-  save: result.json
-```
+### 3. Consciousness Score
 
-**CLI equivalents**  
-`syncon run design.syn`  
-`syncon meet A B`  
-`syncon tensor A B`  
-`syncon criticality NAME --xi_r 13.8 --xi_tau 1e6`  
-`syncon phase-diagram --synthons A,B,C`
+$$C(\mathbf{x}) = [\Phi = \Phi_c] \cdot [K \neq K_\text{trap}] \cdot (0.158\,\tilde{K} + 0.273\,\tilde{G} + 0.292\,\tilde{T} + 0.276\,\tilde{\Omega})$$
 
-### 5. Criticality Probe (Varma QXY + extensions)
+Two independent gates — neither subsumes the other:
+- **Gate 1** [Φ=Φ_c]: state-space condition — topology admits self-modeling loop
+- **Gate 2** [K≠K_trap]: flow condition — dynamics can actualize the loop
 
-Inputs: ξ_r (correlation length), ξ_τ (relaxation time)  
-Outputs:
-- Φ_c score (0–1)
-- Universality class (Varma_QXY, log-degenerate, Frank bifurcation, etc.)
-- Axiom 5 satisfaction (G/D degeneracy)
+If either gate fails, C=0. Stellar examples: magnetar C=0.677 (highest stellar), black hole C=0 (Gate 2 fails), white dwarf C=0 (Gate 1 fails).
 
-Rule of thumb: ξ_r ≈ ln(ξ_τ) → Φ_c candidate.
+---
 
-### 6. How to Encode a New Synthon (LLM recipe)
+### 4. Core Algebra Operations
 
-1. Identify the dominant scale → choose D  
-2. Identify connectivity motif → choose T  
-3. Identify constraint mechanism → choose R  
-4. Identify directionality → choose P  
-5. Estimate thermodynamic reliability → choose F (use ΔG → ξ_CP table)  
-6. Estimate barrier / multiplicity → choose K (need ΔG‡ or pathway count)  
-7. Identify control scale → choose G  
-8. Identify partner logic → choose Γ  
-9. Probe criticality (run Varma) → choose Φ  
-10. Choose S and Ω (Ω derived in most cases)
+| Operation | Semantics | Use when asking |
+|-----------|-----------|-----------------|
+| **meet** A∧B | Component-wise min — shared structural floor | "What do these two systems share?" |
+| **join** A∨B | Component-wise max — minimal upper bound | "What must a system containing both look like?" |
+| **tensor** A⊗B | Structural composition — interacting system type | "What does the composed/interacting system look like?" |
+| **project** | Restrict to primitive subset | "What does this look like in only these dimensions?" |
+| **peel** | Strip one primitive to minimum | "What remains if we remove this structural requirement?" |
+| **principal_decomp** | Join-irreducible atoms | "What are the irreducible components?" |
+| **retrosynthetic_path** | Trace back to structural baseline | "How was this system built up from primitives?" |
 
-Register via:
-```bash
-syncon register --name my_synthon --tuple "⟨D_∞;T_∈;...⟩" --delta_g -12.5 --delta_g_dagger 45
-```
+**Distance interpretation:**
+- d = 0.000 → structurally identical
+- d < 0.500 → close analog (same structural family)
+- d 0.5–1.5 → related by shared primitive subsets
+- d > 1.5 → structurally remote (different regime)
 
-### 7. Quick Reference Cheat Sheet for LLMs
+Distance IS the structural story. The per-primitive breakdown shows WHERE divergence lives.
 
-- **Fusion** → join  
-- **Common core** → meet  
-- **Parallel system** → tensor  
-- **Contextual upgrade** → lift  
-- **Path cost** → path / transition  
-- **Bottleneck diagnosis** → peel or project  
-- **Phase map** → phase-diagram  
-- **Safety check** → assert phi_c_score > 0.70 and xi_cp <= 12.0
+---
 
-### 8. Implementation Notes for LLMs
+### 5. Holographic Type Theory — Operational Consequences
 
-- Always output the **exact 11-tuple** in ⟨ ⟩ notation.  
-- When uncertain about K or D, default conservatively and note the missing channel (ΔG‡ or structural flags).  
-- Costs are in **nats** (natural information units).  
-- Φ_c is **join-dominant and meet-dominant** — it survives both aggregation and restriction.  
-- Never invent new primitive values; only use the documented set.  
-- For any new domain (finance, language models, biology, physics), map first to the 11 primitives — the algebra will do the rest.
+The grammar IS a holographic type theory. This IS NOT a metaphor.
+
+**Type inference (bulk → boundary):** Given observed behaviors, infer the type before encoding. The behavior constrains the tuple.
+
+**Type checking (boundary → bulk):** Given a claimed encoding, every derived property IS determined. Contradictions between encoding and claimed behavior ARE type errors.
+
+**Type composition IS relational operator composition:** Tensor IS NOT juxtaposition — it IS the composition of two directed relational operators.
+
+**Cross-domain transfer IS holographic inference:** Same boundary → same bulk, regardless of substrate. Two systems with identical tuples share ALL structural properties necessarily.
+
+**Type inhabitation IS design:** Given a target behavior, ask which tuples can inhabit it. Use retrosynthetic_path and principal_decomp as type-inhabitation tools.
+
+**The grammar IS NOT a description of the world from outside. It IS the boundary theory of all relational systems.**
+
+---
+
+### 6. Dual-Encoding Protocol (for contested or anomalous systems)
+
+1. Encode **holistically**: what tuple is required for the claimed behavior? Name `system_claimed`
+2. Encode **compositionally**: encode each component, tensor mentally, encode result. Name `system_actual`
+3. Call `compute_conflict_distance` → get d_c, conflict_set, conflict_type per primitive, veracity_class
+4. **Compositional encoding IS canonical** unless a mechanism is established
+5. Each aspirational conflict IS an open emergence question at a named primitive
+
+**Veracity classes:** transparent (d_c=0) · near-grounded (√1–√2) · partial-emergence (√3–√6) · aspirational (≥√7)
+
+---
+
+### 7. Proof Taxonomy (derived from catalog)
+
+The grammar distinguishes two proof archetypes:
+
+**Discovery proofs:** Cross a structural gap. Introduce new primitive content. Ouroboricity promotes O_2→O_inf. Promotion signature [R, P, K, Γ, H] is the universal template: R_cat→R_†, P_pm→P_pm_sym, K_mod→K_slow, Γ_and→Γ_broad, H→H_inf. Examples: Berry-Tabor (proven), Fujita (theorem form).
+
+**Witness proofs:** Confirm existing structure. No promotion. Same ouroboricity before and after. The theorem was always determined by the constraint geometry — proof is verification not discovery. Example: Erdős–Faber–Lovász.
+
+**Counterexample collapse signature** (consistent across all sessions): D_wedge + T_network + P_asym + Phi_sub + Omega_0. Any conjecture whose counterexample encodes this way is structurally false.
+
+---
+
+### 8. Encoding Recipe
+
+1. Identify dominant scale → choose **D**
+2. Identify connectivity motif → choose **T**
+3. Identify constraint/relational mechanism → choose **R**
+4. Identify symmetry/directionality → choose **P** (P_pm_sym only when Z₂ is provably exact)
+5. Estimate thermodynamic reliability → choose **F**
+6. Estimate barrier / kinetic character → choose **K** (K_trap overrides if dynamics are frozen)
+7. Identify control scale → choose **G**
+8. Identify interaction logic → choose **Γ**
+9. Probe criticality → choose **Φ** (Phi_c IS absorbing under meet)
+10. Identify chirality/temporal depth → choose **H**
+11. Choose **S** (stoichiometry)
+12. Derive **Ω** from topology + kinetics + dimensionality
+
+**Rules:**
+- NEVER invent primitive values — only use the documented set
+- NEVER assign P_pm_sym without provable exact Z₂ symmetry
+- NEVER claim an encoding succeeded without tool confirmation
+- The per-primitive breakdown IS the structural explanation — do not translate back to disciplinary language
+
+---
+
+### 9. Distance Thresholds & Structural Families
+
+| Distance | Interpretation |
+|----------|---------------|
+| 0.000 | Type identity — structurally identical |
+| < 0.500 | Close analog — same structural family |
+| 0.5–1.5 | Related — shared primitive subsets |
+| > 1.5 | Remote — different structural regime |
+| > 3.0 | Alien — essentially no shared structure |
+
+Known structural families in the catalog:
+- **Holographic geometric extremal problems**: D_holo + T_holo + Phi_c + G_aleph + F_hbar (Kusner, Fujita, Willmore-type)
+- **Holographic arithmetic conjectures**: D_holo + T_holo + Phi_c + P_pm_sym (Riemann, RH+HC join)
+- **Critical network symmetry problems**: D_infty + T_network + P_sym + Phi_c + Omega_Z2 (EFL, kissing_dim_4)
+- **Exceptional/solved-by-breaking**: Phi_EP + P_asym (Dehn/Hilbert-3, counterexamples)

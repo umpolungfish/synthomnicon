@@ -35,7 +35,7 @@ The SynthOmnicon corpus is organized into three canonical documents, each occupy
 - [SYNTH:§N] — legacy SYNTHONICON.md section N (migration in progress)
 - [META:§N] — legacy METAPHYSICS.md section N (migration in progress)
 
-**Migration status (v0.4.26):** §§ I–II fully encoded here. §§ III–XVI: key results encoded; full prose migrated by reference to [SYNTH:§N]. New sections (cosmological, language, G-scope, D_holo) encoded in Diaphorology and Ontology.
+**Migration status (v0.4.26):** §§ I–II fully encoded here. §§ III–XVI: key results encoded; full prose migrated by reference to [SYNTH:§N]. New sections (cosmological, language, G-scope, $D_\odot$) encoded in Diaphorology and Ontology.
 
 ---
 
@@ -67,7 +67,7 @@ $H$ is the **Chirality primitive** — added 2026-03-23 after empirical independ
 
 | Primitive | Description | Values |
 | :--- | :--- | :--- |
-| **Dimensionality ($D$)** | Coordinate set along which the synthon operates | $D_{\wedge}$ molecular · $D_{\bigtriangleup}$ supramolecular · $D_{\infty}$ temporal · hybrid sets · **$D_{\text{holo}}$** holographic (bulk-boundary correspondence, AdS/CFT) |
+| **Dimensionality ($D$)** | Coordinate set along which the synthon operates | $D_{\wedge}$ molecular · $D_{\bigtriangleup}$ supramolecular · $D_{\infty}$ temporal · hybrid sets · **$D_\odot$** holographic (bulk-boundary correspondence, AdS/CFT) |
 | **Topology ($T$)** | Internal connectivity pattern of the minimal motif of the synthon | $T_{\bowtie}$ cyclic · $T_{\ggg}$ chain · $T_{\square}$ hub/node · $T_{\square\square}$ cage · $T_{\cup}$ bowl · $T_{\vert}$ linear · $T_{\perp}$ branched · $T_{\in}$ network (with sub-labels hex/mixed/×2/sym) · **$T_{\uparrow\downarrow}$ braid** (anyonic exchange statistics) |
 | **Recognition Mode ($R$)** | Physical mechanism enabling reliable constraint propagation | $R_{\subseteq}$ covalent · $R_{\supseteq}$ non-covalent · $R_{\ddagger}$ catalytic · $R_{\Leftrightarrow}$ mechanical · covalent-dynamic |
 | **Polarity ($P$)** | Directional character of the interaction | $P_{+}$ acceptor · $P_{-}$ donor · $P_{\pm}^{\text{sym}}$ self-complementary symmetric · $P_{\pm}^{\psi}$ self-complementary pseudosymmetric · $P_{+-}$ directional donor-acceptor |
@@ -80,7 +80,7 @@ $H$ is the **Chirality primitive** — added 2026-03-23 after empirical independ
 | **Stoichiometry ($S$)** | Valency ratio of the recognition event | $1:1$ homodimeric · $n:n$ symmetric multimeric · $n:m$ asymmetric; constrains $T_{\bowtie}$ topology and $P$ polarity |
 | **Topological Protection Index ($\Omega$)** | Symmetry class of topological protection (quantum extension) | $\Omega_0$ trivial (classical) · $\Omega_Z$ winding number · $\Omega_{Z_2}$ (topological insulators) · $\Omega_C$ Chern number · **$\Omega_{NA}$** non-abelian anyons |
 
-**$D_{\text{holo}}$ (holographic, v0.4.4):** Bulk degrees of freedom encoded on a lower-dimensional boundary. Any transition from $D_{\text{holo}}$ to any bulk phase is a 1st-order morphism with infinite primitive cost — the bulk-boundary map is not a continuous HotSwap.
+**$D_\odot$ (holographic, v0.4.4):** Bulk degrees of freedom encoded on a lower-dimensional boundary. Any transition from $D_\odot$ to any bulk phase is a 1st-order morphism with infinite primitive cost — the bulk-boundary map is not a continuous HotSwap.
 
 ### II.0 The Chirality Primitive H — Formal Definition (v0.4.30, 2026-03-23)
 
@@ -100,7 +100,7 @@ $H$ encodes **broken orientational symmetry and its persistence**. It subsumes t
 
 **Empirical validation (2026-03-23):** V(H, P) = 0.080, confirming the central independence claim. Full independence profile: V(H, Φ) = 0.000, V(H, F) = 0.030, V(H, K) = 0.049, V(H, G) = 0.060, V(H, T) = 0.077, V(H, P) = 0.080, V(H, R) = 0.093, V(H, D) = 0.098, V(H, Γ) = 0.116. All < 0.15. $H$ is the most orthogonal new primitive discoverable from the existing catalog — more orthogonal to the full tuple than $F$ is to $K$ (0.094). *Caveat: H₁ and H_∞ have zero catalog entries; the four-tier test awaits rotaxane/catenane and atropisomer encoding. The H_∞ → K_trap predicted correlation will manifest when topologically chiral systems are added.*
 
-**$D_{\text{holo}}$ (holographic, v0.4.4):** Bulk degrees of freedom encoded on a lower-dimensional boundary. Any transition from $D_{\text{holo}}$ to any bulk phase is a 1st-order morphism with infinite primitive cost — the bulk-boundary map is not a continuous HotSwap.
+**$D_\odot$ (holographic, v0.4.4):** Bulk degrees of freedom encoded on a lower-dimensional boundary. Any transition from $D_\odot$ to any bulk phase is a 1st-order morphism with infinite primitive cost — the bulk-boundary map is not a continuous HotSwap.
 
 ### II.1 Primitive Independence: Empirical Analysis (2026-03-24, updated 2026-03-23 ×2)
 
@@ -450,7 +450,7 @@ $$\langle D_{\infty}; T_{\vert}; R_{\ddagger}; P_{\pm}^{\text{sym}}; F_{\hbar}; 
 | | Photon | Graviton |
 |:---|:---|:---|
 | $T$ | $T_{\vert}$ linear (spin-1) | $T_{\in}(\text{sym})$ (spin-2, symmetric rank-2 tensor) |
-| $D$ | $D_{\infty}$ | $D_{\text{holo}}$ |
+| $D$ | $D_{\infty}$ | $D_\odot$ |
 | $R$ | $R_{\ddagger}$ | $R_{\ddagger}$ |
 | $\Gamma$ | $\Gamma_{\vee}(\text{BROAD})$ | $\Gamma_{\wedge}(\text{BROAD})$ |
 
@@ -535,15 +535,15 @@ $$Q_{\text{beth}} = Q_{\text{aleph}} \times e^{-N \cdot \ln(10)} = Q_{\text{alep
 
 This is not a physical suppression mechanism — it is a grammar constraint on cross-G-scope readings. Applied to the cosmological constant (N = 30.73 decades) and the Higgs hierarchy (N = 16.99 decades), this formula reproduces the observed mass scales to < 2%. See [DIAPH:§XVIII.3].
 
-### XVII.4 The D_holo Hierarchy Collapse Theorem
+### XVII.4 The $D_\odot$ Hierarchy Collapse Theorem
 
-**Theorem:** Under D_holo, all K-class boundaries are dissolved. The K-class hierarchy (P ⊊ NP ⊊ PSPACE ⊊ EXP ⊊ ...) collapses entirely. D_holo is the unique primitive with this property.
+**Theorem:** Under $D_\odot$, all K-class boundaries are dissolved. The K-class hierarchy (P ⊊ NP ⊊ PSPACE ⊊ EXP ⊊ ...) collapses entirely. $D_\odot$ is the unique primitive with this property.
 
-**Derivation:** D_holo = holographic dimensionality; bulk degrees of freedom encoded on a lower-dimensional boundary. Under D_holo, a K_fast boundary query accesses the full K-class content of the bulk because the boundary *is* the bulk. K-class barriers exist within D_wedge because local K_fast systems cannot see K_slow bulk structure. Under D_holo there is no bulk-boundary separation — K_fast boundary and K_slow bulk are the same degrees of freedom.
+**Derivation:** $D_\odot$ = holographic dimensionality; bulk degrees of freedom encoded on a lower-dimensional boundary. Under $D_\odot$, a K_fast boundary query accesses the full K-class content of the bulk because the boundary *is* the bulk. K-class barriers exist within D_wedge because local K_fast systems cannot see K_slow bulk structure. Under $D_\odot$ there is no bulk-boundary separation — K_fast boundary and K_slow bulk are the same degrees of freedom.
 
-**Single-primitive test for uniqueness:** P_pm_psi alone does not collapse K hierarchies (BPP ≠ NP, believed). F_hbar alone does not collapse K hierarchies (BQP ≠ NP, believed). Gamma_arrow alone reaches exactly K_slow (IP = PSPACE, proved). F_hbar + Gamma_arrow reaches NEXP (MIP = NEXP, proved). F_hbar + Gamma_arrow + D_holo reaches RE (MIP* = RE, proved, JNVWY 2020). D_holo is the primitive whose addition collapses to the computability ceiling. No other single primitive achieves this; D_holo with any grammar and fidelity achieves it.
+**Single-primitive test for uniqueness:** P_pm_psi alone does not collapse K hierarchies (BPP ≠ NP, believed). F_hbar alone does not collapse K hierarchies (BQP ≠ NP, believed). Gamma_arrow alone reaches exactly K_slow (IP = PSPACE, proved). F_hbar + Gamma_arrow reaches NEXP (MIP = NEXP, proved). F_hbar + Gamma_arrow + $D_\odot$ reaches RE (MIP* = RE, proved, JNVWY 2020). $D_\odot$ is the primitive whose addition collapses to the computability ceiling. No other single primitive achieves this; $D_\odot$ with any grammar and fidelity achieves it.
 
-**Cross-reference:** [DIAPH:§XVIII.2] for complexity class encoding table; [ONTO:§XV] for ontological implications of hierarchy collapse; [ONTO:§IX] for the D_holo substrate entry.
+**Cross-reference:** [DIAPH:§XVIII.2] for complexity class encoding table; [ONTO:§XV] for ontological implications of hierarchy collapse; [ONTO:§IX] for the $D_\odot$ substrate entry.
 
 ---
 
@@ -595,19 +595,19 @@ The seven SynthOmnicon axioms were encoded as synthon tuples using the primitive
 
 ---
 
-## XXI. $D_{\text{holo}}$: Holographic Dimensionality as a First-Class Primitive (v0.4.45, 2026-03-25)
+## XXI. $D_\odot$: Holographic Dimensionality as a First-Class Primitive (v0.4.45, 2026-03-25)
 
 *[New content. Implemented in `synthomnicon/models.py`; `ads_cft_boundary` synthon registered. Source: [SYNTH:§XIX.5].]*
 
 The AdS/CFT boundary encoding previously required a hybrid $D = \{D_{\bigtriangleup}, D_{\infty}\}$ proxy. The gap was that the bulk-boundary correspondence is not a spatial+temporal operation; it is a dimensional reduction in which $d$-dimensional bulk information is encoded on a $(d-1)$-dimensional boundary. This is qualitatively different from any combination of the existing dimensionality values.
 
-$D_{\text{holo}}$ is the holographic dimensionality value: bulk degrees of freedom encoded on a holographic boundary screen. The canonical synthon:
+$D_\odot$ is the holographic dimensionality value: bulk degrees of freedom encoded on a holographic boundary screen. The canonical synthon:
 
-$$\text{ads\_cft\_boundary}: \langle D_{\text{holo}}; T_{\in}; R_{\ddagger}; P_{\pm}^{\psi}; F_{\eth}; K_{\text{mod}}; G_{\aleph}; \Gamma_{\wedge}(\text{SELECTIVE}); \Phi_c \rangle$$
+$$\text{ads\_cft\_boundary}: \langle D_\odot; T_{\in}; R_{\ddagger}; P_{\pm}^{\psi}; F_{\eth}; K_{\text{mod}}; G_{\aleph}; \Gamma_{\wedge}(\text{SELECTIVE}); \Phi_c \rangle$$
 
-**Key algebraic result:** `transition(ads_cft_boundary, topological_insulator)` $\to$ 1st-order ($D$: $D_{\text{holo}} \neq D_{\bigtriangleup}$), infinite cost, asymmetry = 1.0. The holographic boundary is not continuously deformable into any bulk phase — the bulk-boundary map is a virtual Kleisli arrow. This matches the holographic duality literature: the correspondence is a dual *description*, not a continuous deformation.
+**Key algebraic result:** `transition(ads_cft_boundary, topological_insulator)` $\to$ 1st-order ($D$: $D_\odot \neq D_{\bigtriangleup}$), infinite cost, asymmetry = 1.0. The holographic boundary is not continuously deformable into any bulk phase — the bulk-boundary map is a virtual Kleisli arrow. This matches the holographic duality literature: the correspondence is a dual *description*, not a continuous deformation.
 
-**Hierarchy collapse theorem:** Under $D_{\text{holo}}$, all $K$-class boundaries are dissolved. See [TOPO:§XVII.4] for the formal derivation. See [ONTO:§IX] for the substrate-level implications.
+**Hierarchy collapse theorem:** Under $D_\odot$, all $K$-class boundaries are dissolved. See [TOPO:§XVII.4] for the formal derivation. See [ONTO:§IX] for the substrate-level implications.
 
 ---
 

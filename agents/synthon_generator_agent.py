@@ -457,16 +457,13 @@ class SynthonGeneratorAgent(BaseAgent):
             synthon = self._create_synthon_from_data(synthon_data, description, explicit_name=name)
 
         except Exception as e:
-            # Fall back to rule-based generation
-            console = None
             try:
                 from rich.console import Console
-                console = Console()
-                console.print(f"[yellow]LLM API failed ({type(e).__name__}), using rule-based fallback...[/yellow]")
+                Console().print(f"[red]LLM API failed ({type(e).__name__}): {e}[/red]")
+                Console().print("[red]No fallback — rule-based generation produces unreliable encodings. Fix the API key or provider.[/red]")
             except:
                 pass
-
-            return self._generate_rule_based(description, name)
+            raise
 
         # Compute thermodynamic metrics if delta_g provided
         thermo_metrics = None

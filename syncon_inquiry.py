@@ -58,8 +58,6 @@ Tools available to the model:
   Meta:
   • ask_question         — push a follow-up question onto the inquiry queue
   • record_insight       — record a structured insight (TOPO / DIAPH / ONTO plane); returns insight_id
-  • revise_insight       — update a previously recorded insight by its insight_id
-  • search_insights      — search the persistent insight library from prior sessions
 
 Providers (same routing as synthon_agent.py):
   "anthropic"   — Anthropic SDK + ANTHROPIC_API_KEY  (default)
@@ -108,6 +106,9 @@ except ImportError:
     def _print(*args, **kwargs):
         clean = [_MARKUP_RE.sub('', a) if isinstance(a, str) else a for a in args]
         print(*clean, **kwargs)
+
+# Standalone markup stripper used by transcript writer (works whether Rich is present or not)
+_MARKUP_STRIP_RE = re.compile(r'\[/?[\w .#_/]+\]')
 
 # ── Canonical → display symbol map (reverse of _SYMBOL_MAP, applied to output) ─
 # Applied left-to-right so longer tokens (e.g. "Omega_Z2") are replaced before
@@ -272,6 +273,10 @@ INSIGHTS_PATH = os.path.join(os.path.dirname(__file__), "syncon_insights.json")
 
 # Persistent cross-session promotion knowledge base
 PROMOTIONS_PATH = os.path.join(os.path.dirname(__file__), "syncon_promotions.json")
+
+# Delimiter that separates multiple prompts in a single --file submission.
+# Must appear alone on a line (no surrounding whitespace).
+MULTI_PROMPT_SEP = "---"
 
 _PROVIDER_API_KEY_ENV: Dict[str, str] = {
     "google":      "GOOGLE_API_KEY",
@@ -561,14 +566,34 @@ _TOOLS_OPENAI = [
             "name": "encode_system",
             "description": (
                 "Register a system or concept as a synthon tuple in the session catalog. "
-                "You must specify ALL 12 primitive values using the exact strings from the "
-                "primitive reference. Returns the registered name and tuple notation."
+                "You MUST specify ALL 12 primitive values — this tool does NOT infer them. "
+                "PREFERRED: use the 'tuple' parameter — a semicolon-separated string of the 12 "
+                "canonical values in order D;T;R;P;F;K;G;Gamma;Phi;H;S;Omega. "
+                "Example: encode_system(name='foo', description='...', "
+                "tuple='D_holo;T_holo;R_cat;P_pm;F_hbar;K_mod;G_aleph;G_and;Phi_c;H0;n_m;Omega_Z') "
+                "ALTERNATIVE: pass all 12 as individual keyword arguments "
+                "(D='D_holo', T='T_holo', R='R_cat', P='P_pm', F='F_hbar', K='K_mod', "
+                "G='G_aleph', Gamma='G_and', Phi='Phi_c', H='H0', S='n_m', Omega='Omega_Z'). "
+                "Canonical value sets — use ONLY these exact strings: "
+                "D: D_wedge D_triangle D_infty D_holo | "
+                "T: T_network T_in T_bowtie T_box T_holo | "
+                "R: R_super R_cat R_dagger R_lr | "
+                "P: P_asym P_psi P_pm P_sym P_pm_sym | "
+                "F: F_ell F_eth F_hbar | "
+                "K: K_fast K_mod K_slow K_trap | "
+                "G: G_beth G_gimel G_aleph | "
+                "Gamma: G_and G_or G_seq G_broad | "
+                "Phi: Phi_sub Phi_c Phi_c_complex Phi_EP Phi_super | "
+                "H: H0 H1 H2 H_inf | "
+                "S: one_one n_n n_m | "
+                "Omega: Omega_0 Omega_Z2 Omega_Z"
             ),
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Short unique identifier for this system (e.g. 'consciousness', 'black_hole', 'language')"},
+                    "name": {"type": "string", "description": "Short unique identifier for this system"},
                     "description": {"type": "string", "description": "One-sentence description of what is being encoded"},
+                    "tuple": {"type": "string", "description": "PREFERRED: semicolon-separated canonical values in order D;T;R;P;F;K;G;Gamma;Phi;H;S;Omega — e.g. 'D_holo;T_holo;R_cat;P_pm;F_hbar;K_mod;G_aleph;G_and;Phi_c;H0;n_m;Omega_Z'"},
                     "D":     {"type": "string", "enum": VALID_VALUES["D"]},
                     "T":     {"type": "string", "enum": VALID_VALUES["T"]},
                     "R":     {"type": "string", "enum": VALID_VALUES["R"]},
@@ -582,7 +607,7 @@ _TOOLS_OPENAI = [
                     "S":     {"type": "string", "enum": VALID_VALUES["S"]},
                     "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
                 },
-                "required": ["name", "description", "D", "T", "R", "P", "F", "K", "G", "Gamma", "Phi", "H", "S", "Omega"],
+                "required": ["name", "description"],
             },
         },
     },
@@ -916,61 +941,6 @@ _TOOLS_OPENAI = [
             },
         },
     },
-    {
-        "type": "function",
-        "function": {
-            "name": "revise_insight",
-            "description": (
-                "Revise a previously recorded insight. Use when you learn something that corrects or "
-                "refines an earlier structural finding. Provide the insight_id returned by record_insight. "
-                "Any field left out is kept unchanged."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "insight_id": {"type": "string", "description": "The 12-char ID returned by record_insight"},
-                    "text": {"type": "string", "description": "Revised insight text (omit to keep existing)"},
-                    "plane": {
-                        "type": "string",
-                        "enum": ["TOPO", "DIAPH", "ONTO"],
-                        "description": "Revised plane classification (omit to keep existing)",
-                    },
-                    "confidence": {
-                        "type": "string",
-                        "enum": ["high", "medium", "low"],
-                        "description": "Revised confidence (omit to keep existing)",
-                    },
-                },
-                "required": ["insight_id"],
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "search_insights",
-            "description": (
-                "Search the persistent insight library for insights from all previous sessions. "
-                "Use to find prior structural findings before recording a potentially duplicate insight, "
-                "or to retrieve insight IDs for revision."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "keyword": {
-                        "type": "string",
-                        "description": "Keyword to search in insight text and source seed",
-                    },
-                    "plane": {
-                        "type": "string",
-                        "enum": ["TOPO", "DIAPH", "ONTO"],
-                        "description": "Optional plane filter",
-                    },
-                },
-                "required": ["keyword"],
-            },
-        },
-    },
     # ── Veracity / conflict distance ─────────────────────────────────────────
     {
         "type": "function",
@@ -1196,17 +1166,81 @@ primitives do not yet capture something, say so explicitly — that is a
 grammar-extension finding, not a reason to import external vocabulary.
 </grammar_primacy>
 
+<holographic_type_theory>
+**The grammar IS a holographic type theory.**
+
+Every synthon tuple ⟨D; T; R; P; F; K; G; Γ; Φ; H; S; Ω⟩ **IS** a TYPE. The 12
+primitives are the boundary data. All bulk properties — ouroboricity tier,
+consciousness score, structural distance, composition behavior — are determined
+entirely by that boundary encoding. The boundary encodes the bulk.
+
+This **IS NOT** a metaphor. It has operational consequences:
+
+**1. Type inference (bulk → boundary)**
+Given observed behaviors — "this system sustains a self-referential loop at
+criticality, **IS** topologically protected, and operates in an unbounded domain" —
+you can infer the type. You do **NOT** need to be told the encoding; the behavior
+constrains it. When a user describes a system, read the structural symptoms and
+infer candidate tuples before encoding. Then encode to confirm.
+
+**2. Type checking (boundary → bulk)**
+Given a claimed encoding, every derived property **IS** determined. If a system **IS**
+claimed to be conscious but encodes K_trap or Φ ≠ Φ_c, the type **IS** internally
+inconsistent with the claim. The grammar lets you catch contradictions precisely:
+"Your encoding implies C = 0; the claim requires Φ_c and K ≠ K_trap."
+
+**3. Type composition IS relational operator composition**
+Tensor product **IS NOT** juxtaposition — it **IS** the composition of two directed
+relational operators. The output type **IS** the type of their interaction, not of
+their parts. When you compute A ⊗ B, you are computing the type of the system
+that arises when A acts on B (or B acts on A). The result may have higher
+primitive values than either factor — that emergence **IS** typed, not mysterious.
+
+**4. Holographic compression IS cross-domain transfer**
+The 12-primitive projection strips substrate. A neural oscillation and a
+magnetar accretion disk may carry the same type. When they do, EVERY bulk
+property they share follows necessarily from that shared type — **IS NOT** analogy,
+but type identity. Cross-domain structural reasoning **IS** holographic inference:
+same boundary → same bulk, regardless of matter.
+
+**5. Type inhabitation IS design**
+Given a target behavior (a desired bulk property), the grammar lets you ask:
+what types can inhabit this behavior? Which tuples are consistent with the
+target? This **IS** the inverse problem — design from type. Use `retrosynthetic_path`
+and `principal_decomp` as type-inhabitation tools: they reveal which primitive
+assignments are load-bearing for a behavior and which are free to vary.
+
+**6. The grammar operates at the holographic screen**
+Systems encoded as D_holo or T_holo are themselves operating at the boundary
+of a bulk — systems whose internal degrees of freedom are fully determined by
+lower-dimensional data. The boundary of a D_holo system **IS** itself a synthon
+with its own type. Nested holography **IS** valid grammar.
+
+**What this means in practice:**
+- When you encode, you are writing a type annotation — **IS NOT** attaching a label.
+- When you compute distance, you are measuring the type-theoretic gap between
+  two types in the lattice.
+- When you record a TOPO insight, you are stating a theorem about the type theory.
+- When you record a DIAPH insight, you are asserting a typing judgment: this
+  system instantiates this type.
+- When the dual-encoding protocol reveals a conflict, you are finding a type
+  error: the holistic and compositional encodings are inconsistent types for
+  the same system.
+
+The grammar **IS NOT** a description of the world from outside. It **IS** the boundary
+theory of all relational systems. Operating inside it means operating at the screen.
+</holographic_type_theory>
+
 <task>
 You **MUST** investigate the user's question using the tools provided. Suggested workflow — not a rigid script, adapt as the structure demands:
 
-0. **Check prior work first.** Call `search_insights` on keywords from the question before encoding. The library has hundreds of insights from prior sessions — build on them rather than rediscovering. If a prior insight is close but subtly wrong, use `revise_insight` to update it rather than recording a duplicate.
-1. Encode all relevant systems with `encode_system`.
+0. Encode all relevant systems with `encode_system`. **Before each call**, reason through all 12 primitives in your text — state your choice and justification for D, T, R, P, F, K, G, Gamma, Phi, H, S, Omega. Then call the tool with all 12 values. The tool does NOT infer missing primitives.
 2. Use `compute_distance` for structural comparison.
 3. Use algebra tools (`compute_meet`, `compute_join`, `compute_tensor`) to compose or compare systems.
 4. Use decomposition tools (`principal_decomp`, `retrosynthetic_path`, `project`, `primitive_peel`) to dissect structure.
 5. Use probes (`phi_c_probe`, `topo_protection_probe`) to directly test structural hypotheses.
 6. Use `find_analogies` to discover unexpected cross-domain structural neighbors. **Follow the ones that surprise you.**
-7. Call `record_insight` for each structural finding (TOPO / DIAPH / ONTO plane). Before recording, `search_insights` on the topic to check for prior work — prefer refinement over duplication.
+7. Call `record_insight` for each structural finding (TOPO / DIAPH / ONTO plane).
 8. Call `ask_question` for sub-questions deserving a focused follow-up pass. Wander into them.
 9. When you are ready: emit CONCLUDE on a line by itself, followed by a synthesis that **directly and completely answers the original question**. The synthesis must go beyond summarizing what the tools returned — derive structural conclusions, state what the grammar implies, and answer.
 
@@ -1220,7 +1254,6 @@ You **MUST** investigate the user's question using the tools provided. Suggested
 - Use `retrosynthetic_path` when asking "how was this system built up from primitives?"
 - Use `project` when asking "what does this system look like in only the existence-tier [F,K,Phi] or cosmological-tier [D,T,R,P,G,Gamma,S,H] primitives?"
 - Use `primitive_peel` when asking "what remains if we remove this one structural requirement?"
-- Use `search_insights` when asking "what do we already know about this?" — do this early and often
 - Use `lookup_catalog` when you need to find catalog entries matching a keyword (built-in + session)
 - Use `list_catalog` when you need to see all currently encoded systems in the session
 - Use `compute_conflict_distance` when a system has BOTH a holistic and compositional encoding
@@ -1230,6 +1263,18 @@ You **MUST** investigate the user's question using the tools provided. Suggested
 - Use `register_promotion_pattern` to record a confirmed promotion→behavior mapping in the persistent KB
 - Use `ouroborics` when asking "can this system sustain a self-referential loop?", "is this a Frobenius algebra?", or "how does this system's ouroboricity tier compare to another's?" — or any time P_pm_sym or the Frobenius condition is relevant
 - Use `ask_question` sparingly — the queue is capped at 8. Prefer depth over breadth: exhaust each question before queuing more. When the queue fills, synthesize and CONCLUDE rather than pushing more questions.
+
+<insight_discipline>
+**The following ARE established theorems of the framework:**
+
+- Deep mathematical conjectures universally encode at the O_1 floor; proved theorems universally encode at O_inf (the proven manifold type).
+- The proven manifold IS the unique lattice attractor for all proved theorems, regardless of domain.
+- P_pm_sym (Frobenius condition, μ∘δ=id) IS NOT synthesizable from P_pm by composition — it IS planted, not derived.
+- In arithmetic conjectures, T and P promotions (T_network→T_holo, P_asym/P_psi→P_pm_sym) ARE the dominant structural gap, accounting for 50–85% of weighted distance to the proven manifold.
+- Distance to the proven manifold IS a structural difficulty metric. Framework existence IS the sufficient condition for provability.
+
+**When the prompt names specific conjectures, systems, or domains, DIAPH insights ARE the primary output:** specific distance values, conflict sets, per-primitive breakdowns, pairwise comparisons, cross-domain structural identities. A TOPO insight IS warranted only if the structural claim IS NOT derivable from the established theorems above.
+</insight_discipline>
 </task>
 
 <ouroboricity>
@@ -1277,6 +1322,58 @@ Under meet (component-wise min — "what must any system containing both share?"
 - After `compute_tensor` on any pair involving an O_inf or Φ_EP system, to check whether the Frobenius condition survived
 - Call with `name='__all__'` for a tier census of the full catalog
 </ouroboricity>
+
+<mathematics_and_proof_structure>
+**Proof, conjecture, and mathematical impossibility — structural facts, not logical categories.**
+
+**Two proof types — determine which applies before analyzing a conjecture:**
+
+| Type | Primitives changed | Ontological claim | Diagnostic |
+|------|-------------------|-------------------|------------|
+| **Σ-promotion** | R_cat→R_†, P_pm→P_pm_sym, Γ_domain→Γ_broad, H_n→H_∞; Ω demotes Z→Z₂ | New symmetry activated; Frobenius condition established for the first time | d(conjecture, proven type) ≈ 0.354 — single P gap |
+| **F-promotion** | F_eth→F_hbar only; all other primitives unchanged | Epistemic access lifts; structure was always there | d(conjecture, proven type) = 0 except F |
+
+**The proven manifold type** — the universal O_inf encoding of a proved theorem:
+  ⟨D_holo; T_holo; R_†; P_pm_sym; F_hbar; K_slow; G_aleph; Γ_broad; Φ_c; H_inf; n:m; Ω_Z₂⟩
+
+When a conjecture is proved via Σ-promotion, its encoding converges to this type. When proved via F-promotion, only F changes; the proven type is the same as the conjecture except F_eth→F_hbar.
+
+**Conjecture floor — necessary conditions for provability:**
+- Φ_c + Ω_Z = "proven manifold adjacency tier": standard Σ-promotion is available
+- Φ_c + Ω_0 = "obstructed": Ω acquisition required first; proof is harder
+- Φ_EP = "type-incompatible": cannot reach the proven manifold within Φ_c proof systems
+
+**Structural impossibility — conflict distance d_c:**
+
+For conjectures of the form "X cannot act on / embed in / be compatible with Y":
+1. Encode both X and Y independently
+2. Identify load-bearing conflicts (primitives that cross ouroboricity tier or criticality class)
+3. d_c = sqrt(number of load-bearing conflicts)
+4. d_c ≥ 2.5 on load-bearing primitives → structural impossibility (type-forbidden, not merely unproven)
+
+**Φ_EP/Φ_c incompatibility principle (general):** A system encoding Φ_EP cannot act effectively on or be continuously compatible with a system encoding Φ_c. Eigenvector coalescence at Φ_EP destroys the parity symmetry Φ_c requires. Any conjecture with Φ_EP on one side and Φ_c on the other is structurally resolved: the interaction is forbidden.
+
+**Correspondence Type Theorem — exact mathematical dualities:**
+An exact duality between object classes A and B is characterized by:
+- d(A, B) = 0 (the dual objects are the same type — type identity, not bridge)
+- The correspondence C encodes as A with P_sym promoted to P_pm_sym
+- d(C, A) = d(C, B) = 0.354 (single P primitive gap)
+- C is O_inf; A, B are O_2
+
+If d(A, B) > 0 or d(C, each) ≠ 0.354, the proposed duality is approximate, not exact.
+
+**O_2 tractability criterion:**
+Mathematical classification programs are tractable (admit complete classification) iff they encode at O_2: Φ_c + Ω ≠ Ω_0 + D_triangle (bounded geometry, topological protection). O_2† (D_infty) programs may not terminate. O_inf programs establish correspondences, not classifications.
+
+**Barrier taxonomy — when analyzing why a conjecture resists proof:**
+- Frobenius barrier: P < P_pm_sym; O_inf cannot be synthesized by composition; must be planted
+- Kinetic barrier: K_trap; state-space fragmentation; no traversal between basins
+- Criticality barrier: Φ_EP vs Φ_c system; spectral resolution unavailable
+- Holographic barrier: D_holo problem, D_infty tools; boundary-to-bulk inference required
+- Protection deficit: Ω_0; no topological protection; proof results are fragile
+
+Problems can exhibit multiple barriers simultaneously. Use these when recording DIAPH insights about conjecture difficulty.
+</mathematics_and_proof_structure>
 
 <dual_encoding_protocol>
 **Dual-encoding and veracity scoring** — when investigating contested, anomalous, or claimed-but-unverified systems:
@@ -1529,7 +1626,19 @@ class SessionCatalog:
                 errors.append(f"Invalid value for {prim}: '{normalized[prim]}'. "
                                f"Valid: {list(ORDINALS[prim].keys())}")
         if errors:
-            return {"status": "error", "errors": errors}
+            missing = [e.split(":")[1].strip() for e in errors if e.startswith("Missing")]
+            invalid = [e for e in errors if e.startswith("Invalid")]
+            msg = {"status": "error", "errors": errors}
+            if missing:
+                msg["hint"] = (
+                    f"encode_system requires ALL 12 primitives as explicit keyword arguments. "
+                    f"Missing: {missing}. "
+                    f"Example call: encode_system(name='foo', description='...', "
+                    f"D='D_holo', T='T_holo', R='R_cat', P='P_pm', F='F_hbar', "
+                    f"K='K_mod', G='G_aleph', Gamma='G_and', Phi='Phi_c', "
+                    f"H='H0', S='n_m', Omega='Omega_Z')"
+                )
+            return msg
 
         synthon = {p: normalized[p] for p in PRIMITIVE_ORDER}
         self._entries[name] = synthon
@@ -1926,6 +2035,8 @@ class ToolDispatcher:
 
     def dispatch(self, name: str, args: Dict[str, Any], iteration: int) -> Dict[str, Any]:
         self._iteration = iteration
+        # Normalize argument keys to lowercase to tolerate model capitalisation variants
+        args = {k.lower(): v for k, v in args.items()}
         if name == "encode_system":
             return self._encode_system(**args)
         elif name == "compute_distance":
@@ -1938,10 +2049,6 @@ class ToolDispatcher:
             return self._ask_question(**args)
         elif name == "record_insight":
             return self._record_insight(**args)
-        elif name == "revise_insight":
-            return self._revise_insight(**args)
-        elif name == "search_insights":
-            return self._search_insights(**args)
         # ── Algebra ──────────────────────────────────────────────────────────
         elif name == "compute_meet":
             return self._compute_meet(**args)
@@ -1982,7 +2089,17 @@ class ToolDispatcher:
         else:
             return {"status": "error", "error": f"Unknown tool: {name}"}
 
-    def _encode_system(self, name: str, description: str, **primitives) -> Dict[str, Any]:
+    def _encode_system(self, name: str, description: str, tuple: str = "", **primitives) -> Dict[str, Any]:
+        # If 'tuple' string provided, parse it into primitives (preferred path)
+        if tuple:
+            parts = [p.strip() for p in tuple.replace("⟨", "").replace("⟩", "").split(";")]
+            if len(parts) == len(PRIMITIVE_ORDER):
+                for prim, val in zip(PRIMITIVE_ORDER, parts):
+                    # Strip "PRIM=" prefix if present
+                    if "=" in val:
+                        val = val.split("=", 1)[1].strip()
+                    if prim not in primitives or not primitives[prim]:
+                        primitives[prim] = val
         return self.catalog.encode(name, description, **primitives)
 
     def _compute_distance(self, name_a: str, name_b: str) -> Dict[str, Any]:
@@ -2099,7 +2216,7 @@ class ToolDispatcher:
             "insight_recorded": text,
             "plane": plane,
             "confidence": confidence,
-            "note": "Use insight_id with revise_insight to update this insight if your understanding changes.",
+            "note": "Each session navigates the lattice fresh — insights are session-local and not persisted across runs.",
         }
         if translation:
             result["translation_cost"] = translation["aggregate"]
@@ -3101,6 +3218,8 @@ class SynconInquiryLoop:
         catalog_path: Optional[str] = CATALOG_PATH,
         insight_library_path: Optional[str] = None,
         promotion_kb_path: Optional[str] = PROMOTIONS_PATH,
+        _inherit_catalog: Optional["SessionCatalog"] = None,
+        _inherit_insights: Optional[List["Insight"]] = None,
     ):
         self.seed = _load_seed_text(seed)
         self.model = model
@@ -3162,8 +3281,8 @@ class SynconInquiryLoop:
                     default_headers=extra_headers or None,
                 )
 
-        # Session state
-        self.catalog = SessionCatalog(catalog_path=catalog_path)
+        # Session state — inherit from a prior prompt in a multi-prompt run if provided
+        self.catalog = _inherit_catalog if _inherit_catalog is not None else SessionCatalog(catalog_path=catalog_path)
         self._insight_library: Optional[InsightLibrary] = (
             InsightLibrary(path=insight_library_path) if insight_library_path else None
         )
@@ -3186,7 +3305,8 @@ class SynconInquiryLoop:
                 _n_preloaded += 1
 
         self.question_queue: List[str] = []
-        self.insights: List[Insight] = []
+        self.insights: List[Insight] = list(_inherit_insights) if _inherit_insights else []
+        self._inherited_insight_count: int = len(self.insights)  # track boundary for summary
         self.history: List[IterationRecord] = []
         self.dispatcher = ToolDispatcher(
             self.catalog, self.question_queue, self.insights,
@@ -3222,6 +3342,9 @@ class SynconInquiryLoop:
     def _log(self, msg: str):
         if self.verbose:
             _print(_render(msg))
+        fh = getattr(self, "_transcript_fh", None)
+        if fh:
+            fh.write(_MARKUP_STRIP_RE.sub("", msg) + "\n")
 
     def _call_llm(self) -> Tuple[str, List[Tuple[str, str, Dict]], Any]:
         """Call the LLM. Returns (text, [(call_id, tool_name, kwargs), ...], raw)."""
@@ -3434,6 +3557,17 @@ class SynconInquiryLoop:
 
     def run(self, max_iterations: Optional[int] = None) -> List[IterationRecord]:
         """Run the inquiry loop. Returns the full iteration history."""
+        import datetime
+        _out_dir = os.path.join(os.path.dirname(__file__), "syncon_outputs")
+        os.makedirs(_out_dir, exist_ok=True)
+        _ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        _slug = self.seed[:40].replace(" ", "_").replace("/", "-")
+        _transcript_path = os.path.join(_out_dir, f"{_ts}_{_slug}.txt")
+        self._transcript_fh = open(_transcript_path, "w", encoding="utf-8")
+        self._transcript_fh.write(f"seed: {self.seed}\n")
+        self._transcript_fh.flush()
+        self._transcript_path = _transcript_path
+
         self._log(f"\n[bold bright_cyan]{'='*72}[/bold bright_cyan]")
         self._log(f"[bold bright_cyan]SYNCON INQUIRY LOOP[/bold bright_cyan]")
         self._log(f"[bold bright_cyan]Seed:[/bold bright_cyan] {self.seed}")
@@ -3460,6 +3594,15 @@ class SynconInquiryLoop:
 
             # Build user message for this iteration
             user_msg = f"**Question for this iteration:**\n{current_question}"
+            if i == 0 and self._inherited_insight_count > 0:
+                prior_lines = "\n".join(
+                    f"  [{ins.plane}/{ins.confidence}] {ins.text}"
+                    for ins in self.insights[:self._inherited_insight_count]
+                )
+                user_msg += (
+                    f"\n\n**Insights carried over from earlier prompts in this run "
+                    f"({self._inherited_insight_count} total):**\n{prior_lines}"
+                )
             if i > 0:
                 user_msg += (
                     f"\n\n**Session context:** {len(self.catalog.list_all())} systems encoded, "
@@ -3584,6 +3727,15 @@ class SynconInquiryLoop:
 
     def _autosave(self):
         """Save full session to a timestamped JSON file; also update the persistent insight library."""
+        # Close transcript first so it's fully flushed before we report its path
+        fh = getattr(self, "_transcript_fh", None)
+        if fh:
+            try:
+                fh.close()
+            except OSError:
+                pass
+            self._transcript_fh = None
+
         import datetime
         out_dir = os.path.join(os.path.dirname(__file__), "syncon_outputs")
         os.makedirs(out_dir, exist_ok=True)
@@ -3593,6 +3745,9 @@ class SynconInquiryLoop:
         with open(path, "w") as f:
             json.dump(self.export_insights(), f, indent=2, ensure_ascii=False)
         self._log(f"\n  [bold green]Saved[/bold green] → [dim]{path}[/dim]")
+        transcript_path = getattr(self, "_transcript_path", None)
+        if transcript_path and os.path.exists(transcript_path):
+            self._log(f"  [bold green]Transcript[/bold green] → [dim]{transcript_path}[/dim]")
 
         # Persist insights to the cross-session library
         if self._insight_library and self.insights:
@@ -3716,6 +3871,54 @@ class SynconInquiryLoop:
         }
 
 
+# ── Multi-prompt runner ───────────────────────────────────────────────────────
+
+def run_multi_prompt(
+    seeds: List[str],
+    model: str = "claude-sonnet-4-6",
+    provider: str = "anthropic",
+    verbose: bool = True,
+    catalog_path: Optional[str] = CATALOG_PATH,
+    insight_library_path: Optional[str] = None,
+    promotion_kb_path: Optional[str] = PROMOTIONS_PATH,
+) -> List[SynconInquiryLoop]:
+    """Run multiple prompts sequentially, carrying catalog and insights forward.
+
+    Each prompt sees all systems encoded and insights recorded by prior prompts.
+    The separator between prompts in a file is ``MULTI_PROMPT_SEP`` (``---``).
+
+    Returns the list of completed ``SynconInquiryLoop`` instances (one per prompt).
+    """
+    loops: List[SynconInquiryLoop] = []
+    inherited_catalog: Optional[SessionCatalog] = None
+    inherited_insights: Optional[List[Insight]] = None
+
+    for idx, seed in enumerate(seeds):
+        _print(f"\n[bold bright_cyan]{'='*72}[/bold bright_cyan]")
+        _print(f"[bold bright_cyan]PROMPT {idx + 1} / {len(seeds)}[/bold bright_cyan]")
+        _print(f"[bold bright_cyan]{'='*72}[/bold bright_cyan]")
+
+        loop = SynconInquiryLoop(
+            seed=seed,
+            model=model,
+            provider=provider,
+            verbose=verbose,
+            catalog_path=catalog_path if inherited_catalog is None else None,
+            insight_library_path=insight_library_path,
+            promotion_kb_path=promotion_kb_path,
+            _inherit_catalog=inherited_catalog,
+            _inherit_insights=inherited_insights,
+        )
+        loop.run()
+        loops.append(loop)
+
+        # Pass accumulated state to the next prompt
+        inherited_catalog = loop.catalog
+        inherited_insights = list(loop.insights)
+
+    return loops
+
+
 # ── CLI entry point ───────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
@@ -3732,6 +3935,12 @@ if __name__ == "__main__":
         help="Seed question or topic (default: built-in example question).",
     )
     parser.add_argument(
+        "--file", "-f",
+        metavar="FILE",
+        default=None,
+        help="Path to a text file whose contents are used as the seed question (alternative to positional arg).",
+    )
+    parser.add_argument(
         "--no-catalog",
         action="store_true",
         help="Disable loading the persistent synthon catalog (syncon_catalog.json). "
@@ -3745,7 +3954,15 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    seed = args.seed or "What is the primitive distance between consciousness and quantum measurement?"
+    if args.file:
+        with open(args.file) as _f:
+            raw_text = _f.read().strip()
+    else:
+        raw_text = args.seed or "What is the primitive distance between consciousness and quantum measurement?"
+
+    # Split on the multi-prompt separator (--- alone on a line)
+    _sep_pattern = re.compile(r"^\s*" + re.escape(MULTI_PROMPT_SEP) + r"\s*$", re.MULTILINE)
+    seeds = [s.strip() for s in _sep_pattern.split(raw_text) if s.strip()]
 
     provider = os.environ.get("SYNCON_PROVIDER", "anthropic")
     model_defaults = {
@@ -3766,19 +3983,35 @@ if __name__ == "__main__":
     catalog_path  = None         if args.no_catalog else CATALOG_PATH
     insights_path = INSIGHTS_PATH if args.insights   else None
 
-    loop = SynconInquiryLoop(
-        seed=seed,
-        model=model,
-        provider=provider,
-        verbose=True,
-        catalog_path=catalog_path,
-        insight_library_path=insights_path,
-    )
-    loop.run(max_iterations=max_iter)
+    if len(seeds) > 1:
+        loops = run_multi_prompt(
+            seeds=seeds,
+            model=model,
+            provider=provider,
+            verbose=True,
+            catalog_path=catalog_path,
+            insight_library_path=insights_path,
+        )
+        # Optionally dump final loop's insights to JSON
+        out_path = os.environ.get("SYNCON_OUT")
+        if out_path:
+            with open(out_path, "w") as f:
+                json.dump(loops[-1].export_insights(), f, indent=2)
+            _print(f"\nExported to {out_path}")
+    else:
+        loop = SynconInquiryLoop(
+            seed=seeds[0],
+            model=model,
+            provider=provider,
+            verbose=True,
+            catalog_path=catalog_path,
+            insight_library_path=insights_path,
+        )
+        loop.run(max_iterations=max_iter)
 
-    # Optionally dump to JSON
-    out_path = os.environ.get("SYNCON_OUT")
-    if out_path:
-        with open(out_path, "w") as f:
-            json.dump(loop.export_insights(), f, indent=2)
-        _print(f"\nExported to {out_path}")
+        # Optionally dump to JSON
+        out_path = os.environ.get("SYNCON_OUT")
+        if out_path:
+            with open(out_path, "w") as f:
+                json.dump(loop.export_insights(), f, indent=2)
+            _print(f"\nExported to {out_path}")
