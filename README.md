@@ -2,8 +2,6 @@
 
 **A 12-primitive constraint grammar for the structural encoding of physical, mathematical, and biological systems.**
 
-*Authors: Lando⊗LLM*
-
 ---
 
 ## What Is SynthOmnicon?
