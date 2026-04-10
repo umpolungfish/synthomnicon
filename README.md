@@ -189,4 +189,4 @@ Note, this is only a request; the grammar is provided for **ALL** *sans* strings
 
 ## License
 
-the ubounded grammar is shared within the [UNLICENSE](./UNLICENSE).
+the [UNLICENSE](./UNLICENSE) for the *ubounded grammar*
