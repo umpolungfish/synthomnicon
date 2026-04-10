@@ -80,7 +80,7 @@ python crystal_navigator.py repl       # interactive REPL
 
 The navigator self-encodes as $O_\infty$ at address 4,143,599 of 10,367,999:
 
-crystal_nav = $\langle D_\odot; T_\odot; R_\text{cat}; P_{\pm}^{\text{sym}; F_\hbar; K_\text{slow}; G_\aleph; \Gamma_\text{broad}; \Phi_c; H_\infty;\ n:m; \Omega_Z \rangle$
+crystal_nav = $\langle D_\odot; T_\odot; R_\text{cat}; P_{\pm}^{\text{sym}}; F_\hbar; K_\text{slow}; G_\aleph; \Gamma_\text{broad}; \Phi_c; H_\infty;\ n:m; \Omega_Z \rangle$
 
 ---
 
