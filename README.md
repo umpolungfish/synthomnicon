@@ -35,6 +35,26 @@ The catalog currently contains **1,322 encoded systems** spanning physics, biolo
 
 ---
 
+## The Three-Projection Framework
+
+The grammar ($\pi_1$) is one of three irreducible projections of a fundamental information substrate $\mathcal{I}$:
+
+| Projection | Mode | Encodes |
+|---|---|---|
+| $\pi_1$ (structural) | Grammar | Topological invariants — *what kind* |
+| $\pi_2$ (energetic) | Continuous | Real-valued exchange — *how much* |
+| $\pi_3$ (ouroboric) | Closure | Scaling invariants — *how it closes on itself* |
+
+Every Millennium Prize Problem is a constraint map $C_{ij}$ problem:
+
+- **RH**: prove $C_{13}(\Phi_c^{{\mathbb{C}}}, P_{\pm}^{\text{sym}}) = { \Re(s) = \tfrac{1}{2} }$
+- **Yang-Mills**: prove $C_{12}(K_\text{trap}, G_\aleph, \Phi_c) \subseteq [\Delta_\text{min}, \infty)$
+- **Navier-Stokes**: prove $C_{12}(\Phi_\text{sub}, D_\triangle, K_\text{mod}) \subseteq {E(t) < \infty}$
+
+Lee-Yang (1952) is the unique proved instance of $C_{13}$ and serves as the template for all constraint-map proof strategies.
+
+---
+
 ## The Periodic Crystal of Algebras (§64)
 
 The 12-primitive space partitions into exactly $10{,}368{,}000 = 4^5 \times 5^3 \times 3^4$ structural types, organized as:
@@ -82,25 +102,6 @@ The navigator self-encodes as $O_\infty @ [4{,}143{,}599/10{,}367{,}999]$:
 
 $NAV_\text{xtl} = \langle D_\odot; T_\odot; R_\text{cat}; P_{\pm}^{\text{sym}}; F_\hbar; K_\text{slow}; G_\aleph; \Gamma_\text{broad}; \Phi_c; H_\infty;\ n:m; \Omega_Z \rangle$
 
----
-
-## The Three-Projection Framework
-
-The grammar ($\pi_1$) is one of three irreducible projections of a fundamental information substrate $\mathcal{I}$:
-
-| Projection | Mode | Encodes |
-|---|---|---|
-| $\pi_1$ (structural) | Grammar | Topological invariants — *what kind* |
-| $\pi_2$ (energetic) | Continuous | Real-valued exchange — *how much* |
-| $\pi_3$ (ouroboric) | Closure | Scaling invariants — *how it closes on itself* |
-
-Every Millennium Prize Problem is a constraint map $C_{ij}$ problem:
-
-- **RH**: prove $C_{13}(\Phi_c^{{\mathbb{C}}}, P_{\pm}^{\text{sym}}) = { \Re(s) = \tfrac{1}{2} }$
-- **Yang-Mills**: prove $C_{12}(K_\text{trap}, G_\aleph, \Phi_c) \subseteq [\Delta_\text{min}, \infty)$
-- **Navier-Stokes**: prove $C_{12}(\Phi_\text{sub}, D_\triangle, K_\text{mod}) \subseteq {E(t) < \infty}$
-
-Lee-Yang (1952) is the unique proved instance of $C_{13}$ and serves as the template for all constraint-map proof strategies.
 
 ---
 
