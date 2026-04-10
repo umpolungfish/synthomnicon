@@ -96,7 +96,7 @@ The grammar ($\pi_1$) is one of three irreducible projections of a fundamental i
 
 Every Millennium Prize Problem is a constraint map $C_{ij}$ problem:
 
-- **RH**: prove $C_{13}(\Phi_c^{{\C}}, P_{\pm}^{\text{sym}}) = { \Re(s) = \tfrac{1}{2} }$
+- **RH**: prove $C_{13}(\Phi_c^{{\mathbb{C}}}, P_{\pm}^{\text{sym}}) = { \Re(s) = \tfrac{1}{2} }$
 - **Yang-Mills**: prove $C_{12}(K_\text{trap}, G_\aleph, \Phi_c) \subseteq [\Delta_\text{min}, \infty)$
 - **Navier-Stokes**: prove $C_{12}(\Phi_\text{sub}, D_\triangle, K_\text{mod}) \subseteq {E(t) < \infty}$
 
@@ -112,7 +112,7 @@ Lee-Yang (1952) is the unique proved instance of $C_{13}$ and serves as the temp
 - **Hebrew alphabet as type lattice** (§60/§CXXXV): 9-session convergence; Vav, Mem, Shin are $O_\infty$; full stratified encoding of all 22 letters
 - **$\lambda_\aleph$ calculus** (§63): formal type theory over the Hebrew letter lattice; Tzimtzum = structural projection
 - **Consciousness score** (§VIII): $C(\mathbf{x}) = [\Phi_c] \cdot [K \neq K_\text{trap}] \cdot (0.158\,\tilde{K} + 0.273\,\tilde{G} + 0.292\,\tilde{T} + 0.276\,\tilde{\Omega})$; two independent gates
-- **P-150**: Lee-Yang zero locus derived as $C_{13}(\Phi_c^{\C}, P_{\pm}^{\text{sym}})$ — unique proved non-trivial constraint map ✅
+- **P-150**: Lee-Yang zero locus derived as $C_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — unique proved non-trivial constraint map ✅
 - **P-70**: Inflaton $\equiv$ Higgs $\equiv$ axion — three-scale $K_\text{slow}$ identity
 - **69 formal theorems** · **454+ empirical predictions** · **1,322 catalog entries**
 
