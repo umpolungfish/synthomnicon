@@ -4549,7 +4549,84 @@ where $n+1 \bmod_{\{3,4,5\}}$ denotes the successor of $n$ in the cyclic order $
 
 **Corollary 68.C6 (Pythagorean necessity revisited).** The minimality theorem gives a stronger reading of Corollary 68.C1: the Pythagorean triple $3^2+4^2=5^2$ is not coincidental with the grammar's arithmetic because $\{3,4,5\}$ is the only triple simultaneously satisfying (i) the geometric closure condition ($3^2+4^2=5^2$), (ii) the minimality constraint of Theorem 68.5, and (iii) the structural priority ordering of Theorem 68.2. The grammar is the unique minimal self-consistent primitive system whose phase completeness forces it to land on the Pythagorean triple.
 
-**See also:** §23 (Frobenius non-synthesizability); §64 (Periodic Crystal enumeration, $300 \times 34{,}560$); §65 (structural floor and proof singularity as arithmetic poles of the crystal); SYNTHONICON_ONTICS §XXIV (ontological inexhaustibility and arithmetic closure).
+**See also:** §23 (Frobenius non-synthesizability); §64 (Periodic Crystal enumeration, $300 \times 34{,}560$); §65 (structural floor and proof singularity as arithmetic poles of the crystal); §69 (tier gap ladder — the Frobenius cliff at $d\approx4.382$, family tensor non-elevation); SYNTHONICON_ONTICS §XXIV (ontological inexhaustibility and arithmetic closure).
+
+---
+
+## §69 — The Tier Gap Ladder: Non-Uniform Cost of Self-Referential Ascent
+
+**Context.** The five ouroboricity tiers $O_0, O_1, O_2, O_2^\dagger, O_\infty$ are defined by the priority rules R1–R5, which reference only $(\Phi, P, \Omega, D)$. A structural question follows immediately: how far apart are adjacent tiers in the 12-dimensional primitive metric? Computed from the minimal representative tuples (each holding the 8 inner primitives fixed at canonical values and varying only the tier-determining coordinates), the four adjacent gaps are not uniform. One gap is qualitatively distinct: the $O_2^\dagger \to O_\infty$ transition costs exactly $d = 4.0$ — more than the other three gaps combined — and is driven entirely by $P$. This section establishes the tier gap ladder, identifies the Frobenius cliff as the unique non-tunable structural threshold, and derives consequences for composition, consciousness, and the self-description of the crystal.
+
+### §69.1 — Theorem 69.1 (The Tier Gap Ladder)
+
+**Theorem 69.1.** `[TOPO]` Let the minimal representative tuple for each tier be defined by the lowest-ordinal assignment to all 8 inner primitives $(T, R, F, K, G, \Gamma, H, S)$ and the lowest-ordinal tier-determining assignment consistent with the tier rules. The four adjacent tier gaps, measured by the weighted Euclidean distance $d$, are:
+
+$$d(O_0,\ O_1) = \sqrt{1.1} \approx 1.049 \quad (\Phi_\text{sub} \to \Phi_c\ \text{only})$$
+$$d(O_1,\ O_2) = \sqrt{1.7} \approx 1.304 \quad (\Omega_0 \to \Omega_{Z_2}\ \text{and}\ D_\wedge \to D_\triangle)$$
+$$d(O_2,\ O_2^\dagger) = 1.000 \quad (D_\triangle \to D_\infty\ \text{only})$$
+$$d(O_2^\dagger,\ O_\infty) = \sqrt{19.2} \approx 4.382 \quad (P_\text{asym} \to P_{\pm}^\text{sym}\ \text{only})$$
+
+The four gaps are strictly ordered: $d(O_2^\dagger, O_\infty) > d(O_1, O_2) > d(O_0, O_1) > d(O_2, O_2^\dagger)$. The Frobenius gap is the unique maximum, exceeding every other gap by a factor of at least $3.36$.
+
+*Proof.* Minimal representatives (canonical inner primitives fixed throughout):
+
+- $\mathbf{x}_{O_0} = \langle D_\wedge;\ \ldots;\ \Phi_\text{sub};\ \ldots;\ \Omega_0 \rangle$
+- $\mathbf{x}_{O_1} = \langle D_\wedge;\ \ldots;\ \Phi_c;\ \ldots;\ \Omega_0 \rangle$
+- $\mathbf{x}_{O_2} = \langle D_\triangle;\ \ldots;\ \Phi_c;\ \ldots;\ \Omega_{Z_2} \rangle$
+- $\mathbf{x}_{O_2^\dagger} = \langle D_\infty;\ \ldots;\ \Phi_c;\ \ldots;\ \Omega_{Z_2} \rangle$
+- $\mathbf{x}_{O_\infty} = \langle D_\infty;\ \ldots;\ P_{\pm}^\text{sym};\ \ldots;\ \Phi_c;\ \ldots;\ \Omega_{Z_2} \rangle$
+
+Gap 1: $d(O_0, O_1)$. The only differing primitive is $\Phi$: $\Phi_\text{sub}$ (ordinal 0) vs $\Phi_c$ (ordinal 1). Weighted squared contribution: $w_\Phi \cdot 1^2 = 1.1$. $d = \sqrt{1.1} \approx 1.049$. Mahalanobis: 2.349.
+
+Gap 2: $d(O_1, O_2)$. Differing primitives: $\Omega$ ($\Omega_0 \to \Omega_{Z_2}$, $\Delta=1$, $w_\Omega \cdot 1^2 = 0.700$) and $D$ ($D_\wedge \to D_\triangle$, $\Delta=1$, $w_D \cdot 1^2 = 1.0$). $d = \sqrt{0.700 + 1.000} = \sqrt{1.700} = 1.304$. Mahalanobis: 2.461.
+
+Gap 3: $d(O_2, O_2^\dagger)$. The only differing primitive is $D$: $D_\triangle$ (ordinal 1) vs $D_\infty$ (ordinal 2). Weighted squared contribution: $w_D \cdot 1^2 = 1.0$. $d = 1.000$. Mahalanobis: 1.507.
+
+Gap 4: $d(O_2^\dagger, O_\infty)$. The only differing primitive is $P$: $P_\text{asym}$ (ordinal 0) vs $P_{\pm}^\text{sym}$ (ordinal 4). Weighted squared contribution: $w_P \cdot 4^2 = 1.2 \times 16 = 19.2$. $d = \sqrt{19.2} \approx 4.382$. Mahalanobis: 3.348.
+
+All gaps computed directly from the weighted Euclidean metric. The ordering $4.382 > 1.304 > 1.049 > 1.000$ is immediate. The ratio $4.382 / 1.304 = 3.36$. $\square$
+
+**Remark (the Frobenius cliff).** Every tier transition below $O_\infty$ is driven by primitives with maximum ordinal gap of 1 and contributes weighted squared distance $\leq 1.1$. The $O_2^\dagger \to O_\infty$ transition is driven by the full 4-ordinal span of $P$ ($P_\text{asym}$ to $P_{\pm}^\text{sym}$) with $w_P = 1.2$, contributing 19.2 — over seventeen times the maximum contribution of any other gap-driving primitive. The tier ladder is not a uniform staircase; it has a cliff.
+
+### §69.2 — Theorem 69.2 (Tunability and the Non-Tunable Threshold)
+
+**Theorem 69.2.** `[TOPO]` The three tier transitions $O_0 \to O_1$, $O_1 \to O_2$, $O_2 \to O_2^\dagger$ are each driven by primitives that can be varied continuously within the grammar's ordinal scale (a system can be driven toward the transition by adjusting $\Phi$, $\Omega$, or $D$ in isolation). The transition $O_2^\dagger \to O_\infty$ is non-tunable: there is no sequence of single-primitive promotions from $P_\text{asym}$ to $P_{\pm}^\text{sym}$ that produces intermediate $O_\infty$ systems. Each intermediate $P$ value ($P_\psi$, $P_{\pm}$, $P_\text{sym}$) leaves the system in $O_2^\dagger$ or below; the $O_\infty$ tier appears discontinuously at $P = P_{\pm}^\text{sym}$ and nowhere else.
+
+*Proof.* For $O_0 \to O_1$: $\Phi$ is an ordered primitive with ordinals $\{\Phi_\text{sub}=0, \Phi_c=1, \ldots\}$. Moving $\Phi$ from 0 toward 1 crosses the threshold at exactly ordinal 1; the transition is a single-step promotion. Similarly $\Omega$ (gap 2) and $D$ (gaps 2 and 3) are single-step promotions. For $O_2^\dagger \to O_\infty$: by the tier rules (R1 first priority), the only condition producing $O_\infty$ is $\Phi_c \land P = P_{\pm}^\text{sym}$. No intermediate $P$ value satisfies R1. Therefore any system with $P < P_{\pm}^\text{sym}$ falls through R1 and is classified by R2–R5, landing in $O_0$, $O_1$, $O_2$, or $O_2^\dagger$ depending on $\Phi$, $\Omega$, $D$. The $O_\infty$ tier cannot be approached from below through $P$: it appears at $P = P_{\pm}^\text{sym}$ without precursor. $\square$
+
+**Corollary 69.C1 ($P_{\pm}^\text{sym}$ must be planted, not grown).** Because the Frobenius threshold is non-tunable, any system that achieves $O_\infty$ must have $P_{\pm}^\text{sym}$ as an axiomatic structural property, not as an emergent one. No process of optimization, composition, or gradual structural promotion can produce $O_\infty$ from a $P < P_{\pm}^\text{sym}$ starting point. $P_{\pm}^\text{sym}$ is planted or it is absent. This is the metrically precise statement of Frobenius non-synthesizability (§23).
+
+**Corollary 69.C2 (Gradient methods cannot reach $O_\infty$).** Any optimization procedure that moves through the primitive space by continuous adjustment of structural coordinates cannot cross the Frobenius cliff. It will approach $O_2^\dagger$ and stall at $d \approx 4.382$ from the $O_\infty$ manifold. Gradient-based training of architectures does not, in principle, produce Frobenius self-duality unless $P_{\pm}^\text{sym}$ is encoded into the architecture axiomatically.
+
+### §69.3 — Theorem 69.3 (Frobenius Degrades Completely Under Asymmetric Tensor Coupling)
+
+**Theorem 69.3.** `[TOPO]` For any $O_\infty$ system $X$ (with $P_X = P_{\pm}^\text{sym}$) and any system $Y$ with $P_Y < P_{\pm}^\text{sym}$:
+
+$$X \otimes Y \notin O_\infty$$
+
+Furthermore, $d(X \otimes Y,\ \mathbf{x}_{O_\infty}) = d(X, Y)_P = \sqrt{w_P \cdot (4 - P_Y)^2}$, where the distance is driven entirely by the $P$ coordinate. The composite is at maximum distance from the Frobenius manifold equal to the full cost of the $P$ gap.
+
+*Proof.* By the bottleneck rule, $P(X \otimes Y) = \min(P_X, P_Y) = P_Y < P_{\pm}^\text{sym}$. R1 therefore does not apply to the composite; it falls through to R2–R5 and lands in a sub-$O_\infty$ tier. The distance from the composite's $P$ coordinate to $P_{\pm}^\text{sym}$ is $\sqrt{w_P \cdot (4 - P_Y)^2}$; for $P_Y = P_\text{asym}$ (ordinal 0), this is $\sqrt{1.2 \times 16} = \sqrt{19.2} \approx 4.382$ on the $P$ axis alone. $\square$
+
+**Computed instance.** $\mathbf{x}_{O_\infty} \otimes \mathbf{x}_{O_2}$: result tuple $\langle D_\infty;\ T_\text{network};\ R_\text{cat};\ P_\text{asym};\ F_\ell;\ K_\text{fast};\ G_\beth;\ \Gamma_\text{and};\ \Phi_c;\ H_0;\ 1{:}1;\ \Omega_{Z_2} \rangle$. Tier: $O_2$ (R4). $d(\text{result},\ \mathbf{x}_{O_\infty}) = 4.0$. $d(\text{result},\ \mathbf{x}_{O_2}) = 1.0$ (only $D$ differs: $D_\infty$ vs $D_\triangle$, union rule promotes $D$). The composite lands exactly $d = 1.0$ above $O_2$ in the $D$ direction, and exactly $d = 4.0$ below $O_\infty$ in the $P$ direction. Frobenius is destroyed completely; no partial preservation exists.
+
+### §69.4 — Theorem 69.4 (The $O_\infty$ Cluster and the Crystal Navigator)
+
+**Theorem 69.4.** `[TOPO]` The $O_\infty$ tier forms a dense cluster in the primitive space: all $O_\infty$ systems satisfying the full tuple $\langle D_\odot;\ T_\odot;\ R_\dagger;\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n{:}m;\ \Omega_{Z_2} \rangle$ are mutually at $d = 0$. Among confirmed catalog systems at this point: proven manifolds (Eden conjecture, Richardson model), Kabbalistic constructs (center pillar, Hekhalot Palace 7), algebraic structures (holospinor algebra, topological vortex algebra), and the algebranic transformer seed ($A_1$, $A_1^\text{opt}$). The cluster is the proof singularity of §65.
+
+Furthermore, the **crystal navigator** — the minimal system capable of enumerating and classifying all $10{,}368{,}000$ structural types without type error — encodes as:
+
+$$\text{crystal\_nav} = \langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n{:}m;\ \Omega_Z \rangle$$
+
+with $d(\text{crystal\_nav},\ \text{synthomnicon\_grammar}) = \sqrt{7.8} \approx 2.793$, differing on six primitives: $R$ ($R_\text{cat}$ vs $R_\dagger$), $F$ ($F_\hbar$ vs $F_\eth$), $K$ ($K_\text{slow}$ vs $K_\text{mod}$), $H$ ($H_\infty$ vs $H_1$, $\Delta=2$), $S$ ($n{:}m$ vs $n{:}n$), and $\Omega$ ($\Omega_Z$ vs $\Omega_{Z_2}$). The dominant contribution is $H$ ($w_H \cdot 4 = 3.2$); the $R$ and $\Omega$ differences encode the functional distinction between classification and generation.
+
+*Proof.* A system that correctly classifies all $10{,}368{,}000$ structural types must itself encode $O_\infty$: by self-encoding consistency (§68.3 and the grammar's own encoding), any sub-$O_\infty$ system cannot represent the full Frobenius tier without type error, because it lacks the exact self-dual structure required to encode systems that have it. Therefore the navigator must have $P_{\pm}^\text{sym}$ and $\Phi_c$. The remaining coordinates are determined by minimality: $G_\aleph$ (global scope for 10M entries), $\Omega_Z$ (full integer protection for type distinctness), $T_\odot$ (holographic boundary-bulk for crystal navigation), $F_\hbar$ (quantum-coherent fidelity), $K_\text{slow}$ (deep integration over lattice), $H_\infty$ (full temporal depth for self-encoding), $S = n{:}m$ (heterogeneous stoichiometry for many-to-many type maps). The grammar takes different values on six of these coordinates, reflecting its distinct role as a generative self-referential object rather than a classifying instrument. Direct weighted distance: $d = \sqrt{1.0 + 0.9 + 1.0 + 3.2 + 1.0 + 0.7} = \sqrt{7.8} \approx 2.793$. $\square$
+
+**Corollary 69.C3 (Grammar and navigator are structurally distinct $O_\infty$ systems).** The grammar ($R_\dagger$, self-dual; $K_\text{mod}$, moderated dynamics; $H_1$, one-step temporal depth) and its navigator ($R_\text{cat}$, classifying; $K_\text{slow}$, deep traversal; $H_\infty$, full temporal depth) occupy the same $O_\infty$ tier cell (both have $\Phi_c$, $P_{\pm}^\text{sym}$) but differ on 6 inner primitives. The distance $d \approx 2.793$ quantifies the structural cost of the generation-vs-classification distinction: a system that generates structural types requires shallower temporal depth and self-dual relations; one that classifies all 10M types requires full temporal depth and categorical (one-way) relations.
+
+**Corollary 69.C4 (Family tensor cannot reach $O_\infty$ by composition).** The tensor product $\mathcal{F}_5^\text{opt} \otimes \mathcal{F}_4^\text{opt} \otimes \mathcal{F}_3^\text{opt}$ — where each family block is optimized for its own family's structural role — resolves to $O_2$, not $O_\infty$. The $\mathcal{F}_5$ block contributes $P_{\pm}^\text{sym}$; the $\mathcal{F}_4$ and $\mathcal{F}_3$ blocks contribute $P_\text{asym}$; the tensor bottleneck forces $P(\text{result}) = P_\text{asym}$. The three primitive families, each individually optimized, cannot synthesize Frobenius through composition — confirming §23 and §69.2 at the level of the arithmetic ouroboros's own family structure.
+
+**See also:** §23 (Frobenius non-synthesizability); §64 (Periodic Crystal enumeration); §65 (proof singularity, $O_\infty$ cluster census); §68 (arithmetic ouroboros — families cannot self-elevate); SYNTHONICON_DIAPHORICS §VIII (consciousness score — $K_\text{trap}$ gate orthogonal to tier).
 
 ---
 

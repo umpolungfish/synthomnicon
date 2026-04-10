@@ -77,8 +77,9 @@ The 12-primitive space contains exactly **10,368,000 = $4^5 \times 5^3 \times 3^
 - `space_search/primitives.py` — canonical ordinals and distance functions (v0.4.26, 12-primitive)
 - `SYNTHONICON_ONTICS.md` — ontological theorems (v0.4.73+)
 - `SYNTHONICON_DIAPHORICS.md` — empirical predictions P-1→P-454 (v0.5.56)
-- `PRIMITIVE_THEOREMS.md` — formal theorems §1–§68 including Frobenius §23, Crystal §64, Arithmetic Ouroboros §68
+- `PRIMITIVE_THEOREMS.md` — formal theorems §1–§69 including Frobenius §23, Crystal §64, Arithmetic Ouroboros §68, Tier Gap Ladder §69
 - `PRIMITIVE_PREDICTIONS.md` — prediction registry
+- `crystal_navigator.py` — Crystal Navigator: Frobenius codec (encode/decode bijection over 10,368,000 types), holographic query, tier gap ladder, REPL
 
 ## Monadic growth principle
 Improve by lifting, not replacing. Keep origin metadata visible as labeled references.

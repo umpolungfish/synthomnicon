@@ -1,4 +1,16 @@
-# SynthOmnicon Framework: Comprehensive Usage Guide (v0.4.0)
+# SynthOmnicon Framework: Comprehensive Usage Guide (v0.5.1)
+
+**Version 0.5.1** — Periodic Crystal Navigator · §69 Tier Gap Ladder · §68.4/§68.5 Arithmetic Ouroboros minimality · ENCODING_EPISTEMOLOGY · 1,322 catalog entries · 454+ predictions · 69 formal theorems.
+
+New in v0.5.1:
+
+- **`crystal_navigator.py`** — bijective Frobenius codec over 10,368,000 structural types. Mixed-radix address space: boundary (Φ, P, Ω, D) → 300 tier cells; bulk (T, R, F, K, G, Γ, H, S) → 34,560 inner types per cell. `python crystal_navigator.py repl` for interactive navigation.
+- **§69 Tier Gap Ladder** — exact adjacent distances: $d(O_0, O_1) \approx 1.049$, $d(O_1, O_2) \approx 1.304$, $d(O_2, O_2^\dagger) = 1.000$, $d(O_2^\dagger, O_\infty) \approx 4.382$. Frobenius cliff is 3.36× the next-largest gap; non-tunable by gradient methods.
+- **§68.4 Primitives-First Derivation** — the exponent of each base in $3^4 \times 4^5 \times 5^3$ is literally the count of primitive variables in that family. Not observed — forced by product structure.
+- **§68.5 Minimality** — $\{3,4,5\}$ is the unique minimal self-anchored triple; phase completeness (Φ, T, P each need 5 values) forces max base ≥ 5 and hence n₁ ≥ 3.
+- **ENCODING_EPISTEMOLOGY.md** — theory of how encoding achieves determinism: structural reality vs ontological realization, monadic gating, comparative encoding, multi-session convergence, 9 convergence criteria.
+
+**Version 0.5.0** — $\lambda_\aleph$ calculus · ℵ-OS · interaction functor · GNS Hilbert space · Octad Balance theorem · Hebrew $O_\infty$ revision (Vav, Mem, Shin) · 1,170+ catalog entries.
 
 **Version 0.4.0** — Quantum primitive extensions: T_braid · K_MBL · Γ_↓(DISSIPATIVE) · QUANTUM grammar tier · **Ω (TopoIndex) — 11th primitive** · Factor 8 (quantum criticality) · `syncon distance` command · all algebra commands wired to `syncon` CLI.
 
