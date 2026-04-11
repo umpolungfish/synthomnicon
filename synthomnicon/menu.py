@@ -183,8 +183,15 @@ CATEGORIES = [
 
 def _header() -> None:
     try:
-        from synthomnicon.registry import global_catalog
-        n = len(list(global_catalog))
+        import json as _json
+        from pathlib import Path as _Path
+        _catalog_path = _Path(__file__).resolve().parent.parent / "syncon_catalog.json"
+        if _catalog_path.exists():
+            with open(_catalog_path, "r", encoding="utf-8") as _f:
+                n = len(_json.load(_f))
+        else:
+            from synthomnicon.registry import global_catalog
+            n = len(list(global_catalog))
     except Exception:
         n = "?"
     console.print()

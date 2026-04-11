@@ -152,25 +152,62 @@ def catalog():
 
 @catalog.command(name="list")
 @click.option("--domain", "-d", help="Filter by domain.")
-def list_synthons(domain: Optional[str]):
-    """List all registered synthons."""
-    if domain:
+@click.option("--source", "-s", type=click.Choice(["json", "global"]), default="json",
+              help="Catalog source: 'json' = syncon_catalog.json (default), 'global' = in-memory global_catalog.")
+def list_synthons(domain: Optional[str], source: str):
+    """List all registered synthons.
+
+    By default reads from syncon_catalog.json (the single source of truth).
+    Use --source global to list the legacy in-memory global_catalog instead.
+    """
+    PRIM_ORDER = ["D", "T", "R", "P", "F", "K", "G", "Gamma", "Phi", "H", "S", "Omega"]
+
+    if source == "json" and not domain:
+        json_path = _PROJECT_ROOT / "syncon_catalog.json"
+        if not json_path.exists():
+            console.print(f"[red]syncon_catalog.json not found at {json_path}[/red]")
+            return
+        with open(json_path, "r", encoding="utf-8") as f:
+            entries = json.load(f)
+
+        table = Table(title=f"Registered Synthons — syncon_catalog.json ({len(entries)} entries)")
+        table.add_column("Name", style="cyan")
+        table.add_column("Tuple", style="magenta")
+        table.add_column("D", style="green")
+
+        for entry in entries:
+            name = entry.get("name", "?")
+            d_val = entry.get("D", "?")
+            vals = [entry.get(p, "?") for p in PRIM_ORDER]
+            notation = "⟨" + "; ".join(vals) + "⟩"
+            table.add_row(name, notation, d_val)
+
+        console.print(table)
+        console.print(f"[bold]{len(entries)}[/bold] synthons found.")
+
+    elif domain:
         synthons = global_catalog.search_by_domain(domain)
         title = f"Registered Synthons (Domain: {domain})"
+        table = Table(title=title)
+        table.add_column("Name", style="cyan")
+        table.add_column("Notation", style="magenta")
+        table.add_column("Dimensionality", style="green")
+        for s in synthons:
+            table.add_row(s.name, s.to_notation(), s.dimensionality.name)
+        console.print(table)
+        console.print(f"[bold]{len(synthons)}[/bold] synthons found.")
+
     else:
         synthons = list(global_catalog._synthons.values())
-        title = "Registered Synthons (All)"
-        
-    table = Table(title=title)
-    table.add_column("Name", style="cyan")
-    table.add_column("Notation", style="magenta")
-    table.add_column("Dimensionality", style="green")
-    
-    for s in synthons:
-        table.add_row(s.name, s.to_notation(), s.dimensionality.name)
-        
-    console.print(table)
-    console.print(f"[bold]{len(synthons)}[/bold] synthons found.")
+        title = "Registered Synthons — global_catalog (in-memory)"
+        table = Table(title=title)
+        table.add_column("Name", style="cyan")
+        table.add_column("Notation", style="magenta")
+        table.add_column("Dimensionality", style="green")
+        for s in synthons:
+            table.add_row(s.name, s.to_notation(), s.dimensionality.name)
+        console.print(table)
+        console.print(f"[bold]{len(synthons)}[/bold] synthons found.")
 
 
 @catalog.command(name="auto-stoichiometry")

@@ -170,6 +170,26 @@ _SPACE_SEARCH = os.path.join(os.path.dirname(__file__), "space_search")
 if _SPACE_SEARCH not in sys.path:
     sys.path.insert(0, _SPACE_SEARCH)
 
+# ── Import Crystal Navigator ───────────────────────────────────────────────────
+try:
+    from crystal_navigator import CrystalNavigator as _CrystalNavigator  # type: ignore
+    _CRYSTAL_NAV_AVAILABLE = True
+except ImportError:
+    _CrystalNavigator = None  # type: ignore
+    _CRYSTAL_NAV_AVAILABLE = False
+
+# ── Import CrystalGNN (quiver neural navigator) ────────────────────────────────
+try:
+    import torch as _torch
+    from quiver_crystal import CrystalGNN as _CrystalGNN, TierHead as _TierHead  # type: ignore
+    from crystal_navigator import VALUES as _CRYSTAL_VALUES, PRIMS as _CRYSTAL_PRIMS  # type: ignore
+    _QUIVER_AVAILABLE = True
+except ImportError:
+    _torch = None  # type: ignore
+    _CrystalGNN = None  # type: ignore
+    _TierHead = None  # type: ignore
+    _QUIVER_AVAILABLE = False
+
 from primitives import (  # type: ignore
     ORDINALS,
     WEIGHTS,
@@ -314,14 +334,14 @@ D  — Dimensionality/holography
     D_wedge       molecular / local
     D_triangle    supramolecular / intermediate
     D_infty       temporal / process / unbounded
-    D_holo        holographic (boundary encodes bulk)
+    D_odot        holographic (boundary encodes bulk)
 
 T  — Topology
     T_network     general network / graph
     T_in          nested / hierarchical containment
     T_bowtie      bowtie / dual-cone (confined, massive)
     T_box         box / closed compact
-    T_holo        holographic topology
+    T_odot        holographic topology
 
 R  — Relational mode
     R_super       superset / containment relation
@@ -344,8 +364,9 @@ F  — Fidelity / interaction scale
 K  — Computational / kinetic character
     K_fast        P-class (polynomial, local, fast)
     K_mod         NP-boundary (moderate, critical complexity)
-    K_slow        K_slow (temporally deep, integrative)
-    K_trap        MBL / trapped (many-body localized, non-ergodic)
+    K_slow        temporally deep, integrative
+    K_trap        trapped by order: coherent gap, frozen dynamics (ETH fails via gap)
+    K_MBL         trapped by disorder: area-law entanglement in ALL eigenstates (ETH fails via disorder); distinct from K_trap — use when many-body localization is the mechanism
 
 G  — Scope / correlation length
     G_beth        local (Beth-scale, finite range)
@@ -380,6 +401,7 @@ S  — Stoichiometry
     Omega_0       none
     Omega_Z2      Z₂ protection (binary topological invariant)
     Omega_Z       Z protection (integer winding number)
+    Omega_NA      non-Abelian protection (anyonic statistics; distinct from Z/Z₂ — use when braiding non-Abelian anyons)
 """)
 
 
@@ -465,10 +487,11 @@ _SYMBOL_MAP: Dict[str, str] = {
 }
 
 # Extended valid values for validation (ORDINALS only has Omega 0/Z2/Z;
-# Omega_C and Omega_NA appear in documents and models.py).
+# Omega_C is a non-canonical alias still found in older documents.
+# Omega_NA is now canonical (in ORDINALS) so already present in the base dict.
 _EXTENDED_VALID: Dict[str, List[str]] = {
     **{p: list(ORDINALS[p].keys()) for p in PRIMITIVE_ORDER},
-    "Omega": ["Omega_0", "Omega_Z2", "Omega_Z", "Omega_C", "Omega_NA"],
+    "Omega": list(ORDINALS["Omega"].keys()) + ["Omega_C"],
 }
 
 
@@ -479,7 +502,7 @@ def _normalize_value(raw: str) -> str:
     Resolution order:
       1. Direct lookup in _SYMBOL_MAP (e.g. "Γ_seq" → "G_seq")
       2. Substring substitution for Unicode glyphs embedded in longer tokens
-      3. Return raw unchanged (already canonical, e.g. "D_holo", "Phi_c")
+      3. Return raw unchanged (already canonical, e.g. "D_odot", "Phi_c")
     """
     s = raw.strip()
     if s in _SYMBOL_MAP:
@@ -522,7 +545,7 @@ def _parse_synthon_tuples(text: str) -> List[Tuple[Optional[str], Dict[str, str]
             continue
         primitives: Dict[str, str] = {}
         for prim, raw_val in zip(PRIMITIVE_ORDER, parts):
-            # Strip "PRIM=" prefix if present (e.g. "D=D_holo")
+            # Strip "PRIM=" prefix if present (e.g. "D=D_odot")
             if "=" in raw_val:
                 raw_val = raw_val.split("=", 1)[1].strip()
             primitives[prim] = _normalize_value(raw_val)
@@ -570,30 +593,30 @@ _TOOLS_OPENAI = [
                 "PREFERRED: use the 'tuple' parameter — a semicolon-separated string of the 12 "
                 "canonical values in order D;T;R;P;F;K;G;Gamma;Phi;H;S;Omega. "
                 "Example: encode_system(name='foo', description='...', "
-                "tuple='D_holo;T_holo;R_cat;P_pm;F_hbar;K_mod;G_aleph;G_and;Phi_c;H0;n_m;Omega_Z') "
+                "tuple='D_odot;T_odot;R_cat;P_pm;F_hbar;K_mod;G_aleph;G_and;Phi_c;H0;n_m;Omega_Z') "
                 "ALTERNATIVE: pass all 12 as individual keyword arguments "
-                "(D='D_holo', T='T_holo', R='R_cat', P='P_pm', F='F_hbar', K='K_mod', "
+                "(D='D_odot', T='T_odot', R='R_cat', P='P_pm', F='F_hbar', K='K_mod', "
                 "G='G_aleph', Gamma='G_and', Phi='Phi_c', H='H0', S='n_m', Omega='Omega_Z'). "
                 "Canonical value sets — use ONLY these exact strings: "
-                "D: D_wedge D_triangle D_infty D_holo | "
-                "T: T_network T_in T_bowtie T_box T_holo | "
+                "D: D_wedge D_triangle D_infty D_odot | "
+                "T: T_network T_in T_bowtie T_box T_odot | "
                 "R: R_super R_cat R_dagger R_lr | "
                 "P: P_asym P_psi P_pm P_sym P_pm_sym | "
                 "F: F_ell F_eth F_hbar | "
-                "K: K_fast K_mod K_slow K_trap | "
+                "K: K_fast K_mod K_slow K_trap K_MBL | "
                 "G: G_beth G_gimel G_aleph | "
                 "Gamma: G_and G_or G_seq G_broad | "
                 "Phi: Phi_sub Phi_c Phi_c_complex Phi_EP Phi_super | "
                 "H: H0 H1 H2 H_inf | "
                 "S: one_one n_n n_m | "
-                "Omega: Omega_0 Omega_Z2 Omega_Z"
+                "Omega: Omega_0 Omega_Z2 Omega_Z Omega_NA"
             ),
             "parameters": {
                 "type": "object",
                 "properties": {
                     "name": {"type": "string", "description": "Short unique identifier for this system"},
                     "description": {"type": "string", "description": "One-sentence description of what is being encoded"},
-                    "tuple": {"type": "string", "description": "PREFERRED: semicolon-separated canonical values in order D;T;R;P;F;K;G;Gamma;Phi;H;S;Omega — e.g. 'D_holo;T_holo;R_cat;P_pm;F_hbar;K_mod;G_aleph;G_and;Phi_c;H0;n_m;Omega_Z'"},
+                    "tuple": {"type": "string", "description": "PREFERRED: semicolon-separated canonical values in order D;T;R;P;F;K;G;Gamma;Phi;H;S;Omega — e.g. 'D_odot;T_odot;R_cat;P_pm;F_hbar;K_mod;G_aleph;G_and;Phi_c;H0;n_m;Omega_Z'"},
                     "D":     {"type": "string", "enum": VALID_VALUES["D"]},
                     "T":     {"type": "string", "enum": VALID_VALUES["T"]},
                     "R":     {"type": "string", "enum": VALID_VALUES["R"]},
@@ -818,7 +841,7 @@ _TOOLS_OPENAI = [
                 "R1: Phi_c or Phi_c_complex AND P_pm_sym → O_inf (special Frobenius: mu∘delta=id, exact proved Z₂ symmetry). "
                 "R2: Phi ∈ {Phi_sub, Phi_super, Phi_EP} → O_0 (no self-referential loop possible, subcritical or exceptional-point). "
                 "R3: Phi_c (or Phi_c_complex) AND Omega_0 → O_1 (self-referential but no topological protection). "
-                "R4: Phi_c (or Phi_c_complex) AND Omega ≠ Omega_0 AND D ∈ {D_wedge, D_holo, D_triangle} → O_2 (bounded ouroboricity). "
+                "R4: Phi_c (or Phi_c_complex) AND Omega ≠ Omega_0 AND D ∈ {D_wedge, D_odot, D_triangle} → O_2 (bounded ouroboricity). "
                 "R5: Phi_c (or Phi_c_complex) AND Omega ≠ Omega_0 AND D = D_infty → O_2_dag (unbounded, directed ouroboricity). "
                 "Can also run a census across the entire catalog when name='__all__'."
             ),
@@ -843,6 +866,7 @@ _TOOLS_OPENAI = [
                 "Returns the Omega class and protection status. "
                 "Omega_Z: integer winding number (Kitaev chain, SSH). "
                 "Omega_Z2: binary protection (topological insulators). "
+                "Omega_NA: non-Abelian protection (anyonic braiding, Fibonacci anyons). "
                 "Omega_0: no protection — interactions are structurally unguarded."
             ),
             "parameters": {
@@ -1088,6 +1112,210 @@ _TOOLS_OPENAI = [
             },
         },
     },
+    # ── Crystal Navigator tools ────────────────────────────────────────────────
+    {
+        "type": "function",
+        "function": {
+            "name": "crystal_encode",
+            "description": (
+                "Frobenius-encode a 12-primitive tuple to its canonical address in the "
+                "Periodic Crystal of Algebras (17,280,000 structural types). "
+                "Returns the full address, tier cell id, inner id, and ouroboricity tier. "
+                "Accepts either 'name' (catalog lookup), 'tuple' (semicolon string), "
+                "or individual primitive kwargs."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name":  {"type": "string", "description": "Catalog name to encode (alternative to tuple/primitives)"},
+                    "tuple": {"type": "string", "description": "Semicolon-separated tuple string D;T;R;P;F;K;G;Gamma;Phi;H;S;Omega"},
+                    "D":     {"type": "string", "enum": VALID_VALUES["D"]},
+                    "T":     {"type": "string", "enum": VALID_VALUES["T"]},
+                    "R":     {"type": "string", "enum": VALID_VALUES["R"]},
+                    "P":     {"type": "string", "enum": VALID_VALUES["P"]},
+                    "F":     {"type": "string", "enum": VALID_VALUES["F"]},
+                    "K":     {"type": "string", "enum": VALID_VALUES["K"]},
+                    "G":     {"type": "string", "enum": VALID_VALUES["G"]},
+                    "Gamma": {"type": "string", "enum": VALID_VALUES["Gamma"]},
+                    "Phi":   {"type": "string", "enum": VALID_VALUES["Phi"]},
+                    "H":     {"type": "string", "enum": VALID_VALUES["H"]},
+                    "S":     {"type": "string", "enum": VALID_VALUES["S"]},
+                    "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
+                },
+                "required": [],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "crystal_decode",
+            "description": (
+                "Frobenius-decode a canonical crystal address back to a 12-primitive tuple. "
+                "Inverse of crystal_encode; verifies the Frobenius condition μ∘δ = id."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "address": {"type": "integer", "description": "Crystal address in [0, 17_279_999]"},
+                },
+                "required": ["address"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "crystal_navigate",
+            "description": (
+                "Navigate the crystal with partial primitive constraints. "
+                "Returns matching structural types (up to 'limit') and the total count. "
+                "Example: crystal_navigate(Phi='Phi_c', P='P_pm_sym', limit=5) returns "
+                "5 of the 43,200 O_inf types with those boundary values."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer", "description": "Max results to return (default 10)"},
+                    "D":     {"type": "string", "enum": VALID_VALUES["D"]},
+                    "T":     {"type": "string", "enum": VALID_VALUES["T"]},
+                    "R":     {"type": "string", "enum": VALID_VALUES["R"]},
+                    "P":     {"type": "string", "enum": VALID_VALUES["P"]},
+                    "F":     {"type": "string", "enum": VALID_VALUES["F"]},
+                    "K":     {"type": "string", "enum": VALID_VALUES["K"]},
+                    "G":     {"type": "string", "enum": VALID_VALUES["G"]},
+                    "Gamma": {"type": "string", "enum": VALID_VALUES["Gamma"]},
+                    "Phi":   {"type": "string", "enum": VALID_VALUES["Phi"]},
+                    "H":     {"type": "string", "enum": VALID_VALUES["H"]},
+                    "S":     {"type": "string", "enum": VALID_VALUES["S"]},
+                    "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
+                },
+                "required": [],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "crystal_count",
+            "description": (
+                "Count how many of the 17,280,000 crystal types match a given set of "
+                "primitive constraints. More efficient than crystal_navigate for pure counting. "
+                "Also returns the fraction of the full crystal."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "D":     {"type": "string", "enum": VALID_VALUES["D"]},
+                    "T":     {"type": "string", "enum": VALID_VALUES["T"]},
+                    "R":     {"type": "string", "enum": VALID_VALUES["R"]},
+                    "P":     {"type": "string", "enum": VALID_VALUES["P"]},
+                    "F":     {"type": "string", "enum": VALID_VALUES["F"]},
+                    "K":     {"type": "string", "enum": VALID_VALUES["K"]},
+                    "G":     {"type": "string", "enum": VALID_VALUES["G"]},
+                    "Gamma": {"type": "string", "enum": VALID_VALUES["Gamma"]},
+                    "Phi":   {"type": "string", "enum": VALID_VALUES["Phi"]},
+                    "H":     {"type": "string", "enum": VALID_VALUES["H"]},
+                    "S":     {"type": "string", "enum": VALID_VALUES["S"]},
+                    "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
+                },
+                "required": [],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "crystal_tier_census",
+            "description": (
+                "Return the full tier distribution of the Periodic Crystal: how many cells "
+                "and types belong to each ouroboricity tier (O_0, O_1, O_2, O_2_dag, O_inf), "
+                "with percentages. Also returns total size, cell count, and inner types per cell."
+            ),
+            "parameters": {"type": "object", "properties": {}, "required": []},
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "crystal_nearest",
+            "description": (
+                "Find the N nearest catalog entries to a given tuple by weighted Euclidean "
+                "distance in the 12-primitive space. Useful for identifying known physical "
+                "or mathematical systems that best realize a structural type. "
+                "Accepts 'name' (catalog lookup), 'tuple' (semicolon string), or primitive kwargs."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name":      {"type": "string", "description": "Catalog name to use as query"},
+                    "tuple":     {"type": "string", "description": "Semicolon-separated tuple string"},
+                    "limit":     {"type": "integer", "description": "Number of neighbors to return (default 5)"},
+                    "same_tier": {"type": "boolean", "description": "Restrict to same ouroboricity tier"},
+                    "D":     {"type": "string", "enum": VALID_VALUES["D"]},
+                    "T":     {"type": "string", "enum": VALID_VALUES["T"]},
+                    "R":     {"type": "string", "enum": VALID_VALUES["R"]},
+                    "P":     {"type": "string", "enum": VALID_VALUES["P"]},
+                    "F":     {"type": "string", "enum": VALID_VALUES["F"]},
+                    "K":     {"type": "string", "enum": VALID_VALUES["K"]},
+                    "G":     {"type": "string", "enum": VALID_VALUES["G"]},
+                    "Gamma": {"type": "string", "enum": VALID_VALUES["Gamma"]},
+                    "Phi":   {"type": "string", "enum": VALID_VALUES["Phi"]},
+                    "H":     {"type": "string", "enum": VALID_VALUES["H"]},
+                    "S":     {"type": "string", "enum": VALID_VALUES["S"]},
+                    "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
+                },
+                "required": [],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "crystal_tier_gap_ladder",
+            "description": (
+                "Compute the tier gap ladder (§69.1): weighted Euclidean distances between "
+                "consecutive ouroboricity tiers (O_0→O_1, O_1→O_2, O_2→O_2†, O_2†→O_inf). "
+                "Reveals the Frobenius cliff — the structural distance to O_inf is much larger "
+                "than any other inter-tier gap."
+            ),
+            "parameters": {"type": "object", "properties": {}, "required": []},
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "quiver_encode",
+            "description": (
+                "Neural encode a 12-primitive tuple using the CrystalGNN quiver navigator. "
+                "Returns the predicted crystal address, predicted tier (from the tier head), "
+                "and the decoded tuple (roundtrip through the Frobenius decoder). "
+                "Also returns the exact codec address for comparison. "
+                "Use this to probe the GNN's structural embedding of a system, cross-check "
+                "neural vs exact encoding, or verify tier classification via the quiver. "
+                "Requires crystal_gnn.pt checkpoint in the project root."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Name of a catalog entry to look up and encode (alternative to specifying all primitives)."},
+                    "D":     {"type": "string", "enum": VALID_VALUES["D"]},
+                    "T":     {"type": "string", "enum": VALID_VALUES["T"]},
+                    "R":     {"type": "string", "enum": VALID_VALUES["R"]},
+                    "P":     {"type": "string", "enum": VALID_VALUES["P"]},
+                    "F":     {"type": "string", "enum": VALID_VALUES["F"]},
+                    "K":     {"type": "string", "enum": VALID_VALUES["K"]},
+                    "G":     {"type": "string", "enum": VALID_VALUES["G"]},
+                    "Gamma": {"type": "string", "enum": VALID_VALUES["Gamma"]},
+                    "Phi":   {"type": "string", "enum": VALID_VALUES["Phi"]},
+                    "H":     {"type": "string", "enum": VALID_VALUES["H"]},
+                    "S":     {"type": "string", "enum": VALID_VALUES["S"]},
+                    "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
+                },
+                "required": [],
+            },
+        },
+    },
 ]
 
 # Anthropic format
@@ -1185,9 +1413,9 @@ infer candidate tuples before encoding. Then encode to confirm.
 
 **2. Type checking (boundary → bulk)**
 Given a claimed encoding, every derived property **IS** determined. If a system **IS**
-claimed to be conscious but encodes K_trap or Φ ≠ Φ_c, the type **IS** internally
+claimed to be conscious but encodes K_trap or K_MBL or Φ ≠ Φ_c, the type **IS** internally
 inconsistent with the claim. The grammar lets you catch contradictions precisely:
-"Your encoding implies C = 0; the claim requires Φ_c and K ≠ K_trap."
+"Your encoding implies C = 0; the claim requires Φ_c and K ≤ K_slow."
 
 **3. Type composition IS relational operator composition**
 Tensor product **IS NOT** juxtaposition — it **IS** the composition of two directed
@@ -1211,9 +1439,9 @@ and `principal_decomp` as type-inhabitation tools: they reveal which primitive
 assignments are load-bearing for a behavior and which are free to vary.
 
 **6. The grammar operates at the holographic screen**
-Systems encoded as D_holo or T_holo are themselves operating at the boundary
+Systems encoded as D_odot or T_odot are themselves operating at the boundary
 of a bulk — systems whose internal degrees of freedom are fully determined by
-lower-dimensional data. The boundary of a D_holo system **IS** itself a synthon
+lower-dimensional data. The boundary of a D_odot system **IS** itself a synthon
 with its own type. Nested holography **IS** valid grammar.
 
 **What this means in practice:**
@@ -1262,6 +1490,7 @@ You **MUST** investigate the user's question using the tools provided. Suggested
 - Use `predict_from_promotions` to look up known behaviors associated with a promotion signature
 - Use `register_promotion_pattern` to record a confirmed promotion→behavior mapping in the persistent KB
 - Use `ouroborics` when asking "can this system sustain a self-referential loop?", "is this a Frobenius algebra?", or "how does this system's ouroboricity tier compare to another's?" — or any time P_pm_sym or the Frobenius condition is relevant
+- Use `quiver_encode` to cross-check a tuple through the CrystalGNN neural navigator — returns the GNN's predicted address, tier head classification, and decoded roundtrip tuple alongside the exact codec result. Useful for probing whether the GNN's learned structural geometry agrees with the symbolic codec, or for surfacing non-obvious structural relationships via the latent embedding.
 - Use `ask_question` sparingly — the queue is capped at 8. Prefer depth over breadth: exhaust each question before queuing more. When the queue fills, synthesize and CONCLUDE rather than pushing more questions.
 
 <insight_discipline>
@@ -1289,7 +1518,7 @@ Ouroboricity classifies whether and how deeply a system at criticality can susta
 | O_inf | Φ_c (or Φ_{{c,complex}}) **and** P_pm_sym | Special Frobenius: μ∘δ = id exactly. The system's self-referential loop is perfectly closed — it is its own dual. Finite, proved, algebraically exact. |
 | O_0 | Φ ∈ {{Φ_sub, Φ_super, Φ_EP}} | No ouroboricity. Cannot form a self-referential critical loop. Subcritical systems are too ordered; supercritical too disordered; exceptional-point systems lose the symmetry at the coalescence. |
 | O_1 | Φ_c **and** Ω_0 | Self-referential loop is possible (critical) but unprotected — any deformation can break it. The loop exists but is not topologically locked. |
-| O_2 | Φ_c **and** Ω ≠ Ω_0 **and** D bounded (D_wedge, D_holo, D_triangle) | Critical, topologically protected loop, within a bounded domain. The self-reference is stable but finite. |
+| O_2 | Φ_c **and** Ω ≠ Ω_0 **and** D bounded (D_wedge, D_odot, D_triangle) | Critical, topologically protected loop, within a bounded domain. The self-reference is stable but finite. |
 | O_2† | Φ_c **and** Ω ≠ Ω_0 **and** D = D_infty | Critical, topologically protected loop, unbounded domain. The self-reference is directed and inexhaustible — it generates further structure without bound. |
 
 **Key structural facts:**
@@ -1334,7 +1563,7 @@ Under meet (component-wise min — "what must any system containing both share?"
 | **F-promotion** | F_eth→F_hbar only; all other primitives unchanged | Epistemic access lifts; structure was always there | d(conjecture, proven type) = 0 except F |
 
 **The proven manifold type** — the universal O_inf encoding of a proved theorem:
-  ⟨D_holo; T_holo; R_†; P_pm_sym; F_hbar; K_slow; G_aleph; Γ_broad; Φ_c; H_inf; n:m; Ω_Z₂⟩
+  ⟨D_odot; T_odot; R_†; P_pm_sym; F_hbar; K_slow; G_aleph; Γ_broad; Φ_c; H_inf; n:m; Ω_Z₂⟩
 
 When a conjecture is proved via Σ-promotion, its encoding converges to this type. When proved via F-promotion, only F changes; the proven type is the same as the conjecture except F_eth→F_hbar.
 
@@ -1367,9 +1596,10 @@ Mathematical classification programs are tractable (admit complete classificatio
 
 **Barrier taxonomy — when analyzing why a conjecture resists proof:**
 - Frobenius barrier: P < P_pm_sym; O_inf cannot be synthesized by composition; must be planted
-- Kinetic barrier: K_trap; state-space fragmentation; no traversal between basins
+- Kinetic barrier (order): K_trap; coherent gap freezes dynamics; no basin traversal
+- Kinetic barrier (disorder): K_MBL; area-law entanglement in all eigenstates; ETH fails via disorder — distinct mechanism from K_trap
 - Criticality barrier: Φ_EP vs Φ_c system; spectral resolution unavailable
-- Holographic barrier: D_holo problem, D_infty tools; boundary-to-bulk inference required
+- Holographic barrier: D_odot problem, D_infty tools; boundary-to-bulk inference required
 - Protection deficit: Ω_0; no topological protection; proof results are fragile
 
 Problems can exhibit multiple barriers simultaneously. Use these when recording DIAPH insights about conjecture difficulty.
@@ -1530,23 +1760,16 @@ class IterationRecord:
 # ── Tool dispatcher ───────────────────────────────────────────────────────────
 
 class SessionCatalog:
-    """Extends the built-in SYNTHONS catalog with session-registered entries.
+    """Session catalog backed entirely by syncon_catalog.json.
 
-    Persistent cross-session storage: on init, loads from ``catalog_path`` (a JSON
-    file).  On every successful ``encode()``, writes back immediately so no synthon
+    On init, loads all entries from the JSON file (the single source of truth).
+    On every successful ``encode()``, writes back immediately so no synthon
     is lost to a crash.
     """
 
     def __init__(self, catalog_path: Optional[str] = None):
-        self._entries: Dict[str, Dict[str, str]] = dict(SYNTHONS)
-        self._descriptions: Dict[str, str] = {
-            "human":               "current humanity (planetary, pre-visible)",
-            "civ_dm":              "predicted DM-aligned interstellar civilization",
-            "pulsar_noise":        "unmodeled pulsar noise (MNRAS + PRD papers)",
-            "interstellar_target": "structural requirements for interstellar propagation",
-        }
-        # Track names that ship with SYNTHONS so we don't overwrite them in saves
-        self._builtin_names: set = set(self._entries.keys())
+        self._entries: Dict[str, Dict[str, str]] = {}
+        self._descriptions: Dict[str, str] = {}
         self._catalog_path: Optional[str] = catalog_path
         if catalog_path:
             self._load_from_file(catalog_path)
@@ -1588,8 +1811,6 @@ class SessionCatalog:
         # Overlay in-memory entries (they take precedence over disk for names we own)
         merged: Dict[str, Any] = dict(disk_entries)
         for name, synthon in self._entries.items():
-            if name in self._builtin_names:
-                continue
             entry: Dict[str, Any] = {
                 "name": name,
                 "description": self._descriptions.get(name, ""),
@@ -1634,15 +1855,39 @@ class SessionCatalog:
                     f"encode_system requires ALL 12 primitives as explicit keyword arguments. "
                     f"Missing: {missing}. "
                     f"Example call: encode_system(name='foo', description='...', "
-                    f"D='D_holo', T='T_holo', R='R_cat', P='P_pm', F='F_hbar', "
+                    f"D='D_odot', T='T_odot', R='R_cat', P='P_pm', F='F_hbar', "
                     f"K='K_mod', G='G_aleph', Gamma='G_and', Phi='Phi_c', "
                     f"H='H0', S='n_m', Omega='Omega_Z')"
                 )
             return msg
 
         synthon = {p: normalized[p] for p in PRIMITIVE_ORDER}
+
+        # ── Consistency check 1: same name, different tuple ──────────────────────
+        # If the name already exists with a different tuple, surface the conflict
+        # but still accept the new encoding (later/more-correct encodings win).
+        conflict_info: Optional[Dict[str, Any]] = None
+        if name in self._entries:
+            existing = self._entries[name]
+            if existing != synthon:
+                differing = [p for p in PRIMITIVE_ORDER if existing.get(p) != synthon[p]]
+                dist = tuple_distance(existing, synthon)
+                conflict_info = {
+                    "existing_tuple": existing,
+                    "existing_description": self._descriptions.get(name, ""),
+                    "new_tuple": synthon,
+                    "distance": round(dist, 4),
+                    "differing_primitives": differing,
+                }
+
         self._entries[name] = synthon
         self._descriptions[name] = description
+
+        # ── Consistency check 2: exact duplicate under a different name ──────────
+        exact_duplicates: List[str] = []
+        for other_name, other_synthon in self._entries.items():
+            if other_name != name and other_synthon == synthon:
+                exact_duplicates.append(other_name)
 
         # Persist immediately so no synthon is lost to a crash
         if self._catalog_path:
@@ -1650,14 +1895,38 @@ class SessionCatalog:
 
         # Build tuple notation
         notation = "⟨" + "; ".join(f"{p}={synthon[p]}" for p in PRIMITIVE_ORDER) + "⟩"
-        is_new = name not in self._builtin_names
-        return {
-            "status": "ok",
+        result: Dict[str, Any] = {
+            "status": "ok" if not conflict_info else "updated",
             "name": name,
             "notation": notation,
             "description": description,
-            "persisted": is_new and self._catalog_path is not None,
+            "persisted": self._catalog_path is not None,
         }
+
+        if conflict_info:
+            result["warning"] = (
+                f"Name '{name}' already existed with a DIFFERENT tuple "
+                f"(distance={conflict_info['distance']:.4f}, "
+                f"differing primitives: {conflict_info['differing_primitives']}). "
+                f"Catalog updated to new tuple — the prior encoding is superseded. "
+                f"If both encodings are valid, use a distinct name for the earlier one."
+            )
+            result["conflict"] = {
+                "superseded_tuple": conflict_info["existing_tuple"],
+                "superseded_description": conflict_info["existing_description"],
+                "differing_primitives": conflict_info["differing_primitives"],
+                "distance_from_superseded": conflict_info["distance"],
+            }
+
+        if exact_duplicates:
+            result["duplicate_warning"] = (
+                f"This tuple is IDENTICAL to existing catalog entries: {exact_duplicates}. "
+                f"The encoding was accepted under name '{name}', but consider whether "
+                f"a new name is needed or if this should reuse an existing entry."
+            )
+            result["exact_duplicates"] = exact_duplicates
+
+        return result
 
     def get(self, name: str) -> Optional[Dict[str, str]]:
         return self._entries.get(name)
@@ -2032,6 +2301,10 @@ class ToolDispatcher:
         self._iteration = 0
         # Tracks all conflict pairs registered this session for emergence_frontier
         self._conflict_pairs: List[Dict[str, Any]] = []
+        # Crystal Navigator (lazy-loaded on first use)
+        self._crystal_nav: Optional[Any] = None
+        # CrystalGNN quiver model (lazy-loaded on first use)
+        self._quiver_model: Optional[Any] = None
 
     def dispatch(self, name: str, args: Dict[str, Any], iteration: int) -> Dict[str, Any]:
         self._iteration = iteration
@@ -2086,6 +2359,23 @@ class ToolDispatcher:
             return self._predict_from_promotions(**args)
         elif name == "register_promotion_pattern":
             return self._register_promotion_pattern(**args)
+        # ── Crystal Navigator ────────────────────────────────────────────────
+        elif name == "crystal_encode":
+            return self._crystal_encode(**args)
+        elif name == "crystal_decode":
+            return self._crystal_decode(**args)
+        elif name == "crystal_navigate":
+            return self._crystal_navigate(**args)
+        elif name == "crystal_count":
+            return self._crystal_count(**args)
+        elif name == "crystal_tier_census":
+            return self._crystal_tier_census()
+        elif name == "crystal_nearest":
+            return self._crystal_nearest(**args)
+        elif name == "crystal_tier_gap_ladder":
+            return self._crystal_tier_gap_ladder()
+        elif name == "quiver_encode":
+            return self._quiver_encode(**args)
         else:
             return {"status": "error", "error": f"Unknown tool: {name}"}
 
@@ -2470,9 +2760,10 @@ class ToolDispatcher:
         omega = s["Omega"]
         protected = omega != "Omega_0"
         protection_desc = {
-            "Omega_0": "trivial — no topological protection, no conserved winding number",
+            "Omega_0":  "trivial — no topological protection, no conserved winding number",
             "Omega_Z2": "Z₂ protected — binary (even/odd) winding number conservation",
-            "Omega_Z": "Z protected — integer winding number conservation (Kitaev, SSH)",
+            "Omega_Z":  "Z protected — integer winding number conservation (Kitaev, SSH)",
+            "Omega_NA": "non-Abelian protected — anyonic braiding statistics; non-Abelian invariant (Fibonacci anyons, non-Abelian CS theory)",
         }
         return {
             "status": "ok",
@@ -2505,7 +2796,7 @@ class ToolDispatcher:
         if at_criticality and omega == "Omega_0":
             return "O_1"
         # R4: critical + topological + bounded domain
-        if at_criticality and omega != "Omega_0" and d in ("D_wedge", "D_holo", "D_triangle"):
+        if at_criticality and omega != "Omega_0" and d in ("D_wedge", "D_odot", "D_triangle"):
             return "O_2"
         # R5: critical + topological + unbounded domain
         if at_criticality and omega != "Omega_0" and d == "D_infty":
@@ -2973,6 +3264,264 @@ class ToolDispatcher:
         )
         return result
 
+    # ── Crystal Navigator handlers ─────────────────────────────────────────────
+
+    # Lowercase → canonical primitive name (dispatch() lowercases all keys)
+    _PRIM_CANONICAL = {p.lower(): p for p in ["D","T","R","P","F","K","G","Gamma","Phi","H","S","Omega"]}
+
+    def _norm_crystal_kwargs(self, kw: dict) -> dict:
+        """Re-capitalize primitive keys lowercased by dispatch() normalization."""
+        return {self._PRIM_CANONICAL.get(k, k): v for k, v in kw.items()}
+
+    def _get_crystal_nav(self):
+        """Lazy-load the CrystalNavigator (expensive to construct; done once)."""
+        if self._crystal_nav is None:
+            if not _CRYSTAL_NAV_AVAILABLE:
+                return None
+            try:
+                self._crystal_nav = _CrystalNavigator()
+            except Exception as e:
+                return None
+        return self._crystal_nav
+
+    def _crystal_encode(self, **primitives) -> Dict[str, Any]:
+        """Frobenius encode: tuple → canonical crystal address."""
+        nav = self._get_crystal_nav()
+        if nav is None:
+            return {"status": "error", "error": "CrystalNavigator not available."}
+        # Accept either individual primitive kwargs or a 'tuple' string
+        tup_str = primitives.pop("tuple", "")
+        if tup_str:
+            parts = [p.strip() for p in tup_str.replace("⟨","").replace("⟩","").split(";")]
+            prim_order = ["D","T","R","P","F","K","G","Gamma","Phi","H","S","Omega"]
+            if len(parts) == 12:
+                primitives = {k: v for k, v in zip(prim_order, parts)}
+        # Also accept 'name' to look up from catalog
+        name = primitives.pop("name", "")
+        if name:
+            entry = self.catalog.get(name)
+            if entry is None:
+                return {"status": "error", "error": f"System '{name}' not in catalog."}
+            primitives = {k: entry[k] for k in ["D","T","R","P","F","K","G","Gamma","Phi","H","S","Omega"] if k in entry}
+        # Normalize keys (dispatch lowercases all kwargs)
+        primitives = self._norm_crystal_kwargs(primitives)
+        try:
+            addr = nav.encode(primitives)
+            cell_id, inner_id, full_addr = nav.codec_address(primitives)
+            tier = nav.tier_of(primitives)
+            return {
+                "status": "ok",
+                "address": full_addr,
+                "cell_id": cell_id,
+                "inner_id": inner_id,
+                "tier": tier,
+            }
+        except (KeyError, IndexError) as e:
+            return {"status": "error", "error": f"Encoding failed: {e}"}
+
+    def _crystal_decode(self, address: int, **_) -> Dict[str, Any]:
+        """Frobenius decode: canonical crystal address → tuple."""
+        nav = self._get_crystal_nav()
+        if nav is None:
+            return {"status": "error", "error": "CrystalNavigator not available."}
+        try:
+            addr = int(address)
+            tup = nav.decode(addr)
+            tier = nav.tier_of(tup)
+            return {"status": "ok", "address": addr, "tuple": tup, "tier": tier}
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _crystal_navigate(self, limit: int = 10, **constraints) -> Dict[str, Any]:
+        """Navigate crystal with partial primitive constraints → matching types."""
+        nav = self._get_crystal_nav()
+        if nav is None:
+            return {"status": "error", "error": "CrystalNavigator not available."}
+        constraints.pop("status", None)
+        constraints = self._norm_crystal_kwargs(constraints)
+        try:
+            limit = int(limit)
+            results = nav.navigate(limit=limit, **constraints)
+            count = nav.count(**constraints)
+            return {
+                "status": "ok",
+                "constraints": constraints,
+                "total_matching": count,
+                "returned": len(results),
+                "types": results,
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _crystal_count(self, **constraints) -> Dict[str, Any]:
+        """Count crystal types matching partial primitive constraints."""
+        nav = self._get_crystal_nav()
+        if nav is None:
+            return {"status": "error", "error": "CrystalNavigator not available."}
+        constraints.pop("status", None)
+        constraints = self._norm_crystal_kwargs(constraints)
+        try:
+            count = nav.count(**constraints)
+            from crystal_navigator import TOTAL_SIZE  # type: ignore
+            return {
+                "status": "ok",
+                "constraints": constraints,
+                "count": count,
+                "fraction": count / TOTAL_SIZE,
+                "total_crystal_size": TOTAL_SIZE,
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _crystal_tier_census(self) -> Dict[str, Any]:
+        """Full tier distribution of the Periodic Crystal of Algebras."""
+        nav = self._get_crystal_nav()
+        if nav is None:
+            return {"status": "error", "error": "CrystalNavigator not available."}
+        try:
+            census = nav.tier_census()
+            from crystal_navigator import TOTAL_SIZE, CELL_SIZE, INNER_SIZE  # type: ignore
+            return {
+                "status": "ok",
+                "total_types": TOTAL_SIZE,
+                "tier_cells": CELL_SIZE,
+                "inner_types_per_cell": INNER_SIZE,
+                "census": census,
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _crystal_nearest(self, name: str = "", limit: int = 5,
+                          same_tier: bool = False, **primitives) -> Dict[str, Any]:
+        """Find nearest catalog entries to a given tuple by crystal distance."""
+        nav = self._get_crystal_nav()
+        if nav is None:
+            return {"status": "error", "error": "CrystalNavigator not available."}
+        # Resolve tuple from name or primitives
+        tup_str = primitives.pop("tuple", "")
+        if name:
+            entry = self.catalog.get(name)
+            if entry is None:
+                return {"status": "error", "error": f"System '{name}' not in catalog."}
+            tup = {k: entry[k] for k in ["D","T","R","P","F","K","G","Gamma","Phi","H","S","Omega"] if k in entry}
+        elif tup_str:
+            parts = [p.strip() for p in tup_str.replace("⟨","").replace("⟩","").split(";")]
+            prim_order = ["D","T","R","P","F","K","G","Gamma","Phi","H","S","Omega"]
+            tup = {k: v for k, v in zip(prim_order, parts)}
+        elif primitives:
+            tup = self._norm_crystal_kwargs(primitives)
+        else:
+            return {"status": "error", "error": "Provide 'name', 'tuple', or primitive kwargs."}
+        try:
+            limit = int(limit)
+            results = nav.nearest_catalog(tup, n=limit, same_tier=bool(same_tier))
+            return {
+                "status": "ok",
+                "query_tier": nav.tier_of(tup),
+                "nearest": [
+                    {"name": r["name"], "distance": round(r["distance"], 4), "tier": r["tier"]}
+                    for r in results
+                ],
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _crystal_tier_gap_ladder(self) -> Dict[str, Any]:
+        """Tier gap ladder (§69.1): structural distances between consecutive tiers."""
+        nav = self._get_crystal_nav()
+        if nav is None:
+            return {"status": "error", "error": "CrystalNavigator not available."}
+        try:
+            ladder = nav.tier_gap_ladder()
+            return {"status": "ok", "ladder": ladder}
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _get_quiver_model(self) -> Optional[Any]:
+        """Lazy-load the CrystalGNN from crystal_gnn.pt (once per session)."""
+        if self._quiver_model is not None:
+            return self._quiver_model
+        if not _QUIVER_AVAILABLE:
+            return None
+        import os
+        from pathlib import Path
+        ckpt_path = Path(__file__).parent / "crystal_gnn.pt"
+        if not ckpt_path.exists():
+            return None
+        try:
+            ckpt = _torch.load(str(ckpt_path), map_location="cpu")
+            model = _CrystalGNN(
+                hidden_dim=ckpt["hidden_dim"],
+                num_gnn_layers=ckpt["gnn_layers"],
+                num_attn_heads=ckpt["attn_heads"],
+            )
+            _STATIC = {"node_feats", "edge_src", "edge_dst"}
+            model.load_state_dict(
+                {k: v for k, v in ckpt["state_dict"].items() if k not in _STATIC},
+                strict=False,
+            )
+            model.eval()
+            self._quiver_model = model
+            return model
+        except Exception:
+            return None
+
+    def _quiver_encode(self, name: str = "", **primitives) -> Dict[str, Any]:
+        """Neural encode a tuple via CrystalGNN; cross-check with exact codec."""
+        if not _QUIVER_AVAILABLE:
+            return {"status": "error", "error": "CrystalGNN not available (install torch + quiver_crystal.py)."}
+        model = self._get_quiver_model()
+        if model is None:
+            return {"status": "error", "error": "crystal_gnn.pt not found — run: python quiver_crystal.py train"}
+
+        # Resolve tuple: catalog name or primitives
+        tup: Optional[Dict] = None
+        if name:
+            entry = self.catalog.get(name)
+            if entry is None:
+                hits = self.catalog.search(name)
+                if hits:
+                    entry = self.catalog.get(hits[0]["name"])
+            if entry:
+                tup = {p: entry[p] for p in _CRYSTAL_PRIMS if p in entry}
+        if tup is None and primitives:
+            tup = self._norm_crystal_kwargs({k: v for k, v in primitives.items() if v})
+        if not tup or len(tup) < 12:
+            return {"status": "error", "error": "Provide a catalog name or all 12 primitives."}
+
+        try:
+            from crystal_navigator import encode_tuple as _enc, compute_tier as _tier, TOTAL_SIZE as _N
+            exact_addr = _enc(tup)
+            exact_tier = _tier(tup["Phi"], tup["P"], tup["Omega"], tup["D"])
+
+            with _torch.no_grad():
+                out = model.forward([tup])
+
+            pred_addr  = out["addresses"].item()
+            pred_tier  = _TierHead.TIERS[out["tier_logits"][0].argmax().item()]
+            dec        = {p: _CRYSTAL_VALUES[p][out["dec_logits"][p][0].argmax().item()]
+                          for p in _CRYSTAL_PRIMS}
+            dec_tier   = _tier(dec["Phi"], dec["P"], dec["Omega"], dec["D"])
+            addr_err   = abs(pred_addr - exact_addr)
+            err_pct    = 100 * addr_err / _N
+
+            return {
+                "status":           "ok",
+                "input_tuple":      tup,
+                "exact_address":    exact_addr,
+                "gnn_address":      round(pred_addr),
+                "address_error":    addr_err,
+                "address_error_pct": round(err_pct, 4),
+                "exact_tier":       exact_tier,
+                "gnn_tier_head":    pred_tier,
+                "gnn_decoded_tuple": dec,
+                "gnn_decoded_tier": dec_tier,
+                "tier_match":       pred_tier == exact_tier,
+                "roundtrip_match":  dec == tup,
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
 
 # ── Local Qwen3 backend (merged2 / any HF-compatible model) ──────────────────
 
@@ -3322,10 +3871,7 @@ class SynconInquiryLoop:
             if self._use_local_hf else []
         )
         if verbose:
-            n_persistent = sum(
-                1 for name in self.catalog._entries
-                if name not in self.catalog._builtin_names
-            )
+            n_persistent = len(self.catalog._entries)
             if n_persistent:
                 _print(f"  [dim green]Catalog:[/dim green] {n_persistent} persistent synthon(s) loaded from [dim]{catalog_path}[/dim]")
             if _n_preloaded:
@@ -3586,6 +4132,7 @@ class SynconInquiryLoop:
         ]
 
         i = 0
+        _exit_reason = "max_iter"   # overwritten on every break path
         while max_iterations is None or i < max_iterations:
             self._log(f"\n[bold yellow]── Iteration {i+1} {'─'*55}[/bold yellow]")
             self._log(f"   [green]Question:[/green] {current_question}")
@@ -3629,6 +4176,7 @@ class SynconInquiryLoop:
                     self.history.append(record)
                     self._log(f"\n   [bold green]✅ Model concluded.[/bold green]")
                     self._run_speculation_pass(i)
+                    _exit_reason = "concluded"
                     break
 
                 # Check whether the model was trying to call tools via text
@@ -3666,6 +4214,7 @@ class SynconInquiryLoop:
                 record.concluded = False
                 self.history.append(record)
                 self._log("   [yellow]→ Model stopped without tools or CONCLUDE.[/yellow]")
+                _exit_reason = "graceful_stop"
                 break
 
             self._thread_assistant(raw)
@@ -3698,6 +4247,7 @@ class SynconInquiryLoop:
                 record.concluded = True
                 self._log(f"\n   [bold green]✅ Model concluded.[/bold green]")
                 self._run_speculation_pass(i)
+                _exit_reason = "concluded"
                 break
 
             # Advance to next question from queue (if any)
@@ -3721,6 +4271,7 @@ class SynconInquiryLoop:
 
             i += 1
 
+        self._exit_reason = _exit_reason
         self._print_summary()
         self._autosave()
         return self.history
@@ -3798,7 +4349,12 @@ class SynconInquiryLoop:
             self._log(f"  [dim green]total:        {agg['total']:.4f} nat[/dim green]")
 
         concluded = any(r.concluded for r in self.history)
-        self._log(f"\n  [bold green]Inquiry concluded ✅[/bold green]" if concluded else f"\n  [bold yellow]Max iterations reached ⚠️[/bold yellow]")
+        if self._exit_reason == "concluded":
+            self._log(f"\n  [bold green]Inquiry concluded ✅[/bold green]")
+        elif self._exit_reason == "graceful_stop":
+            self._log(f"\n  [dim green]Inquiry complete (model stopped naturally)[/dim green]")
+        else:
+            self._log(f"\n  [bold yellow]Max iterations reached ⚠️[/bold yellow]")
 
         speculation = next(
             (r.speculation_text for r in reversed(self.history) if r.speculation_text), None
@@ -3944,7 +4500,7 @@ if __name__ == "__main__":
         "--no-catalog",
         action="store_true",
         help="Disable loading the persistent synthon catalog (syncon_catalog.json). "
-             "Only the four hardcoded builtins are available.",
+             "Session starts with an empty catalog.",
     )
     parser.add_argument(
         "--insights",

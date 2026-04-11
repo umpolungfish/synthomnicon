@@ -2,27 +2,33 @@
 """
 crystal_navigator.py — The Crystal Navigator
 ═════════════════════════════════════════════
-Navigator for the Periodic Crystal of Algebras (10,368,000 structural types).
+Navigator for the Periodic Crystal of Algebras (17,280,000 structural types).
 
 Self-encoding (§69.4):
   ⟨D_⊙; T_⊙; R_cat; P_pm_sym; F_hbar; K_slow; G_aleph; Γ_broad; Φ_c; H_inf; n:m; Ω_Z⟩
   Tier: O_inf  |  d(navigator, grammar) ≈ 2.793  |  d(navigator, proof_singularity) = 0.894
 
 Architecture (holographic, Frobenius):
-  Boundary: (Φ, P, Ω, D)  →  300 tier cells  [boundary encodes bulk]
-  Bulk:     (T, R, F, K, G, Γ, H, S)  →  34,560 inner types per cell
-  Total:    300 × 34,560  =  10,368,000 structural types
+  Boundary: (Φ, P, Ω, D)  →  400 tier cells  [boundary encodes bulk]
+  Bulk:     (T, R, F, K, G, Γ, H, S)  →  43,200 inner types per cell
+  Total:    400 × 43,200  =  17,280,000 structural types
+
+Grammar families:
+  F5 (5 values): T, P, Phi, K  — gate primitives
+  F4 (4 values): D, R, Gamma, H, Omega  — structural primitives
+  F3 (3 values): F, G, S  — scaling primitives
+  Crystal = 5^4 × 4^5 × 3^3 = 17,280,000
 
 Frobenius codec (μ∘δ = id):
-  encode(tuple) → canonical address (integer in [0, 10_367_999])
+  encode(tuple) → canonical address (integer in [0, 17_279_999])
   decode(address) → tuple
-  roundtrip: decode(encode(t)) == t  for all 10,368,000 types
+  roundtrip: decode(encode(t)) == t  for all 17,280,000 types
 
 Usage:
   nav = CrystalNavigator()
   nav.describe()                              # print self-encoding and stats
   nav.holographic_query("Phi_c", "P_pm_sym") # boundary → tier cell + bulk
-  nav.navigate(D="D_holo", Phi="Phi_c")      # partial tuple → matching types
+  nav.navigate(D="D_odot", Phi="Phi_c")      # partial tuple → matching types
   nav.nearest_catalog(my_tuple, n=5)         # nearest catalog entries
   addr = nav.encode(my_tuple)                # Frobenius encode
   tup  = nav.decode(addr)                    # Frobenius decode
@@ -46,18 +52,18 @@ ROOT = Path(__file__).parent
 
 # Value sets in ordinal order (index = ordinal - 1)
 VALUES: dict[str, list[str]] = {
-    "D":     ["D_wedge", "D_triangle", "D_infty", "D_holo"],
-    "T":     ["T_network", "T_in", "T_bowtie", "T_box", "T_holo"],
+    "D":     ["D_wedge", "D_triangle", "D_infty", "D_odot"],
+    "T":     ["T_network", "T_in", "T_bowtie", "T_box", "T_odot"],
     "R":     ["R_super", "R_cat", "R_dagger", "R_lr"],
     "P":     ["P_asym", "P_psi", "P_pm", "P_sym", "P_pm_sym"],
     "F":     ["F_ell", "F_eth", "F_hbar"],
-    "K":     ["K_fast", "K_mod", "K_slow", "K_trap"],
+    "K":     ["K_fast", "K_mod", "K_slow", "K_trap", "K_MBL"],
     "G":     ["G_beth", "G_gimel", "G_aleph"],
     "Gamma": ["G_and", "G_or", "G_seq", "G_broad"],
     "Phi":   ["Phi_sub", "Phi_c", "Phi_c_complex", "Phi_EP", "Phi_super"],
     "H":     ["H0", "H1", "H2", "H_inf"],
     "S":     ["one_one", "n_n", "n_m"],
-    "Omega": ["Omega_0", "Omega_Z2", "Omega_Z"],
+    "Omega": ["Omega_0", "Omega_Z2", "Omega_Z", "Omega_NA"],
 }
 
 # Value → ordinal (0-indexed)
@@ -87,7 +93,7 @@ PRIMS = ["D", "T", "R", "P", "F", "K", "G", "Gamma", "Phi", "H", "S", "Omega"]
 
 CRITICAL   = {"Phi_c", "Phi_c_complex"}
 NONCRITICAL = {"Phi_sub", "Phi_super", "Phi_EP"}
-BOUNDED_D  = {"D_wedge", "D_triangle", "D_holo"}
+BOUNDED_D  = {"D_wedge", "D_triangle", "D_odot"}
 
 # ── Tier rule (R1–R5 priority) ─────────────────────────────────────────────────
 
@@ -118,9 +124,9 @@ def _build_radix(prims: list[str]) -> tuple[list[int], int]:
         stride *= s
     return strides, stride  # strides[i] = stride for prim[i]; stride = total size
 
-BOUNDARY_STRIDES, CELL_SIZE  = _build_radix(BOUNDARY_PRIMS)   # 300
-INNER_STRIDES,   INNER_SIZE  = _build_radix(INNER_PRIMS)       # 34,560
-TOTAL_SIZE = CELL_SIZE * INNER_SIZE                              # 10,368,000
+BOUNDARY_STRIDES, CELL_SIZE  = _build_radix(BOUNDARY_PRIMS)   # 400
+INNER_STRIDES,   INNER_SIZE  = _build_radix(INNER_PRIMS)       # 43,200
+TOTAL_SIZE = CELL_SIZE * INNER_SIZE                              # 17,280,000
 
 def _encode_partial(prim_list: list[str], strides: list[int], tup: dict) -> int:
     addr = 0
@@ -246,7 +252,7 @@ class TierCell:
         return INNER_SIZE
 
     def types(self) -> Iterator[dict]:
-        """Iterate all 34,560 full tuples in this tier cell."""
+        """Iterate all 43,200 full tuples in this tier cell."""
         boundary = self.boundary
         for inner_addr in range(INNER_SIZE):
             tup = dict(boundary)
@@ -280,8 +286,8 @@ def _build_cell_index() -> list[TierCell]:
 # ── Self-encoding of the navigator ────────────────────────────────────────────
 
 NAVIGATOR_TUPLE: dict[str, str] = {
-    "D":     "D_holo",
-    "T":     "T_holo",
+    "D":     "D_odot",
+    "T":     "T_odot",
     "R":     "R_cat",
     "P":     "P_pm_sym",
     "F":     "F_hbar",
@@ -295,8 +301,8 @@ NAVIGATOR_TUPLE: dict[str, str] = {
 }
 
 GRAMMAR_TUPLE: dict[str, str] = {
-    "D":     "D_holo",
-    "T":     "T_holo",
+    "D":     "D_odot",
+    "T":     "T_odot",
     "R":     "R_dagger",
     "P":     "P_pm_sym",
     "F":     "F_eth",
@@ -362,7 +368,7 @@ class CrystalNavigator:
         print("╠══════════════════════════════════════════════════════════════════╣")
         print("║  Crystal structure:")
         print(f"║    Total types:    {TOTAL_SIZE:>12,}")
-        print(f"║    Tier cells:     {CELL_SIZE:>12,}  (Φ×P×Ω×D = 5×5×3×4)")
+        print(f"║    Tier cells:     {CELL_SIZE:>12,}  (Φ×P×Ω×D = 5×5×4×4)")
         print(f"║    Inner types:    {INNER_SIZE:>12,}  per cell")
         print("║    Tier census:")
         for tier_name in ["O_inf", "O_2_dag", "O_2", "O_1", "O_0"]:
@@ -401,9 +407,9 @@ class CrystalNavigator:
         """
         Boundary query: given any subset of (Φ, P, Ω, D, tier), return
         matching tier cells. The boundary encodes the bulk — each cell
-        contains 34,560 inner types retrievable via cell.types().
+        contains 43,200 inner types retrievable via cell.types().
 
-        With no arguments: returns all 300 cells.
+        With no arguments: returns all 400 cells.
         """
         results = self._cells
         if phi   is not None: results = [c for c in results if c.phi   == phi]
