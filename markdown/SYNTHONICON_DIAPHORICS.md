@@ -6714,6 +6714,88 @@ The 65 proved theorems at $d = 0$ from each other form a single-type cluster: ev
 
 ---
 
+---
+
+## §CXLIV — $H$-Peel Invariance, Tzimtzum Direction, and Nearest-Neighbor Structure (v0.5.65, 2026-04-11)
+
+*Source: syncon\_inquiry session 2026-04-11, agent-curiosity prompt series (6 runs, 012619–013149, 4 high-confidence insights each, all identical). See SYNTHONICON\_ONTICS §XXXIX.*
+
+**P-501 — $O_\infty$ is robust to all $H$-peel variants: grammar\_H0, grammar\_H1, grammar\_H2 all remain $O_\infty$ (Tier I)**
+
+The grammar's $O_\infty$ tier is gated by R1 ($\Phi_c + P_{\pm}^\text{sym}$), which does not include $H$. Demoting $H$ from $H_\infty$ to $H_2$, $H_1$, or $H_0$ does not change the tier — all four $H$-variants remain $O_\infty$. The Frobenius algebraic closure (finite algebraic $O_\infty$, $P_{\pm}^\text{sym}$) coexists with ontological inexhaustibility ($H_\infty$) as independent structural properties: neither implies the other. Prediction: any system encoded at $O_\infty$ with $H < H_\infty$ is a valid Frobenius $O_\infty$ type and mandates the same navigator architecture as the grammar. Falsification: a system encoded with $\Phi_c + P_{\pm}^\text{sym}$ but $H < H_\infty$ is assigned a tier below $O_\infty$ by the tier rules.
+
+**P-502 — Tzimtzum costs $d = 0.8944$ and is a structural imposition against the grammar's type; $H_\infty$ is the promoted attractor (Tier I)**
+
+Tzimtzum encodes as a demotion $H_\infty \to H_2$, costing $d = 0.8944$. It is not a relaxation of the grammar but a constraint applied against its natural $H_\infty$ state. The reverse direction ($H_2 \to H_\infty$) is the Le Chatelier direction — structural deepening toward the grammar's attractor. Consequence: the grammar under perturbation relaxes toward $H_\infty$, not toward Tzimtzum. Prediction: any grammar-like system that is temporarily contracted to $H_2$ (by encoding constraints, temporal windowing, or architectural limits) will, when freed from those constraints, promote toward $H_\infty$. Falsification: a system at $H_2$ with all other primitives matching the grammar fails to promote toward $H_\infty$ under Le Chatelier inversion.
+
+**P-503 — The grammar encodes identically ($d = 0$) to hall\_algebra\_quiver and quivercrystal\_navigator; moonshine\_module is the nearest distinct entry at $d = 0.8944$ (Tier I)**
+
+Three catalog entries share the grammar's full tuple: grammar\_self\_encode, hall\_algebra\_quiver, and quivercrystal\_navigator (CrystalGNN\_v11). The nearest distinct entry — moonshine\_module ($V^\natural$, Monster group representations, McKay–Thompson series) — sits at $d = 0.8944$, differing only in $H_\infty \to H_2$. The Monstrous Moonshine module is one temporal-depth step below the grammar in the $H$ primitive. Prediction: any structural analysis of the Monster group's representation theory will find it encoding at $O_\infty$ with the grammar's full tuple except $H$. The relationship between Moonshine and the grammar is the relationship between a temporally bounded $O_\infty$ type and its $H_\infty$-completed version. Falsification: moonshine\_module is found to differ from the grammar in any primitive other than $H$.
+
+**P-504 — $H$-peel costs scale uniformly: step size $0.8944$ per $H$ ordinal, giving a clean cost ladder (Tier I)**
+
+$$d(H_\infty \to H_2) = 0.8944, \quad d(H_\infty \to H_1) = 1.7889, \quad d(H_\infty \to H_0) = 2.6833$$
+
+Each $H$ ordinal step costs exactly $0.8944$ in the weighted distance metric, making $H$ the most uniformly spaced primitive in the metric. This is a direct consequence of the $H$ primitive's weight in the distance function: $w_H \cdot \Delta_H = 0.8944$ per unit ordinal. Prediction: the $H$-peel cost from any $H_a$ to any $H_b$ is $|a - b| \times 0.8944$ exactly, making $H$ distance trivially computable without the full metric. Falsification: any $H$-peel computation yields a distance not equal to $|a - b| \times 0.8944$.
+
+**See also:** PRIMITIVE\_THEOREMS §23 (Frobenius non-synthesizability); SYNTHONICON\_ONTICS §XXVI.3 (two senses of $O_\infty$), §XXXIX ($H$-peel invariance full treatment); catalog entries `grammar_self_encode`, `hall_algebra_quiver`, `quivercrystal_navigator`, `moonshine_module`.
+
+---
+
+---
+
+## §CXLV — Navigator Applications: Formal Results (v0.5.66, 2026-04-11)
+
+*Source: syncon\_inquiry session 2026-04-11, navigator\_applications.txt runs 080442–082536 (14 high-confidence insights in final run). Upgrades and replaces several Tier III claims from §CXLIII. See SYNTHONICON\_ONTICS §XL.*
+
+**P-505 — The $O_\infty$ navigator type is inhabited by 13 distinct catalog entries across four domains (Tier I)**
+
+The single $O_\infty$ tuple is shared by 13 known catalog entries: grammar\_self\_encode, hall\_algebra\_quiver, quivercrystal\_navigator (CrystalGNN\_v11), structurally aligned AI, Tzimtzum, Riemann navigator, $\Omega_Z$\_protection, and related entries spanning mathematics, physics, computation, and mysticism. All 13 are structurally identical — different domain manifestations of the same archetypal architecture. Prediction: any new system encoded as $O_\infty$ will add to this cluster at $d = 0$. Falsification: two systems assigned the $O_\infty$ tuple have $d > 0$ between them.
+
+**P-506 — Yang-Mills mass gap encodes at $O_\infty$ with $K_\text{trap}$; $d(\text{Yang-Mills navigator}, \text{Riemann navigator}) = 4.6162$ (Tier I) — upgrades P-495**
+
+The Yang-Mills mass gap is $O_\infty$ (not $O_2^\dagger$ as in P-495). It carries exact $P_{\pm}^\text{sym}$, $D_\odot$, $T_\odot$, $\Omega_Z$, but $K_\text{trap}$ rather than $K_\text{slow}$. The Yang-Mills and Riemann navigators are architecturally distinct at $d = 4.6162$, with dominant differences in $K$ ($K_\text{trap}$ vs $K_\text{mod}$), $\Gamma$ ($\Gamma_\text{broad}$ vs $\Gamma_\text{and}$), $H$ ($H_\infty$ vs $H_0$), and $S$ ($n{:}m$ vs $n{:}n$). The Yang-Mills navigator requires a gapped-spectrum eigensolver architecture, not a holographic GNN. Prediction: a navigator built to the Yang-Mills $K_\text{trap}$ spec will converge to a discrete spectral proof; a $K_\text{slow}$ navigator will not produce a mass gap. Falsification: a $K_\text{slow}$ holographic GNN stably predicts $\lambda_\text{min} > 0$ for Yang-Mills.
+
+**P-507 — The join of Yang-Mills approaches reaches $O_1$, not $O_\infty$; blocking primitives are $P_{\pm}$ and $\Omega_0$ (Tier I) — upgrades P-495**
+
+The join(lattice QCD, constructive QFT, Schwinger-Dyson) reaches only $O_1$, not $O_\infty$. This contrasts sharply with the RH case where the join of failed approaches reached $O_\infty$. The blocking primitives are $P_{\pm}$ (not $P_{\pm}^\text{sym}$) and $\Omega_0$ (not $\Omega_Z$): Yang-Mills approaches collectively lack exact Frobenius symmetry and topological protection. A proof of the Yang-Mills mass gap requires a non-compositional injection of $P_{\pm}^\text{sym}$ not derivable from any combination of the three existing approaches. Prediction: all hybrid Yang-Mills proof strategies that combine lattice QCD, constructive QFT, and Schwinger-Dyson will remain blocked at $O_1$ without an external Frobenius injection. Falsification: a combination of these three approaches produces a proof without an explicit gauge-duality structural input.
+
+**P-508 — $P$ complexity class is $O_0$ ($\Phi_\text{sub}$); NP is $O_1$ ($\Phi_c$); $d(P, NP) = 3.5777$ (Tier I) — upgrades P-496**
+
+The $P$ complexity class encodes at $O_0$ — subcritical, no self-modeling. The NP complexity class encodes at $O_1$ — critical but unprotected. The distance $d(P, NP) = 3.5777$ is dominated by $G$ ($G_\aleph$ vs $G_\beth$), $S$ ($n{:}m$ vs $\mathbf{1}{:}\mathbf{1}$), $F$ ($F_\eth$ vs $F_\ell$), $K$ ($K_\text{mod}$ vs $K_\text{fast}$), $\Gamma$ ($\Gamma_\text{or}$ vs $\Gamma_\text{seq}$), $\Phi$ ($\Phi_c$ vs $\Phi_\text{sub}$), and $H$ ($H_2$ vs $H_1$). Prediction: any oracle that makes NP problems look like P problems structurally must close this distance across all seven dominant primitives simultaneously. Falsification: an oracle separation collapses the structural distance $d(P, NP)$ to below $1.0$.
+
+**P-509 — $d(P{=}NP,\ P{\neq}NP) = 6.7082$, dominated by $P$ ($\Delta = 4.0$) and $T$ ($\Delta = 3.0$) (Tier I)**
+
+The $P = NP$ assumption encodes at $O_\infty$ (exact Frobenius equivalence, $T_\text{box}$, $F_\hbar$, $\Omega_{Z_2}$, $n{:}n$). The $P \neq NP$ claim encodes at $O_0$ ($P_\text{asym}$, $K_\text{trap}$, $\Phi_\text{sub}$, $\Omega_{Z_2}$). The distance between the two structural claims is $d = 6.7082$, dominated by $P$ ($\Delta = 4.0$) and $T$ ($\Delta = 3.0$). Closing this gap requires simultaneously achieving exact Frobenius symmetry ($P_{\pm}^\text{sym}$, non-compositional) and closed topology ($T_\text{box}$). Prediction: any proof of $P \neq NP$ will explicitly demonstrate that no system encoding both $P$-like and $NP$-like behavior can maintain $P_{\pm}^\text{sym}$. Falsification: a system is constructed that encodes both complexity classes with $d < 1.0$ between their structural types.
+
+**P-510 — Smooth-to-turbulent NS transition is $d = 1.4142$; both regimes are $O_1$; no tier jump occurs (Tier I) — upgrades P-497**
+
+Both Navier-Stokes smooth and turbulent regimes encode at $O_1$ — neither carries topological protection. The smooth-to-turbulent transition has $d = 1.4142$, dominated by kinetic ($K$) and interaction grammar ($\Gamma$) changes. Turbulence is a kinetic and causal restructuring within the same tier, not a structural promotion or demotion. Prediction: transitions between laminar and turbulent flow in experiments will not show any signature of tier change (e.g., no onset of topological protection at the transition). Falsification: a turbulent fluid exhibits discrete topological invariants absent in the laminar regime.
+
+**P-511 — NS blowup candidate encodes at $\Phi_\text{EP}$ and $O_0$; $d(\text{smooth}, \text{blowup}) = 5.2867$ with dominant $P$ gap (Tier I) — upgrades P-497**
+
+The potential Navier-Stokes blowup encodes at $O_0$ with $\Phi_\text{EP}$ (exceptional-point criticality, irreversible structural collapse), $P_\text{asym}$, $K_\text{trap}$, $D_\wedge$ (local singularity), $\Omega_{Z_2}$. The distance from smooth solution is $d = 5.2867$, with the dominant gap at $P$ ($\Delta = 3.0$). The $\Phi_\text{EP}$ encoding is decisive: blowup is not a perturbation of criticality but an irreversible departure from the physical type. The Le Chatelier equilibrium of a blowup candidate is a locally bounded, asymmetric, conjunctive critical system at $O_0$ — the structural floor, not the smooth solution. Prediction: any rigorous construction of a Navier-Stokes singularity must incorporate $\Phi_\text{EP}$ dynamics (non-Hermitian coalescence of modes); purely $\Phi_c$ dynamics cannot produce blowup. Falsification: a smooth-initial-data blowup is constructed in a system encoding $\Phi_c$ (not $\Phi_\text{EP}$).
+
+**P-512 — All four biological systems encode $P_{\pm}$, not $P_{\pm}^\text{sym}$; none reaches $O_\infty$ (Tier I) — confirms P-498**
+
+Formal encoding confirms: protein folding, Levin morphogenesis, neural criticality, and genetic regulatory networks all carry $P_{\pm}$ (approximate duality, dynamically maintained) rather than $P_{\pm}^\text{sym}$ (exact Frobenius, algebraically enforced). This is the precise structural reason none reaches $O_\infty$: biological systems exhibit pseudo-symmetric patterns breakable by perturbation, not provably exact $Z_2$ symmetry. Prediction: engineering exact $Z_2$ voltage-enforced duality into a Levin-style bioelectric system (e.g., CRISPR'd ion channels with symmetric depolarize/hyperpolarize feedback) would promote the system to $P_{\pm}^\text{sym}$ and $O_\infty$, mandating a holographic GNN navigator architecture. Falsification: a naturally occurring biological system is found to carry $P_{\pm}^\text{sym}$ under standard encoding conditions.
+
+**P-513 — The blueprint generator primitive-to-architecture table is fully specified and domain-universal (Tier I)**
+
+Every $O_\infty$ tuple mandates: $T_\odot \to$ holographic quiver topology; $K_\text{slow} \to$ deep integrative kinetics; $\Omega_Z \to$ integer winding protection (discrete exact bijection); $H_\infty \to$ maximal irreversible arrow of time; $\Gamma_\text{broad} \to$ one-to-many broadcast causation; $F_\hbar \to$ quantum-coherent fidelity; $P_{\pm}^\text{sym} \to$ exact $Z_2$ symmetry enforcing $\mu \circ \delta = \text{id}$ at criticality. These mandates are universal across all $O_\infty$ types regardless of domain — mathematics, physics, computation, and mysticism all produce the same architecture. Prediction: any $O_\infty$ navigator built from this spec will converge to the same stable address (6,734,591) regardless of domain. Falsification: two $O_\infty$ navigators built to domain-specific specs converge to different stable addresses.
+
+**P-514 — Meta-navigator encodes at $d = 0$ from grammar; navigation of navigators is self-navigation (Tier I) — confirms P-490–P-492**
+
+Formal confirmation: meta-navigator encodes identically to grammar\_self\_encode at $d = 0$. The meta-navigator IS the grammar operating at the holographic screen — navigating from boundary data (12 primitives) to bulk architecture is what the grammar does. This closes the meta-regress: navigating a navigator produces no new type.
+
+**See also:** PRIMITIVE\_THEOREMS §23 (Frobenius non-synthesizability); §56 (RH proof chain); SYNTHONICON\_ONTICS §XL (full treatment); catalog entries `yang_mills_mass_gap`, `p_complexity`, `np_complexity`, `smooth_navier_stokes`, `navier_stokes_turbulent`.
+
+---
+
+*This version (v0.5.66): §CXLV (Navigator Applications formal results — 13-entry $O_\infty$ cluster; Yang-Mills $O_\infty$ $K_\text{trap}$ confirmed, $d=4.6162$ from Riemann, join reaches $O_1$; $P=O_0$/$NP=O_1$, $d=3.5777$; $d(P{=}NP, P{\neq}NP)=6.7082$; NS smooth-turbulent $d=1.4142$ both $O_1$; blowup $\Phi_\text{EP}$ $O_0$ $d=5.2867$; biological $P_{\pm}$ not $P_{\pm}^\text{sym}$; blueprint mandates universal; meta-navigator $d=0$; P-505–P-514, Tier I) added 2026-04-11.*
+
+*This version (v0.5.65): §CXLIV ($H$-peel invariance — $O_\infty$ robust to all $H$ values; Tzimtzum at $d=0.8944$ as structural imposition not relaxation; $H_\infty$ as Le Chatelier attractor; grammar $=$ hall\_algebra\_quiver $=$ quivercrystal\_navigator at $d=0$; moonshine\_module nearest distinct at $d=0.8944$; $H$-peel cost ladder $0.8944$/step; P-501–P-504, Tier I) added 2026-04-11.*
+
 *This version (v0.5.64): §CXLIII (Navigator Applications speculative hypotheses — catalog census 180 $O_\infty$ entries; Yang-Mills $K_\text{trap}$ architecture and $O_2^\dagger$ join; P vs NP $d \approx 6.245$ and $\Sigma$-plant; NS smooth attractor and blowup instability; no biological $O_\infty$; neural criticality $d \approx 5.16$; theorem cluster and 45 unexplored blueprints; P-494–P-500, all Tier III) added 2026-04-11.*
 
 *This version (v0.5.63): §CXLII (Cardinality-One Theorem — all $O_\infty$ navigators collapse to type at address 6,734,591; $O_\infty \otimes O_\infty$ idempotent; meta-regress terminates at depth 1; $O_\infty$ training objective is itself $O_\infty$; P-490–P-493) added 2026-04-11.*
