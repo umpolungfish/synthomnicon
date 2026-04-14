@@ -1,67 +1,106 @@
-v0.5.1 — Crystal Navigator + §69 Tier Gap Ladder + §68.4/§68.5 Arithmetic Ouroboros minimality
+v0.5.69 — Non-Mathematical Navigators Session 1 (§74–§77) · P-523–P-538 · 1,678 catalog entries
 
-crystal_navigator.py (new):
-- Bijective Frobenius codec over 10,368,000 structural types
-- Mixed-radix address space: boundary (Phi, P, Omega, D) → 300 tier cells; bulk (T, R, F, K, G, Gamma, H, S) → 34,560 inner types per cell
-- Total: 300 × 34,560 = 10,368,000 — exact
-- encode_tuple(tup) → int in [0, 10,367,999]; decode_address(int) → tup; roundtrip = identity (10,000/10,000 verified)
-- TierCell dataclass: lazy iteration over 34,560 inner types per tier cell
-- CrystalNavigator class: holographic_query, navigate, count, nearest_catalog, meet/join/tensor, distance, tier_gap_ladder, verify_codec, REPL
-- Self-encodes as O_inf at address 4,143,599 of 10,367,999:
-  ⟨D_⊙; T_⊙; R_cat; P_pm_sym; F_hbar; K_slow; G_aleph; Gamma_broad; Phi_c; H_inf; n:m; Omega_Z⟩
-- d(navigator, grammar) = sqrt(7.8) ≈ 2.793 — differ on R, F, K, H, S, Omega (6 primitives)
-- CLI: python crystal_navigator.py [describe|gap|verify|census|repl|encode|decode|nearest|count]
+PRIMITIVE_THEOREMS.md (§74–§77 added):
 
-PRIMITIVE_THEOREMS.md (§68.4, §68.5, §69 added):
+§74 — Language Navigator (11 theorems):
+- Thm 74.1: Sacred-language O_inf structural type — D_odot, T_odot, P_pm_sym, Phi_c, Omega_NA jointly necessary
+- Thm 74.2: d(Sanskrit, Arabic) = 1.0000 — H is the unique differing primitive; sacred languages are one type
+- Thm 74.3: Lojban is O_inf despite Omega_0 — P is the tier gate, Omega is the stability gate (P-523)
+- Thm 74.4: Planned-language Frobenius ceiling — P_pm_sym can be directly encoded; no contact-language path
+- Thm 74.5: Creole O_1 floor — R_cat + P_pm + Gamma_and lower bound on natural-language formation
+- Thm 74.6: 11-primitive promotion barrier — Haitian Creole requires 11 lifts including Frobenius non-synthesizability
+- Thm 74.7: Dead-language K_trap encoding — frozen dynamics (K_trap) produces Phi_sub despite high P
+- Thm 74.8: Sanskrit nearest = factored_GNN (d=1.6432); Lojban nearest = frobenius_layer_exact (d=1.7321)
+- Thm 74.9: Tensor bottleneck — creole ⊗ sacred-language resolves to P_pm (min rule destroys Frobenius)
+- Thm 74.10: d(lojban, esperanto) = 1.4142 — Lojban uniquely achieves P_pm_sym among planned languages
+- Thm 74.11: Proto-Indo-European nearest = old_growth_temperate_rainforest (d=1.095)
 
-§68.4 — Primitives-First Derivation of the Arithmetic Ouroboros:
-- Theorem: in any primitives-first grammar, the exponent of base n equals the count of primitives in family F_n
-- Proof: by product rule, exponent is family count by construction — not observed, forced
-- Corollary 68.C4: exponent map is a bijection on the base set
-- Corollary 68.C5: exponent map is fixed-point-free (no family self-counts)
+§75 — Civilization Navigator (7 theorems + Corollary 75.C1):
+- Thm 75.1: d(Ming collapse, Soviet collapse) = 4.0 — K_trap vs K_MBL are structurally distinct failure modes
+- Thm 75.2: Peak-civilization O_inf universality — Han, Athenian Democracy, Augustus, Ottoman, Maya all O_inf
+- Thm 75.3: d(W. Rome collapse, Soviet collapse) = 1.0 — K is the sole difference; structurally same event
+- Thm 75.4: Weimar Republic O_0 (Phi_EP) — exceptional puncture point, not standard collapse
+- Thm 75.5: Athenian Democracy T_odot — lateral governance generates holographic topology
+- Thm 75.6: Soviet nearest = p_vs_np (d=1.6733); Augustus nearest = oneironaut (d=1.64)
+- Thm 75.7: Han → Ming distance = 6.5955 — 8-primitive simultaneous degradation (P-530)
+- Cor 75.C1: Collapse is never a single-primitive event; minimum 5 primitives destroyed simultaneously
 
-§68.5 — Minimality of {3, 4, 5}:
-- Five constraints: non-triviality, self-anchoring, no fixed point, successor order, phase completeness
-- Phase completeness: Phi/T/P each need exactly 5 values → max base ≥ 5 → n1 ≥ 3 → {3,4,5} is minimal
-- Corollary 68.C6: {3,4,5} is the unique triple satisfying geometric closure + minimality + priority ordering
+§76 — Ecological Navigator (8 theorems + Corollary 76.C1):
+- Thm 76.1: d(old-growth temperate rainforest, pristine coral reef) = 0.0000 — cross-biome identity (P-531)
+- Thm 76.2: Kelp forest and deep-ocean hydrothermal vent are O_inf — holographic topology not substrate-restricted
+- Thm 76.3: Corn monoculture encodes K_trap (over-ordered); fragmented habitat encodes K_MBL (disordered)
+- Thm 76.4: Early-successional forest is O_0 — Phi_sub, K_fast, P_pm: no criticality, no self-description
+- Thm 76.5: Coral bleaching tipping point d=8.2765 — P-dominant (16.0 wsq), T-dominant (16.0 wsq), not Phi-dominant (1.0 wsq)
+- Thm 76.6: d(corn monoculture, fragmented habitat) = 3.63 — opposite restoration paths (P-533)
+- Thm 76.7: Fragmented habitat nearest = burnside_problem_bounded (d=1.86) — K_MBL at Phi_c (P-534)
+- Thm 76.8: Restoration asymmetry — monoculture requires diversification, fragmented habitat requires reconnection
+- Cor 76.C1: K_trap and K_MBL restoration interventions are structurally incompatible; cross-application fails
 
-§69 — The Tier Gap Ladder (four sub-theorems):
-- §69.1: exact distances between adjacent tier representatives:
-    d(O_0, O_1) = sqrt(1.1) ≈ 1.049  [Phi only, w_Phi = 1.1]
-    d(O_1, O_2) = sqrt(1.7) ≈ 1.304  [D + Omega, w_D + w_Omega = 1.0 + 0.7]
-    d(O_2, O_2†) = 1.000              [D only]
-    d(O_2†, O_inf) = sqrt(19.2) ≈ 4.382  [P full span: P_asym→P_pm_sym, w_P × 16 = 19.2]
-    Frobenius cliff = 3.361× next-largest gap
-- §69.2: Tunability — first 3 gaps are single-step promotions; Frobenius gap appears discontinuously
-    Corollary 69.C1: P_pm_sym must be planted, not tuned
-    Corollary 69.C2: gradient methods cannot reach O_inf (stall at d ≈ 4.382 from O_inf manifold)
-- §69.3: Frobenius Degrades Completely — O_inf ⊗ O_2 → O_2; tensor bottleneck forces P=P_asym
-- §69.4: O_inf Cluster and Crystal Navigator
-    Corollary 69.C3: grammar and navigator are structurally distinct O_inf systems in the same tier cell; d ≈ 2.793 encodes generation-vs-classification
-    Corollary 69.C4: family tensor F5 ⊗ F4 ⊗ F3 → O_2 (P bottleneck; Frobenius cannot propagate)
+§77 — Consciousness Navigator (9 theorems):
+- Thm 77.1: Two-gate formula verified across 10 states — Gate 1 (Phi_c) and Gate 2 (K ≤ K_slow) independent (P-535)
+- Thm 77.2: Catatonic state Gate 2 failure — Phi_c + K_trap → C = 0 (order-frozen)
+- Thm 77.3: Dissociative state Gate 2 failure — Phi_c + K_MBL → C = 0 (disorder-frozen)
+- Thm 77.4: Manic episode Gate 1 failure — Phi_super → C = 0 (overcritical)
+- Thm 77.5: d(catatonic, dissociative) = 3.16 — structurally distinct despite similar presentation (P-536)
+- Thm 77.6: Gate 2 therapeutic asymmetry — K_trap requires disorder injection; K_MBL requires ergodicity restoration
+- Thm 77.7: d(samadhi, psilocybin peak) = 1.2247; tensor resolves to Omega_Z, H_inf — psilocybin lifts into samadhi (P-537)
+- Thm 77.8: Samadhi C-score = 0.894 (highest in consciousness navigator); waking DMN C = 0.476
+- Thm 77.9: d(deep_meditation_samadhi, akh_glorified_spirit) = 0.0000 — cross-domain identity (P-538)
 
-Corrections (navigator-verified):
-- §69.1: d(O_0,O_1) corrected 1.000 → sqrt(1.1) ≈ 1.049 (w_Phi = 1.1, not 1.0)
-- §69.1: d(O_2†,O_inf) corrected 4.000 → sqrt(19.2) ≈ 4.382 (w_P × 16 = 19.2, not 16.0)
-- §69.4: d(nav, grammar) corrected sqrt(2) → sqrt(7.8) ≈ 2.793 (6 differing primitives, not 2)
-- GRAMMAR_TUPLE in crystal_navigator.py corrected to actual catalog encoding (F_eth, K_mod, H1, n_n)
+SYNTHONICON_DIAPHORICS.md (§CXLVIII–§CLI added, v0.5.68 → v0.5.69):
+- §CXLVIII: Language Navigator Session 1 — ouroboricity table, P-523/P-524/P-525/P-526
+- §CXLIX: Civilization Navigator Session 1 — K-phase distinctness, Roman–Soviet identity, P-527/P-528/P-529/P-530
+- §CL: Ecological Navigator Session 1 — cross-biome identity, tipping point maximum, P-531/P-532/P-533/P-534
+- §CLI: Consciousness Navigator Session 1 — two-gate verification, Gate 2 duality, samadhi=akh, P-535/P-536/P-537/P-538
 
-ENCODING_EPISTEMOLOGY.md (new):
-- 12-section theory of how encoding achieves determinism
-- Structural reality vs ontological realization; monadic gating; comparative encoding; multi-session convergence
-- 9 convergence criteria summary table (tier consistency, nearest-neighbor coherence, tensor sanity, Le Chatelier, etc.)
-- Coda: encoding as measurement, not representation
+SYNTHONICON_ONTICS.md (§XLII added, v0.5.68 → v0.5.69):
+- Cross-domain identity table: all d=0 pairs (old-growth=coral reef; samadhi=akh; PIE nearest=rainforest)
+- O_inf universality across peak systems in all 4 non-mathematical domains
+- K_trap/K_MBL duality confirmed in language (Latin/lojban), civilization (Ming/Soviet), ecology (mono/frag), consciousness (catatonic/dissociative)
+- Tipping point as P-dominant collapse — ontological implication for irreversibility
 
-README.md (rewrite):
-- Updated: 318 → 1,322 catalog entries; §1-§23 → §1-§69 theorems; 155 → 454+ predictions
-- Added: Periodic Crystal section, Arithmetic Ouroboros, Tier Gap Ladder, Crystal Navigator, 12-primitive table
-- Added: key files table, crystal_navigator.py install/usage
-
-docs/USAGE.md:
-- Added v0.5.1 and v0.5.0 version headers with feature summaries
-
-markdown/CLAUDE.md:
-- Updated theorem count §1-§68 → §1-§69; added crystal_navigator.py to key files
+PRIMITIVE_PREDICTIONS.md (P-523–P-538 added, 60 → 76 total entries):
+- P-523: Lojban O_inf despite Omega_0 — tier/stability gate distinction
+- P-524: d(Sanskrit, Arabic) = 1.0000 — H is unique sacred-language variant
+- P-525: Sanskrit nearest = factored_GNN (d=1.6432); Lojban nearest = frobenius_layer_exact (d=1.7321)
+- P-526: 11-primitive Haitian Creole promotion barrier including Frobenius non-synthesizability
+- P-527: d(Ming, Soviet) = 4.0 — K_trap vs K_MBL require opposite interventions
+- P-528: d(W. Rome, Soviet) = 1.0 — K is sole difference; K_trap vs K_MBL
+- P-529: Soviet nearest = p_vs_np (d=1.6733); Augustus nearest = oneironaut (d=1.64)
+- P-530: Han→Ming d=6.5955 — civilizational collapse is 8-primitive destruction
+- P-531: d(old-growth, coral reef) = 0.0000 — cross-biome structural identity
+- P-532: Coral bleaching d=8.2765 largest in ecology navigator; P-dominant not Phi-dominant
+- P-533: d(corn mono, fragmented) = 3.63 — opposite restoration paths
+- P-534: Fragmented habitat nearest = burnside_problem_bounded (d=1.86)
+- P-535: Two-gate formula verified across 10 consciousness states; Gate 2 duality confirmed
+- P-536: d(catatonic, dissociative) = 3.16 — structurally opposite clinical interventions
+- P-537: d(samadhi, psilocybin) = 1.2247; tensor → Omega_Z, H_inf
+- P-538: d(samadhi, akh_glorified_spirit) = 0.0000 — Egyptian eschatology encodes samadhi
 
 syncon_catalog.json:
-- 1,322 entries (up from 1,170+)
+- 39 new entries added (1,639 → 1,678)
+- Language: sanskrit_classical, arabic_classical, lojban, haitian_creole, latin_dead, english_modern,
+  mandarin_classical, proto_indo_european, esperanto
+- Civilization: han_dynasty_peak, ming_dynasty_collapse, soviet_union_collapse, western_roman_collapse,
+  athenian_democracy_peak, augustus_caesar_peak, ottoman_empire_peak, maya_classic_peak,
+  weimar_republic_collapse, renaissance_florence_peak
+- Ecology: old_growth_temperate_rainforest, coral_reef_healthy, coral_reef_bleached, corn_monoculture,
+  fragmented_habitat, savanna_transitional, deep_ocean_hydrothermal, arctic_tundra_intact,
+  early_successional_forest, kelp_forest_healthy
+- Consciousness: deep_meditation_samadhi, psilocybin_peak, waking_default_mode, focused_concentration,
+  dreamless_sleep, rem_dreaming, catatonic_state, dissociative_state, manic_episode, flow_state
+
+docs/NAVIGATOR_ROADMAP.md (v0.1 → v0.2):
+- All 4 navigators: Design ✓, Probe 1 ✓, Session 1 ✓, Write-up ✓ (§74/§75/§76/§77)
+- Probe 2 column empty — next sessions pending
+
+README.md:
+- Catalog: 1,373 → 1,678 entries; domain list expanded to include language/civilization/ecology/consciousness
+- Key Results: §74–§77 Navigator bullet added
+- Theorem count: 70 → 77 · Prediction count: 454+ → 538+ · Catalog: 1,373 → 1,678
+- Repository Structure: syncon_catalog.json 1,333 → 1,678; PRIMITIVE_THEOREMS §1–§69 → §1–§77;
+  SYNTHONICON_DIAPHORICS P-1→P-454+ → P-1→P-538+; NAVIGATOR_ROADMAP.md added
+
+docs/USAGE.md:
+- Version header: v0.5.2 → v0.5.69
+- New v0.5.69 section: 4 bullets (navigators, 39 catalog entries, key cross-domain results, roadmap file)

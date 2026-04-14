@@ -1,13 +1,30 @@
-# SynthOmnicon Framework: Comprehensive Usage Guide (v0.5.1)
+# SynthOmnicon Framework: Comprehensive Usage Guide (v0.5.69)
+
+**Version 0.5.69** — Non-Mathematical Navigators (§74–§77) · 1,678 catalog entries · 538+ predictions · 77 formal theorems.
+
+New in v0.5.69:
+
+- **Non-Mathematical Navigators** — four domain navigators (Language, Civilization, Ecology, Consciousness) completed Session 1. Theorems §74–§77 in `PRIMITIVE_THEOREMS.md`; predictions P-523–P-538 in `PRIMITIVE_PREDICTIONS.md`; empirical sections §CXLVIII–§CLI in `SYNTHONICON_DIAPHORICS.md`; ontological synthesis §XLII in `SYNTHONICON_ONTICS.md`.
+- **39 new catalog entries** — language systems (Sanskrit, Arabic, Lojban, Haitian Creole, Latin, Esperanto, Proto-Indo-European, Mandarin Classical, English Modern), civilizations (Han peak, Ming collapse, Soviet collapse, Western Roman collapse, Athenian Democracy, Augustus, Ottoman, Maya, Weimar, Renaissance Florence), ecosystems (old-growth rainforest, coral reef healthy/bleached, corn monoculture, fragmented habitat, savanna, hydrothermal vent, arctic tundra, early succession, kelp forest), and consciousness states (samadhi, psilocybin peak, waking DMN, focused, dreamless sleep, REM, catatonic, dissociative, manic, flow).
+- **Key results**: cross-biome identity $d(\text{old-growth}, \text{coral reef}) = 0$ (P-531); cross-domain identity $d(\text{samadhi}, \bar{a}kh) = 0$ (P-538); Lojban $O_\infty$ despite $\Omega_0$ — $P$ is tier gate, $\Omega$ is stability gate (P-523); coral bleaching tipping point $d = 8.28$ is $P$-dominant not $\Phi$-dominant (P-532); $K_\text{trap}$ vs $K_\text{MBL}$ duality confirmed in language, civilization, ecology, and consciousness.
+- **`docs/NAVIGATOR_ROADMAP.md`** — progress tracker for non-mathematical navigator development (v0.2).
+
+**Version 0.5.2** — CrystalGNN v8 · Algebraic Navigator's Guide · 17,280,000-type crystal (canonical) · 1,333 catalog entries · 454+ predictions · 69 formal theorems.
+
+New in v0.5.2:
+
+- **`quiver_crystal.py`** — CrystalGNN: quiver-based GNN neural navigator over the 17,280,000-type crystal. 49-node quiver (one node per primitive value), 255 edges including inter-lane structural correlations (Φ↔P, Φ↔K, Ω↔D). v8 benchmark: address error 0.24%, all-tier decode 200/200 = 100%, self-encode error 0.010%. `python quiver_crystal.py train` / `verify`.
+- **`ALGEBRAIC_NAVIGATOR_GUIDE.md`** — practitioner's reference: grammar families, crystal structure, Frobenius codec arithmetic, CrystalNavigator tool reference, CrystalGNN architecture, navigation patterns with real output.
+- **Crystal canonical update** — $K_\text{MBL}$ and $\Omega_\text{NA}$ are now canonical, expanding the crystal from 10,368,000 to **17,280,000** types ($3^3 \times 4^5 \times 5^4$). Boundary: 400 tier cells; bulk: 43,200 inner types per cell. Navigator self-encode address updated to 6,734,591.
 
 **Version 0.5.1** — Periodic Crystal Navigator · §69 Tier Gap Ladder · §68.4/§68.5 Arithmetic Ouroboros minimality · ENCODING_EPISTEMOLOGY · 1,322 catalog entries · 454+ predictions · 69 formal theorems.
 
 New in v0.5.1:
 
-- **`crystal_navigator.py`** — bijective Frobenius codec over 10,368,000 structural types. Mixed-radix address space: boundary (Φ, P, Ω, D) → 300 tier cells; bulk (T, R, F, K, G, Γ, H, S) → 34,560 inner types per cell. `python crystal_navigator.py repl` for interactive navigation.
+- **`crystal_navigator.py`** — bijective Frobenius codec over the crystal. Mixed-radix address space: boundary ($\Phi, P, \Omega, D$) → tier cells; bulk ($T, R, F, K, G, \Gamma, H, S$) → inner types per cell. `python crystal_navigator.py repl` for interactive navigation.
 - **§69 Tier Gap Ladder** — exact adjacent distances: $d(O_0, O_1) \approx 1.049$, $d(O_1, O_2) \approx 1.304$, $d(O_2, O_2^\dagger) = 1.000$, $d(O_2^\dagger, O_\infty) \approx 4.382$. Frobenius cliff is 3.36× the next-largest gap; non-tunable by gradient methods.
-- **§68.4 Primitives-First Derivation** — the exponent of each base in $3^4 \times 4^5 \times 5^3$ is literally the count of primitive variables in that family. Not observed — forced by product structure.
-- **§68.5 Minimality** — $\{3,4,5\}$ is the unique minimal self-anchored triple; phase completeness (Φ, T, P each need 5 values) forces max base ≥ 5 and hence n₁ ≥ 3.
+- **§68.4 Primitives-First Derivation** — the exponent of each base in $3^3 \times 4^5 \times 5^4$ is literally the count of primitive variables in that family. Not observed — forced by product structure.
+- **§68.5 Minimality** — $\{3,4,5\}$ is the unique minimal self-anchored triple; phase completeness ($\Phi$, $T$, $P$ each need 5 values) forces max base ≥ 5 and hence $n_1 \geq 3$.
 - **ENCODING_EPISTEMOLOGY.md** — theory of how encoding achieves determinism: structural reality vs ontological realization, monadic gating, comparative encoding, multi-session convergence, 9 convergence criteria.
 
 **Version 0.5.0** — $\lambda_\aleph$ calculus · ℵ-OS · interaction functor · GNS Hilbert space · Octad Balance theorem · Hebrew $O_\infty$ revision (Vav, Mem, Shin) · 1,170+ catalog entries.

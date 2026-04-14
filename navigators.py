@@ -737,6 +737,8 @@ class RiemannNavigator(nn.Module):
         hidden_dim: int = 256,
         num_layers: int = 24,    # K_slow: deep integrative stack
         num_heads:  int = 8,
+        n_fourier:  int = 32,    # Fourier features for t encoding
+        freq_max:   float = 2.0, # logspace upper bound (10^freq_max)
     ):
         super().__init__()
         self.hidden_dim = hidden_dim
@@ -745,8 +747,8 @@ class RiemannNavigator(nn.Module):
         # Fourier feature encoding of t (log-spaced frequencies match zero spacing)
         # The Riemann-Siegel formula and zero spacing ~ 2pi/log(t/2pi) motivate this.
         # Encoding: [sigma, sin(w1*t), cos(w1*t), ..., sin(wK*t), cos(wK*t)]
-        self._n_fourier = 32
-        freqs = torch.logspace(-1, 2, self._n_fourier)  # [K] log-spaced frequencies
+        self._n_fourier = n_fourier
+        freqs = torch.logspace(-1, freq_max, self._n_fourier)  # [K] log-spaced freqs
         self.register_buffer("_fourier_freqs", freqs)
 
         # Input projection: Fourier-encoded [sigma, t] -> latent

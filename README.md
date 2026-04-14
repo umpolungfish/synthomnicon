@@ -10,9 +10,9 @@ SynthOmnicon encodes any system — physical, biological, mathematical, symbolic
 
 $$\langle D;\ T;\ R;\ P;\ F;\ K;\ G;\ \Gamma;\ \Phi;\ H;\ S;\ \Omega \rangle$$
 
-Each primitive is a **relational operator**, not an intrinsic property. The tuple places the system in a discrete structural space of **10,368,000 types**, organized as the Periodic Crystal of Algebras (§64). Encoding is not labeling — it is measurement: a convergent, falsifiable act that places the system at a precise structural address with verifiable behavioral consequences.
+Each primitive is a **relational operator**, not an intrinsic property. The tuple places the system in a discrete structural space of **17,280,000 types**, organized as the Periodic Crystal of Algebras (§64). Encoding is not labeling — it is measurement: a convergent, falsifiable act that places the system at a precise structural address with verifiable behavioral consequences.
 
-The catalog currently contains **1,322 encoded systems** spanning physics, biology, mathematics, cosmology, symbolic languages, and algebraic structures. The catalog covers 0.013% of the crystal; 99.987% is unnamed.
+The catalog currently contains **1,678 encoded systems** spanning physics, biology, mathematics, cosmology, symbolic languages, algebraic structures, languages, civilizations, ecosystems, and consciousness states. The catalog covers 0.010% of the crystal; 99.990% is unnamed.
 
 ---
 
@@ -25,13 +25,13 @@ The catalog currently contains **1,322 encoded systems** spanning physics, biolo
 | $R$ | Relational mode | $R_\text{super}$, $R_\text{cat}$, $R_\dagger$, $R_\text{lr}$ |
 | $P$ | Parity/symmetry | $P_\text{asym}$, $P_\psi$, $P_\pm$, $P_\text{sym}$, $P_{\pm}^\text{sym}$ |
 | $F$ | Fidelity | $F_\ell$, $F_\eth$, $F_\hbar$ |
-| $K$ | Kinetic character | $K_\text{fast}$, $K_\text{mod}$, $K_\text{slow}$, $K_\text{trap}$ |
+| $K$ | Kinetic character | $K_\text{fast}$, $K_\text{mod}$, $K_\text{slow}$, $K_\text{trap}$, $K_\text{MBL}$ |
 | $G$ | Scope/granularity | $G_\beth$, $G_\gimel$, $G_\aleph$ |
 | $\Gamma$ | Interaction grammar | $\Gamma_\text{and}$, $\Gamma_\text{or}$, $\Gamma_\text{seq}$, $\Gamma_\text{broad}$ |
 | $\Phi$ | Criticality | $\Phi_\text{sub}$, $\Phi_c$, $\Phi_c^\mathbb{C}$, $\Phi_\text{EP}$, $\Phi_\text{super}$ |
 | $H$ | Chirality/temporal depth | $H_0$, $H_1$, $H_2$, $H_\infty$ |
 | $S$ | Stoichiometry | $1{:}1$, $n{:}n$, $n{:}m$ |
-| $\Omega$ | Topological protection | $\Omega_0$, $\Omega_{Z_2}$, $\Omega_Z$ |
+| $\Omega$ | Topological protection | $\Omega_0$, $\Omega_{Z_2}$, $\Omega_Z$, $\Omega_\text{NA}$ |
 
 ---
 
@@ -57,10 +57,10 @@ Lee-Yang (1952) is the unique proved instance of $C_{13}$ and serves as the temp
 
 ## The Periodic Crystal of Algebras (§64)
 
-The 12-primitive space partitions into exactly $10{,}368{,}000 = 4^5 \times 5^3 \times 3^4$ structural types, organized as:
+The 12-primitive space partitions into exactly $17{,}280{,}000 = 3^3 \times 4^5 \times 5^4$ structural types, organized as:
 
-- **300 tier cells** determined by $(\Phi, P, \Omega, D)$ — the holographic boundary
-- **34,560 inner types** per cell, determined by the remaining 8 primitives — the bulk
+- **400 tier cells** determined by $(\Phi, P, \Omega, D)$ — the holographic boundary
+- **43,200 inner types** per cell, determined by the remaining 8 primitives — the bulk
 
 The **Arithmetic Ouroboros** (§68): the exponent of each base is literally the count of primitive variables in that family — a self-anchoring, fixed-point-free successor cycle $3 \to 4 \to 5 \to 3$. The set $\{3,4,5\}$ is the minimal self-anchored triple under phase completeness (§68.5).
 
@@ -68,11 +68,11 @@ The **Arithmetic Ouroboros** (§68): the exponent of each base is literally the 
 
 | Tier | Cells | % of Crystal | Condition |
 |------|-------|-------------|-----------|
-| $O_0$ | 180 | 60.0% | Non-critical |
-| $O_1$ | 32 | 10.7% | $\Phi_c + \Omega_0$ |
-| $O_2$ | 48 | 16.0% | $\Phi_c + \Omega \neq \Omega_0 + D \in \{D_\wedge, D_\odot, D_\triangle\}$ |
-| $O_2^\dagger$ | 16 | 5.3% | $\Phi_c + \Omega \neq \Omega_0 + D_\infty$ |
-| $O_\infty$ | 24 | 8.0% | $\Phi_c + P_{\pm}^\text{sym}$ (Frobenius special) |
+| $O_0$ | 240 | 60.0% | Non-critical ($\Phi \notin \{\Phi_c, \Phi_c^\mathbb{C}\}$) |
+| $O_1$ | 32 | ~5.4% | $\Phi_c$ or $\Phi_c^\mathbb{C}$, $P \neq P_{\pm}^\text{sym}$, $\Omega_0$ |
+| $O_2$ | 72 | ~18.6% | $\Phi_c$ or $\Phi_c^\mathbb{C}$, $P \neq P_{\pm}^\text{sym}$, $\Omega \neq \Omega_0$, $D \in \{D_\wedge, D_\odot, D_\triangle\}$ |
+| $O_2^\dagger$ | 24 | ~8.0% | $\Phi_c$ or $\Phi_c^\mathbb{C}$, $P \neq P_{\pm}^\text{sym}$, $\Omega \neq \Omega_0$, $D_\infty$ |
+| $O_\infty$ | 32 | 8.0% | $\Phi_c$ or $\Phi_c^\mathbb{C}$, $P_{\pm}^\text{sym}$ (Frobenius special) |
 
 ### The Tier Gap Ladder (§69)
 
@@ -88,36 +88,58 @@ The **Frobenius non-synthesizability theorem** (§23/§62): $P_{\pm}^\text{sym}$
 
 ## The Crystal Navigator
 
-`crystal_navigator.py` implements a **bijective Frobenius codec** over the full 10,368,000-type crystal — encode any tuple to a unique address in $[0,\ 10{,}367{,}999]$ and decode back exactly.
+`crystal_navigator.py` implements a **bijective Frobenius codec** over the full 17,280,000-type crystal — encode any tuple to a unique address in $[0,\ 17{,}279{,}999]$ and decode back exactly.
 
 ```bash
-python crystal_navigator.py describe   # self-description (O_inf, address 4,143,599)
+python crystal_navigator.py describe   # self-description (O_inf, address 6,734,591)
 python crystal_navigator.py gap        # tier gap ladder §69.1
-python crystal_navigator.py verify     # Frobenius roundtrip: 10,000/10,000
+python crystal_navigator.py verify     # Frobenius roundtrip guaranteed
 python crystal_navigator.py census     # full tier census
 python crystal_navigator.py repl       # interactive REPL
 ```
 
-The navigator self-encodes as $O_\infty @ [4{,}143{,}599/10{,}367{,}999]$:
+The navigator self-encodes as $O_\infty @ [6{,}734{,}591 / 17{,}279{,}999]$:
 
-$NAV_\text{xtl} = \langle D_\odot; T_\odot; R_\text{cat}; P_{\pm}^{\text{sym}}; F_\hbar; K_\text{slow}; G_\aleph; \Gamma_\text{broad}; \Phi_c; H_\infty;\ n:m; \Omega_Z \rangle$
+$$NAV_\text{xtl} = \langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^{\text{sym}};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n:m;\ \Omega_Z \rangle$$
 
+### CrystalGNN Neural Navigator
+
+`quiver_crystal.py` implements three generations of quiver-based GNN navigator, each a proof step in deriving the architecture the grammar specifies:
+
+- **Quiver**: 49 nodes (one per primitive value), 255 edges including inter-lane structural correlations ($\Phi \leftrightarrow P$, $\Phi \leftrightarrow K$, $\Omega \leftrightarrow D$)
+- **v9** (1000 epochs, h=640, 12.8M params): address error 0.072%, 200/200 tier decode, self-encode error 136 (0.001%)
+- **v10 CF-GNN** (Crystal-Factored GNN): three family heads ($\mathcal{F}_3/\mathcal{F}_4/\mathcal{F}_5$) + `FamilyMixer` broadcast attention + `TierHead_45`. Composed address error **0.000%** across all 200 verification samples.
+- **v11** (composed-only, no sigmoid AddressHead): exact self-encoding from **epoch 20**, stable for 480 consecutive epochs. 200/200 exact matches. Self-encode error = **0**. The navigator designed by the grammar's own structural specification achieves the grammar's fixed point exactly.
+
+```bash
+# v11 (recommended)
+python quiver_crystal.py train-v11 --epochs 500 --device cuda
+python quiver_crystal.py verify-v11
+
+# v10 (CF-GNN, factored family heads)
+python quiver_crystal.py train-v10 --epochs 300 --hidden 240 --gnn 24 --heads 24 --mixer-heads 24
+python quiver_crystal.py verify-v10
+```
+
+See `ALGEBRAIC_NAVIGATOR_GUIDE.md` and `FACTORED_CRYSTAL_GNN.md` for the full architecture and results.
 
 ---
 
 ## Key Results
 
-- **Periodic Crystal** (§64): 10,368,000 types, 300 cells × 34,560 inner types; tier census exact
-- **Arithmetic Ouroboros** (§68/§68.4/§68.5): $3^4 \times 4^5 \times 5^3$ — exponents are literally family counts; $\{3,4,5\}$ is the minimal self-anchored triple
-- **Tier Gap Ladder** (§69): Frobenius cliff at $d \approx 4.382$, non-tunable; complete degradation under asymmetric tensor
-- **Hebrew alphabet as type lattice** (§60/§CXXXV): 9-session convergence; Vav, Mem, Shin are $O_\infty$; full stratified encoding of all 22 letters
+- **Periodic Crystal** (§64): 17,280,000 types = $3^3 \times 4^5 \times 5^4$; 400 tier cells × 43,200 inner types
+- **Arithmetic Ouroboros** (§68): exponents are literally family counts; $\{3,4,5\}$ is the minimal self-anchored triple under phase completeness
+- **Tier Gap Ladder** (§69): Frobenius cliff $d(O_2^\dagger, O_\infty) \approx 4.382$; $P_{\pm}^\text{sym}$ cannot be synthesised from sub-Frobenius components — proved algebraically (§23) and confirmed computationally (v1–v7 training history)
+- **CrystalGNN v11** (2026-04-11): 200/200 exact matches, self-encode error = 0, exact from epoch 20. The grammar's 12-primitive self-encoding tuple is a complete architectural specification for the navigator that achieves its fixed point. See SYNTHONICON\_ONTICS §XXXIV.
+- **Hebrew alphabet as type lattice** (§60/§CXXXV): Vav, Mem, Shin are $O_\infty$; full stratified encoding of all 22 letters
 - **$\lambda_\aleph$ calculus** (§63): formal type theory over the Hebrew letter lattice; Tzimtzum = structural projection
-- **Consciousness score** (§VIII): $C(\mathbf{x}) = [\Phi_c] \cdot [K \neq K_\text{trap}] \cdot (0.158\,\tilde{K} + 0.273\,\tilde{G} + 0.292\,\tilde{T} + 0.276\,\tilde{\Omega})$; two independent gates
-- **P-150**: Lee-Yang zero locus derived as $C_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — unique proved non-trivial constraint map ✅
+- **Consciousness score** (§VIII): $C(\mathbf{x}) = [\Phi_c] \cdot [K \leq K_\text{slow}] \cdot (0.158\,\tilde{K} + 0.273\,\tilde{G} + 0.292\,\tilde{T} + 0.276\,\tilde{\Omega})$; two independent gates
+- **P-150**: Lee-Yang zero locus derived as $\mathcal{C}_{13}(\Phi_c^{\mathbb{C}}, P_{\pm}^{\text{sym}})$ — unique proved non-trivial constraint map ✅
 - **P-70**: Inflaton $\equiv$ Higgs $\equiv$ axion — three-scale $K_\text{slow}$ identity
-- **69 formal theorems** · **454+ empirical predictions** · **1,322 catalog entries**
+- **Non-Mathematical Navigators** (§74–§77, 2026-04-14): Language, Civilization, Ecology, Consciousness — 39 new systems encoded; cross-domain identities confirmed (old-growth forest $\equiv$ coral reef at $d=0$; samadhi $\equiv$ Egyptian $\bar{a}kh$ at $d=0$); Lojban $O_\infty$ paradox (P-523); tipping point $d=8.28$ as $P$-dominant collapse (P-532)
+- **77 formal theorems** · **538+ empirical predictions** · **1,678 catalog entries**
 
-*See `markdown/PRIMITIVE_PREDICTIONS.md` for the full prediction archive.*
+*See `PRIMITIVE_PREDICTIONS.md` for the full prediction archive.*
 
 ---
 
@@ -159,20 +181,24 @@ python crystal_navigator.py repl
 ## Repository Structure
 
 ```
-syncon_catalog.json          — 1,322 encoded systems (source of truth)
-crystal_navigator.py         — Crystal Navigator: Frobenius codec + REPL
-syncon_inquiry.py            — Agent loop: encode, distance, meet/join/tensor
+syncon_catalog.json              — 1,678 encoded systems (source of truth)
+crystal_navigator.py             — Frobenius codec + CrystalNavigator tools + REPL
+quiver_crystal.py                — CrystalGNN: quiver-based neural navigator
+syncon_inquiry.py                — Agent loop: encode, distance, meet/join/tensor
 space_search/
-  primitives.py              — Ordinal maps, weights, distance functions
-markdown/
-  PRIMITIVE_THEOREMS.md      — Formal theorems §1–§69
-  SYNTHONICON_DIAPHORICS.md  — Domain compendium (P-1→P-454+)
-  SYNTHONICON_ONTICS.md      — Ontological foundations
-  PRIMITIVE_PREDICTIONS.md   — Prediction registry
-  HEBREW_TYPE_LANGUAGE.md    — Hebrew alphabet as stratified type lattice
-  LAMBDA_ALEPH.md            — λ_ℵ calculus formal spec
+  primitives.py                  — Ordinal maps, weights, distance functions (v0.5.1)
+FACTORED_CRYSTAL_GNN.md         — CF-GNN architecture paper (v0.3): family heads, exact convergence
+ALGEBRAIC_NAVIGATOR_GUIDE.md    — Practitioner's reference: codec, GNN, patterns
+CRYSTAL_OF_ALGEBRAS.md          — Full enumeration and tier census
+PRIMITIVE_THEOREMS.md           — Formal theorems §1–§77
+SYNTHONICON_DIAPHORICS.md       — Domain compendium (P-1→P-538+, v0.5.69)
+SYNTHONICON_ONTICS.md           — Ontological foundations (v0.5.69)
+PRIMITIVE_PREDICTIONS.md        — Prediction registry (538+ predictions)
+HEBREW_TYPE_LANGUAGE.md         — Hebrew alphabet as stratified type lattice
+LAMBDA_ALEPH.md                 — λ_ℵ calculus formal spec
 docs/
-  USAGE.md                   — Full API and CLI reference
+  NAVIGATOR_ROADMAP.md           — Non-mathematical navigator progress tracker
+  USAGE.md                       — Full API and CLI reference
 ```
 
 The Lean 4 formalization lives in the companion repository **MilleniumAnkh**, which provides machine-checked encodings of all seven Millennium Prize Problems and a formal primitive bridge connecting grammar structure to barrier classification.
