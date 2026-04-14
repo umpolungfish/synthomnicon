@@ -74,8 +74,8 @@ is surjective for every p.
 
 **SynthOmnicon structural note:**
 
-  Hodge is the ONLY Millennium Problem with both D_holo and T_holo simultaneously.
-  All other MPPs with D_holo (RH, BSD, OPN) have T_network or T_bowtie, not T_holo.
+  Hodge is the ONLY Millennium Problem with both D_odot and T_odot simultaneously.
+  All other MPPs with D_odot (RH, BSD, OPN) have T_network or T_bowtie, not T_odot.
   The double-holomorphic structure (complex variety + Hodge decomposition) is the
   primitive signature of the problem.
 
@@ -107,7 +107,7 @@ namespace Millennium.Hodge
     Formally: a smooth integral scheme X, proper over Spec ℂ, with an ample line bundle.
     The smoothness condition ensures the Hodge decomposition exists.
     Mathlib has `AlgebraicGeometry.Scheme` but lacks the smooth projective theory. -/
-axiom SmoothProjectiveVariety : Type*
+axiom SmoothProjectiveVariety : Type
 
 /-- The complex dimension of a smooth projective variety. -/
 axiom complexDim : SmoothProjectiveVariety → ℕ
@@ -124,7 +124,7 @@ axiom complexDim : SmoothProjectiveVariety → ℕ
     The p = 1 case is the (1,1)-theorem: every Hodge class in H^2 is c_1(L) for some
     line bundle L (proved; this is the Lefschetz theorem, NOT the Hodge conjecture).
     The p = 2 and higher cases are open. -/
-axiom HodgeCohomology (X : SmoothProjectiveVariety) (p : ℕ) : Type*
+axiom HodgeCohomology (X : SmoothProjectiveVariety) (p : ℕ) : Type
 
 /-- The zero Hodge class (additive identity). -/
 axiom HodgeClass.zero (X : SmoothProjectiveVariety) (p : ℕ) : HodgeCohomology X p
@@ -135,7 +135,7 @@ axiom HodgeClass.zero (X : SmoothProjectiveVariety) (p : ℕ) : HodgeCohomology 
     of codimension p. Modulo rational equivalence, these form the Chow group CH^p(X).
 
     Well-defined in mathematics; not formalized in Mathlib. -/
-axiom AlgebraicCycle (X : SmoothProjectiveVariety) (p : ℕ) : Type*
+axiom AlgebraicCycle (X : SmoothProjectiveVariety) (p : ℕ) : Type
 
 /-- The cycle class map: sends an algebraic cycle to its cohomology class.
 

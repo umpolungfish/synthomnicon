@@ -4,7 +4,7 @@
 
 import Mathlib.NumberTheory.ArithmeticFunction
 import Mathlib.Data.Nat.GCD.Basic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Group.Int.Even
 import Mathlib.NumberTheory.Divisors
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.Tactic
@@ -68,8 +68,8 @@ Are there any odd ones?
 
 **SynthOmnicon structural note:**
 
-  OPN has primitive tuple D_holo · T_bowtie · F_hbar · Γ_and · Φ_c · Ω_Z.
-  · D_holo: the problem lives in multiplicative structure of ℕ (number-theoretic holomorphic).
+  OPN has primitive tuple D_odot · T_bowtie · F_hbar · Γ_and · Φ_c · Ω_Z.
+  · D_odot: the problem lives in multiplicative structure of ℕ (number-theoretic holomorphic).
   · T_bowtie: the sigma constraint creates a balance condition (σ = 2N is symmetric).
   · Φ_c + Ω_Z: the interaction between the prime factorization (Φ_c charge carriers)
     and the sigma condition (Ω_Z topological winding) creates the OPN constraint.
@@ -103,7 +103,7 @@ def OPNConjecture : Prop := ∀ N : ℕ, ¬ IsOddPerfect N
     This is the key algebraic fact behind both Euler's theorem and all lower bound results. -/
 theorem sigma_multiplicative (m n : ℕ) (hcop : Nat.Coprime m n) :
     sigma 1 (m * n) = sigma 1 m * sigma 1 n :=
-  Nat.ArithmeticFunction.IsMultiplicative.sigma.map_mul_of_coprime hcop
+  isMultiplicative_sigma.map_mul_of_coprime hcop
 
 /-- Perfect squares under σ₁: σ₁(p^(2k)) = (p^(2k+1) - 1)/(p - 1) for prime p.
     This follows from the geometric series formula.
@@ -178,7 +178,7 @@ theorem opn_mod_4 (N : ℕ) (hN : IsOddPerfect N) : N % 4 = 1 := by
     Known lower bound from computer search and theory (Chein 1979, Nielsen 2006).
     Both the search and the theorem are MathlibGap. -/
 theorem opn_has_many_prime_factors (N : ℕ) (hN : IsOddPerfect N) :
-    9 ≤ (N.factors.toFinset).card := by
+    9 ≤ (N.primeFactorsList.toFinset).card := by
   sorry
   -- MathlibGap: Nielsen (2006) proved ≥ 9 prime factors.
   -- Requires Euler's structure + sigma bounds + extensive case analysis.
@@ -259,7 +259,7 @@ theorem euclid_euler_even_perfect (N : ℕ) (heven : 2 ∣ N) (hperf : IsPerfect
 
 /-- The asymmetry: even perfect numbers are fully classified (modulo Mersenne primes);
     odd perfect numbers are not known to exist. This structural asymmetry is a
-    primitive signature of the problem: D_holo structure for even case (Mersenne structure
+    primitive signature of the problem: D_odot structure for even case (Mersenne structure
     is holomorphic in the prime tower); the odd case lacks this organizing principle. -/
 theorem odd_even_perfect_structural_asymmetry : True := trivial
 

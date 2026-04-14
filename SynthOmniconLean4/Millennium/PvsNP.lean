@@ -127,13 +127,13 @@ def BooleanCircuit (n : ℕ) := (Fin n → Bool) → Bool
 
 /-- The size of a circuit: the number of AND/OR/NOT gates in the minimal DAG.
     Declared as an axiom since the DAG structure requires graph infrastructure. -/
-axiom circuitSize {n : ℕ} : BooleanCircuit n → ℕ
+noncomputable axiom circuitSize {n : ℕ} : BooleanCircuit n → ℕ
 
 /-- A circuit family: one circuit per input length. -/
 def CircuitFamily := ∀ n : ℕ, BooleanCircuit n
 
 /-- The size of the n-th circuit in a family. -/
-def familySize (F : CircuitFamily) (n : ℕ) : ℕ := circuitSize (F n)
+noncomputable def familySize (F : CircuitFamily) (n : ℕ) : ℕ := circuitSize (F n)
 
 -- ============================================================
 -- §2. Boolean satisfiability (SAT)
@@ -187,12 +187,12 @@ def SolvesSAT (n : ℕ) (C : BooleanCircuit (2^n)) : Prop :=
 /-- The complexity class P: decision problems solvable in polynomial time.
     Formally: problems decidable by a TM in O(n^k) time for some k.
     Not in Mathlib (polynomial time TM simulation is not formalized). -/
-axiom ComplexityP : Type*
+axiom ComplexityP : Type
 
 /-- The complexity class NP: decision problems verifiable in polynomial time.
     Formally: problems where YES-instances have polynomial-size certificates
     checkable in polynomial time. -/
-axiom ComplexityNP : Type*
+axiom ComplexityNP : Type
 
 /-- P ⊆ NP: every polynomial time algorithm is also a polynomial time verifier
     (just run the algorithm and ignore the certificate).

@@ -38,5 +38,6 @@ globs = [
   "SynthOmnicon.Millennium.OPN",
   "SynthOmnicon.Millennium.BSD",
   "SynthOmnicon.Millennium.Barriers",
-  "SynthOmnicon.Millennium.PrimitiveBridge"
+  "SynthOmnicon.Millennium.PrimitiveBridge",
+  "SynthOmnicon.Millennium.FrobeniusStructure"
 ]

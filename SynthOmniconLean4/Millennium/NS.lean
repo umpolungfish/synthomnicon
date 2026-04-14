@@ -2,10 +2,10 @@
 -- Navier-Stokes Existence and Smoothness — Three-Layer Barrier Analysis
 -- Every sorry is an honest marker. No sorry is dischargeable from current Mathlib.
 
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.Analysis.NormedSpace.Basic
-import Mathlib.MeasureTheory.Function.LpSpace
+import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Tactic
+
+open scoped NNReal
 
 /-!
 # Navier-Stokes Existence and Smoothness: Three-Layer Barrier Analysis
@@ -138,7 +138,7 @@ def PressureField := ℝ≥0 → Space3 → ℝ
     The scaling under u_λ(t,x) = λu(λ²t, λx):
       ‖u_λ(0)‖_{Ḣˢ(ℝ³)} = λ^{s - 1/2} · ‖u₀‖_{Ḣˢ(ℝ³)}
     Critical (scale-invariant) at s = 1/2: λ^0 = 1. -/
-axiom SobolevSpace (s : ℝ) : Type*
+axiom SobolevSpace (s : ℝ) : Type
 
 /-- The H^s Sobolev norm. -/
 axiom sobolevNorm (s : ℝ) : SobolevSpace s → ℝ
@@ -148,7 +148,7 @@ axiom H0_is_L2 : SobolevSpace 0 = SobolevSpace 0  -- placeholder; full isomorphi
 
 /-- A smooth, divergence-free, rapidly-decaying vector field: the class of admissible
     initial data for the Millennium problem. -/
-axiom NSInitialDatum : Type*
+axiom NSInitialDatum : Type
 
 /-- The L² norm of an initial datum (kinetic energy, up to constants). -/
 axiom initialEnergyNorm : NSInitialDatum → ℝ
@@ -161,7 +161,7 @@ axiom initialCriticalNorm : NSInitialDatum → ℝ
 
     Leray (1934) proved global existence of such solutions for any u₀ ∈ L².
     They are NOT known to be smooth or unique. -/
-axiom LerayWeakSolution (u₀ : NSInitialDatum) : Type*
+axiom LerayWeakSolution (u₀ : NSInitialDatum) : Type
 
 /-- The energy inequality for Leray solutions: the L² norm is non-increasing
     and the time-integrated enstrophy is controlled by the initial energy.
@@ -251,8 +251,8 @@ theorem ns_2d_global_regularity_proved : True := trivial
 /-- The equivalence theorem: the sorry is tight. -/
 theorem sorry_iff_ns :
     NavierStokesRegularity ↔
-    (∀ (u₀ : NSInitialDatum), NSGlobalRegularity u₀) := by
-  simp [NavierStokesRegularity]
+    (∀ (u₀ : NSInitialDatum), NSGlobalRegularity u₀) :=
+  Iff.rfl
 
 /-- The sorry is irreducible: any proof immediately gives ns_certificate. -/
 theorem ns_certificate_is_minimal :
@@ -272,7 +272,7 @@ theorem ns_certificate_is_minimal :
     · s < 1/2 (subcritical): norm SHRINKS under small-scale zoom → worse control
     · s > 1/2 (supercritical): norm GROWS under small-scale zoom → better control
     · s = 1/2 (critical): norm INVARIANT → at the exact phase boundary -/
-def CriticalSobolevExponent : ℝ := 1 / 2
+noncomputable def CriticalSobolevExponent : ℝ := 1 / 2
 
 /-- The energy norm (s=0) is strictly subcritical in 3D:
     it lies below the critical exponent. -/
@@ -314,8 +314,8 @@ def GlobalRegularityCert (u₀ : NSInitialDatum) : Prop :=
     providing `GlobalRegularityCert u₀` for every u₀. -/
 theorem ns_barrier :
     NavierStokesRegularity ↔
-    ∀ (u₀ : NSInitialDatum), GlobalRegularityCert u₀ := by
-  simp [NavierStokesRegularity, GlobalRegularityCert]
+    ∀ (u₀ : NSInitialDatum), GlobalRegularityCert u₀ :=
+  Iff.rfl
 
 /-- **The Sobolev gap is the barrier** (formal statement).
 

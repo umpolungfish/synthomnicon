@@ -104,3 +104,46 @@ README.md:
 docs/USAGE.md:
 - Version header: v0.5.2 → v0.5.69
 - New v0.5.69 section: 4 bullets (navigators, 39 catalog entries, key cross-domain results, roadmap file)
+
+SynthOmniconLean4/Primitives/Core.lean (full rewrite — canonical v0.5.69 grammar):
+- All 12 primitive types updated to canonical names
+- D: D_point/D_line/D_cube/D_holo → D_wedge, D_triangle, D_infty, D_odot (𝓕₄, 4 values)
+- T: T_linear/T_branched/T_torus/T_holo → T_network, T_in, T_bowtie, T_box, T_odot (𝓕₅, 5 values)
+- R: renamed Relational; R_super, R_cat, R_dagger, R_lr (𝓕₄, 4 values)
+- P: P_neutral/P_plus/P_minus → P_asym, P_psi, P_pm, P_sym, P_pm_sym (𝓕₅, 5 values)
+- Γ: Gamma_and, Gamma_or, Gamma_seq, Gamma_broad (𝓕₄, 4 values)
+- F: F_noise removed → F_ell, F_eth, F_hbar only (𝓕₃, 3 values)
+- G: reordered → G_beth(1) < G_gimel(2) < G_aleph(3)
+- Ω: Omega_C removed → Omega_0, Omega_Z2, Omega_Z, Omega_NA (𝓕₄, 4 values)
+- S: one_n/cat removed → one_one, n_n, n_m (𝓕₃, 3 values)
+- Crystal arithmetic (§64/§68): crystal_total = 17280000, ouroboros_successor_cycle by decide
+- OuroboricityTier inductive + ouroboricityTier decidable function (R1–R5)
+- frobenius_not_synthesizable: P_pm_sym unreachable by tensor from sub-Frobenius partners
+- Axiom C: D_odot ↔ T_odot
+
+SynthOmniconLean4/Primitives/Synthon.lean (full rewrite):
+- All fields and constructors updated to canonical names
+- tensorProduct: max on union primitives, min on P and F (bottleneck rule)
+- synthonTier function added; o_inf_iff_P_pm_sym_at_phi_c biconditional
+- Encodings corrected: QG (D_odot/T_odot/P_pm_sym), GR (D_infty/P_sym), SM (D_infty/R_cat)
+- New: yang_mills_classical, yang_mills_quantum_target, asymptotic_safety
+- New theorems: ym_barrier_4_primitives=4, sm_qg_distance=9, gr_as_morphism_cost=3
+
+SynthOmniconLean4/Millennium/FrobeniusStructure.lean (new):
+- Added to public repo (was missing)
+
+SynthOmniconLean4/Millennium/*.lean (all 9 files synced):
+- All files updated from private repo (note: constructor names in Millennium/*.lean still pending
+  update to canonical v0.5.69 names — TierCrossing.lean also pending)
+
+MILLENNIUM_BARRIERS_PAPER.md (new — v0.2.0):
+- Added to public repo; paper updated to v0.2.0:
+  §II.3 primitive table rewritten (canonical types/values), §V.3 D_cube→D_infty,
+  §V.6 P_neutral→P_sym, §V.8 Lean sketch updated (canonical field names, D_odot/T_odot),
+  C11 (crystal arithmetic machine-verified), C12 (Frobenius non-synthesizability machine-verified)
+
+TENSOR_PRIMER.md, THREE_PLANE_DEMONSTRATION.md (new):
+- Added from MilleniumAnkh/markdown/
+
+lakefile.toml:
+- FrobeniusStructure added to build targets
