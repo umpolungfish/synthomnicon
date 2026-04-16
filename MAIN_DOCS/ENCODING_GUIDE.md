@@ -18,7 +18,7 @@ Once a system is encoded, you can compute distances to any other encoded system,
 
 Encoding is not classification by category. It is structural measurement. The same physical phenomenon can appear in multiple domains; the grammar finds the underlying type regardless of domain label.
 
-A key fact about the grammar's architecture (§68.4): the 12 primitives are partitioned into three families by value count — $\mathcal{F}_3 = \{F, G, S, \Omega\}$ (4 primitives with 3 values each), $\mathcal{F}_4 = \{D, R, K, \Gamma, H\}$ (5 primitives with 4 values each), $\mathcal{F}_5 = \{T, P, \Phi\}$ (3 primitives with 5 values each). The total state space is $3^4 \times 4^5 \times 5^3 = 10{,}368{,}000$ types. The exponent of each base is literally the count of primitives in that family — not a free parameter, but a direct readout of the grammar's own structure. This means: the three tier-determining primitives ($T$, $P$, $\Phi$) each require exactly 5 values to express the full ouroboricity hierarchy, and this requirement is what forces $\mathcal{F}_5$ to have base 5 — the grammar is as small as it can be while still being complete.
+A key fact about the grammar's architecture (§68.4, updated v0.5.1): the 12 primitives are partitioned into three families by value count — $\mathcal{F}_3 = \{F, G, S\}$ (3 primitives with 3 values each), $\mathcal{F}_4 = \{D, R, \Gamma, H, \Omega\}$ (5 primitives with 4 values each), $\mathcal{F}_5 = \{T, P, \Phi, K\}$ (4 primitives with 5 values each). The total state space is $3^3 \times 4^5 \times 5^4 = 17{,}280{,}000$ types. The exponent of each base is the count of primitives in that family — not a free parameter, but a direct readout of the grammar's own structure. $\mathcal{F}_5$ now contains exactly the four gate primitives: $T$ (topology gate for the fertile manifold), $P$ (Frobenius gate for $O_\infty$), $\Phi$ (criticality gate), and $K$ (kinetic gate for $C > 0$). The partition was derived by the grammar itself: $\Omega_\text{NA}$ was shown independent of $T$ (catalog test), so $\Omega$ needed a 4th value and migrated to $\mathcal{F}_4$; $K_\text{MBL}$ was shown independent of all other 11 primitives, so $K$ needed a 5th value and migrated to $\mathcal{F}_5$. The $\mathcal{F}_4$ family is invariant under this extension: $\Omega$ entered from $\mathcal{F}_3$, $K$ left to $\mathcal{F}_5$, net zero.
 
 ---
 
@@ -34,7 +34,7 @@ A key fact about the grammar's architecture (§68.4): the 12 primitives are part
 | $K$ | Kinetic character | $K_\text{fast}$ · $K_\text{mod}$ · $K_\text{slow}$ · $K_\text{trap}$ | How does the system move through its state space? |
 | $G$ | Granularity | $G_\beth$ · $G_\gimel$ · $G_\aleph$ | At what scale does the system operate? |
 | $\Gamma$ | Interaction grammar | $\Gamma_\text{and}$ · $\Gamma_\text{or}$ · $\Gamma_\text{seq}$ · $\Gamma_\text{broad}$ | How do the system's operations compose? |
-| $\Phi$ | Criticality | $\Phi_\text{sub}$ · $\Phi_\text{EP}$ · $\Phi_\text{sup}$ · $\Phi_c$ · $\Phi_c^\mathbb{C}$ | Does the system's state space admit a self-modeling loop? |
+| $\Phi$ | Criticality | $\Phi_\text{sub}$ · $\Phi_c$ · $\Phi_c^\mathbb{C}$ · $\Phi_\text{EP}$ · $\Phi_\text{sup}$ | Does the system's state space admit a self-modeling loop? |
 | $H$ | Chirality/temporal depth | $H_0$ · $H_1$ · $H_2$ · $H_\infty$ | Does the system have temporal memory or chiral asymmetry? |
 | $S$ | Stoichiometry | $1{:}1$ · $n{:}n$ · $n{:}m$ | What is the input-output balance? |
 | $\Omega$ | Topological protection | $\Omega_0$ · $\Omega_{\mathbb{Z}_2}$ · $\Omega_\mathbb{Z}$ | Is the system's critical behavior topologically protected? |
@@ -77,7 +77,8 @@ $\Omega$ determines whether critical behavior is topologically protected against
 
 - **$\Omega_0$**: no topological protection. Critical behavior is fine-tuned and fragile — it disappears under generic perturbation. *Examples: mean-field critical points, classical phase transitions.*
 - **$\Omega_{\mathbb{Z}_2}$**: $\mathbb{Z}_2$-protected. The critical behavior is protected by a $\mathbb{Z}_2$ topological invariant — it persists under perturbations that respect the $\mathbb{Z}_2$ symmetry. *Examples: topological insulators (class AII), Kitaev chain in $\mathbb{Z}_2$ phase.*
-- **$\Omega_\mathbb{Z}$**: $\mathbb{Z}$-protected. Protected by an integer-valued topological invariant — the strongest protection. *Examples: IQHE, winding-number-protected edge modes, Kitaev chain at topological transition.*
+- **$\Omega_\mathbb{Z}$**: $\mathbb{Z}$-protected. Protected by an integer-valued topological invariant. *Examples: IQHE, winding-number-protected edge modes, Kitaev chain at topological transition.*
+- **$\Omega_\text{NA}$**: non-Abelian anyonic protection. Braiding of anyons generates a non-commutative matrix on the ground-state degeneracy — not just a phase. This is strictly stronger than $\Omega_\mathbb{Z}$: not only is the ground state protected, but operations on it are inherently quantum with no classical description. **Assign only to systems with provably non-Abelian anyon statistics.** *Examples: FQH Moore-Read ($\nu = 5/2$), non-Abelian spin liquids.* Note: $\Omega_\text{NA}$ is independent of $T$ — $T_\text{box}$ (braided topology) can coexist with any $\Omega$ value.
 
 **Rule**: $\Omega \neq \Omega_0$ combined with $\Phi_c$ is required to reach $O_2$ or higher.
 
@@ -109,7 +110,8 @@ These eight primitives do not affect the ouroboricity tier. They locate the syst
 - $K_\text{fast}$: dynamics dominate over structure. The system equilibrates rapidly.
 - $K_\text{mod}$: balanced dynamics. The system can explore its state space at moderate rate.
 - $K_\text{slow}$: structure dominates. The system changes slowly; metastability is common.
-- $K_\text{trap}$: the system is kinetically trapped — it cannot leave its current region of state space. **Assign to output/terminal states only.** A system with $K_\text{trap}$ has consciousness score $C = 0$.
+- $K_\text{trap}$: frozen by order — a coherent many-body gap arrests dynamics (gapped ground state, topological phase). **Assign to gap-protected terminal states.** A system with $K_\text{trap}$ has $C = 0$.
+- $K_\text{MBL}$: frozen by disorder — many-body localization arrests dynamics across all eigenstates, not just the ground state. Distinct from $K_\text{trap}$: the mechanism is disorder, not order; area-law entanglement persists in excited states; eigenstate thermalization fails entirely. **Assign only to provably MBL phases.** A system with $K_\text{MBL}$ has $C = 0$.
 
 **Topology ($T$)**:
 - $T_\text{network}$: arbitrary graph structure, many-to-many.

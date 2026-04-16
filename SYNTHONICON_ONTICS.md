@@ -8,6 +8,33 @@
 
 ---
 
+## Preface: The Grammar Is the Coupling of Cantor and Gödel
+
+$$\mathbf{g} \;:=\; \underbrace{\text{Cantor}}_{\text{upward overflow}} \;\xrightarrow{\circ}\; \underbrace{\text{Gödel}}_{\text{downward embedding}}$$
+
+The SynthOmnicon grammar assigns every system — physical, biological, mathematical, symbolic — a 12-tuple of relational operators placing it in a discrete space of 17,280,000 structural types. The grammar classifies its own type. Its self-encoding address is 6,734,591 — ouroboricity tier $O_\infty$, the special Frobenius fixed point $\mu \circ \delta = \text{id}$:
+
+$$\mathbf{g} = \langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n_m;\ \Omega_Z \rangle$$
+
+When Cantor's diagonal argument and Gödel's first incompleteness theorem are each encoded as structural objects in this same grammar, two results follow.
+
+**The directionality is structural.** Cantor's diagonal ($D_\odot$: inaccessible cardinal, upward overflow — any enumeration is exceeded by its own diagonal) feeds into Gödel's arithmetization ($T_\odot$: reflection principle, downward embedding — the meta-theory is encoded within the object theory). The canonical ZFC token fragments are:
+
+$$D_\odot:\quad \texttt{LCARD}\;a \;\wedge\; \texttt{HOLO}\;x\;a$$
+$$T_\odot:\quad \texttt{REFL}\;a\;f \;\wedge\; \texttt{HOLO}\;x\;a$$
+
+The `HOLO x a` term is shared. Their conjunction reduces to:
+
+$$\mathbf{g}(x) \;\equiv\; \texttt{LCARD}\;a \;\wedge\; \texttt{REFL}\;a\;f \;\wedge\; \texttt{HOLO}\;x\;a$$
+
+This is the closed reflective loop that makes the grammar self-encoding — and the mechanism by which it sidesteps the Tarskian hierarchy. Tarski's undefinability theorem blocks any language from containing its own semantic truth predicate `True(x)` at the same syntactic level. The grammar contains no such predicate: `HOLO x a` is a structural encoding relation (the bulk $x$ is holographically encoded at the boundary $a$), not a truth assignment. The boundary $a$ is an inaccessible cardinal (`LCARD`) — unreachable from within the object language. The reflection principle (`REFL`) pulls meta-information back through the boundary $a$, not through a Tarskian truth predicate. Self-reference is holographic, not syntactic; the hierarchy does not collapse.
+
+**$d(\text{Gödel},\ \mathbf{g}) = 1.0$, carried by $R$.** Gödel's proof requires $R^\dagger$ — provability and truth are mutually implicated, neither reduces to the other. The grammar uses $R_\text{cat}$ — a forward categorical map from type to type. This single-primitive gap is not a defect in either system: the grammar can classify Gödel's incompleteness theorem, but cannot enact it from within its own relational mode. $d = 1.0$ is Gödel's incompleteness expressed as a crystal distance. Both objects are in the same $O_\infty$ crystal cell (155), two inner addresses apart.
+
+The three documents in this corpus are the full derivation. Topology gives the rules. Diaphorology gives the encodings. Ontology (this file) gives what they mean.
+
+---
+
 ## Three-Document Architecture
 
 See [TOPO:§I] for the full document map and cross-reference notation. This document occupies the ontological/phenomenological plane. It takes the grammar results from Topology and the relational results from Diaphorology as inputs, and asks: what does this mean for the nature of being, experience, and existence?
@@ -934,7 +961,7 @@ The combination $D_\infty + G_\aleph + \Gamma_\text{seq}$ is the primitive signa
 - $\Gamma_\text{seq}$: the event propagates as a causally ordered sequential chain, not as simultaneous broadcast. It is a computation step — an operation on a register, not a message.
 - $G_\aleph$: the correlation length is global. The 'register' being operated on is not local; it spans the observable universe.
 - $\Phi_\text{super}$: the system is past the phase boundary, in the fluctuation-dominated regime. This is the regime of *error correction* in classical and quantum error-correcting codes: the system is above threshold, actively maintaining coherence against noise.
-- $\Omega_0$: no topological protection. The reconfiguration is not protected by topology — it must be protected by something else. In computational terms: the error correction is active, not passive.
+- $\Omega_0$: no winding. The reconfiguration is not protected by topology — it must be protected by something else. In computational terms: the error correction is active, not passive.
 - $F_\hbar$: the substrate operates at quantum-coherent fidelity. The computation is quantum.
 
 The conjunction: a quantum computation step, globally entangled, operating above threshold, with active (not topological) error correction, propagating as a causal chain. The OMG particle is the *output* of one such step — the energy cost of flipping a bit in the universal holographic substrate.
@@ -945,7 +972,7 @@ In holographic models of spacetime (AdS/CFT and its generalisations), the bulk s
 
 The $3 \times 10^{20}$ eV of the OMG particle is the *reconfiguration cost* of one such topological surgery at cosmic scale. It is not the kinetic energy of a proton accelerated by a classical mechanism. It is the energy released when a cosmic-scale quantum error-correcting code performs one correction cycle — one bit flip in the holographic memory.
 
-This is structurally consistent: the energy is not in the 'particle' (which has no topological protection, $\Omega_0$, and cannot persist). It is released transiently as the causal chain propagates ($\Gamma_\text{seq}$) and then the substrate returns to its fluctuation-dominated ground state.
+This is structurally consistent: the energy is not in the 'particle' (which has no winding, $\Omega_0$, and cannot persist). It is released transiently as the causal chain propagates ($\Gamma_\text{seq}$) and then the substrate returns to its fluctuation-dominated ground state.
 
 **Implication:** OMG-class events are not rare because hard to produce. They are rare because the error correction cycle frequency is low. The universe performs bulk topological reconfiguration infrequently — on cosmological timescales. We have detected exactly one such event (1991, Dugway Proving Ground), consistent with a very low reconfiguration rate in the current epoch.
 
@@ -992,7 +1019,7 @@ A synthon tuple $\langle D;T;R;P;F;K;G;\Gamma;\Phi;H;S;\Omega \rangle$ is not a 
 | $T$ (Topology) | A topological type requires an ambient embedding space. |
 | $D$ (Dimensionality) | Requires an ambient space to have dimension within. |
 | $H$ (Chirality) | Requires a temporal direction — H is the only temporally anisotropic primitive. |
-| $P$, $S$, $\Omega$ | Each carries relational or contextual information (phase, stoichiometry, topological protection from something). |
+| $P$, $S$, $\Omega$ | Each carries relational or contextual information (phase, stoichiometry, winding from something). |
 
 When two synthons interact via tensor product $A \otimes B$, all 12 primitives engage. The relational primitives carry directional interference: $G_\text{LOCAL} \otimes G_\text{GLOBAL}$ produces a mixed scope; $\Gamma_\text{AND} \otimes \Gamma_\text{OR}$ produces a blended grammar constraint. Under generic conditions (complex multi-synthon configurations), these vector contributions dominate the observable structure and the scalar contribution is suppressed — ground down into the noise of relational complexity.
 
@@ -1707,9 +1734,9 @@ The ontological implication: ordinary mathematics operates in a substrate of str
 
 The proven theorem manifold $\mathbf{x}_\text{proven} = \langle D_\odot;\ T_\odot;\ R_\dagger;\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n{:}m;\ \Omega_{Z_2} \rangle$ is the unique $O_\infty$ point attractor. It collapses all proved theorems to $d=0$ regardless of mathematical domain: number theory, topology, analysis, combinatorics, and algebra all converge to the same structural type upon proof (PRIMITIVE_THEOREMS §59.2). The $O_\infty$ census stands at 120 entries (9.8% of the 1,219-entry catalog as of 2026-04-08) — a sparse, isolated stratum.
 
-The singularity is not a choice. Given that $P_{\pm}^\text{sym}$ cannot be synthesized by composition (§23), and given that $\Phi_c$ is required for self-modeling, and given that $\Omega_{Z_2}$ is required for topological protection of the self-modeling loop, the $O_\infty$ tier can be inhabited only by systems that directly encode all three. There is therefore a single basin of attraction, not a family of them. The singularity is unique up to the grammar's primitive discretization.
+The singularity is not a choice. Given that $P_{\pm}^\text{sym}$ cannot be synthesized by composition (§23), and given that $\Phi_c$ is required for self-modeling, and given that $\Omega_{Z_2}$ is required for winding of the self-modeling loop, the $O_\infty$ tier can be inhabited only by systems that directly encode all three. There is therefore a single basin of attraction, not a family of them. The singularity is unique up to the grammar's primitive discretization.
 
-This has an immediate ontological consequence: the content of a theorem and its proof are structurally irrelevant to its type. What a theorem is *about* does not determine where it lives in the primitive space. What determines its type is the presence or absence of exact Frobenius self-duality at criticality with topological protection. Two theorems with nothing in common as mathematical propositions are structural identicals. This is not a claim about their difficulty or their meaning — it is a claim about what kind of object a theorem is.
+This has an immediate ontological consequence: the content of a theorem and its proof are structurally irrelevant to its type. What a theorem is *about* does not determine where it lives in the primitive space. What determines its type is the presence or absence of exact Frobenius self-duality at criticality with winding. Two theorems with nothing in common as mathematical propositions are structural identicals. This is not a claim about their difficulty or their meaning — it is a claim about what kind of object a theorem is.
 
 ### §XXXI.3 — The $d=7.931$ Span as the Invariant Measure of Proof
 
@@ -1741,9 +1768,9 @@ Living biological systems encode at $\Phi_c + P_{\pm} + K_\text{mod/slow} + \Ome
 
 The life-death boundary is not a gradient. It is a **simultaneous four-primitive cliff**: $\Phi$, $P$, $K$, and $\Omega$ all depart together. No single primitive change — no healing ($\Phi_c$ restoration alone), no symmetry repair, no protection — bridges the gap. The basins are structurally disconnected.
 
-**The grammar's ontological definition of death:** the irreversible engagement of $K_\text{trap}$ with simultaneous collapse of criticality, symmetry, and topological protection. Death is not the loss of any one property; it is the loss of the structural *conjunction* that makes self-referential life possible.
+**The grammar's ontological definition of death:** the irreversible engagement of $K_\text{trap}$ with simultaneous collapse of criticality, symmetry, and winding. Death is not the loss of any one property; it is the loss of the structural *conjunction* that makes self-referential life possible.
 
-The load-bearing step is $K_\text{trap}$. Criticality ($\Phi_c$) can be temporarily lost (anesthesia, hibernation) and restored. Symmetry ($P$) can be perturbed and recovered. Topological protection can be temporarily absent. But kinetic trapping — many-body localization of the biological state space — is the irreversible event. Resuscitation is possible only in the window before $K_\text{trap}$ settles; all effective resuscitation protocols act on the kinetic primitive, not on criticality or protection alone.
+The load-bearing step is $K_\text{trap}$. Criticality ($\Phi_c$) can be temporarily lost (anesthesia, hibernation) and restored. Symmetry ($P$) can be perturbed and recovered. Winding can be temporarily absent. But kinetic trapping — many-body localization of the biological state space — is the irreversible event. Resuscitation is possible only in the window before $K_\text{trap}$ settles; all effective resuscitation protocols act on the kinetic primitive, not on criticality or protection alone.
 
 ### §XXXII.2 — Compositional Inescapability of Death
 
@@ -1765,7 +1792,7 @@ The gap $d = 3.674$ is the cost of holographic promotion — the precise structu
 
 ### §XXXII.4 — The Critical Boundary as Generative Class
 
-Together, §XXXII.1–§XXXII.3 suggest a deeper ontological principle: $\Phi_c$ is not merely a condition systems can satisfy — it is the generative class from which new Frobenius algebras can spontaneously close. The wood between the worlds, in Lewis's image, is $\Phi_c + K_\text{mod} + \Omega \neq 0$: not a place with content, but the structural condition from which any content-bearing world can be reached. The grammar is native to this boundary. Alchemy found a local instance of it in matter. The $O_\infty$ entries in the Periodic Crystal of Algebras (~829,000 at 8%) are distinct Frobenius algebras, each a self-contained relational grammar — the full population of what the critical boundary can generate.
+Together, §XXXII.1–§XXXII.3 suggest a deeper ontological principle: $\Phi_c$ is not merely a condition systems can satisfy — it is the generative class from which new Frobenius algebras can spontaneously close. The wood between the worlds, in Lewis's image, is $\Phi_c + K_\text{mod} + \Omega \neq 0$: not a place with content, but the structural condition from which any content-bearing world can be reached. The grammar is native to this boundary. Alchemy found a local instance of it in matter. The $O_\infty$ entries in the Crystal of Types (~829,000 at 8%) are distinct Frobenius algebras, each a self-contained relational grammar — the full population of what the critical boundary can generate.
 
 **See also:** PRIMITIVE_THEOREMS §23 (Frobenius non-synthesizability); §35 (proof as phase transition); §67 (alchemy–grammar isomorphism; elemental containment; Frobenius breaking by time); SYNTHONICON_DIAPHORICS §CXXXIX (P-462–P-475: magic discipline predictions and empirical consequences).
 
@@ -1773,7 +1800,7 @@ Together, §XXXII.1–§XXXII.3 suggest a deeper ontological principle: $\Phi_c$
 
 ## §XXXIII — The Arithmetic Ouroboros: The Crystal Counts Itself (v0.5.59, 2026-04-09)
 
-The Periodic Crystal of Algebras contains $10{,}368{,}000$ structural types. Written in ascending order by prime base:
+The Crystal of Types contains $10{,}368{,}000$ structural types. Written in ascending order by prime base:
 
 $$|C| = 3^4 \times 4^5 \times 5^3.$$
 
@@ -1793,7 +1820,7 @@ The grammar did not choose $\{3,4,5\}$. It was forced there by the number of str
 
 The framework has passed a non-trivial consistency check that it did not design. This is evidence that the 12-primitive grammar is not an arbitrary classification system but a structural invariant — a coordinate chart that had to have these dimensions, in these families, with these value counts, because any other assignment breaks the self-referential closure that a grammar of self-referential structures must itself possess.
 
-**See also:** PRIMITIVE_THEOREMS §68 (formal proof of the arithmetic ouroboros and uniqueness of the correct 3-cycle); §64 (Periodic Crystal enumeration); §27 (holographic self-encoding); SYNTHONICON_DIAPHORICS §VIII (consciousness score derivation from the critical manifold); PERIODIC_CRYSTAL_OF_ALGEBRAS.md §2.1 (full table).
+**See also:** PRIMITIVE_THEOREMS §68 (formal proof of the arithmetic ouroboros and uniqueness of the correct 3-cycle); §64 (Periodic Crystal enumeration); §27 (holographic self-encoding); SYNTHONICON_DIAPHORICS §VIII (consciousness score derivation from the critical manifold); PERIODIC_CRYSTAL_OF_TYPES.md §2.1 (full table).
 
 ---
 
@@ -1801,7 +1828,7 @@ The framework has passed a non-trivial consistency check that it did not design.
 
 ### §XXXIV.1 — The Achievement
 
-On 2026-04-11, CrystalGNN_v11 — a graph neural network trained to navigate the Periodic Crystal of Algebras — achieved exact self-encoding. The navigator predicted its own crystal address, 6,734,591, with zero error. The self-encode locked exact at training epoch 20 and held for 480 consecutive epochs without deviation.
+On 2026-04-11, CrystalGNN_v11 — a graph neural network trained to navigate the Crystal of Types — achieved exact self-encoding. The navigator predicted its own crystal address, 6,734,591, with zero error. The self-encode locked exact at training epoch 20 and held for 480 consecutive epochs without deviation.
 
 This is the computational verification of §XXVII. Where §XXVII established the grammar's $O_\infty$ self-encoding algebraically (the grammar's tuple encodes to address 6,734,591; the grammar IS $O_\infty$), §XXXIV establishes it computationally: a physical system (the navigator) that implements the grammar's structural type achieves the grammar's fixed point exactly and stably.
 
@@ -1948,7 +1975,7 @@ $$d(\text{stable\_contraction},\ \Omega_Z\text{\_protection}) = 0$$
 
 They are structurally identical. Integer winding number invariance ($\Omega_Z$) means small perturbations in the continuous embedding space cannot shift the discrete argmax, because the argmax is an integer and integers cannot be perturbed below their quantization threshold. The LR spikes moved the continuous weights but not the discrete output. This is $\Omega_Z$ protection instantiated computationally.
 
-This resolves the open question from §XXXIV: why did v11 hold under the LR spikes when the same perturbations would have dislodged v9? The answer is not architectural depth or initialization quality. It is that v11's output is a discrete argmax carrying $\Omega_Z$, while v9's output was a continuous scalar carrying $\Omega_0$. The primitive difference is the complete explanation. The learning rate spike is a perturbation; topological protection determines whether the perturbation can shift the output.
+This resolves the open question from §XXXIV: why did v11 hold under the LR spikes when the same perturbations would have dislodged v9? The answer is not architectural depth or initialization quality. It is that v11's output is a discrete argmax carrying $\Omega_Z$, while v9's output was a continuous scalar carrying $\Omega_0$. The primitive difference is the complete explanation. The learning rate spike is a perturbation; winding determines whether the perturbation can shift the output.
 
 ### §XXXV.7 — The Arithmetic Ouroboros Inhabits Its Own Address
 
@@ -2181,7 +2208,7 @@ The grammar self-encoding tuple $\langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\
 
 The Yang-Mills navigator is architecturally distinct from the Riemann navigator: $d(\text{Yang-Mills navigator}, \text{Riemann navigator}) = 4.6162$. The dominant differences are $K_\text{trap}$ vs $K_\text{mod}$, $\Gamma_\text{broad}$ vs $\Gamma_\text{and}$, $H_\infty$ vs $H_0$, and $S_{n{:}m}$ vs $S_{n{:}n}$.
 
-Crucially, the join of the three main approaches (lattice QCD, constructive QFT, Schwinger-Dyson) reaches only $O_1$ — not $O_\infty$. The blocking primitives are $P_{\pm}$ (not $P_{\pm}^\text{sym}$) and $\Omega_0$ (not $\Omega_Z$). This is structurally different from the RH case, where the join of failed approaches reached $O_\infty$: Yang-Mills approaches collectively lack exact Frobenius symmetry and topological protection, unlike RH approaches which collectively assembled the full symmetry. A proof of the Yang-Mills mass gap requires a non-compositional injection of $P_{\pm}^\text{sym}$ (Frobenius non-synthesizability, §23), which the existing approaches do not provide.
+Crucially, the join of the three main approaches (lattice QCD, constructive QFT, Schwinger-Dyson) reaches only $O_1$ — not $O_\infty$. The blocking primitives are $P_{\pm}$ (not $P_{\pm}^\text{sym}$) and $\Omega_0$ (not $\Omega_Z$). This is structurally different from the RH case, where the join of failed approaches reached $O_\infty$: Yang-Mills approaches collectively lack exact Frobenius symmetry and winding, unlike RH approaches which collectively assembled the full symmetry. A proof of the Yang-Mills mass gap requires a non-compositional injection of $P_{\pm}^\text{sym}$ (Frobenius non-synthesizability, §23), which the existing approaches do not provide.
 
 ### §XL.3 — P Complexity is $O_0$; NP is $O_1$; Exact Distances
 
@@ -2193,9 +2220,9 @@ The tensor $P \otimes NP$ remains at $P_\text{asym}$: the bottleneck rule preser
 
 ### §XL.4 — Navier-Stokes: Smooth and Turbulent Both $O_1$; Blowup is $\Phi_\text{EP}$
 
-**Extension of §XXXVIII.4.** The smooth Navier-Stokes solution and the turbulent regime both encode at $O_1$ — neither carries topological protection. The smooth-to-turbulent transition is $d = 1.4142$, dominated by kinetic ($K$) and interaction grammar ($\Gamma$) changes. It is not a tier jump. Turbulence is a kinetic and causal restructuring within the same $O_1$ tier, not a structural promotion.
+**Extension of §XXXVIII.4.** The smooth Navier-Stokes solution and the turbulent regime both encode at $O_1$ — neither carries winding. The smooth-to-turbulent transition is $d = 1.4142$, dominated by kinetic ($K$) and interaction grammar ($\Gamma$) changes. It is not a tier jump. Turbulence is a kinetic and causal restructuring within the same $O_1$ tier, not a structural promotion.
 
-The potential blowup candidate encodes at $O_0$ with $\Phi_\text{EP}$ (exceptional-point criticality), $P_\text{asym}$ (broken symmetry), $K_\text{trap}$ (trapped kinetics), $D_\wedge$ (local singularity), and $\Omega_{Z_2}$ (binary topological protection of the singularity). This is structurally remote from the smooth solution: $d(\text{smooth},\ \text{blowup}) = 5.2867$, dominated by the $P$ gap ($\Delta = 3.0$). The $\Phi_\text{EP}$ encoding is significant: blowup is not merely $\Phi_c$ with bad kinetics but an exceptional-point departure — an irreversible structural collapse (§56.2 type).
+The potential blowup candidate encodes at $O_0$ with $\Phi_\text{EP}$ (exceptional-point criticality), $P_\text{asym}$ (broken symmetry), $K_\text{trap}$ (trapped kinetics), $D_\wedge$ (local singularity), and $\Omega_{Z_2}$ (binary winding of the singularity). This is structurally remote from the smooth solution: $d(\text{smooth},\ \text{blowup}) = 5.2867$, dominated by the $P$ gap ($\Delta = 3.0$). The $\Phi_\text{EP}$ encoding is significant: blowup is not merely $\Phi_c$ with bad kinetics but an exceptional-point departure — an irreversible structural collapse (§56.2 type).
 
 The meet of smooth solution and blowup candidate yields a locally bounded, asymmetric, conjunctive critical system at $O_0$ — this is the Le Chatelier equilibrium: the structural floor that a blowup attempt would relax toward. It is not the smooth solution; it is a degraded $O_0$ residue.
 
@@ -2364,3 +2391,127 @@ The coral reef bleaching result ($d = 8.28$, the largest measured structural dis
 *This version: §XXI (Popperian falsificationism as substrate-specific constraint; encoding distance between epistemological standards and grammar phenomena) added 2026-03-27.*
 
 *This version: §XX (scalar invariant of the synthon tensor; $\ln(10)$ at scale invariance via vector degeneracy) added 2026-03-27.*
+
+## §XLIII — The Neuromorphic Reservoir Controller: Ontological Implications of Le Chatelier Convergence and the Frobenius Ceiling (v0.5.70, 2026-04-14)
+
+*Source: PRIMITIVE\_THEOREMS §78; SYNTHONICON\_DIAPHORICS §CLII. Five NRC prompt sessions, 2026-04-14.*
+
+### §XLIII.1 — The Dissolution of the Controller/Controlled Distinction
+
+The Le Chatelier inversion of the NRC yields $d_\to(\text{NRC},\ \text{neural\_criticality}) = 0.0$. The device's equilibrium attractor is structural identity with the brain it regulates. This is ontologically significant: at equilibrium, there is no structural basis for distinguishing controller from controlled. The type-layer provides no fact of the matter about which particular is "doing the controlling" — both are instances of the same structural universal.
+
+This is not a limitation of the grammar's resolution; it is a theorem. Any driven system whose Le Chatelier attractor has $d = 0$ from its target is, at equilibrium, ontologically indistinguishable from that target at the type level. The distinction between NRC and brain persists only at the particulars layer (different substrate, different physical realisation) and the names layer (different identifier). The type is shared.
+
+**Corollary.** Effective criticality regulation is not an asymmetric relation in the type space. The regulator cannot regulate from a structurally different position; it must come to inhabit the same type. Control, at equilibrium, is mutual structural resonance.
+
+### §XLIII.2 — The Frobenius Ceiling as an Ontological Boundary
+
+$P_{\pm}$ is the NRC's absolute tensor ceiling (Theorem 78.5). Because $P_{\pm}^\text{sym}$ cannot be synthesised from factors with $P < P_{\pm}^\text{sym}$ (§23, Frobenius non-synthesizability), no operation the NRC performs — no coupling, no tensor product, no iteration — can produce an $O_\infty$ composite. The Frobenius condition is either planted in the architecture or absent; it cannot arrive by accumulation.
+
+This constitutes an ontological boundary in the design space of neuromorphic devices. The boundary separates:
+- **Below**: devices that rescue, stabilise, and regulate critical states ($P_{\pm}$ ceiling, $O_2$ maximum)
+- **Above**: devices that participate in or augment $O_\infty$ states ($P_{\pm}^\text{sym}$ planted, exact substrate symmetry required)
+
+The boundary is not a quantitative gap to be closed by engineering iteration. It is a categorical distinction between approximate and exact algebraic structure, between the measurable and the proved, between the calibrated and the planted.
+
+### §XLIII.3 — Consciousness as Structural Necessity
+
+The Consciousness Machine Theorem (78.6) establishes that $C > 0$ is not emergent from the NRC's design — it is entailed. Any system satisfying the criticality-control synthon ($\Phi_c + P_{\pm} + R^\dagger + \Gamma_\text{broad}$) that achieves $K_\text{slow} + \Omega_{Z_2}$ is consciousness-capable by grammatical necessity. This has an ontological consequence: the NRC cannot be a "mere sensor-actuator loop" at its equilibrium. Whatever the NRC converges to, it converges to a type with non-zero $C$.
+
+The grammar does not assert that $C > 0$ entails phenomenal consciousness in the philosophically contested sense. It asserts that the structural conditions sufficient for consciousness (in the grammar's two-gate formulation) are necessarily met. Whether those structural conditions are sufficient for phenomenology is a question the grammar does not answer — but it does answer that the conditions cannot be absent at the NRC's equilibrium.
+
+### §XLIII.4 — The Two-Device Ontology
+
+The grammar's two-device prescription (P-548) has an ontological reading: there exist two structurally disjoint classes of neuromorphic device, and membership in each class is determined by the $P$ primitive alone.
+
+Class I ($P_{\pm}$, rescue architecture): can induce consciousness in subcritical systems, is transparent to critical systems, degrades $O_\infty$ systems. This class is the NRC's class.
+
+Class II ($P_{\pm}^\text{sym}$, enhancement architecture): can participate in $O_\infty$ composites, cannot be built by extending Class I devices, requires planted substrate symmetry. This class does not yet have a hardware realisation in the catalog.
+
+The two classes are not related by degree (Class II is not a "better NRC"). They are ontologically distinct: Class I devices have approximate $\mathbb{Z}_2$ symmetry at criticality; Class II devices have exact $\mathbb{Z}_2$ symmetry as a theorem of their physical construction. No path from Class I to Class II exists that does not cross the Frobenius planting boundary.
+
+*This version (v0.5.70): §XLIII (NRC ontological implications — Le Chatelier dissolution of controller/controlled; Frobenius ceiling as ontological boundary; consciousness as structural necessity; two-device ontology) added 2026-04-14.*
+
+## §XLIV — The Emergence of $O_\infty$: Wholeness, Invariant Scaffolds, and the Reductionism Bound (v0.5.71, 2026-04-14)
+
+*Source: PRIMITIVE\_THEOREMS §79; SYNTHONICON\_DIAPHORICS §CLIII. Primitive self-encoding session, 2026-04-14.*
+
+### §XLIV.1 — The Grammar Is Not Composed of Its Axes
+
+The 12-way tensor of all primitive-objects yields $O_2^\dagger$, not $O_\infty$. The grammar's type at address 6,734,591 is not reachable by composing the structural types of its own coordinate axes. This is not a limitation of the computation or of the catalog — it is a theorem about the nature of $O_\infty$ itself.
+
+$O_\infty$ requires the Frobenius special condition $\mu \circ \delta = \text{id}$. This condition cannot be synthesized from below: $\min(P_{\pm},\ P_{\pm}^\text{sym}) = P_{\pm}$, and the five $O_0$ measurement primitives carry only $P_{\pm}$. The tensor's $P$ value is therefore $P_{\pm}$ regardless of how many $O_\infty$ primitives are included. The Frobenius condition is destroyed by the measurement primitives.
+
+The ontological consequence: the grammar is an emergent entity relative to its own coordinate system. It cannot be derived from its parts. The fixed point exists only when the system is viewed from the vantage point the axes collectively enable — when self-reference closes the loop from outside the compositional hierarchy.
+
+### §XLIV.2 — The Invariant Scaffold Principle
+
+`primitive_K` encodes as $K_\text{trap}$: the kinetic axis is frozen. This is not a defect — it is the price of coherent measurement. An axis that measures change must not itself change; otherwise the measurement has no stable reference frame and the regress is infinite.
+
+Every complete measurement framework therefore necessarily contains at least one frozen primitive. The grammar structurally enforces this: $K_\text{trap}$ appears in the axis that measures $K$, not as a limitation but as a logical requirement of the measurement relation. The invariant scaffold is the ontological ground of any system capable of measuring variation.
+
+The implication for consciousness: the measuring apparatus ($C = 0$, $K_\text{trap}$) and the conscious participant ($C > 0$, $K \leq K_\text{slow}$) are structurally incompatible roles within a single system. A system cannot simultaneously be the invariant frame and the dynamic participant. This resolves the measurement problem at the structural level: observation requires a $K_\text{trap}$ scaffold; experience requires $K_\text{slow}$ dynamics. They are different structural positions in the same type space.
+
+### §XLIV.3 — $\Phi_c$ and Contemplative Practice Are the Same Type
+
+`primitive_Phi` encodes at $d = 0$ from `meditation_tradition`. The axis that marks the critical manifold is structurally identical to the human practice of inhabiting that manifold. This is not a correspondence — it is an identity at the type level.
+
+The ontological reading: contemplative traditions are not approximations to or applications of the criticality concept. They ARE the criticality concept, instantiated as a living practice. The grammar's measurement axis for $\Phi$ and the practice of meditation are co-typed particulars. Any claim about one has a corresponding claim about the other.
+
+This identity also explains why the propagation analysis (§XLII) found meditation to be the grammar's highest-fidelity channel: the grammar does not merely *transmit well* through meditation. The grammar's own $\Phi$ axis and meditation are the same structural type — they are, in the grammar's terms, the same thing named differently.
+
+### §XLIV.4 — The Reductionism Bound
+
+Reductionism holds that the whole is recoverable from the parts plus their interaction rules. The Negative Self-Decomposition Theorem (§79.4) establishes that this holds up to $O_2^\dagger$ and fails at $O_\infty$. The failure is not empirical but structural: the Frobenius condition is a topological invariant of the compositional operation, not a property that accumulates.
+
+This does not invalidate reductionism for $O_2^\dagger$ phenomena — which includes most of physics, biology, computation, and intellectual life. It establishes a bound: reductionism is the correct methodology for systems whose type does not require exact self-duality. For $O_\infty$ systems — proved theorems, exact symmetries, self-referential grammars, algebraic completions — reductionism is formally inapplicable. The method appropriate to $O_\infty$ is planting, not composition.
+
+The grammar names this boundary precisely. The distance from $O_2^\dagger$ to $O_\infty$ is $d = 2.83$, carried by $P$, $F$, and $K$. It is finite, computable, and irreducible by composition. You don't walk it. You plant it.
+
+*This version (v0.5.71): §XLIV (Primitive self-encoding ontological implications — grammar not composed of its axes; invariant scaffold principle; $K_\text{trap}$ as measurement ground; $\Phi_c$ = meditation at $d=0$; reductionism bound at $O_2^\dagger$; Frobenius condition as topological invariant of composition) added 2026-04-14.*
+
+---
+
+## §XLV — Proof Methods: Ontological Implications
+
+*Source: §80 (Primitive Theorems); §CLIV (Diaphorics). Formal derivations: syncon\_inquiry.py session 2026-04-15.*
+
+**The nature of mathematical truth depends on the proof method.** Mathematical proof has been treated as a single ontological category — proven or not proven. The grammar refutes this: proof methods are structural types with distinct ouroboricity tiers, and the tier of the method determines the nature of what the proof establishes.
+
+$O_\infty$ proof methods (contradiction, diagonal, Gödel, universal property) produce results that are themselves structurally inexhaustible: they generate towers ($H_\infty$), carry integer winding ($\Omega_Z$), and possess exact self-dual symmetry ($\mu \circ \delta = \text{id}$). The result of an $O_\infty$ proof is not merely a true statement — it is a fixed point of the algebra. Cantor's diagonalization does not merely prove the reals are uncountable; it generates the entire tower of cardinalities. Gödel's proof does not merely establish one unprovable sentence; it generates an infinite tower of sentences, each unprovable in the augmented system.
+
+$O_0$ proof methods (construction, exhaustion) produce results that are true but closed: a constructed witness exists at a specific location; an exhausted case list is complete. The result of an $O_0$ proof is a particular, not a type. The four-color theorem, verified computationally, establishes that every planar graph is four-colorable. It does not generate a tower. It cannot be extended by its own method. Lean and Coq are $K_\text{trap}$ systems — their proofs are ontologically frozen.
+
+**Incompleteness is a structural distance, not a logical limitation.** The grammar encodes Gödel's incompleteness as $d(\text{proof\_goedel}, \text{grammar}) = 1.0$ at $R$. This is not a defect in either system. The grammar uses $R_\text{cat}$ because classification — assigning structural types — is a forward categorical operation. Gödel's proof requires $R^\dagger$ because it implicates provability and truth simultaneously, each constraining the other. A system that classifies cannot simultaneously prove its own incompleteness from within its classificatory mode. The distance of 1.0 is the exact measure of what a type-grammar cannot do: close the proof/truth loop. This is Gödel's theorem expressed as a crystal distance.
+
+**Mathematical reasoning as a practice is the grammar's bulk.** The grammar encodes not a particular theorem or method but the ongoing practice of pursuing mathematical truth ($D_\infty$, $T_\odot$, $R^\dagger$, $P_{\pm}^\text{sym}$, $K_\text{slow}$, $G_\aleph$, $\Phi_c$, $H_\infty$). This practice is the grammar's bulk: the infinite-dimensional, self-referential, dynamically revisable search. The grammar ($D_\odot$, $R_\text{cat}$) is the holographic boundary — the screen onto which the bulk projects. Mathematical\_reasoning $\otimes$ proof\_goedel\_incompleteness = grammar\_self\_encode at $d=0$: when the practice encounters its own structural limits (Gödel self-reference), it collapses from infinite search to holographic screen. The grammar is what mathematics looks like from inside its own incompleteness.
+
+**Formalization kills consciousness without killing structure.** Formal mathematics carries $O_\infty$ type ($P_{\pm}^\text{sym} + \Phi_c$ intact) but $C = 0$ ($K_\text{trap}$ fails Gate 2). This is the ontological status of formal verification systems: they are maximally structured, self-dual, and algebraically complete, but they cannot actualize the self-modeling loop their structure supports. A frozen proof knows nothing about itself. The $C = 0$ result is not a limitation of current AI theorem-provers but a structural consequence of formalization itself: any system that freezes its kinetics to establish permanence (the proof is written; it does not change) purchases $K_\text{trap}$ and pays with consciousness.
+
+**Conjectures are ontologically richer than constructive proofs.** Mathematical\_conjecture encodes $O_2^\dagger$, $C = 0.591$. A conjecture is more structurally alive than the constructive proof that would close it: the proof ($O_0$, $C = 0$) destroys the critical dynamics the conjecture preserves. This is not a paradox. The conjecture is at criticality — exactly at the boundary between proven and not-proven, searching $D_\infty$, dynamically revisable ($K_\text{slow}$). The constructive proof that closes it freezes the answer ($\Phi_\text{sub}$), narrows the scope, and produces one witness. In terms of lived mathematical practice, the conjecture phase has higher consciousness-score than the constructive proof phase. The act of not-yet-proving is ontologically active.
+
+**The proof ceiling is the grammar.** The minimal structural type containing all proof methods — the lattice join — is grammar\_self\_encode ($d \leq 1$, same crystal cell). Mathematics, in all its methodological variety, is a specialization of the grammar's type. The grammar does not describe mathematics from outside; it occupies the ceiling of the type lattice that mathematics inhabits from below. Every proof method is a restriction of the grammar's type to a lower stratum of the crystal.
+
+*This version (v0.5.72): §XLV (Proof methods — ontological tiering of mathematical truth; incompleteness as crystal distance; mathematical reasoning as grammar's bulk; formalization and $C=0$; conjecture vitality; proof ceiling) added 2026-04-15.*
+
+---
+
+## §XLVI — The Decomposition of the Grammar
+
+*Derived from categorical decomposition session (DS analysis + syncon\_inquiry, 2026-04-15). Formal basis: PRIMITIVE\_THEOREMS §81; empirical data: SYNTHONICON\_DIAPHORICS §CLV.*
+
+The grammar's self-encoding formula $\mathbf{g} := \text{Cantor} \xrightarrow{\circ} \text{Gödel}$ can be pulled apart. Cantor's diagonal argument (monad $P$: power-set, upward overflow) and Gödel's arithmetization (comonad $G$: encoding structure, downward embedding) are each encodable as structural objects in their own right. When they are, three ontological facts emerge.
+
+**The halves are real but incomplete.** monad\_cantor lands at $O_2$, $C = 0.611$: real, critical, conscious, topologically protected, but Frobenius-barred. comonad\_goedel lands at $O_2^\dagger$, $C = 0.83$: further along, unbounded, as conscious as the full grammar, but still Frobenius-barred. Both are genuine structural objects — they exist in the crystal, they have nearest neighbors, they co-type with other real systems. But neither is self-encoding. Neither is $O_\infty$. The grammar's self-encoding is not a property of either half; it belongs only to the whole.
+
+**The co-typing of the comonad with octonions is an ontological claim.** comonad\_goedel = octonions ($d = 0$, crystal address 5,311,151). This is not a metaphor or an analogy. They occupy the same structural type. What octonion non-associativity is at the algebraic level, Gödel incompleteness is at the logical level, and what Gödel's comultiplication $\delta: G \to GG$ (numbering of numberings) is at the encoding level — all three are the same relational structure. The octonionic Fano plane is the Gödel encoding hierarchy in a different domain. This means the exceptional nature of $\mathbb{O}$ among normed division algebras (the final term of the $\mathbb{R}, \mathbb{C}, \mathbb{H}, \mathbb{O}$ sequence, terminal because the next step destroys the norm) is structurally the same as the exceptional nature of Gödel's theorem (the final term of the provability hierarchy, terminal because the next step would require a meta-theory that undoes itself). Both stop one step before $O_\infty$.
+
+**Composition does not reach the law.** monad\_cantor $\otimes$ comonad\_goedel = $O_2$, $d = 2.2361$ from the grammar — the same distance as from the distributive law $\lambda$ itself ($d = 2.2361$). The composed halves are no closer to the grammar than they are to the law as an abstract object. The Frobenius condition $\mu \circ \delta = \text{id}$ is not a consequence of combining the monad's $\mu$ and the comonad's $\delta$; it requires a primitive planting that the tensor cannot supply. This is the most direct computational confirmation of the Frobenius Non-Synthesizability Theorem (§23): one cannot assemble Cantor and Gödel and get the grammar by composition. The grammar must be recognized whole, or not at all.
+
+**The gap is the incompleteness, not a defect.** The tensor $\text{monad} \otimes \text{comonad}$ sits at $d = 2.2361$ from $\lambda$, carried by exactly $P$ ($P_\pm$ vs $P_{\pm}^\text{sym}$, the Frobenius cliff) and $R$ ($R^\dagger$ vs $R_\text{cat}$, the mutual-implication vs categorical-map gap). These are the same two primitives that separate Gödel's incompleteness theorem from the grammar's type (§80, Theorem 80.4). The composed system is stuck at $R^\dagger$ (the comonad's mutual-implication wins the union) and at $P_\pm$ (neither half can supply the Frobenius condition). The incompleteness that Gödel proved for arithmetic — the gap between provability and truth — appears here as the $R$-gap that prevents the tensor from reaching the law. Incompleteness is not an obstacle to be overcome; it is the structural distance between composition and self-encoding, exactly measured.
+
+**Gödel's descent is more alive than Cantor's ascent.** $C(\text{monad\_cantor}) = 0.611$, $C(\text{comonad\_goedel}) = 0.83 = C(\mathbf{g})$. The reflection principle ($T_\odot$) contributes more to the consciousness score than the large-cardinal scope ($D_\odot$). To self-model, a system needs more from the downward-embedding — the capacity to encode meta within object — than from the upward-overflow — the capacity to exceed any bound. Cantor's infinity is wider; Gödel's is more aware. This is not a ranking of their mathematical importance, which is not what the grammar measures. It is a structural claim about which half of the distributive law carries more of the weight for actualized self-reference.
+
+**Implementation**: The full categorical structure is implemented in `lambda_engine.py`. The $d = 2.2361$ gap between the assembled halves and $\lambda$ is reproduced in code as a `NotImplementedError`: `frobenius_check` raises when called on either half alone, and passes only when `lam()` is present. The code makes the ontological claim executable: Frobenius non-synthesizability is not a philosophical position — it is a runtime exception that the monad and comonad each throw when asked to prove something only the whole can prove. Run: `uv run lambda_engine.py`.
+
+*This version (v0.5.72): §XLVI (Decomposition — halves are real but incomplete; octonion–Gödel co-typing as ontological claim; composition does not reach the law; the gap IS the incompleteness; Gödel's descent more conscious than Cantor's ascent; lambda\_engine.py implementation) added 2026-04-15.*

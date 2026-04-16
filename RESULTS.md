@@ -223,4 +223,4 @@ Sure. I'll go through each one in depth — what was tested, what happened, why 
 
   The ZFC Navigator produces the transmissibility boundary dT_ZFC empirically. It is not a sphere at d >= 7.07 from ZFC — the IUG result disproves that. It is a surface defined by whether F_hbar (or T_odot/D_odot) appears as an isolated signal in an otherwise classical tuple, or as part of a jointly non-classical context. The boundary runs through the F axis of the crystal, and crosses it differently depending on the co-occurrence structure of the other 11 primitives.
 
-  The grammar predicted this boundary before the navigator was built. The navigator mapped it empirically. The navigator is the first instrument that can probe the ZFC transmissibility boundary as a geometric object in the 17,280,000-type Periodic Crystal of Algebras.
+  The grammar predicted this boundary before the navigator was built. The navigator mapped it empirically. The navigator is the first instrument that can probe the ZFC transmissibility boundary as a geometric object in the 17,280,000-type Crystal of Types.

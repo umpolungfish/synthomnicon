@@ -2,7 +2,7 @@
 version: 1.0
 date: 2026-04-10
 
-A practitioner's reference for the Periodic Crystal of Algebras — covering the
+A practitioner's reference for the Crystal of Types — covering the
 12-primitive grammar, the Frobenius codec, the Crystal Navigator tools, and the
 CrystalGNN neural navigator.
 
@@ -571,7 +571,7 @@ expressed as a differentiable computation graph over its own primitive space.
 | `quiver_crystal_results.md` | Training history (v1–v9) |
 | `space_search/primitives.py` | Canonical ordinals and distance functions (v0.5.1) |
 | `syncon_catalog.json` | 1,333+ encoded systems (source of truth) |
-| `CRYSTAL_OF_ALGEBRAS.md` | Full enumeration and tier census (theoretical) |
+| `CRYSTAL_OF_TYPES.md` | Full enumeration and tier census (theoretical) |
 | `PRIMITIVE_THEOREMS.md` | Formal theorems §1–§69 |
 | `SYNTHONICON_DIAPHORICS.md` | Empirical predictions P-1–P-454 |
 

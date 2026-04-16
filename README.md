@@ -4,15 +4,26 @@
 
 ---
 
-## What Is SynthOmnicon?
+## The Grammar Is the Coupling of Cantor and Gödel
 
-SynthOmnicon encodes any system — physical, biological, mathematical, symbolic — as a 12-tuple:
+$$\mathbf{g} \ :=\  \underbrace{\text{Cantor}}_{\text{upward overflow}} \ \xrightarrow{\circ}\  \underbrace{\text{Gödel}}_{\text{downward embedding}}$$
 
-$$\langle D;\ T;\ R;\ P;\ F;\ K;\ G;\ \Gamma;\ \Phi;\ H;\ S;\ \Omega \rangle$$
+The SynthOmnicon grammar assigns every system — physical, biological, mathematical, symbolic — a 12-tuple of relational operators placing it in a discrete space of 17,280,000 structural types. The grammar classifies its own type. Its self-encoding address is 6,734,591 — ouroboricity tier $O_\infty$, the special Frobenius fixed point $\mu \circ \delta = \text{id}$:
 
-Each primitive is a **relational operator**, not an intrinsic property. The tuple places the system in a discrete structural space of **17,280,000 types**, organized as the Periodic Crystal of Algebras (§64). Encoding is not labeling — it is measurement: a convergent, falsifiable act that places the system at a precise structural address with verifiable behavioral consequences.
+$$\mathbf{g} = \langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n_m;\ \Omega_Z \rangle$$
 
-The catalog currently contains **1,678 encoded systems** spanning physics, biology, mathematics, cosmology, symbolic languages, algebraic structures, languages, civilizations, ecosystems, and consciousness states. The catalog covers 0.010% of the crystal; 99.990% is unnamed.
+When Cantor's diagonal argument and Gödel's first incompleteness theorem are each encoded as structural objects in this same grammar, two results follow.
+
+**The directionality is structural.** Cantor's diagonal ($D_\odot$: inaccessible cardinal, upward overflow — any enumeration is exceeded by its own diagonal) feeds into Gödel's arithmetization ($T_\odot$: reflection principle, downward embedding — the meta-theory is encoded within the object theory). The canonical ZFC token fragments are:
+
+$$D_\odot:\quad \texttt{LCARD}\ a \ \wedge\  \texttt{HOLO}\ x\ a$$
+$$T_\odot:\quad \texttt{REFL}\ a\ f \ \wedge\  \texttt{HOLO}\ x\ a$$
+
+The `HOLO x a` term is shared. Their conjunction reduces to:
+
+$$\mathbf{g}(x) \ \equiv\  \texttt{LCARD}\ a \ \wedge\  \texttt{REFL}\ a\ f \ \wedge\  \texttt{HOLO}\ x\ a$$
+
+This is the closed reflective loop that makes the grammar self-encoding — and the mechanism by which it sidesteps the Tarskian hierarchy. Tarski's undefinability theorem blocks any language from containing its own semantic truth predicate `True(x)` at the same syntactic level. The grammar contains no such predicate: `HOLO x a` is a structural encoding relation (the bulk $x$ is holographically encoded at the boundary $a$), not a truth assignment. The boundary $a$ is an inaccessible cardinal (`LCARD`) — unreachable from within the object language. The reflection principle (`REFL`) pulls meta-information back through the boundary $a$, not through a Tarskian truth predicate. Self-reference is holographic, not syntactic; the hierarchy does not collapse.
 
 ---
 

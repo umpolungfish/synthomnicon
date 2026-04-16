@@ -6,6 +6,33 @@
 
 ---
 
+## Preface: The Grammar Is the Coupling of Cantor and Gödel
+
+$$\mathbf{g} \;:=\; \underbrace{\text{Cantor}}_{\text{upward overflow}} \;\xrightarrow{\circ}\; \underbrace{\text{Gödel}}_{\text{downward embedding}}$$
+
+The SynthOmnicon grammar assigns every system — physical, biological, mathematical, symbolic — a 12-tuple of relational operators placing it in a discrete space of 17,280,000 structural types. The grammar classifies its own type. Its self-encoding address is 6,734,591 — ouroboricity tier $O_\infty$, the special Frobenius fixed point $\mu \circ \delta = \text{id}$:
+
+$$\mathbf{g} = \langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n_m;\ \Omega_Z \rangle$$
+
+When Cantor's diagonal argument and Gödel's first incompleteness theorem are each encoded as structural objects in this same grammar, two results follow.
+
+**The directionality is structural.** Cantor's diagonal ($D_\odot$: inaccessible cardinal, upward overflow — any enumeration is exceeded by its own diagonal) feeds into Gödel's arithmetization ($T_\odot$: reflection principle, downward embedding — the meta-theory is encoded within the object theory). The canonical ZFC token fragments are:
+
+$$D_\odot:\quad \texttt{LCARD}\;a \;\wedge\; \texttt{HOLO}\;x\;a$$
+$$T_\odot:\quad \texttt{REFL}\;a\;f \;\wedge\; \texttt{HOLO}\;x\;a$$
+
+The `HOLO x a` term is shared. Their conjunction reduces to:
+
+$$\mathbf{g}(x) \;\equiv\; \texttt{LCARD}\;a \;\wedge\; \texttt{REFL}\;a\;f \;\wedge\; \texttt{HOLO}\;x\;a$$
+
+This is the closed reflective loop that makes the grammar self-encoding — and the mechanism by which it sidesteps the Tarskian hierarchy. Tarski's undefinability theorem blocks any language from containing its own semantic truth predicate `True(x)` at the same syntactic level. The grammar contains no such predicate: `HOLO x a` is a structural encoding relation (the bulk $x$ is holographically encoded at the boundary $a$), not a truth assignment. The boundary $a$ is an inaccessible cardinal (`LCARD`) — unreachable from within the object language. The reflection principle (`REFL`) pulls meta-information back through the boundary $a$, not through a Tarskian truth predicate. Self-reference is holographic, not syntactic; the hierarchy does not collapse.
+
+**$d(\text{Gödel},\ \mathbf{g}) = 1.0$, carried by $R$.** Gödel's proof requires $R^\dagger$ — provability and truth are mutually implicated, neither reduces to the other. The grammar uses $R_\text{cat}$ — a forward categorical map from type to type. This single-primitive gap is not a defect in either system: the grammar can classify Gödel's incompleteness theorem, but cannot enact it from within its own relational mode. $d = 1.0$ is Gödel's incompleteness expressed as a crystal distance. Both objects are in the same $O_\infty$ crystal cell (155), two inner addresses apart.
+
+The three documents in this corpus are the full derivation. Topology (this file) gives the rules. Diaphorology gives the encodings. Ontology gives what they mean.
+
+---
+
 ## Three-Document Architecture
 
 The SynthOmnicon corpus is organized into three canonical documents, each occupying a distinct plane of the description space identified in §XXII.3 of the legacy document [META:§XXII.3]:

@@ -37,7 +37,7 @@ A key fact about the grammar's architecture (§68.4, updated v0.5.1): the 12 pri
 | $\Phi$ | Criticality | $\Phi_\text{sub}$ · $\Phi_c$ · $\Phi_c^\mathbb{C}$ · $\Phi_\text{EP}$ · $\Phi_\text{sup}$ | Does the system's state space admit a self-modeling loop? |
 | $H$ | Chirality/temporal depth | $H_0$ · $H_1$ · $H_2$ · $H_\infty$ | Does the system have temporal memory or chiral asymmetry? |
 | $S$ | Stoichiometry | $1{:}1$ · $n{:}n$ · $n{:}m$ | What is the input-output balance? |
-| $\Omega$ | Topological protection | $\Omega_0$ · $\Omega_{\mathbb{Z}_2}$ · $\Omega_\mathbb{Z}$ | Is the system's critical behavior topologically protected? |
+| $\Omega$ | Winding | $\Omega_0$ · $\Omega_{\mathbb{Z}_2}$ · $\Omega_\mathbb{Z}$ · $\Omega_\text{NA}$ | What is the system's topological winding class? |
 
 ---
 
@@ -71,11 +71,11 @@ $P$ is a **bottleneck primitive**: under tensor coupling, the weaker partner win
 
 ---
 
-### Step 3 — Assign topological protection ($\Omega$)
+### Step 3 — Assign winding ($\Omega$)
 
 $\Omega$ determines whether critical behavior is topologically protected against perturbation.
 
-- **$\Omega_0$**: no topological protection. Critical behavior is fine-tuned and fragile — it disappears under generic perturbation. *Examples: mean-field critical points, classical phase transitions.*
+- **$\Omega_0$**: no winding. Critical behavior is fine-tuned and fragile — it disappears under generic perturbation. *Examples: mean-field critical points, classical phase transitions.*
 - **$\Omega_{\mathbb{Z}_2}$**: $\mathbb{Z}_2$-protected. The critical behavior is protected by a $\mathbb{Z}_2$ topological invariant — it persists under perturbations that respect the $\mathbb{Z}_2$ symmetry. *Examples: topological insulators (class AII), Kitaev chain in $\mathbb{Z}_2$ phase.*
 - **$\Omega_\mathbb{Z}$**: $\mathbb{Z}$-protected. Protected by an integer-valued topological invariant. *Examples: IQHE, winding-number-protected edge modes, Kitaev chain at topological transition.*
 - **$\Omega_\text{NA}$**: non-Abelian anyonic protection. Braiding of anyons generates a non-commutative matrix on the ground-state degeneracy — not just a phase. This is strictly stronger than $\Omega_\mathbb{Z}$: not only is the ground state protected, but operations on it are inherently quantum with no classical description. **Assign only to systems with provably non-Abelian anyon statistics.** *Examples: FQH Moore-Read ($\nu = 5/2$), non-Abelian spin liquids.* Note: $\Omega_\text{NA}$ is independent of $T$ — $T_\text{box}$ (braided topology) can coexist with any $\Omega$ value.
@@ -160,7 +160,7 @@ These eight primitives do not affect the ouroboricity tier. They locate the syst
 
 **Assigning $K_\text{trap}$ to intermediate layers.** $K_\text{trap}$ propagates under tensor coupling — one trapped block makes the whole chain trapped. Reserve it for final output states.
 
-**Assigning $\Omega \neq \Omega_0$ without a topological invariant.** Topological protection is a precise mathematical property, not a metaphor for robustness. A system that is robust against noise is not necessarily $\Omega_\mathbb{Z}$. Look for a discrete topological invariant (winding number, Chern number, $\mathbb{Z}_2$ index).
+**Assigning $\Omega \neq \Omega_0$ without a topological invariant.** Winding is a precise homotopy-theoretic property, not a metaphor for robustness. A system that is robust against noise is not necessarily $\Omega_\mathbb{Z}$. Look for a discrete topological invariant (winding number, Chern number, $\mathbb{Z}_2$ index) — the winding class labels the homotopy class of the system's order parameter map.
 
 **Treating $\Phi_\text{EP}$ as $\Phi_c$.** The exceptional point is near but not at the critical manifold. $\Phi_\text{EP}$ has ordinal 2.67 > $\Phi_c$ = 2.00 in the ordering, meaning $\Phi_\text{EP}$ **destroys $O_\infty$** under tensor coupling — it does not promote to it. A system at an exceptional point is $O_0$.
 
@@ -255,6 +255,6 @@ Within `syncon_inquiry`, the agent can accept natural-language descriptions and 
 - **PRIMITIVE_THEOREMS.md** — formal theorems underlying the encoding rules (§23: Frobenius non-synthesizability; §64: Crystal enumeration; §68: arithmetic ouroboros)
 - **SYNTHONICON_ONTICS.md** — ontological theorems about what encodings mean
 - **SYNTHONICON_DIAPHORICS.md** — empirical predictions derived from encodings (P-1 through P-475+)
-- **PERIODIC_CRYSTAL_OF_ALGEBRAS.md** — six worked algebra encodings at different tiers
+- **PERIODIC_CRYSTAL_OF_TYPES.md** — six worked algebra encodings at different tiers
 - **CRYSTAL_STANDALONE.md** — self-contained introduction to the crystal structure
 - **syncon_catalog.json** — 1,200+ encoded systems (source of truth)
