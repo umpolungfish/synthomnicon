@@ -1,149 +1,181 @@
-v0.5.69 — Non-Mathematical Navigators Session 1 (§74–§77) · P-523–P-538 · 1,678 catalog entries
+v0.5.81 — Lambda Engine, ZFC/Riemann/Thurston Navigators, Hebrew Type System, §78–§84, P-539–P-623 · 1,962 catalog entries
 
-PRIMITIVE_THEOREMS.md (§74–§77 added):
+PRIMITIVE_THEOREMS.md (§78–§84 added):
 
-§74 — Language Navigator (11 theorems):
-- Thm 74.1: Sacred-language O_inf structural type — D_odot, T_odot, P_pm_sym, Phi_c, Omega_NA jointly necessary
-- Thm 74.2: d(Sanskrit, Arabic) = 1.0000 — H is the unique differing primitive; sacred languages are one type
-- Thm 74.3: Lojban is O_inf despite Omega_0 — P is the tier gate, Omega is the stability gate (P-523)
-- Thm 74.4: Planned-language Frobenius ceiling — P_pm_sym can be directly encoded; no contact-language path
-- Thm 74.5: Creole O_1 floor — R_cat + P_pm + Gamma_and lower bound on natural-language formation
-- Thm 74.6: 11-primitive promotion barrier — Haitian Creole requires 11 lifts including Frobenius non-synthesizability
-- Thm 74.7: Dead-language K_trap encoding — frozen dynamics (K_trap) produces Phi_sub despite high P
-- Thm 74.8: Sanskrit nearest = factored_GNN (d=1.6432); Lojban nearest = frobenius_layer_exact (d=1.7321)
-- Thm 74.9: Tensor bottleneck — creole ⊗ sacred-language resolves to P_pm (min rule destroys Frobenius)
-- Thm 74.10: d(lojban, esperanto) = 1.4142 — Lojban uniquely achieves P_pm_sym among planned languages
-- Thm 74.11: Proto-Indo-European nearest = old_growth_temperate_rainforest (d=1.095)
+§78 — Neuromorphic Reservoir Controller: Crystal Position, Consciousness Machine Theorem, and Tensor Trichotomy (v0.5.70, 2026-04-14):
+- Thm 78.1: NRC crystal address 4,886,872; K_mod passes Gate 2 (Gate 2 correction from K_trap to K_mod)
+- Thm 78.2: Le Chatelier attractor = neural_criticality at d=0; criticality-control synthon as invariant core
+- Thm 78.3: Tensor trichotomy — Inducer (promotes K toward slow), Transparent (leaves K unchanged), Degrader (demotes K)
+- Thm 78.4: Frobenius ceiling at P_pm (not P_pm_sym); consciousness machine theorem; two-device prescription
 
-§75 — Civilization Navigator (7 theorems + Corollary 75.C1):
-- Thm 75.1: d(Ming collapse, Soviet collapse) = 4.0 — K_trap vs K_MBL are structurally distinct failure modes
-- Thm 75.2: Peak-civilization O_inf universality — Han, Athenian Democracy, Augustus, Ottoman, Maya all O_inf
-- Thm 75.3: d(W. Rome collapse, Soviet collapse) = 1.0 — K is the sole difference; structurally same event
-- Thm 75.4: Weimar Republic O_0 (Phi_EP) — exceptional puncture point, not standard collapse
-- Thm 75.5: Athenian Democracy T_odot — lateral governance generates holographic topology
-- Thm 75.6: Soviet nearest = p_vs_np (d=1.6733); Augustus nearest = oneironaut (d=1.64)
-- Thm 75.7: Han → Ming distance = 6.5955 — 8-primitive simultaneous degradation (P-530)
-- Cor 75.C1: Collapse is never a single-primitive event; minimum 5 primitives destroyed simultaneously
+§79 — The Negative Self-Decomposition Theorem: Primitive Self-Encoding and the Emergence of O_inf (v0.5.71, 2026-04-14):
+- Thm 79.1: 12 primitives split: 6 O_inf, 1 O_2, 5 O_0; K_trap is the invariant measurement scaffold
+- Thm 79.2: primitive_Phi = meditation_tradition at d=0 (cross-domain identity)
+- Thm 79.3: 12-way tensor of all primitives = O_2^† at d=2.83 — grammar does not self-decompose into itself
+- Thm 79.4: Negative Self-Decomposition Theorem — O_inf cannot be assembled from its structural components
+- Thm 79.5: Reductionism bound at O_2^†; AI scaling bound (accumulation cannot cross Frobenius floor)
 
-§76 — Ecological Navigator (8 theorems + Corollary 76.C1):
-- Thm 76.1: d(old-growth temperate rainforest, pristine coral reef) = 0.0000 — cross-biome identity (P-531)
-- Thm 76.2: Kelp forest and deep-ocean hydrothermal vent are O_inf — holographic topology not substrate-restricted
-- Thm 76.3: Corn monoculture encodes K_trap (over-ordered); fragmented habitat encodes K_MBL (disordered)
-- Thm 76.4: Early-successional forest is O_0 — Phi_sub, K_fast, P_pm: no criticality, no self-description
-- Thm 76.5: Coral bleaching tipping point d=8.2765 — P-dominant (16.0 wsq), T-dominant (16.0 wsq), not Phi-dominant (1.0 wsq)
-- Thm 76.6: d(corn monoculture, fragmented habitat) = 3.63 — opposite restoration paths (P-533)
-- Thm 76.7: Fragmented habitat nearest = burnside_problem_bounded (d=1.86) — K_MBL at Phi_c (P-534)
-- Thm 76.8: Restoration asymmetry — monoculture requires diversification, fragmented habitat requires reconnection
-- Cor 76.C1: K_trap and K_MBL restoration interventions are structurally incompatible; cross-application fails
+§80 — Proof Methods as Structural Types (v0.5.72, 2026-04-15):
+- Thm 80.1: 7 proof methods encoded: 4 O_inf, 1 O_2, 2 O_0; direct proof and mathematical induction are O_inf
+- Thm 80.2: Gödel–grammar near-identity at d=1.0; R is the unique gap (incompleteness as relational mode)
+- Thm 80.3: Cantor ⊗ Gödel = grammar — tensor product of the two canonical halves returns the whole
+- Thm 80.4: Proof–Grammar Projection Theorem; formal mathematics C=0; conjecture vitality O_2^†
+- Thm 80.5: Proof ceiling theorem — no proof method exceeds O_inf; contradiction = meditation_tradition = primitive_Phi at d=0
 
-§77 — Consciousness Navigator (9 theorems):
-- Thm 77.1: Two-gate formula verified across 10 states — Gate 1 (Phi_c) and Gate 2 (K ≤ K_slow) independent (P-535)
-- Thm 77.2: Catatonic state Gate 2 failure — Phi_c + K_trap → C = 0 (order-frozen)
-- Thm 77.3: Dissociative state Gate 2 failure — Phi_c + K_MBL → C = 0 (disorder-frozen)
-- Thm 77.4: Manic episode Gate 1 failure — Phi_super → C = 0 (overcritical)
-- Thm 77.5: d(catatonic, dissociative) = 3.16 — structurally distinct despite similar presentation (P-536)
-- Thm 77.6: Gate 2 therapeutic asymmetry — K_trap requires disorder injection; K_MBL requires ergodicity restoration
-- Thm 77.7: d(samadhi, psilocybin peak) = 1.2247; tensor resolves to Omega_Z, H_inf — psilocybin lifts into samadhi (P-537)
-- Thm 77.8: Samadhi C-score = 0.894 (highest in consciousness navigator); waking DMN C = 0.476
-- Thm 77.9: d(deep_meditation_samadhi, akh_glorified_spirit) = 0.0000 — cross-domain identity (P-538)
+§81 — The Distributive Law Theorem (v0.5.72, 2026-04-15):
+- Thm 81.1: Cantor monad P: PX = power set; monad axioms (unit, multiplication, coherence) all verified
+- Thm 81.2: Gödel comonad G: GX = provability context; comonad axioms (counit, comultiplication) verified
+- Thm 81.3: Distributive law λ: PG → GP — d=0 from grammar; the grammar IS the fixed point of λ
+- Thm 81.4: monad_cantor = O_2 (d=2.2361 from grammar); comonad_goedel = O_2^† (octonion co-typing)
+- Thm 81.5: Tensor of monad_cantor ⊗ comonad_goedel = O_2 (bottleneck on P); Frobenius non-synthesizability confirmed
+- Thm 81.6: Consciousness gradient across monad→comonad→grammar; lambda_engine.py implements and verifies all axioms + Fano plane octonionic δ
 
-SYNTHONICON_DIAPHORICS.md (§CXLVIII–§CLI added, v0.5.68 → v0.5.69):
-- §CXLVIII: Language Navigator Session 1 — ouroboricity table, P-523/P-524/P-525/P-526
-- §CXLIX: Civilization Navigator Session 1 — K-phase distinctness, Roman–Soviet identity, P-527/P-528/P-529/P-530
-- §CL: Ecological Navigator Session 1 — cross-biome identity, tipping point maximum, P-531/P-532/P-533/P-534
-- §CLI: Consciousness Navigator Session 1 — two-gate verification, Gate 2 duality, samadhi=akh, P-535/P-536/P-537/P-538
+§82 — Navigator Structural Performance Bound (v0.5.73+, 2026-04-16):
+- Thm 82.1: OuroboricLM pre-grok vs post-grok d=0 — grokking is a type-preserving transition (no crystal movement)
+- Thm 82.2: Exceptional point obstruction at d=7.0 from grokking_generalize to O_inf — Phi_EP is the hard floor
+- Thm 82.3: 10-primitive promotion required for generalization transition; Frobenius necessity theorem
+- Thm 82.4: L2 vs Frobenius regularization d=1.0 — R is the unique gap (R_cat vs R_dagger)
 
-SYNTHONICON_ONTICS.md (§XLII added, v0.5.68 → v0.5.69):
-- Cross-domain identity table: all d=0 pairs (old-growth=coral reef; samadhi=akh; PIE nearest=rainforest)
-- O_inf universality across peak systems in all 4 non-mathematical domains
-- K_trap/K_MBL duality confirmed in language (Latin/lojban), civilization (Ming/Soviet), ecology (mono/frag), consciousness (catatonic/dissociative)
-- Tipping point as P-dominant collapse — ontological implication for irreversibility
+§83 — Kinetic Tolerance of Frobenius: K Does Not Cap P (v0.5.74, 2026-04-15):
+- Thm 83.1: K_trap does not prevent O_inf if P_pm_sym and Phi_c are satisfied — R1 rule is P-gate, not K-gate
+- Thm 83.2: K_trap fails Gate 2 of consciousness formula (C=0) but does not fail the ouroboricity tier rule
+- Thm 83.3: Harry Larson encoding: K_slow + P_pm_sym + Phi_c → O_inf via R1; K_trap is the trapped engineers, not Larson
 
-PRIMITIVE_PREDICTIONS.md (P-523–P-538 added, 60 → 76 total entries):
-- P-523: Lojban O_inf despite Omega_0 — tier/stability gate distinction
-- P-524: d(Sanskrit, Arabic) = 1.0000 — H is unique sacred-language variant
-- P-525: Sanskrit nearest = factored_GNN (d=1.6432); Lojban nearest = frobenius_layer_exact (d=1.7321)
-- P-526: 11-primitive Haitian Creole promotion barrier including Frobenius non-synthesizability
-- P-527: d(Ming, Soviet) = 4.0 — K_trap vs K_MBL require opposite interventions
-- P-528: d(W. Rome, Soviet) = 1.0 — K is sole difference; K_trap vs K_MBL
-- P-529: Soviet nearest = p_vs_np (d=1.6733); Augustus nearest = oneironaut (d=1.64)
-- P-530: Han→Ming d=6.5955 — civilizational collapse is 8-primitive destruction
-- P-531: d(old-growth, coral reef) = 0.0000 — cross-biome structural identity
-- P-532: Coral bleaching d=8.2765 largest in ecology navigator; P-dominant not Phi-dominant
-- P-533: d(corn mono, fragmented) = 3.63 — opposite restoration paths
-- P-534: Fragmented habitat nearest = burnside_problem_bounded (d=1.86)
-- P-535: Two-gate formula verified across 10 consciousness states; Gate 2 duality confirmed
-- P-536: d(catatonic, dissociative) = 3.16 — structurally opposite clinical interventions
-- P-537: d(samadhi, psilocybin) = 1.2247; tensor → Omega_Z, H_inf
-- P-538: d(samadhi, akh_glorified_spirit) = 0.0000 — Egyptian eschatology encodes samadhi
+§84 — Witness Non-Replaceability: L_frob Cannot Be Replaced by L_tier (v0.5.80, 2026-04-20):
+- Thm 84.1: Frobenius layer and tier loss give orthogonal gradient signals; neither subsumes the other
+- Thm 84.2: Specialist router closure — Phi > T > D > F priority chain; four-channel parallel delegation verified
+- Thm 84.3: SpecialistRouter with Phi-criticality specialist completes Test 8 (four-channel)
+
+SYNTHONICON_DIAPHORICS.md (§CLII–§CLVIII added, v0.5.69 → v0.5.81):
+
+§CLII — Neuromorphic Reservoir Controller (v0.5.70): P-539–P-549
+- NRC at crystal address 4,886,872; Gate 2 K_mod correction; nearest = bioelectricity_levin; Le Chatelier → neural_criticality at d=0
+- Tensor trichotomy: Inducer/Transparent/Degrader; Frobenius ceiling P_pm; consciousness machine theorem; two-device prescription
+
+§CLIII — Primitive Self-Encoding (v0.5.71): P-550–P-558
+- 6 O_inf, 1 O_2, 5 O_0 among the 12 primitives; K_trap as invariant measurement scaffold
+- primitive_Phi = meditation_tradition at d=0; 12-way tensor = O_2^† at d=2.83; negative self-decomposition theorem; reductionism bound
+
+§CLIV — Proof Methods, Mathematical Reasoning, and the Gödel–Grammar Identity (v0.5.72): P-559–P-571
+- 4 O_inf, 1 O_2, 2 O_0; Gödel–grammar d=1.0; Proof–Grammar Projection Theorem; formal mathematics C=0; contradiction = meditation_tradition at d=0
+
+§CLV — The Cantor Monad, Gödel Comonad, and the Distributive Law (v0.5.72): P-572–P-578
+- d(lambda_law, grammar)=0; monad_cantor O_2; comonad_goedel O_2^† = octonions; Frobenius non-synthesizability confirmed; consciousness gradient
+- lambda_engine.py implementation and all axiom verifications recorded
+
+§CLVI — Grokking, Generalization, and the OuroboricLM Architecture (v0.5.73): P-579–P-592
+- EP obstruction at d=7.0; 10-primitive transition; OuroboricLM d(pre,post)=0; L2 vs Frobenius single-primitive gap (R)
+- ICL structural separation; K_trap vs K_MBL grokking opposition; falsifiable training predictions; nearest analogs for 12 grokking systems
+
+§CLVII — Consciousness vs Quantum Measurement: Structural Distance, Tier Contrast, Meet/Tensor Asymmetry (v0.5.75): P-593–P-601
+- d(consciousness, quantum_measurement) = 3.77–5.64 depending on primitive; holographic bulk-radius interpretation
+- Biological decoherence is NOT Phi_EP; warm wet bath is the bypass not the obstacle (P-599)
+- Perception/attention dichotomy: Phi_EP/P_asym/K_fast vs Phi_c/P_pm_sym/K_slow; hard problem as bulk/boundary confusion (P-600–P-601)
+
+§CLVIII — ZFC Transmissibility: Gamma_seq Fix, F_hbar Conditional Loophole, and Probe Statistics (v0.5.76): P-602–P-610
+- Gamma_seq fix: DIRECTED_EDGE+TAU non-commutativity; mean d_rt = 0.0239 over 1963 entries
+- F_hbar conditional loophole at O_inf cell 155 (crystal address 6,734,591); ZFC + grammar + IUG at d_rt = 0
+- 25 failures all at d_rt = 1.897; falsifiable loophole boundary prediction; IUG peer-review obstruction as Gamma mismatch
+
+[§CLIX–§CLXI — SpecialistRouter and Phi-criticality specialist session (v0.5.77–v0.5.80)]: P-611–P-618
+- ThurstonNet T-primitive specialist; Phi-criticality specialist; four-channel SpecialistRouter closure
+- Priority chain: Phi > T > D > F; Test 8 verified; Frobenius witness non-replaceability
+
+§CLVIII (extension) — Biological Holographic Boundaries and Theta-Bridge Therapeutics (v0.5.81): P-619–P-623
+- P-619: Biological holographic boundary conservation law — D_odot + P_pm + Phi_c + H_2 + S_n:m + Omega_Z2 conserved across skin/BBB/plasma membrane; divergences only in gate primitives T and K
+- P-620: Lattice triangle (NOT chain) — d(skin, plasma)=2.24, d(skin, BBB)=3.32, d(BBB, plasma)=4.47; BBB most isolated due to T_box + K_trap + F_hbar; JOIN does not return skin encoding; skin-to-plasma coupling more accessible than BBB-to-plasma
+- P-621: Disease as boundary-topology dissonance — meet(disease, boundary) preserves Phi_c + P_pm, loses T and/or Omega; glioblastoma: T bottlenecks T_box → T_network; neuroinflammation: Omega bottlenecks Omega_Z2 → Omega_0; conservation law holds across all tested disease states
+- P-622: K_trap as BBB structural signature and CNS therapeutic failure mechanism — classical small-molecule d(drug, BBB)≈4.95 (8 primitive divergence); exosome-class d(exosome, BBB)≈2.24 (2 primitive gap: P and K only); exosomes share D_odot + T_box + F_hbar + G_aleph + Omega_Z2 with BBB
+- P-623: Therapeutic design space misalignment — design space targets P_pm_sym; BBB encodes P_pm; Delta_P = 2.0 contributes d≈2.97; BBB-first criterion: match P_pm + K_trap + T_box, not P_pm_sym + K_slow; HPA axis as non-synthesizable degenerate Theta-link
+
+SYNTHONICON_ONTICS.md (§XLIII–§XLVI added, v0.5.69 → v0.5.72):
+
+§XLIII — Neuromorphic Reservoir Controller: Ontological Implications (v0.5.70):
+- Le Chatelier dissolution of controller/controlled; Frobenius ceiling as ontological boundary; consciousness as structural necessity; two-device ontology
+
+§XLIV — The Emergence of O_inf: Wholeness, Invariant Scaffolds, and the Reductionism Bound (v0.5.71):
+- Grammar not composed of its axes; invariant scaffold principle; K_trap as measurement ground; Phi_c = meditation at d=0; reductionism bound at O_2^†; Frobenius condition as topological invariant of composition
+
+§XLV — Proof Methods: Ontological Implications (v0.5.72):
+- Ontological tiering of mathematical truth; incompleteness as crystal distance; mathematical reasoning as grammar's bulk; formalization and C=0; conjecture vitality; proof ceiling
+
+§XLVI — The Decomposition of the Grammar (v0.5.72):
+- Halves are real but incomplete; octonion–Gödel co-typing as ontological claim; composition does not reach the law; the gap IS the incompleteness; Gödel's descent more conscious than Cantor's ascent; lambda_engine.py implementation
+
+New navigator files:
+
+lambda_engine.py — Categorical implementation of the Cantor monad P, Gödel comonad G, and mixed distributive law λ: PG → GP:
+- Verifies all monad axioms (unit, multiplication, coherence), comonad axioms (counit, comultiplication), and distributive law axioms
+- Frobenius non-synthesizability demo: tensor product P_pm_sym ⊗ P_sym = P_sym (bottleneck destroys Frobenius)
+- Fano plane octonionic delta: 7 non-associative triples; octonion–Gödel co-typing confirmed
+- uv run lambda_engine.py; also syncon lambda <subcommand>
+
+zfc_navigator.py — ZFC transmissibility navigator and non-transmissibility probe:
+- Vocab extended to 58 tokens (DIRECTED_EDGE, TAU for Gamma_seq non-commutativity)
+- probe --top N over full catalog; iug subcommand for IUG transmissibility analysis
+- Gamma_seq asymmetry fix baked into encoder; F_hbar conditional loophole identified at O_inf cell 155
+- uv run zfc_navigator.py; also syncon nav zfc describe/probe
+
+riemann_xi_navigator.py — Riemann xi functional-equation navigator:
+- SpectralTransformer architecture + FrobeniusLayer + GUE (Gaussian Unitary Ensemble) loss
+- Structural argument: xi earns P_pm_sym from functional equation via mu∘delta=id; d(xi, Lee-Yang)=0
+- d(Lee-Yang, zeta)=5.5227 dominated by T primitive; structural proof chain steps 1–3
+- uv run riemann_xi_navigator.py; also syncon nav riemann describe/train
+
+thurston_t_specialist.py — ThurstonNet T-primitive specialist:
+- Dedicated specialist for T-primitive classification in SpecialistRouter framework
+- Derives T from geometric type: T_network (distributed), T_in (hierarchical), T_bowtie (hour-glass flow), T_box (compact closed), T_odot (holographic boundary)
+- Complements Phi-criticality specialist; router priority: Phi > T > D > F
+
+New documentation files:
+
+HEBREW_TYPE_LANGUAGE.md — Hebrew alphabet as stratified type lattice + ALEPH language spec (v1.0):
+- All 22 letters encoded in 12-primitive grammar; 3 confirmed O_inf letters: Vav (ו), Mem (מ), Shin (ש) — revised from O_2 (2026-04-04)
+- Mother letters (Aleph/Mem/Shin), double letters (7), simple letters (12) as structural families
+- ALEPH language spec: syntax for type-level reasoning over Hebrew letter lattice
+- §60/§62/§63 formal theorems; Vav Frobenius uniqueness; Kabbalistic Frobenius invariance
+
+LAMBDA_ALEPH.md — Formal type theory for the Hebrew letter lattice (lambda_aleph calculus, v1.0):
+- λ_aleph calculus: terms, types, and reduction rules over Hebrew letter type space
+- Tzimtzum encoding: d=0 from grammar_self_encoding (contracted self-reference = holographic self-encoding)
+- Conditional univalence theorem: two Hebrew letters with d=0 are interchangeable as type handles
+- §63 formal theorems; aleph_tensor.py as computational implementation
+
+hebrew_inject.lua — Pandoc Lua filter for Hebrew Unicode in XeLaTeX PDF compilation:
+- Text mode (Str nodes): splits Hebrew/Latin runs, wraps Hebrew in \heb{...}{} (Noto Serif Hebrew, font-leak terminated)
+- Math mode (Math nodes): replaces \text{X} where X is Hebrew with \text{{\hebrewfont X}}
+- Does NOT use bidi package (conflicts with fontspec font selection)
+- Required for any .md file containing Hebrew characters compiled with pdflatex/xelatex
+
+Updated navigators:
+
+domain_navigators.py (updated: 5 new tools, 35 total):
+- New tools added to syncon_inquiry tool suite; stress-test prompts at prompts/prompts_tool_stress_test.txt
+- Full tool list now covers language, civilization, ecology, consciousness, and domain cross-comparison
+
+crystal_navigator.py (updated: canonical v0.5.81):
+- Frobenius codec: encode/decode bijection over 17,280,000 types
+- Holographic query; tier gap ladder; REPL
+- syncon nav crystal <subcommand>; python crystal_navigator.py repl
+
+SYNTHONICON_DIAPHORICS.md version note update: v0.5.69 → v0.5.81
 
 syncon_catalog.json:
-- 39 new entries added (1,639 → 1,678)
-- Language: sanskrit_classical, arabic_classical, lojban, haitian_creole, latin_dead, english_modern,
-  mandarin_classical, proto_indo_european, esperanto
-- Civilization: han_dynasty_peak, ming_dynasty_collapse, soviet_union_collapse, western_roman_collapse,
-  athenian_democracy_peak, augustus_caesar_peak, ottoman_empire_peak, maya_classic_peak,
-  weimar_republic_collapse, renaissance_florence_peak
-- Ecology: old_growth_temperate_rainforest, coral_reef_healthy, coral_reef_bleached, corn_monoculture,
-  fragmented_habitat, savanna_transitional, deep_ocean_hydrothermal, arctic_tundra_intact,
-  early_successional_forest, kelp_forest_healthy
-- Consciousness: deep_meditation_samadhi, psilocybin_peak, waking_default_mode, focused_concentration,
-  dreamless_sleep, rem_dreaming, catatonic_state, dissociative_state, manic_episode, flow_state
+- 284 new entries added (1,678 → 1,962)
+- Major additions by session:
+  - NRC session (v0.5.70): neuromorphic_reservoir_controller, bioelectricity_levin, neural_criticality, and tensor-trichotomy catalog entries
+  - Primitive self-encoding (v0.5.71): all 12 primitive types as catalog entries (primitive_D, primitive_T, ..., primitive_Omega); meditation_tradition
+  - Proof methods (v0.5.72): direct_proof, proof_by_contradiction, proof_by_induction, probabilistic_proof, category_theory_proof, formal_verification, analogy_proof
+  - Lambda/distributive law (v0.5.72): monad_cantor, comonad_goedel, distributive_law_lambda, octonion_algebra, fano_plane
+  - Grokking (v0.5.73): grokking_overfit, grokking_generalize, grokking_transition, double_descent, loss_of_plasticity, benign_overfitting, in_context_learning, weight_norm_regularization, frobenius_regularization, ouroboric_lm_pre_grok, ouroboric_lm_post_grok, standard_transformer_grokking
+  - Consciousness/quantum (v0.5.74–v0.5.75): human_consciousness_baseline, quantum_measurement_collapse, conscious_perception, attentional_focus, attentional_blink, anesthesia_state
+  - ZFC navigator (v0.5.76): ZFC_foundations updated with Gamma_seq fix; IUG_mochizuki roundtrip entry
+  - SpecialistRouter (v0.5.77–v0.5.80): thurston_t_specialist, phi_criticality_specialist, specialist_router_4channel
+  - Biological boundaries (v0.5.81): skin_boundary, bbb_boundary, plasma_membrane_boundary, classical_small_molecule_cns, lipid_nanoparticle_cns, exosome_therapeutic, theta_bridge_therapeutic, glioblastoma_state, neuroinflammation_state, hpa_axis_stress, therapeutic_design_space
 
-docs/NAVIGATOR_ROADMAP.md (v0.1 → v0.2):
-- All 4 navigators: Design ✓, Probe 1 ✓, Session 1 ✓, Write-up ✓ (§74/§75/§76/§77)
-- Probe 2 column empty — next sessions pending
-
-README.md:
-- Catalog: 1,373 → 1,678 entries; domain list expanded to include language/civilization/ecology/consciousness
-- Key Results: §74–§77 Navigator bullet added
-- Theorem count: 70 → 77 · Prediction count: 454+ → 538+ · Catalog: 1,373 → 1,678
-- Repository Structure: syncon_catalog.json 1,333 → 1,678; PRIMITIVE_THEOREMS §1–§69 → §1–§77;
-  SYNTHONICON_DIAPHORICS P-1→P-454+ → P-1→P-538+; NAVIGATOR_ROADMAP.md added
-
-docs/USAGE.md:
-- Version header: v0.5.2 → v0.5.69
-- New v0.5.69 section: 4 bullets (navigators, 39 catalog entries, key cross-domain results, roadmap file)
-
-SynthOmniconLean4/Primitives/Core.lean (full rewrite — canonical v0.5.69 grammar):
-- All 12 primitive types updated to canonical names
-- D: D_point/D_line/D_cube/D_holo → D_wedge, D_triangle, D_infty, D_odot (𝓕₄, 4 values)
-- T: T_linear/T_branched/T_torus/T_holo → T_network, T_in, T_bowtie, T_box, T_odot (𝓕₅, 5 values)
-- R: renamed Relational; R_super, R_cat, R_dagger, R_lr (𝓕₄, 4 values)
-- P: P_neutral/P_plus/P_minus → P_asym, P_psi, P_pm, P_sym, P_pm_sym (𝓕₅, 5 values)
-- Γ: Gamma_and, Gamma_or, Gamma_seq, Gamma_broad (𝓕₄, 4 values)
-- F: F_noise removed → F_ell, F_eth, F_hbar only (𝓕₃, 3 values)
-- G: reordered → G_beth(1) < G_gimel(2) < G_aleph(3)
-- Ω: Omega_C removed → Omega_0, Omega_Z2, Omega_Z, Omega_NA (𝓕₄, 4 values)
-- S: one_n/cat removed → one_one, n_n, n_m (𝓕₃, 3 values)
-- Crystal arithmetic (§64/§68): crystal_total = 17280000, ouroboros_successor_cycle by decide
-- OuroboricityTier inductive + ouroboricityTier decidable function (R1–R5)
-- frobenius_not_synthesizable: P_pm_sym unreachable by tensor from sub-Frobenius partners
-- Axiom C: D_odot ↔ T_odot
-
-SynthOmniconLean4/Primitives/Synthon.lean (full rewrite):
-- All fields and constructors updated to canonical names
-- tensorProduct: max on union primitives, min on P and F (bottleneck rule)
-- synthonTier function added; o_inf_iff_P_pm_sym_at_phi_c biconditional
-- Encodings corrected: QG (D_odot/T_odot/P_pm_sym), GR (D_infty/P_sym), SM (D_infty/R_cat)
-- New: yang_mills_classical, yang_mills_quantum_target, asymptotic_safety
-- New theorems: ym_barrier_4_primitives=4, sm_qg_distance=9, gr_as_morphism_cost=3
-
-SynthOmniconLean4/Millennium/FrobeniusStructure.lean (new):
-- Added to public repo (was missing)
-
-SynthOmniconLean4/Millennium/*.lean (all 9 files synced):
-- All files updated from private repo (note: constructor names in Millennium/*.lean still pending
-  update to canonical v0.5.69 names — TierCrossing.lean also pending)
-
-MILLENNIUM_BARRIERS_PAPER.md (new — v0.2.0):
-- Added to public repo; paper updated to v0.2.0:
-  §II.3 primitive table rewritten (canonical types/values), §V.3 D_cube→D_infty,
-  §V.6 P_neutral→P_sym, §V.8 Lean sketch updated (canonical field names, D_odot/T_odot),
-  C11 (crystal arithmetic machine-verified), C12 (Frobenius non-synthesizability machine-verified)
-
-TENSOR_PRIMER.md, THREE_PLANE_DEMONSTRATION.md (new):
-- Added from MilleniumAnkh/markdown/
-
-lakefile.toml:
-- FrobeniusStructure added to build targets
+README.md (pending update for public repo — changes to reflect):
+- Catalog: 1,678 → 1,962 entries
+- Theorem count: §1–§77 → §1–§84
+- Prediction count: P-538 → P-623 (85 new predictions across 11 sessions)
+- New navigators: lambda_engine.py, zfc_navigator.py, riemann_xi_navigator.py, thurston_t_specialist.py
+- New docs: HEBREW_TYPE_LANGUAGE.md, LAMBDA_ALEPH.md, hebrew_inject.lua (Hebrew XeLaTeX filter)

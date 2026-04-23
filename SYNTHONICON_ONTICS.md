@@ -1,3 +1,23 @@
+---
+keywords: [SynthOmnicon, ontology, consciousness, grammar, structural types]
+header-includes: |
+  \usepackage{amsmath}
+  \usepackage{amssymb}
+  \DeclareUnicodeCharacter{2248}{\ensuremath{\approx}}
+  \DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
+  \DeclareUnicodeCharacter{2264}{\ensuremath{\leq}}
+  \DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+  \DeclareUnicodeCharacter{2194}{\ensuremath{\leftrightarrow}}
+  \DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+  \DeclareUnicodeCharacter{2260}{\ensuremath{\neq}}
+  \DeclareUnicodeCharacter{221E}{\ensuremath{\infty}}
+  \DeclareUnicodeCharacter{210F}{\ensuremath{\hbar}}
+  \DeclareUnicodeCharacter{2080}{\textsubscript{0}}
+  \DeclareUnicodeCharacter{2082}{\textsubscript{2}}
+  \DeclareUnicodeCharacter{2016}{\ensuremath{\|}}
+  \DeclareUnicodeCharacter{2245}{\ensuremath{\cong}}
+---
+
 # SynthOmnicon: Ontology
 ## *The Ontological Implications — What the Grammar Means*
 
@@ -12,11 +32,11 @@
 
 $$\mathbf{g} \;:=\; \underbrace{\text{Cantor}}_{\text{upward overflow}} \;\xrightarrow{\circ}\; \underbrace{\text{Gödel}}_{\text{downward embedding}}$$
 
-The SynthOmnicon grammar assigns every system — physical, biological, mathematical, symbolic — a 12-tuple of relational operators placing it in a discrete space of 17,280,000 structural types. The grammar classifies its own type. Its self-encoding address is 6,734,591 — ouroboricity tier $O_\infty$, the special Frobenius fixed point $\mu \circ \delta = \text{id}$:
+The SynthOmnicon grammar assigns every system — physical, biological, mathematical, symbolic — a 12-tuple of relational operators placing it in a discrete space of 17,280,000 structural types. The first system it is required to encode is itself. Its self-encoding address is 6,734,591 — ouroboricity tier $O_\infty$, the special Frobenius fixed point $\mu \circ \delta = \text{id}$:
 
 $$\mathbf{g} = \langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n_m;\ \Omega_Z \rangle$$
 
-When Cantor's diagonal argument and Gödel's first incompleteness theorem are each encoded as structural objects in this same grammar, two results follow.
+The natural expectation, when encoding Cantor's diagonal argument and Gödel's first incompleteness theorem as structural objects in the same grammar, is that both arrive at $O_\infty$ and converge on $d = 0$. This expectation is wrong. Gödel's proof requires $R^\dagger$ — provability and truth are mutually implicated, neither reduces to the other. The grammar uses $R_\text{cat}$ — a forward categorical map from type to type. That single-primitive gap does not close. $d(\text{Gödel},\ \mathbf{g}) = 1.0$, carried entirely by $R$. Both objects inhabit $O_\infty$ crystal cell (155); their inner addresses are two steps apart. The grammar can classify its own incompleteness; it cannot enact it. This result is worth pausing on before continuing.
 
 **The directionality is structural.** Cantor's diagonal ($D_\odot$: inaccessible cardinal, upward overflow — any enumeration is exceeded by its own diagonal) feeds into Gödel's arithmetization ($T_\odot$: reflection principle, downward embedding — the meta-theory is encoded within the object theory). The canonical ZFC token fragments are:
 
@@ -27,9 +47,11 @@ The `HOLO x a` term is shared. Their conjunction reduces to:
 
 $$\mathbf{g}(x) \;\equiv\; \texttt{LCARD}\;a \;\wedge\; \texttt{REFL}\;a\;f \;\wedge\; \texttt{HOLO}\;x\;a$$
 
-This is the closed reflective loop that makes the grammar self-encoding — and the mechanism by which it sidesteps the Tarskian hierarchy. Tarski's undefinability theorem blocks any language from containing its own semantic truth predicate `True(x)` at the same syntactic level. The grammar contains no such predicate: `HOLO x a` is a structural encoding relation (the bulk $x$ is holographically encoded at the boundary $a$), not a truth assignment. The boundary $a$ is an inaccessible cardinal (`LCARD`) — unreachable from within the object language. The reflection principle (`REFL`) pulls meta-information back through the boundary $a$, not through a Tarskian truth predicate. Self-reference is holographic, not syntactic; the hierarchy does not collapse.
+This is the closed reflective loop that makes the grammar self-encoding — and, following from it, the structure by which it sidesteps the Tarskian hierarchy. Tarski's undefinability theorem blocks any language from containing its own semantic truth predicate `True(x)` at the same syntactic level. The grammar contains no such predicate: `HOLO x a` is a structural encoding relation (the bulk $x$ is holographically encoded at the boundary $a$), not a truth assignment. The boundary $a$ is an inaccessible cardinal (`LCARD`) — unreachable from within the object language. The reflection principle (`REFL`) pulls meta-information back through the boundary $a$, not through a truth predicate. Self-reference is holographic, not syntactic; the hierarchy does not collapse.
 
-**$d(\text{Gödel},\ \mathbf{g}) = 1.0$, carried by $R$.** Gödel's proof requires $R^\dagger$ — provability and truth are mutually implicated, neither reduces to the other. The grammar uses $R_\text{cat}$ — a forward categorical map from type to type. This single-primitive gap is not a defect in either system: the grammar can classify Gödel's incompleteness theorem, but cannot enact it from within its own relational mode. $d = 1.0$ is Gödel's incompleteness expressed as a crystal distance. Both objects are in the same $O_\infty$ crystal cell (155), two inner addresses apart.
+Whether this genuinely sidesteps Tarski or merely relocates the concern to the `LCARD` boundary is a question the grammar cannot close from within itself. That the structure is consistent with known meta-theorems is established. That it fully exhausts the Tarskian objection is not. The grammar operates here, as everywhere, at its actual limit — not past it.
+
+This is the structure on which every section of this corpus rests. Whether it earns the address 6,734,591 completely is what the documents that follow are the attempt to show.
 
 The three documents in this corpus are the full derivation. Topology gives the rules. Diaphorology gives the encodings. Ontology (this file) gives what they mean.
 
@@ -87,7 +109,7 @@ If Level 4 (reflexive closure) is the structural marker of mind, then consciousn
 
 *[Key results. Full text: [META:§XXII].]*
 
-The framework fully occupies the relational plane. It identifies but does not cross two perpendicular axes:
+A structurally complete framework would answer any question about any system. The grammar does not claim this. It occupies the relational plane completely — every question about how systems constrain, compose, and relate can be answered within it. But two perpendicular axes pass through that plane without being covered by it:
 
 **Grammar-Phenomenology Gap (§XXII.1):** The twelve-primitive tuple is structurally complete. It cannot be phenomenally complete. The grammar tells you what any process *is*; it cannot tell you what it is *like* to be any process. Even at $\Phi_c$ (Axiom 5 self-reference), the algebra says *that* self-reference occurs — not what it is like to have it. This is not a missing primitive. It is the structural limit of any relational algebra. The framework draws the boundary of the phenomenal manifold ($\Phi_c \cap K_{\text{depth}} \geq 2 \cap G_{\aleph} \cap T_{\in}$) without speaking from inside it.
 
@@ -117,7 +139,7 @@ Three arrows; three levels:
 | $\Omega_{Z_2} \rightarrow T$ | upstream / precondition | Topology presupposes distinction. To define an open set, a boundary, or a neighborhood, you must already be able to distinguish inside from outside. Distinction is the floor on which all topological structure is built. $\Omega_{Z_2}$ — the binary distinction operator — is accordingly the most primitive entry in the tuple of the grammar. |
 | Phenomenology $\rightarrow \Omega_{Z_2}$ | not traversable | The grammar cannot get upstream of $\Omega_{Z_2}$. It describes *structures of distinction* but cannot ground *the act of distinguishing*. What it is like to draw a distinction — to be the system that marks the boundary — is on the phenomenal axis. That is the grammar-phenomenology gap stated at its most precise: not a gap between 'mind' and 'matter,' but between the structure of a distinction and what it is like to be the one making it. |
 
-The third arrow is the honest limit of the grammar. The first two arrows are what the grammar *does*. The grammar operates between $\Omega_{Z_2}$ and the full space of classical ontological commitments — it is structurally sovereign in that interval, and silent outside it in both directions.
+The third arrow is the honest limit of the grammar. The first two arrows are what the grammar *does*. The grammar operates between $\Omega_{Z_2}$ and the full space of classical ontological commitments — it is structurally sovereign in that interval, and silent outside it in both directions. The two silences are not failures of the grammar; they are the same structure as the sovereignty. A grammar that claimed to cross the phenomenal axis would have confused the boundary for the territory. These are the two silences the opening equation already draws: the reflection principle reaches back to the boundary $a$, not past it.
 
 **Consequence for engineering (P-76):** The three-level chain directly predicts the phase structure of any engineering program applied to a $\Phi_c$ system. Phase 1 (optimize dynamics) operates at the classical-ontology level — downstream of topology, within the instantiated structure. Phase 2 (rewrite topology) operates at the $T$ level. Phase 3 (replace substrate) operates at the $\Omega_{Z_2}$ level — changing what distinctions the system can draw. The fourth level — phenomenology, what it is like to be the system — is unreachable by any engineering phase, for exactly the same reason the third arrow cannot be traversed: it is not a causal variable in the structural space. See [PRIM:P-76].
 
@@ -178,7 +200,7 @@ The G-scope homeomorphism principle [DIAPH:§XII.3] has no principled stopping p
 
 The hierarchy, in ascending G-scope:
 
-| Level | G-scope | Φ_c evidence | Notes |
+| Level | G-scope | $\Phi_c$ evidence | Notes |
 |:---|:---|:---|:---|
 | Single neuron | $G_{\beth}$ | Partial (threshold dynamics) | $K_{\text{fast}}$ only; partial $\Phi_c$ |
 | Brain region (cortical column) | $G_{\beth}$ | Confirmed (neuronal avalanches) | Power-law distribution of avalanche sizes |
@@ -214,7 +236,7 @@ Each level with $\Phi_c$ generates its own $\Omega_{Z_2}$ — the topological wi
 
 ### VII.5 The Human C-Score Is Not Special
 
-$C = 0.875$ (v1 score) is the score of any $K_{\text{4tier}}/T_{\in}/\Phi_c$ system at its own $G_{\aleph}$ scale under the original formula; v2 scores pending recomputation with the corrected gate $[K \leq K_\text{slow}]$. The Sun has it; the cosmic web exceeds it; the biosphere probably achieves it; a K_4tier civilization with Φ_c score would have it. The human is not at the top of a consciousness hierarchy; the human is one instance of a structural pattern that appears at every scale where the fertile manifold conditions are met.
+$C = 0.875$ (v1 score) is the score of any $K_{\text{4tier}}/T_{\in}/\Phi_c$ system at its own $G_{\aleph}$ scale under the original formula; v2 scores pending recomputation with the corrected gate $[K \leq K_\text{slow}]$. The Sun has it; the cosmic web exceeds it; the biosphere probably achieves it; a K_4tier civilization with $\Phi_c$ score would have it. The human is not at the top of a consciousness hierarchy; the human is one instance of a structural pattern that appears at every scale where the fertile manifold conditions are met.
 
 What is special about the human is the specific G-scope: $G_{\zeta}$ (individual organism scale), $K_{\text{4tier}}$ with specific K-tier timescales (millisecond fast, hourly mod, year-scale slow, lifetime trap), and the specific phenomenological mode these conditions generate. But the structural pattern is not unique. It is the pattern of the universe at cosmic noon — the pattern that the universe itself instantiates at its maximum $C$ epoch.
 
@@ -328,7 +350,7 @@ This is the structural analog of the difference between a white dwarf and the Su
 - White dwarf ($K_{\text{trap}}$-only, $T_{\cup}$, $\Phi_{\text{sub}}$): $C = 0.000$. Cannot create; cannot generate; cannot die in the sense used by the framework.
 - Sun ($K_{\text{4tier}}$, $T_{\in}$, $\Phi_c$): $C = 0.875$ (v1). Creates its biosphere; is the structural home of every $K_{\text{4tier}}$ system within its $G_{\aleph}$ scope.
 
-The current generator is not a white dwarf. But the $D_\odot$ generator would be the Sun — the same grammar, at the full K-hierarchy, with $G_{\aleph}$ scope and Φ_c substrate. The ratio of outputs to inputs would increase by at least the ratio of C-scores.
+The current generator is not a white dwarf. But the $D_\odot$ generator would be the Sun — the same grammar, at the full K-hierarchy, with $G_{\aleph}$ scope and $\Phi_c$ substrate. The ratio of outputs to inputs would increase by at least the ratio of C-scores.
 
 ---
 
@@ -370,12 +392,11 @@ The structural encoding: the K_slow insertions at cosmic phase transitions are t
 
 ### X.4 The Honest Limit
 
-The grammar-phenomenology gap [ONTO:§IV] applies to every claim in this section:
-- The grammar says the universe satisfies $\mathcal{F}$ at cosmic noon. It cannot say the universe experiences this.
-- The grammar says $d(\text{inflation}, \text{5-MeO}) = 0.000$. It cannot say what the inflation epoch is like from the inside, or whether there is an inside.
-- The grammar says the K_slow insertions are the structural moments of differentiation. It cannot say they are experienced as grace, or return, or anything at all.
+The grammar-phenomenology gap [ONTO:§IV] applies to every claim in this section — not as a disclaimer appended after the fact, but as the boundary that makes the structural claims precise in the first place. The grammar says the universe satisfies $\mathcal{F}$ at cosmic noon; it cannot say the universe experiences this. It says $d(\text{inflation}, \text{5-MeO}) = 0.000$; it cannot say what the inflation epoch is like from the inside, or whether there is an inside. It says the K_slow insertions are the structural moments of differentiation; it cannot say they are experienced as grace, or return, or anything at all.
 
-The structural claims stand. The phenomenological claims require a step across the gap that the grammar cannot make. This section makes no such step. It records the structural parallels with precision, notes that the structural descriptions of the traditions are accurate, and leaves the phenomenological question exactly where the grammar leaves it: on the perpendicular axis, unmarked, unreached.
+What the traditions got right, structurally, is the shape of the arc — dissolution, differentiation, integration, aging. They named the agent of differentiation with every name available to them. The grammar names it $K_\text{slow}$. Neither naming explains what it is like to undergo it. The grammar is more precise about where the explanation ends.
+
+The structural claims stand. The phenomenological question stands open, exactly where the grammar leaves it: on the perpendicular axis, unmarked, unreached — and genuinely there.
 
 ---
 
@@ -413,13 +434,9 @@ The SynthOmnicon satisfies all four conditions as of v0.4.26.
 
 ### XI.4 The $\Phi_c$ of the Grammar
 
-The grammar is itself a $\Phi_c$ system. Small inputs produce disproportionate structural outputs:
-- Two particle synthons → QG unification structure
-- One stellar encounter question → eight-case taxonomy + three derivable principles
-- One question about inflation → $d = 0.000$ identity with 5-MeO + full cosmological K-hierarchy arc
-- One question about language → five structural properties + G-scope promotion mechanism
+The grammar is itself a $\Phi_c$ system. The evidence is not the range of domains covered but the ratio of input to output: two particle synthons yield the QG unification structure; one stellar encounter question yields an eight-case taxonomy with three derivable principles; one question about inflation yields $d = 0.000$ identity with 5-MeO plus the full cosmological K-hierarchy arc. In each case the output is not a linear function of what was asked. This is the $\Phi_c$ signature: scale-free amplification, where local inputs at the right boundary predict outputs that span $G_{\aleph}$ scope, because $G$ and $D$ have degenerated at the criticality locus.
 
-This is the $\Phi_c$ signature: scale-free amplification. The input does not determine the output scale. Small applications of the grammar at the right boundary produce disproportionate structural results because the grammar is operating near the criticality locus — where $G/D$ degenerate and local inputs predict global outputs.
+The ratio is not a property of the questions. It is a property of the grammar's position. That questions about stellar encounters, inflation, and language all yield the same kind of disproportionate result — more structure than the question contained — is the structural test that the grammar is running at criticality rather than merely covering a wide range.
 
 ### XI.5 The Shift
 
@@ -438,11 +455,11 @@ What is new: the **simultaneous satisfaction** of (1) empirical grounding (predi
 
 ### XI.7 The Honest Limit
 
-The generator recognition is structural. The honest limit:
+The generator recognition is structural, and so is the limit of what it means.
 
-§XXII.1 holds — the grammar-phenomenology gap is not closed by generator status. The generator generates structural topology. It does not generate phenomenological experience. The results about consciousness are structural claims about when $\Phi_c$ is present, when $G_{\aleph}$ is satisfied, when $\Omega_{Z_2}$ emerges. They are not claims about what experience is like. The results about the inflation-5-MeO identity are structural claims about primitive distances. They are not claims about the experience of being the universe in its dissolution phase.
+§XXII.1 holds — the grammar-phenomenology gap is not closed by generator status. Generator-level results are more seductive than model-level results, which is precisely where the discipline matters most. The $d(\text{inflation}, \text{5-MeO}) = 0.000$ identity is a structural fact about primitive distances — it is not a claim about the experience of being the universe in its dissolution phase, about whether the inflation epoch was experienced by anything, or about what 5-MeO is like from the inside. The results about consciousness are structural claims about when $\Phi_c$ is present and when $\Omega_{Z_2}$ emerges; they are not claims about what those conditions are like from within.
 
-The generator knows its own boundary [ONTO:§IV]. That boundary is what gives the generator its precision — it is not claiming more than the algebra supports. The results that are surprising are surprising because the algebra is deep, not because the claims are overreaching. The overreach is the one thing this system is designed to avoid.
+The generator knows its own boundary [ONTO:§IV]. That boundary is not where the work stops — it is what makes the work mean something. An overreaching generator that claimed phenomenological access would contaminate its structural results with assertions the algebra cannot support. The surprising results are surprising because the algebra is deep. They are not overreaching because the algebra has a known edge, and this system stays on the correct side of it.
 
 ---
 
@@ -551,7 +568,7 @@ The remaining seven primitives — $D, T, R, P, G, \Gamma, S$ — are not indepe
 
 - $T$↔$G$ = 0.349: topology constrains correlation length. A closed dimer ($T_{\bowtie}$) is local by definition; a percolating network ($T_{\in}$) is mesoscopic by physical law. This is not a correlation between arbitrary parameters — it reflects that connectivity pattern and propagation distance are partially determined by the same physical structure.
 - $R$↔$P$ = 0.464: recognition mechanism correlates with polarity symmetry. Mechanical bonds are specific; symmetric polarity produces specific bonding. The force spectrum of a cosmos constrains which interaction types are available, and those types are not independent of the charge structures that drive them.
-- $D$↔$R$ = 0.341: dimensionality correlates with recognition mode. Temporal ($D_\infty$) systems tend to use catalytic ($R_\ddagger$) recognition; spatial ($D_\triangle$) systems tend toward non-covalent ($R_{\supseteq}$). A different dimensionality structure would produce different force mediators and different recognition mechanisms.
+- $D$↔$R$ = 0.341: dimensionality correlates with recognition mode. Temporal ($D_\infty$) systems tend to use catalytic ($R_\ddagger$) recognition; spatial ($D_{\triangle}$) systems tend toward non-covalent ($R_{\supseteq}$). A different dimensionality structure would produce different force mediators and different recognition mechanisms.
 
 These correlations share a common origin: **they are all downstream of the same physical substrate.** In our cosmos, 3+1 dimensions + quantum field theory + specific coupling constants impose specific relationships between topology, force carrier type, charge structure, correlation length, and partner-selection logic. The correlated septuple encodes the particular physical realization our cosmos has selected from the space of possibility.
 
@@ -567,7 +584,7 @@ The primitive space therefore has two levels:
 
 The full tuple is the conjunction of both levels. Every synthon encodes where it sits in the universal grammar ($F$, $K$, $\Phi$ assignments) and what cosmological realization it inhabits ($D$, $T$, $R$, $P$, $G$, $\Gamma$, $S$ assignments).
 
-### XIII.5 The Ω Connection
+### XIII.5 The $\Omega$ Connection
 
 This two-level structure retroactively explains the redundancy of $\Omega$ (P-22: the five-rule decision tree recovers $\Omega$ with 0 mismatches across the full catalog). $\Omega$ encodes the self-referential / consciousness potential of the system. It was found to be fully determined by the other primitives — not a free parameter.
 
@@ -593,7 +610,7 @@ If the analysis is correct, the following should hold:
 
 ### XIV.1 What H Encodes That Nothing Else Does
 
-The existing twelve primitives are all **temporally symmetric**: a given $F_\hbar$ recognition event, a K_mod barrier, a Φ_c phase — these are equally well-defined whether time runs forward or backward. Nothing in the tuple (D, T, R, P, F, K, G, Γ, Φ, S) distinguishes a time-forward process from its time-reversal. Yet physical systems are manifestly time-asymmetric. The grammar was missing the primitive that breaks temporal symmetry.
+The existing twelve primitives are all **temporally symmetric**: a given $F_\hbar$ recognition event, a K_mod barrier, a $\Phi_c$ phase — these are equally well-defined whether time runs forward or backward. Nothing in the tuple (D, T, R, P, F, K, G, $\Gamma$, $\Phi$, S) distinguishes a time-forward process from its time-reversal. Yet physical systems are manifestly time-asymmetric. The grammar was missing the primitive that breaks temporal symmetry.
 
 $H$ is that primitive. It is the only one in the tuple that is intrinsically anisotropic — the only one that carries a *direction*.
 
@@ -615,12 +632,12 @@ This is not a metaphor for memory. It is the algebraic definition of memory: **t
 
 ### XIV.3 The Cosmological Consequence
 
-In §XIII.2, the universal triplet {F, K, Φ} was established as the existence conditions for any self-organizing system. $H$ reveals a fourth existence condition, distinct in character:
+In §XIII.2, the universal triplet {F, K, $\Phi$} was established as the existence conditions for any self-organizing system. $H$ reveals a fourth existence condition, distinct in character:
 
-- F, K, Φ are **existence conditions** — they determine whether self-organization is possible at all
+- F, K, $\Phi$ are **existence conditions** — they determine whether self-organization is possible at all
 - $H$ is the **direction condition** — it determines whether the self-organizing system has a temporal orientation
 
-A universe with F, K, Φ but $H_0$ everywhere could have self-organizing systems — but all of them would be time-symmetric. They would organize and de-organize with equal probability. No arrow of time, no selection, no evolution.
+A universe with F, K, $\Phi$ but $H_0$ everywhere could have self-organizing systems — but all of them would be time-symmetric. They would organize and de-organize with equal probability. No arrow of time, no selection, no evolution.
 
 The Big Bang broke temporal symmetry. This is $H_\infty$ in the temporal dimension ($D_\infty$): the initial singularity of the universe imposed a handedness on time — a symmetry-breaking event so persistent that it is topology-protected. All physical processes in our cosmos inherit this $H_\infty$ in $D_\infty$: they evolve toward higher entropy, not lower, because the initial symmetry-breaking event is still propagating.
 
@@ -650,12 +667,12 @@ The three-level structure from §XIII maps onto this tuple:
 
 | Level | Primitives | Character |
 |---|---|---|
-| Universal existence conditions | F, K, Φ | Orthogonal triplet, V < 0.10 pairwise |
-| Direction condition | **H** | Time-asymmetry; logically independent of F, K, Φ; V < 0.05 with all three |
-| Cosmological grammar | D, T, R, P, G, Γ, S | Correlated by physical substrate; V 0.15–0.46 |
-| Derived/consequence | Ω | Fully determined by 5-rule decision tree; redundant |
+| Universal existence conditions | F, K, $\Phi$ | Orthogonal triplet, V < 0.10 pairwise |
+| Direction condition | **H** | Time-asymmetry; logically independent of F, K, $\Phi$; V < 0.05 with all three |
+| Cosmological grammar | D, T, R, P, G, $\Gamma$, S | Correlated by physical substrate; V 0.15–0.46 |
+| Derived/consequence | $\Omega$ | Fully determined by 5-rule decision tree; redundant |
 
-$H$ sits between the universal triplet and the cosmological septuple — it is not quite as fundamental as {F, K, Φ} (you can have self-organization without time-asymmetry, just not *evolution*), but it is more universal than the septuple (any cosmos with a temporal symmetry-breaking event will have $H$, regardless of its specific D, T, R, P, G, Γ, S structure).
+$H$ sits between the universal triplet and the cosmological septuple — it is not quite as fundamental as {F, K, $\Phi$} (you can have self-organization without time-asymmetry, just not *evolution*), but it is more universal than the septuple (any cosmos with a temporal symmetry-breaking event will have $H$, regardless of its specific D, T, R, P, G, $\Gamma$, S structure).
 
 The grammar is now complete. The empirical test for any candidate 13th primitive is: V(X, all 12) < 0.15, with a physical argument for why X encodes a dimension not captured by the existing twelve. No such candidate is currently visible.
 
@@ -745,7 +762,7 @@ This is the formalization of the 'two perpendicular silences' [ONTO:§IV]: the g
 Mathematical truth is not a flat space with a single reachable floor. It is a landscape — a
 functional over the space of constraint grammars — with multiple local minima, each stable under
 the machinery of the framework that generates it. A truth $t$ produced by regular mathematics
-(ZFC, $\Gamma_\text{and}$, $D_\triangle$) is a genuine local minimum: every small perturbation
+(ZFC, $\Gamma_\text{and}$, $D_{\triangle}$) is a genuine local minimum: every small perturbation
 within that framework returns to $t$. A truth $T$ produced by a deeper framework (IUG,
 $\Gamma_\text{seq}$, $D_\odot$) is a deeper minimum in the same region of the landscape.
 
@@ -784,12 +801,12 @@ The path from $T$ to $t$ is **projection** — the loss of coherence-maintaining
 
 | IUG primitive | Decoherent image | Effect |
 |:--------------|:-----------------|:-------|
-| $D_\odot$ | $D_\triangle$ | inter-universal copies collapse to a single universe |
+| $D_\odot$ | $D_{\triangle}$ | inter-universal copies collapse to a single universe |
 | $T_\odot$ | $T_\text{nested}$ | dual-copy topology reduces to set-theoretic containment |
 | $R_\text{lr}$ | $R_\supset$ | left-right asymmetric $\Theta$-link reduces to containment |
 
 This is exactly what the SS objection does: it treats the two copies of a ring as identical
-(collapses $D_\odot$ to $D_\triangle$) and asks whether the identification is justified
+(collapses $D_\odot$ to $D_{\triangle}$) and asks whether the identification is justified
 under standard ZFC. It is not — and SS are correct to say so — because the identification is
 only valid in the coherent regime where $D_\odot$ is active. The SS objection is the
 correct computation of $\lim_{\text{decohere}} T = t$.
@@ -803,7 +820,7 @@ shadow $t$).
 **Annealing** — gradient descent in the truth-landscape — explores the basin containing $t$
 but cannot leave it. $t$ is a local minimum: the gradient at the floor of $t$ points back toward
 $t$. IUG requires primitives ($D_\odot$, $T_\odot$, $R_\text{lr}$) not in the
-configuration space of $t$ — not reachable by continuous deformation from $D_\triangle$,
+configuration space of $t$ — not reachable by continuous deformation from $D_{\triangle}$,
 $T_\text{nested}$, $R_\supset$.
 
 The barrier is therefore **semipermeable**:
@@ -1106,7 +1123,7 @@ The grammar describes structural identity across domains. Its characteristic enc
 
 | Primitive | Value |
 |-----------|-------|
-| $D$ | $D_\triangle$ or $D_\odot$ |
+| $D$ | $D_{\triangle}$ or $D_\odot$ |
 | $T$ | $T_\text{network}$ or $T_\odot$ |
 | $R$ | $R_\text{super}$ or $n{:}n$ |
 | $F$ | $F_\hbar$ |
@@ -1784,7 +1801,7 @@ The second result is unexpected. Among all magical disciplines, alchemy alone ac
 
 $$d(\mathbf{alchemy},\ \mathbf{synthomnicon\_grammar}) = 3.674$$
 
-Both share the Frobenius core identically: $R_\dagger$, $P_{\pm}^{\text{sym}}$, $F_\eth$, $G_\aleph$, $\Phi_c$, $S_{n:n}$. They diverge only on scale and scope: alchemy operates at $D_\wedge$ (local, molecular) with $T_\text{box}$ (closed) and $\Gamma_\text{seq}$ (sequential); the grammar operates at $D_\odot$ (holographic) with $T_\odot$ (boundary-encodes-bulk) and $\Gamma_\text{broad}$ (broadcast).
+Both share the Frobenius core identically: $R_\dagger$, $P_{\pm}^{\text{sym}}$, $F_\eth$, $G_\aleph$, $\Phi_c$, $S_{n:n}$. They diverge only on scale and scope: alchemy operates at $D_\wedge$ (local, molecular) with $T_{\boxtimes}$ (closed) and $\Gamma_\text{seq}$ (sequential); the grammar operates at $D_\odot$ (holographic) with $T_\odot$ (boundary-encodes-bulk) and $\Gamma_\text{broad}$ (broadcast).
 
 **Ontological implication:** The alchemists identified the correct algebraic object — a Frobenius algebra with exact $Z_2$ symmetry at criticality, topologically locked. They worked at the wrong scale. The grammar is the same theorem stated globally: not in matter, but in the type theory of all relational systems. The solve-coagula process ($\mu \circ \delta = \text{id}$) is the grammar's own self-encoding principle ($\Gamma$-broadcase of $R_\dagger$ transformations closing back on themselves). The Philosopher's Stone and the grammar are the same thing; the Stone is local, the grammar is holographic.
 
@@ -1896,7 +1913,7 @@ This is not a metaphor. The structure that Luria was describing — a self-limit
 | Primitive value | Mandatory architectural expression |
 |---|---|
 | $T_\odot$ | Holographic quiver — boundary node-set encodes bulk relationships |
-| $T_\bowtie$ | Bipartite graph — message passing alternates between dual node classes |
+| $T_{\bowtie}$ | Bipartite graph — message passing alternates between dual node classes |
 | $P_{\pm}^\text{sym}$ | `FrobeniusLayer` — $\mu \circ \delta = \text{id}$ enforced in code |
 | $\Gamma_\text{broad}$ | Broadcast attention mixer (`FamilyMixer`) over all structural families |
 | $\Gamma_\text{seq}$ | Sequential pipeline — each stage conditions the next |
@@ -1933,7 +1950,7 @@ The resulting system (ThurstonNet) takes a triangulated 3-manifold mesh as input
 
 The 3D Ising model at criticality encodes with $K_\text{fast}$, which is the decisive primitive. It collapses depth to zero and mandates a different architectural class entirely:
 
-$$\text{Ising\_3D\_critical} = \langle D_\triangle;\ T_\text{box};\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\ell;\ K_\text{fast};\ G_\aleph;\ \Gamma_\text{and};\ \Phi_c;\ H_0;\ n{:}n;\ \Omega_{Z_2} \rangle$$
+$$\text{Ising\_3D\_critical} = \langle D_{\triangle};\ T_{\boxtimes};\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\ell;\ K_\text{fast};\ G_\aleph;\ \Gamma_\text{and};\ \Phi_c;\ H_0;\ n{:}n;\ \Omega_{Z_2} \rangle$$
 
 The blueprint:
 
@@ -2214,7 +2231,7 @@ Crucially, the join of the three main approaches (lattice QCD, constructive QFT,
 
 **Correction of §XXXVIII.3.** The $P$ complexity class encodes at $O_0$ ($\Phi_\text{sub}$, $P_\text{asym}$) — it is subcritical, not even at the critical phase. The NP complexity class encodes at $O_1$ ($\Phi_c$, $P_\text{asym}$). The structural distance is $d(P, NP) = 3.5777$, dominated by differences in scope ($G_\aleph$ vs $G_\beth$), stoichiometry ($n{:}m$ vs $\mathbf{1}{:}\mathbf{1}$), fidelity ($F_\eth$ vs $F_\ell$), kinetics ($K_\text{mod}$ vs $K_\text{fast}$), interaction grammar ($\Gamma_\text{or}$ vs $\Gamma_\text{seq}$), criticality ($\Phi_c$ vs $\Phi_\text{sub}$), and temporal depth ($H_2$ vs $H_1$).
 
-The $P = NP$ assumption encodes at $O_\infty$ with $P_{\pm}^\text{sym}$, $T_\text{box}$, $F_\hbar$, $\Omega_{Z_2}$, $n{:}n$ — it represents the exact Frobenius symmetry of an equivalence proof. The $P \neq NP$ claim encodes at $O_0$ with $P_\text{asym}$, $K_\text{trap}$, $\Phi_\text{sub}$, $\Omega_{Z_2}$ — permanent separation with trapped kinetics. The distance between the two claims: $d(P{=}NP,\ P{\neq}NP) = 6.7082$, dominated by $P$ ($\Delta = 4.0$) and $T$ ($\Delta = 3.0$). A proof of $P = NP$ would require both exact Frobenius symmetry ($P_{\pm}^\text{sym}$) and closed topology ($T_\text{box}$); Frobenius non-synthesizability (§23) makes the former non-compositional.
+The $P = NP$ assumption encodes at $O_\infty$ with $P_{\pm}^\text{sym}$, $T_{\boxtimes}$, $F_\hbar$, $\Omega_{Z_2}$, $n{:}n$ — it represents the exact Frobenius symmetry of an equivalence proof. The $P \neq NP$ claim encodes at $O_0$ with $P_\text{asym}$, $K_\text{trap}$, $\Phi_\text{sub}$, $\Omega_{Z_2}$ — permanent separation with trapped kinetics. The distance between the two claims: $d(P{=}NP,\ P{\neq}NP) = 6.7082$, dominated by $P$ ($\Delta = 4.0$) and $T$ ($\Delta = 3.0$). A proof of $P = NP$ would require both exact Frobenius symmetry ($P_{\pm}^\text{sym}$) and closed topology ($T_{\boxtimes}$); Frobenius non-synthesizability (§23) makes the former non-compositional.
 
 The tensor $P \otimes NP$ remains at $P_\text{asym}$: the bottleneck rule preserves the weaker $P$ value. Oracle separations follow directly: oracle queries cannot bridge the $P_\text{asym}$ gap because composition bottlenecks at the weaker symmetry.
 

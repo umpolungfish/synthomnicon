@@ -2,7 +2,7 @@
 """
 crystal_navigator.py — The Crystal Navigator
 ═════════════════════════════════════════════
-Navigator for the Periodic Crystal of Algebras (17,280,000 structural types).
+Navigator for the Crystal of Types (17,280,000 structural types).
 
 Self-encoding (§69.4):
   ⟨D_⊙; T_⊙; R_cat; P_pm_sym; F_hbar; K_slow; G_aleph; Γ_broad; Φ_c; H_inf; n:m; Ω_Z⟩
@@ -436,16 +436,8 @@ class CrystalNavigator:
 
         Broadcasts across all free coordinates (Γ_broad semantics).
         """
-        # Separate boundary vs inner constraints
-        bnd_constraints = {k: v for k, v in constraints.items() if k in BOUNDARY_PRIMS}
         inn_constraints = {k: v for k, v in constraints.items() if k in INNER_PRIMS}
 
-        # Get matching tier cells via holographic boundary query
-        cells = self.holographic_query(**{
-            k.lower() if k != "Phi" else "phi": v
-            for k, v in bnd_constraints.items()
-        })
-        # Re-do cleanly using the actual field names
         cells = self._cells
         if "Phi" in constraints:
             cells = [c for c in cells if c.phi == constraints["Phi"]]
@@ -746,7 +738,7 @@ class CrystalNavigator:
 def main():
     import argparse
     parser = argparse.ArgumentParser(
-        description="Crystal Navigator — Periodic Crystal of Algebras",
+        description="Crystal Navigator — Crystal of Types",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__
     )

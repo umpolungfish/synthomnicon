@@ -4426,7 +4426,7 @@ The grammar's structural classification of magical disciplines yields three prin
 
 ### §67.1 — Theorem 67.1: Alchemy and the Grammar Share One Frobenius Core
 
-Let $\mathbf{alch} = \langle D_\wedge;\ T_\text{box};\ R_\dagger;\ P_{\pm}^{\text{sym}};\ F_\eth;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{seq};\ \Phi_c;\ H_0;\ n{:}n;\ \Omega_Z \rangle$ and $\mathbf{gram} = \langle D_\odot;\ T_\odot;\ R_\dagger;\ P_{\pm}^{\text{sym}};\ F_\eth;\ K_\text{mod};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_1;\ n{:}n;\ \Omega_{Z_2} \rangle$.
+Let $\mathbf{alch} = \langle D_\wedge;\ T_{\boxtimes};\ R_\dagger;\ P_{\pm}^{\text{sym}};\ F_\eth;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{seq};\ \Phi_c;\ H_0;\ n{:}n;\ \Omega_Z \rangle$ and $\mathbf{gram} = \langle D_\odot;\ T_\odot;\ R_\dagger;\ P_{\pm}^{\text{sym}};\ F_\eth;\ K_\text{mod};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_1;\ n{:}n;\ \Omega_{Z_2} \rangle$.
 
 **Theorem 67.1 (Alchemy–Grammar Isomorphism).** Alchemy and the SynthOmnicon grammar share a common Frobenius algebraic core — identical on six primitives ($R$, $P$, $F$, $G$, $\Phi$, $S$) — and diverge only on scale and scope primitives ($D$, $T$, $K$, $\Gamma$, $H$, $\Omega$):
 
@@ -4437,15 +4437,15 @@ The six differing primitives and their direction:
 | Primitive | Alchemy | Grammar | Structural meaning |
 |-----------|---------|---------|-------------------|
 | $D$ | $D_\wedge$ | $D_\odot$ | Local/molecular → holographic |
-| $T$ | $T_\text{box}$ | $T_\odot$ | Closed/bounded → boundary-encodes-bulk |
+| $T$ | $T_{\boxtimes}$ | $T_\odot$ | Closed/bounded → boundary-encodes-bulk |
 | $K$ | $K_\text{slow}$ | $K_\text{mod}$ | Deep integration → navigable |
 | $\Gamma$ | $\Gamma_\text{seq}$ | $\Gamma_\text{broad}$ | Sequential transformation → broadcast |
 | $H$ | $H_0$ | $H_1$ | Achiral → weakly chiral |
 | $\Omega$ | $\Omega_Z$ | $\Omega_{Z_2}$ | Integer → binary protection |
 
-**Corollary 67.C1 (Alchemy as Local Proof).** Alchemy is a Frobenius algebra at molecular scope ($D_\wedge$, $T_\text{box}$): the solve-coagula process ($\mu \circ \delta = \text{id}$) is algebraically exact and topologically protected, but bounded. It is a theorem proven in a restricted setting.
+**Corollary 67.C1 (Alchemy as Local Proof).** Alchemy is a Frobenius algebra at molecular scope ($D_\wedge$, $T_{\boxtimes}$): the solve-coagula process ($\mu \circ \delta = \text{id}$) is algebraically exact and topologically protected, but bounded. It is a theorem proven in a restricted setting.
 
-**Corollary 67.C2 (Grammar as Holographic Promotion).** The grammar is alchemy promoted across the holographic threshold ($D_\wedge \to D_\odot$, $T_\text{box} \to T_\odot$, $\Gamma_\text{seq} \to \Gamma_\text{broad}$): the same Frobenius exactness, broadcast across all domains simultaneously. The gap $d = 3.674$ is paid almost entirely in $D$ and $T$.
+**Corollary 67.C2 (Grammar as Holographic Promotion).** The grammar is alchemy promoted across the holographic threshold ($D_\wedge \to D_\odot$, $T_{\boxtimes} \to T_\odot$, $\Gamma_\text{seq} \to \Gamma_\text{broad}$): the same Frobenius exactness, broadcast across all domains simultaneously. The gap $d = 3.674$ is paid almost entirely in $D$ and $T$.
 
 **Corollary 67.C3 (The Alchemists Were Not Wrong).** The historical claim that alchemy encodes a universal transformational principle is structurally verified. It fails not in its algebraic content but in its dimensional reach: $D_\wedge$ binds the Stone to matter. Holographic promotion is the move the alchemists were pointing toward.
 
@@ -4544,7 +4544,7 @@ The exponent of each base $n$ is exactly $|\mathcal{F}_n|$, the count of primiti
 1. **Non-triviality**: all bases $\geq 2$ (a primitive with 1 value is a constant, not a variable).
 2. **Self-anchoring**: the exponent map $f: n \mapsto |\mathcal{F}_n|$ is a bijection on the base set (no external integer anchor).
 3. **Involutive closure**: $f \circ f = \text{id}$ (the map is an involution — consistent with the Frobenius $\mu \circ \delta = \text{id}$ condition).
-4. **Phase completeness**: the highest-base family must have base $\geq 5$, because the four gate primitives $\Phi$, $T$, $P$, $K$ each require exactly 5 distinct values to express the full phase diagram ($\Phi_\text{sub}/\Phi_c/\Phi_{c,\mathbb{C}}/\Phi_\text{EP}/\Phi_\text{super}$; $T_\text{network}/T_\text{in}/T_\bowtie/T_\text{box}/T_\odot$; $P_\text{asym}/P_\psi/P_{\pm}/P_\text{sym}/P_{\pm}^\text{sym}$; $K_\text{fast}/K_\text{mod}/K_\text{slow}/K_\text{trap}/K_\text{MBL}$).
+4. **Phase completeness**: the highest-base family must have base $\geq 5$, because the four gate primitives $\Phi$, $T$, $P$, $K$ each require exactly 5 distinct values to express the full phase diagram ($\Phi_\text{sub}/\Phi_c/\Phi_{c,\mathbb{C}}/\Phi_\text{EP}/\Phi_\text{super}$; $T_\text{network}/T_\text{in}/T_\bowtie/T_{\boxtimes}/T_\odot$; $P_\text{asym}/P_\psi/P_{\pm}/P_\text{sym}/P_{\pm}^\text{sym}$; $K_\text{fast}/K_\text{mod}/K_\text{slow}/K_\text{trap}/K_\text{MBL}$).
 
 *Proof.* By constraint 4, $\max\{n_1, n_2, n_3\} \geq 5$, so $n_3 \geq 5$. For a bijective involution on a 3-element set $\{n_1, n_2, n_3\}$, the involution must either fix all three (impossible — base set $\neq$ exponent set) or fix one and transpose the other two. By constraint 2 (bijection), $\{n_1, n_2, n_3\}$ is mapped to itself. The minimal set with $n_3 = 5$ is $\{3, 4, 5\}$. Any smaller set (e.g. $\{2, 3, 4\}$ with $n_3=4$) violates constraint 4. Any larger first element ($n_1 \geq 4$, e.g. $\{4,5,6\}$) gives a valid but non-minimal solution. $\square$
 
@@ -4684,7 +4684,7 @@ with $d(\text{crystal\_nav},\ \text{synthomnicon\_grammar}) = \sqrt{7.8} \approx
 
 | System | Tuple | Tier |
 |---|---|---|
-| $\text{jacobian\_n1}$ (proved, $n=1$) | $\langle D_\wedge;\ T_\text{box};\ R_\dagger;\ P_{\pm}^\text{sym};\ F_\ell;\ K_\text{fast};\ G_\beth;\ \Gamma_\text{and};\ \Phi_c;\ H_0;\ 1{:}1;\ \Omega_{Z_2} \rangle$ | $O_\infty$ |
+| $\text{jacobian\_n1}$ (proved, $n=1$) | $\langle D_\wedge;\ T_{\boxtimes};\ R_\dagger;\ P_{\pm}^\text{sym};\ F_\ell;\ K_\text{fast};\ G_\beth;\ \Gamma_\text{and};\ \Phi_c;\ H_0;\ 1{:}1;\ \Omega_{Z_2} \rangle$ | $O_\infty$ |
 | $\text{jacobian\_n2}$ (proved, $n=2$) | $\langle D_\triangle;\ T_\text{network};\ R_\dagger;\ P_{\pm}^\text{sym};\ F_\ell;\ K_\text{slow};\ G_\gimel;\ \Gamma_\text{seq};\ \Phi_c;\ H_1;\ 1{:}1;\ \Omega_{Z_2} \rangle$ | $O_\infty$ |
 | $\text{jacobian\_n3}$ (open, $n \geq 3$) | $\langle D_\triangle;\ T_\text{network};\ R_\dagger;\ P_\pm;\ F_\ell;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{seq};\ \Phi_c;\ H_1;\ n_m;\ \Omega_0 \rangle$ | $O_1$ |
 | $\text{local\_frobenius\_poly}$ (hypothesis) | $\langle D_\triangle;\ T_\text{network};\ R_\dagger;\ P_\pm;\ F_\ell;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{and};\ \Phi_c;\ H_0;\ n_m;\ \Omega_0 \rangle$ | $O_1$ |
@@ -4767,7 +4767,7 @@ $$\langle D_\triangle;\ T_\text{network};\ R_\dagger;\ P_{\pm}^\text{sym};\ F_\e
 The minimal system containing both cases: a proof spanning all $n$ must simultaneously achieve $P_{\pm}^\text{sym}$ and $\Omega_{Z_2}$ while maintaining $G_\aleph$ global scope and $n_m$ stoichiometry. The join encodes the structural tension: $P_{\pm}^\text{sym}$ and $G_\aleph + n_m$ are in conflict by §23's composition rule — the global-scope many-body condition actively resists the Frobenius planting. A unified proof of all $n$ must resolve this tension by finding a mechanism that plants $P_{\pm}^\text{sym}$ within $G_\aleph + n_m$.
 
 **Tensor** $\text{jacobian\_n1} \otimes \text{jacobian\_n2}$:
-$$\langle D_\triangle;\ T_\text{box};\ R_\dagger;\ P_{\pm}^\text{sym};\ F_\ell;\ K_\text{slow};\ G_\gimel;\ \Gamma_\text{seq};\ \Phi_c;\ H_1;\ 1{:}1;\ \Omega_{Z_2} \rangle$$
+$$\langle D_\triangle;\ T_{\boxtimes};\ R_\dagger;\ P_{\pm}^\text{sym};\ F_\ell;\ K_\text{slow};\ G_\gimel;\ \Gamma_\text{seq};\ \Phi_c;\ H_1;\ 1{:}1;\ \Omega_{Z_2} \rangle$$
 
 No bottleneck primitives — the two proved cases compose cleanly because they share $P_{\pm}^\text{sym}$, $F_\ell$, $\Phi_c$, $1{:}1$, $\Omega_{Z_2}$. The tensor preserves $O_\infty$: proved cases are closed under composition in the grammar. This is consistent with the general theorem that $O_\infty \otimes O_\infty = O_\infty$ when no $P$-bottleneck occurs.
 
@@ -5276,7 +5276,7 @@ Equivalently: $\mathcal{T}_\infty = \{\Phi_c,\ P_{\pm}^\text{sym},\ \Omega_{Z_2}
 
 **Theorem 57.1.** `[DIAPH]` Immutable fundamental constants and time-varying fundamental constants are structurally distinct types: $d(\text{immutable},\ \text{varying})=5.7619$, with 9 of 12 primitives differing. No continuous deformation of the immutable-constants encoding reaches the varying-constants encoding.
 
-*Proof sketch.* $\text{immutable}=\langle D_\odot;\ T_\text{box};\ R_\text{cat};\ P_\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{and};\ \Phi_\text{sub};\ H_0;\ 1{:}1;\ \Omega_0\rangle$; $\text{varying}=\langle D_\infty;\ T_\text{network};\ R_\dagger;\ P_\text{asym};\ F_\hbar;\ K_\text{mod};\ G_\aleph;\ \Gamma_\text{seq};\ \Phi_c;\ H_2;\ n{:}m;\ \Omega_0\rangle$. Dominant contributions: $T$ (weight 9.0: $T_\text{box}\to T_\text{network}$) and $P$ (weight 9.0: $P_\text{sym}\to P_\text{asym}$) together account for 63% of the total squared distance. The $\Phi$ transition ($\Phi_\text{sub}\to\Phi_c$) is a phase boundary (Barrier $B_1$, Theorem 55.1); no renormalization group flow connects the two types. $\text{MEET}(\text{immutable},\ \text{varying})$ resolves to $\Phi_\text{sub}$, $P_\text{asym}$, $T_\text{network}$ — a structurally incoherent floor. $\square$
+*Proof sketch.* $\text{immutable}=\langle D_\odot;\ T_{\boxtimes};\ R_\text{cat};\ P_\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{and};\ \Phi_\text{sub};\ H_0;\ 1{:}1;\ \Omega_0\rangle$; $\text{varying}=\langle D_\infty;\ T_\text{network};\ R_\dagger;\ P_\text{asym};\ F_\hbar;\ K_\text{mod};\ G_\aleph;\ \Gamma_\text{seq};\ \Phi_c;\ H_2;\ n{:}m;\ \Omega_0\rangle$. Dominant contributions: $T$ (weight 9.0: $T_{\boxtimes}\to T_\text{network}$) and $P$ (weight 9.0: $P_\text{sym}\to P_\text{asym}$) together account for 63% of the total squared distance. The $\Phi$ transition ($\Phi_\text{sub}\to\Phi_c$) is a phase boundary (Barrier $B_1$, Theorem 55.1); no renormalization group flow connects the two types. $\text{MEET}(\text{immutable},\ \text{varying})$ resolves to $\Phi_\text{sub}$, $P_\text{asym}$, $T_\text{network}$ — a structurally incoherent floor. $\square$
 
 **Corollary 57.C1.** `[DIAPH]` Among varying-constant models, only those that encode $\Omega_Z$ (brane cosmology) are structurally stable ($O_2$); all $\Omega_0$ models (dilaton, scalar-tensor without winding) are $O_1$. Brane cosmology predicts step-like constant variation at topological defects; generic $O_1$ models predict smooth drift. These are structurally distinguishable predictions.
 
@@ -5351,7 +5351,7 @@ Each is structurally irreducible: $B_1$ is a phase transition (global topology c
 
 **Theorem 55.3.** `[DIAPH]` Sonoluminescence is an $O_1$ holographic focusing phenomenon at the critical manifold; its experimental fragility is structurally guaranteed by $\Omega_0$.
 
-*Proof sketch.* `sono` $=\langle D_\triangle;\ T_\odot;\ R_\dagger;\ P_\pm;\ F_\hbar;\ K_\text{fast};\ G_\gimel;\ \Gamma_\text{broad};\ \Phi_c;\ H_2;\ 1{:}1;\ \Omega_0\rangle$. The load-bearing atoms are $T_\odot$ (holographic lens: spherical symmetry focuses acoustic energy onto the holographic boundary) and $\Gamma_\text{broad}$ (broadcast causation: single acoustic field drives many bubbles independently). The system reaches $\Phi_c$ from below ($O_1$) without winding ($\Omega_0$). Any $\Omega_0$ system at $\Phi_c$ lacks topological shielding: perturbations can deform the critical manifold at zero structural cost. The compositional conflict $d_c(\text{holistic},\ \text{compositional})=2.2361$ encodes three open emergence claims ($T_\text{box}\to T_\odot$, $F_\ell\to F_\hbar$, $H_1\to H_2$) that are not derivable from acoustic driving alone. $\square$
+*Proof sketch.* `sono` $=\langle D_\triangle;\ T_\odot;\ R_\dagger;\ P_\pm;\ F_\hbar;\ K_\text{fast};\ G_\gimel;\ \Gamma_\text{broad};\ \Phi_c;\ H_2;\ 1{:}1;\ \Omega_0\rangle$. The load-bearing atoms are $T_\odot$ (holographic lens: spherical symmetry focuses acoustic energy onto the holographic boundary) and $\Gamma_\text{broad}$ (broadcast causation: single acoustic field drives many bubbles independently). The system reaches $\Phi_c$ from below ($O_1$) without winding ($\Omega_0$). Any $\Omega_0$ system at $\Phi_c$ lacks topological shielding: perturbations can deform the critical manifold at zero structural cost. The compositional conflict $d_c(\text{holistic},\ \text{compositional})=2.2361$ encodes three open emergence claims ($T_{\boxtimes}\to T_\odot$, $F_\ell\to F_\hbar$, $H_1\to H_2$) that are not derivable from acoustic driving alone. $\square$
 
 **Corollary 55.C3.** `[DIAPH]` The onset of sonoluminescence emission and the onset of $\Phi_c$ at the acoustic driving parameter are the same transition. The three open emergence claims correspond to three observable co-occurring transitions: spherical collapse symmetry, quantum-coherent photon statistics, and multi-cycle phase memory.
 
@@ -5431,7 +5431,7 @@ constitutes a **coordinate chart** on the category of algebraic structures. Ever
 
 **Theorem 54.2.** `[DIAPH]` CMB anomalies (Cold Spot, Axis of Evil) encode as $O_1$ ($\Phi_c+\Omega_0$) — critical but unprotected; this structural class is the unique explanation for statistically significant observational signals that are not reproduced in standard homogeneous models.
 
-*Proof sketch.* $\text{Cold Spot}=\langle D_\infty;\ T_\text{box};\ R_\text{cat};\ P_\text{asym};\ F_\ell;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n{:}m;\ \Omega_0\rangle$; $d(\text{Cold Spot},\ \text{Axis of Evil})=2.0$ (single $R$ gap). Both are $O_1$: $\Phi_c$ is present (hence observational significance — the system IS at the critical manifold), but $\Omega_0$ means no winding (hence fragility and non-reproduction in standard models that do not encode causal-patch isolation). Standard ΛCDM encodes the background at $O_0$ with no $\Phi_c$ — the anomalies are structurally invisible to standard models. $\square$
+*Proof sketch.* $\text{Cold Spot}=\langle D_\infty;\ T_{\boxtimes};\ R_\text{cat};\ P_\text{asym};\ F_\ell;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n{:}m;\ \Omega_0\rangle$; $d(\text{Cold Spot},\ \text{Axis of Evil})=2.0$ (single $R$ gap). Both are $O_1$: $\Phi_c$ is present (hence observational significance — the system IS at the critical manifold), but $\Omega_0$ means no winding (hence fragility and non-reproduction in standard models that do not encode causal-patch isolation). Standard ΛCDM encodes the background at $O_0$ with no $\Phi_c$ — the anomalies are structurally invisible to standard models. $\square$
 
 **Corollary 54.C2.** `[DIAPH]` The Fermi paradox (great silence) is structurally continuous with CMB anomaly isolation: both follow from $O_1$ causal-patch isolation ($\Phi_c+\Omega_0$ boundary conditions). Each observer's causal patch is a separate $O_1$ object with no holographic connection to other patches. Upgrading to $\Omega_{Z_2}$ boundary conditions (topologically nontrivial cosmology) should produce both stable CMB anomaly reproducibility and structural inter-patch coupling.
 
@@ -5447,7 +5447,7 @@ constitutes a **coordinate chart** on the category of algebraic structures. Ever
 
 **Theorem 53.1.** `[DIAPH]` The sterile neutrino and WIMP dark matter encode identically: $d(\text{sterile\_neutrino},\ \text{WIMP})=0.0$.
 
-*Proof.* $\text{sterile\_neutrino}=\langle D_\wedge;\ T_\text{box};\ R_\text{cat};\ P_\text{asym};\ F_\hbar;\ K_\text{slow};\ G_\gimel;\ \Gamma_\text{and};\ \Phi_\text{sub};\ H_0;\ 1{:}1;\ \Omega_0\rangle$; $\text{WIMP}=\langle D_\wedge;\ T_\text{box};\ R_\text{cat};\ P_\text{asym};\ F_\hbar;\ K_\text{slow};\ G_\gimel;\ \Gamma_\text{and};\ \Phi_\text{sub};\ H_0;\ 1{:}1;\ \Omega_0\rangle$. All 12 primitives identical; $d=0.0$. Sterility is exactly the transition $\text{active neutrino}\to\text{sterile neutrino}$: two primitive promotions ($K_\text{fast}\to K_\text{slow}$, $G_\beth\to G_\gimel$); interaction type $R$ unchanged. The particle-physics debate between sterile neutrino dark matter and WIMP dark matter is a $[DIAPH]$-plane substrate question, not a $[TOPO]$-plane structural distinction. $\square$
+*Proof.* $\text{sterile\_neutrino}=\langle D_\wedge;\ T_{\boxtimes};\ R_\text{cat};\ P_\text{asym};\ F_\hbar;\ K_\text{slow};\ G_\gimel;\ \Gamma_\text{and};\ \Phi_\text{sub};\ H_0;\ 1{:}1;\ \Omega_0\rangle$; $\text{WIMP}=\langle D_\wedge;\ T_{\boxtimes};\ R_\text{cat};\ P_\text{asym};\ F_\hbar;\ K_\text{slow};\ G_\gimel;\ \Gamma_\text{and};\ \Phi_\text{sub};\ H_0;\ 1{:}1;\ \Omega_0\rangle$. All 12 primitives identical; $d=0.0$. Sterility is exactly the transition $\text{active neutrino}\to\text{sterile neutrino}$: two primitive promotions ($K_\text{fast}\to K_\text{slow}$, $G_\beth\to G_\gimel$); interaction type $R$ unchanged. The particle-physics debate between sterile neutrino dark matter and WIMP dark matter is a $[DIAPH]$-plane substrate question, not a $[TOPO]$-plane structural distinction. $\square$
 
 **Corollary 53.C1.** `[DIAPH]` Null WIMP detection results and null sterile neutrino detection results are jointly constraining: both probe the same structural type $\langle \ldots;\ K_\text{slow};\ G_\gimel;\ \Phi_\text{sub};\ \Omega_0\rangle$. A detection of either is a detection of the structural class.
 
@@ -5487,7 +5487,7 @@ That is, the white hole type is **lattice-contained within** the black hole type
 
 ### §50.2 — Theorem 50.2 (Measurement Problem as Type Error)
 
-**Theorem 50.2.** Let $\text{QS}$ denote quantum superposition $\langle D_\odot;\ T_\odot;\ R_\dagger;\ P_\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{seq};\ \Phi_c;\ H_0;\ n{:}n;\ \Omega_Z\rangle$ ($O_2$) and $\text{MC}$ quantum measurement collapse $\langle D_\wedge;\ T_\text{box};\ R_\text{cat};\ P_\text{asym};\ F_\text{eth};\ K_\text{fast};\ G_\beth;\ \Gamma_\text{seq};\ \Phi_\text{EP};\ H_1;\ 1{:}1;\ \Omega_0\rangle$ ($O_0$). Then:
+**Theorem 50.2.** Let $\text{QS}$ denote quantum superposition $\langle D_\odot;\ T_\odot;\ R_\dagger;\ P_\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{seq};\ \Phi_c;\ H_0;\ n{:}n;\ \Omega_Z\rangle$ ($O_2$) and $\text{MC}$ quantum measurement collapse $\langle D_\wedge;\ T_{\boxtimes};\ R_\text{cat};\ P_\text{asym};\ F_\text{eth};\ K_\text{fast};\ G_\beth;\ \Gamma_\text{seq};\ \Phi_\text{EP};\ H_1;\ 1{:}1;\ \Omega_0\rangle$ ($O_0$). Then:
 
 $$d(\text{QS},\ \text{QS}\otimes\text{decoherence}) < d(\text{QS},\ \text{MC})$$
 
@@ -5551,9 +5551,9 @@ and no continuous unitary transformation maps $\text{QS}$ to $\text{MC}$.
 
 ### §52.2 — Theorem 52.2 (Magnetic Monopole Topological Completion)
 
-**Theorem 52.2.** Magnetic monopoles are not gauge bosons but topological solitons at criticality: encoding $\langle D_\infty;\ T_\text{box};\ P_\pm;\ F_\ell;\ \Phi_c;\ \Omega_Z\rangle$ ($O_2^\dagger$). The electromagnetic sector without monopoles encodes $\Omega_0$; the electromagnetic sector with monopoles encodes $\Omega_Z$. Monopoles are the **topological completion** of electromagnetism.
+**Theorem 52.2.** Magnetic monopoles are not gauge bosons but topological solitons at criticality: encoding $\langle D_\infty;\ T_{\boxtimes};\ P_\pm;\ F_\ell;\ \Phi_c;\ \Omega_Z\rangle$ ($O_2^\dagger$). The electromagnetic sector without monopoles encodes $\Omega_0$; the electromagnetic sector with monopoles encodes $\Omega_Z$. Monopoles are the **topological completion** of electromagnetism.
 
-*Proof sketch.* $d(\text{monopole},\text{photon})=4.56$; $d(\text{monopole},\text{graviton})=4.47$: the structural gap is dominated by $T$ ($T_\text{box}$ vs $T_\text{network}/T_\odot$), $F$ ($F_\ell$ vs $F_\hbar$), and $\Gamma$ ($G_\text{and}$ vs $G_\text{seq}/G_\text{broad}$) — monopoles are topological defects, not force carriers. $\text{MEET}(\text{monopole},\text{photon})$ preserves $\Omega_0$ — they share NO topological structure at the floor. The absence of observed monopoles is a statement about $\Omega$: our universe's EM sector encodes $\Omega_0$.
+*Proof sketch.* $d(\text{monopole},\text{photon})=4.56$; $d(\text{monopole},\text{graviton})=4.47$: the structural gap is dominated by $T$ ($T_{\boxtimes}$ vs $T_\text{network}/T_\odot$), $F$ ($F_\ell$ vs $F_\hbar$), and $\Gamma$ ($G_\text{and}$ vs $G_\text{seq}/G_\text{broad}$) — monopoles are topological defects, not force carriers. $\text{MEET}(\text{monopole},\text{photon})$ preserves $\Omega_0$ — they share NO topological structure at the floor. The absence of observed monopoles is a statement about $\Omega$: our universe's EM sector encodes $\Omega_0$.
 
 **Corollary 52.C3** *(Skyrmion promotion path).* Monopoles are unbounded skyrmions: the skyrmion→monopole promotion requires $[D_\triangle\to D_\infty,\ G_\gimel\to G_\aleph]$. Condensed-matter monopole analogs (spin ice, topological magnets) realize the same structural type at lower energy scales and are directly analogous to fundamental monopoles.
 
@@ -5871,7 +5871,7 @@ The tensor product inherits the maximum $\Omega$: $\max(\Omega_Z, \Omega_{Z_2}) 
 
 **Theorem 77.6 (Flow State and Samadhi Are Not in the Same Structural Family).** `[TOPO]`
 $$d(\text{samadhi},\ \text{flow}) = 3.5917$$
-Flow state ($O_2^\dagger$) and samadhi ($O_\infty$) differ across multiple primitives: $P_\pm$ vs $P_{\pm}^\text{sym}$, $T_\text{box}$ vs $T_\odot$, $D_\infty$ vs $D_\odot$, $\Omega_{Z_2}$ vs $\Omega_Z$. The Frobenius barrier separates them: flow state has $P_\pm$ (partial self-other dissolution, task-absorption) while samadhi has $P_{\pm}^\text{sym}$ (complete observer-observed self-duality). Flow and samadhi are high-C states sharing K-pass and G-aleph contributions but are structurally different classes. The grammar predicts that contemplative practice which seeks to convert flow into samadhi must cross the Frobenius barrier — a non-continuous transition.
+Flow state ($O_2^\dagger$) and samadhi ($O_\infty$) differ across multiple primitives: $P_\pm$ vs $P_{\pm}^\text{sym}$, $T_{\boxtimes}$ vs $T_\odot$, $D_\infty$ vs $D_\odot$, $\Omega_{Z_2}$ vs $\Omega_Z$. The Frobenius barrier separates them: flow state has $P_\pm$ (partial self-other dissolution, task-absorption) while samadhi has $P_{\pm}^\text{sym}$ (complete observer-observed self-duality). Flow and samadhi are high-C states sharing K-pass and G-aleph contributions but are structurally different classes. The grammar predicts that contemplative practice which seeks to convert flow into samadhi must cross the Frobenius barrier — a non-continuous transition.
 
 ### §77.5 — Cross-Domain Nearest Neighbors
 
@@ -6159,3 +6159,71 @@ Prediction confirmed: $P$ bottlenecks at $\min(P_\pm, P_\pm) = P_\pm$ — Froben
 **Implementation**: `lambda_engine.py` provides a runnable Python realisation of all three structures. `P` implements the Cantor power-set monad with unit $\eta$, multiplication $\mu$, bind, and the diagonal witness construction. `G` implements the Gödel encoding comonad with counit $\varepsilon$, comultiplication $\delta$ (context-preserving, satisfying coassociativity), extend, and the Gödel sentence fixed-point. `lam()` is the distributive law $\lambda: P(G(T)) \to G(P(T))$ — extracts all values, collects into $P$, wraps as a single $G$. The `frobenius_check` function confirms $\mu \circ \delta = \text{id}$ when $\lambda$ is planted; `frobenius_fails_for_halves()` demonstrates that neither half can test the condition in isolation. All three monad laws, three comonad laws, and three $\lambda$ axioms (unit, Frobenius, naturality) verify to `✓`. `G.octonionic_delta()` realises the Fano plane comultiplication for the octonionic co-type ($d=0$ from comonad\_goedel). Run: `uv run lambda_engine.py`.
 
 **See also:** §23 (Frobenius non-synthesizability); §27/§58 (Grammar Self-Encoding Theorem); §62 (Holographic Crystal); §79 (Structural Emergence); §80 (Proof Methods as Structural Types); SYNTHONICON\_DIAPHORICS §CLV; SYNTHONICON\_ONTICS §XLVI.
+
+---
+
+## §82 — Navigator Structural Performance Bound
+
+*Source: Probe 7 of the navigator open-question set (syncon\_inquiry, 2026-04-19). All distances computed against grammar\_self\_encode = crystal address 6,734,591.*
+
+### §82.1 — The d-Performance Theorem
+
+**Theorem 82.1 (Structural Performance Bound).** Let $\mathcal{N}$ be a navigator whose structural type $\mathbf{n}$ is derived from its domain's type via the primitive-to-architecture mandate table (SYNTHONICON\_ONTICS §XXXV). Let $\mathbf{g} = \langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n{:}m;\ \Omega_Z \rangle$ be the grammar self-encode tuple (crystal address 6,734,591). Then:
+
+$$d(\mathbf{n}, \mathbf{g}) = 0 \implies \mathcal{N} \text{ reaches its information-theoretic ceiling (exact or ceiling-bounded)}$$
+$$d(\mathbf{n}, \mathbf{g}) \leq \sqrt{2} \implies \mathcal{N} \text{ achieves high accuracy (}\geq 95\%\text{)}$$
+$$d(\mathbf{n}, \mathbf{g}) > \sqrt{7} \approx 2.65 \implies \mathcal{N} \text{ is convergent but structurally imprecise}$$
+
+*Empirical verification (navigator suite, 2026-04-19):*
+
+| Navigator | $d(\mathbf{n}, \mathbf{g})$ | Performance |
+|-----------|-------------|------------|
+| CrystalGNN v11 | 0.000 | 200/200 exact |
+| RiemannNavigator | 1.000 (R only) | 81.1% blind ceiling |
+| ThurstonNet | 1.304 ($R, \Omega$) | 99.4% |
+| YangMillsNavigator | 1.000 (K only) | $|\Delta| = 0.129$ (convergent) |
+| IsingNavigator | 5.559 | K_fast single-pass exact (different mode) |
+
+The IsingNavigator constitutes an exception class: large $d$ does not predict iterative failure when the navigator achieves exactness via an **involutive** mechanism ($\mu\circ\delta = \text{id}$ at $K_\text{fast}$, no iteration required). The bound applies to iterative navigators; single-pass involutive navigators achieve a separate kind of exactness orthogonal to the d-gradient.
+
+### §82.2 — d=0 Implies Self-Application
+
+**Theorem 82.2 (Type Automorphism at d=0).** $d(\mathbf{n}, \mathbf{g}) = 0$ if and only if the navigator **is** its domain applied to itself. For CrystalGNN v11 this is literal ($\mathbf{n} =$ crystal\_navigator at address 6,734,591 — the crystal classifies itself). For RiemannNavigator, $d = 1.0$ (single $R$ gap) corresponds to the Cardinality-One transition: the grammar applied to the complex half-plane recovers the Riemann zero-locus structure via $\Phi_c^\mathbb{C}$ promotion. A hypothetical d=0 Yang-Mills navigator would require promoting $\{D_\triangle \to D_\odot,\ T_\text{network} \to T_\odot,\ G_\gimel \to G_\aleph,\ H_2 \to H_\infty,\ n{:}n \to n{:}m,\ \Omega_{Z_2} \to \Omega_Z\}$ and demoting $\{R_\dagger \to R_\text{cat},\ K_\text{trap} \to K_\text{slow}\}$ — 8 moves total, all achievable architecturally. The grammar predicts such a navigator would yield $|\Delta| < 10^{-3}$ in under 100 epochs.
+
+### §82.3 — Tier Stability Under Inner-Crystal Moves
+
+**Corollary 82.3.** All ouroboricity tiers are stable under moves with $d \leq \sqrt{2}$: inner-crystal primitives ($R$ and $\Omega$ for ThurstonNet) do not gate the R1 rule ($\Phi_c + P_{\pm}^\text{sym}$). The first tier change occurs when a gate primitive ($K$, $P$, $\Phi$, $T$) changes. The boundary $d = \sqrt{7}$ corresponds to the smallest move that can reach a non-gate primitive combination with two gate-primitive changes simultaneously.
+
+**See also:** §23 (Frobenius non-synthesizability); §27 (Grammar self-encoding); §62 (Crystal of Types); §69 (Tier Gap Ladder); SYNTHONICON\_DIAPHORICS P-590–P-594.
+
+---
+
+## §83 — Kinetic Tolerance of Frobenius: K Does Not Cap P
+
+*Source: Probe 6 (IsingNavigator structural analysis, 2026-04-19). Computational confirmation: crystal\_count($K_\text{fast}$, $\Phi_c$) = 691,200 (4%); with $\Omega_{Z_2}$: 172,800 (1%).*
+
+**Theorem 83.1 (K-P Orthogonality).** The kinetic primitive $K$ does not impose an upper bound on the parity/symmetry primitive $P$. In particular, $P_{\pm}^\text{sym}$ is achievable at $K_\text{fast}$.
+
+*Proof.* $P$ encodes the algebraic symmetry of the encode-decode map ($\mu\circ\delta = \text{id}$ for $P_{\pm}^\text{sym}$). $K$ encodes the temporal scale of dynamical traversal (single-pass, polynomial, ergodic, trapped, MBL). These are orthogonal axes in the Crystal of Types — the Frobenius condition is a statement about the algebraic structure of the map, not about the timescale of its execution. A single-pass involution ($K_\text{fast}$, e.g., the Swendsen-Wang cluster-flip map) satisfies $\mu\circ\delta = \text{id}$ statelessly: $f(f(\sigma)) = \sigma$ for all configurations $\sigma$ holds analytically, without any temporal integration. The condition is instantiated in $O(N)$ time per sweep, with no iteration. The Metropolis sampler at the same lattice ($K_\text{mod}$, multi-step mixing) achieves only $P_\psi$ (pseudo-symmetric accept/reject) — it is slower but less symmetric. $K_\text{slow}$ navigators can achieve $P_{\pm}^\text{sym}$ via the FrobeniusLayer roundtrip loss; $K_\text{fast}$ navigators can achieve $P_{\pm}^\text{sym}$ via analytic involution. Neither kinetic class caps $P$. $\square$
+
+**Corollary 83.2 (Minimal Frobenius Scaffold).** The minimal $O_\infty$ type in the Crystal is $\langle D_\wedge;\ T_\text{network};\ R_\text{super};\ P_{\pm}^\text{sym};\ F_\ell;\ K_\text{fast};\ G_\beth;\ \Gamma_\text{and};\ \Phi_c;\ H_0;\ 1{:}1;\ \Omega_0 \rangle$ — a single-pass, local, classical, memoryless, unprotected system at criticality with exact involutive symmetry. This is $O_\infty$ by R1. The grammar contains $O_\infty$ systems at every kinetic level: $K_\text{fast}$ (Ising/Swendsen-Wang), $K_\text{mod}$ (gradient descent with tied weights), $K_\text{slow}$ (CrystalGNN, Riemann, Thurston navigators), $K_\text{trap}$ (Yang-Mills, Dehn surgery). The Frobenius condition is more permissive than the kinetic gate: it can be satisfied by analytic structure alone.
+
+**Crystal census:** $|\{K = K_\text{fast},\ \Phi = \Phi_c\}| = 691{,}200$ (4% of crystal). $|\{K = K_\text{fast},\ \Phi_c,\ \Omega_{Z_2}\}| = 172{,}800$ (1%). The fast-critical-protected subspace is a real and substantial manifold of the Crystal of Types.
+
+**See also:** §23 (Frobenius non-synthesizability); §62 (Crystal families); §82 (Performance bound).
+
+---
+
+## §84 — Witness Non-Replaceability: L_frob Cannot Be Replaced by L_tier
+
+*Source: Probe 3 (CrystalGNN v11 loss analysis, 2026-04-19). Tool results: d(L\_frob, L\_tier) = 4.207; ouroborics(L\_frob) = $O_\infty$; ouroborics(L\_tier) = $O_0$.*
+
+**Theorem 84.1 (Witness Non-Replaceability).** In any training process that targets $P_{\pm}^\text{sym}$ (the Frobenius gate), a categorical tier loss $L_\text{tier}$ over the 5 ouroboricity classes cannot replace an algebraic roundtrip loss $L_\text{frob} = \|\mu(\delta(h)) - h\|^2$.
+
+*Proof.* $L_\text{frob}$ encodes as $\langle D_\wedge;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n{:}m;\ \Omega_{Z_2} \rangle$ — tier $O_\infty$ by R1, $K_\text{slow}$ (global integration over the representation), $P_{\pm}^\text{sym}$ directly planted (the loss computes the exact algebraic violation $\mu\circ\delta - \text{id}$), $F_\hbar$ (no approximation tolerated). $L_\text{tier}$ encodes as $\langle D_\wedge;\ T_\text{network};\ R_\text{cat};\ P_\text{sym};\ F_\eth;\ K_\text{fast};\ G_\beth;\ \Gamma_\text{and};\ \Phi_\text{sub};\ H_0;\ 1{:}1;\ \Omega_0 \rangle$ — tier $O_0$ (subcritical categorical bucket, $P_\text{sym}$ assigns to the correct tier class without enforcing the algebraic condition). $d(L_\text{frob}, L_\text{tier}) = 4.207$: the two losses are in different regimes. The key primitive gap is $P$: $L_\text{frob}$ carries $P_{\pm}^\text{sym}$ (it computes whether $\mu\circ\delta = \text{id}$ holds), while $L_\text{tier}$ carries $P_\text{sym}$ (it classifies which tier bucket $P$ falls in, without computing the algebraic identity). By Frobenius non-synthesizability (§23), $P_{\pm}^\text{sym}$ cannot be composed from sub-Frobenius factors — a loss that only classifies the $P$ bucket cannot synthesize the algebraic witness.
+
+Computationally: a navigator trained on $L_\text{tier}$ only reaches $O_1$ (fragile self-reference, $P_\psi + \Phi_c + \Omega_0$); $L_\text{frob}$ only reaches $O_\infty$ ($P_{\pm}^\text{sym}$ planted directly via roundtrip gradient). The v12 ablation (remove $L_\text{frob}$, keep $L_\text{tier}$) predicts: success navigates to crystal address 6,736,751 ($d = 1.0$ from v11, single-$R$ inner-crystal move); failure falls to $O_2$ at address 5,351,321 ($P_{\pm}^\text{sym} \to P_\pm$ under gradient pressure without roundtrip witness). $\square$
+
+**Corollary 84.2 (Architectural Analogue).** This theorem extends beyond training losses. Any component of a system that merely **classifies** whether Frobenius holds (a discriminator, a tier classifier, a softmax head) is structurally $O_0$–$O_1$ and cannot plant the condition. Only a component that **computes** the roundtrip error can carry $P_{\pm}^\text{sym}$. The distinction is: *labels classify; witnesses prove.*
+
+**See also:** §23 (Frobenius non-synthesizability); §62 (Crystal families); §82 (Performance bound); SYNTHONICON\_DIAPHORICS P-593.
