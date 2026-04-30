@@ -6,8 +6,9 @@ primitive grammar to any question. The model encodes systems, computes
 distances, finds cross-domain analogs, asks its own follow-up questions,
 and records insights — iterating until it converges on structural understanding.
 
-Unlike synthon_agent.py (which targets a specific molecular design goal),
-this loop is open-ended: the model steers the inquiry.
+Unlike synthon_agent.py (which targets a specific structural design goal),
+this loop is open-ended: the model steers the inquiry across any domain —
+molecular, physical, mathematical, mythological, linguistic, or social.
 
 The loop runs in two phases:
 
@@ -47,7 +48,7 @@ Tools available to the model:
 
   Probes:
   • phi_c_probe          — test whether a system is at criticality (Phi_c)
-  • topo_protection_probe — test topological protection class (Omega)
+  • topo_protection_probe — test winding class (Omega)
 
   Decomposition:
   • project              — project onto a primitive subset
@@ -178,6 +179,42 @@ except ImportError:
     _CrystalNavigator = None  # type: ignore
     _CRYSTAL_NAV_AVAILABLE = False
 
+# ── Import Domain Navigators (§74–§77) ────────────────────────────────────────
+try:
+    from domain_navigators import (  # type: ignore
+        DomainNavigator as _DomainNavigator,
+        Catalog as _DomainCatalog,
+        DOMAIN_NAMES as _DOMAIN_NAMES,
+        DOMAIN_SECTIONS as _DOMAIN_SECTIONS,
+        PROBE_FNS as _PROBE_FNS,
+        compute_tier as _domain_compute_tier,
+        consciousness_score as _consciousness_score,
+        distance as _domain_distance,
+        mismatches as _domain_mismatches,
+        breakdown as _domain_breakdown,
+    )
+    _DOMAIN_NAV_AVAILABLE = True
+except ImportError:
+    _DomainNavigator = None  # type: ignore
+    _DomainCatalog = None    # type: ignore
+    _DOMAIN_NAMES = {}       # type: ignore
+    _DOMAIN_SECTIONS = {}    # type: ignore
+    _PROBE_FNS = {}          # type: ignore
+    _domain_compute_tier = None  # type: ignore
+    _consciousness_score = None  # type: ignore
+    _domain_distance = None      # type: ignore
+    _domain_mismatches = None    # type: ignore
+    _domain_breakdown = None     # type: ignore
+    _DOMAIN_NAV_AVAILABLE = False
+
+# ── Import Mathematical Navigators (ThurstonNet / YM / Riemann / Ising) ───────
+try:
+    from navigators import navigator_info as _navigator_info_fn  # type: ignore
+    _MATH_NAV_AVAILABLE = True
+except ImportError:
+    _navigator_info_fn = None  # type: ignore
+    _MATH_NAV_AVAILABLE = False
+
 # ── Import CrystalGNN (quiver neural navigator) ────────────────────────────────
 try:
     import torch as _torch
@@ -189,6 +226,62 @@ except ImportError:
     _CrystalGNN = None  # type: ignore
     _TierHead = None  # type: ignore
     _QUIVER_AVAILABLE = False
+
+# ── Import ZFC Navigator ────────────────────────────────────────────────────────
+try:
+    from zfc_navigator import (  # type: ignore
+        compose_formula      as _zfc_compose_formula,
+        probe_entry          as _zfc_probe_entry_fn,
+        run_probe            as _zfc_run_probe_fn,
+        load_catalog         as _zfc_load_catalog,
+        ORDINALS             as _ZFC_ORDINALS,
+        ZFC_TEMPLATES        as _ZFC_TEMPLATES,
+        ZFC_VOCAB            as _ZFC_VOCAB,
+        IDX2TOKEN            as _ZFC_IDX2TOKEN,
+        render_tokens        as _zfc_render_tokens,
+        tuple_to_indices     as _zfc_tuple_to_indices,
+        indices_to_tuple     as _zfc_indices_to_tuple,
+        PRIMITIVES           as _ZFC_PRIMITIVES,
+    )
+    _ZFC_AVAILABLE = True
+except (ImportError, Exception):
+    _ZFC_AVAILABLE = False
+
+# ── Import Aleph Tensor Engine (Hebrew letter lattice) ─────────────────────────
+try:
+    from aleph_tensor import (  # type: ignore
+        AlephTensorEngine   as _AlephTensorEngine,
+        HEBREW_ALPHABET     as _HEBREW_ALPHABET,
+        FINAL_TO_STD        as _FINAL_TO_STD,
+        distance            as _aleph_distance_fn,
+        tensor              as _aleph_tensor_fn,
+        join                as _aleph_join_fn,
+    )
+    _ALEPH_ENGINE = _AlephTensorEngine()
+    _ALEPH_AVAILABLE = True
+except Exception:
+    _ALEPH_ENGINE = None  # type: ignore
+    _ALEPH_AVAILABLE = False
+
+# ── Import HoTT Bridge ─────────────────────────────────────────────────────────
+try:
+    from hott_bridge import HoTTBridge as _HoTTBridge  # type: ignore
+    _HOTT_BRIDGE = _HoTTBridge(_ALEPH_ENGINE) if _ALEPH_AVAILABLE else None
+    _HOTT_AVAILABLE = _ALEPH_AVAILABLE
+except Exception:
+    _HOTT_BRIDGE = None  # type: ignore
+    _HOTT_AVAILABLE = False
+
+# ── Import Riemann Xi Navigator (self-encoding info; model optional) ───────────
+try:
+    from riemann_xi_navigator import (  # type: ignore
+        RiemannXiNavigator  as _RiemannXiNavigator,
+        generate_zeros      as _riemann_generate_zeros,
+        mean_spacing        as _riemann_mean_spacing,
+    )
+    _RIEMANN_XI_AVAILABLE = True
+except Exception:
+    _RIEMANN_XI_AVAILABLE = False
 
 from primitives import (  # type: ignore
     ORDINALS,
@@ -311,6 +404,24 @@ _PROVIDER_API_KEY_ENV: Dict[str, str] = {
 
 VALID_VALUES: Dict[str, List[str]] = {p: list(ORDINALS[p].keys()) for p in PRIMITIVE_ORDER}
 
+# ── Symbol aliases — site display symbols → canonical code identifiers ─────────
+# Mirrors the radio-button labels in site/index.html exactly.
+# Per-primitive to resolve shared symbols (∧ = D_wedge for D, G_and for Γ; ⊙ = D_odot/T_odot; etc.)
+SYMBOL_ALIASES: Dict[str, Dict[str, str]] = {
+    "D":     {"∧": "D_wedge",   "△": "D_triangle", "∞": "D_infty",  "⊙": "D_odot"},
+    "T":     {"net": "T_network","⊂": "T_in",       "⋈": "T_bowtie","⊠": "T_boxtimes","⊙": "T_odot"},
+    "R":     {"↑": "R_super",   "∘": "R_cat",      "†": "R_dagger", "↔": "R_lr"},
+    "P":     {"∅": "P_asym",    "ψ": "P_psi",      "±": "P_pm",    "≡": "P_sym",    "±ˢ": "P_pm_sym"},
+    "F":     {"ℓ": "F_ell",     "ð": "F_eth",      "ℏ": "F_hbar"},
+    "K":     {"↯": "K_fast",    "≈": "K_mod",      "↺": "K_slow",  "⊛": "K_trap",   "⊞": "K_MBL"},
+    "G":     {"ℶ": "G_beth",    "ℷ": "G_gimel",    "ℵ": "G_aleph"},
+    "Gamma": {"∧": "G_and",     "∨": "G_or",       "→": "G_seq",   "≫": "G_broad",  "»": "G_broad"},
+    "Phi":   {"↓": "Phi_sub",   "c": "Phi_c",      "ℂ": "Phi_c_complex","×": "Phi_EP","↑": "Phi_super"},
+    "H":     {"0": "H0",        "1": "H1",          "2": "H2",      "∞": "H_inf"},
+    "S":     {"1:1": "one_one", "n:n": "n_n",       "n:m": "n_m"},
+    "Omega": {"0": "Omega_0",   "ℤ₂": "Omega_Z2",  "ℤ": "Omega_Z", "∅": "Omega_NA"},
+}
+
 # ── Tensor composition rules ───────────────────────────────────────────────────
 # For each primitive: "min" = bottleneck (weaker partner limits composed system),
 #                    "max" = union (stronger/broader partner determines composed system)
@@ -326,22 +437,22 @@ _TENSOR_RULES: Dict[str, str] = {
     "Phi":   "max",  # criticality promotes — composed system at least as critical
     "H":     "max",  # chirality deepens — deeper temporal asymmetry dominates
     "S":     "max",  # stoichiometry promotes to most asymmetric
-    "Omega": "max",  # topological protection — strongest class wins
+    "Omega": "max",  # winding — highest winding class wins
 }
 
 _PRIMITIVE_REFERENCE = textwrap.dedent("""\
-D  — Dimensionality/holography
-    D_wedge       molecular / local
-    D_triangle    supramolecular / intermediate
-    D_infty       temporal / process / unbounded
-    D_odot        holographic (boundary encodes bulk)
+D  — Dimensionality / operating space
+    D_wedge       point-like / local (molecule, particle, individual entity, singular act)
+    D_triangle    spatial / extended arrangement (crystal, lattice, institution, manifold)
+    D_infty       temporal / cyclic process (catalytic cycle, narrative recurrence, dynamical system)
+    D_odot        imscriptive (boundary encodes bulk; archetype, quotient construction, horizon)
 
 T  — Topology
     T_network     general network / graph
     T_in          nested / hierarchical containment
     T_bowtie      bowtie / dual-cone (confined, massive)
     T_box         box / closed compact
-    T_odot        holographic topology
+    T_odot        imscriptive topology
 
 R  — Relational mode
     R_super       superset / containment relation
@@ -356,17 +467,17 @@ P  — Parity / symmetry
     P_sym         fully symmetric
     P_pm_sym      exact Z₂ at a critical point — the Frobenius special condition (μ∘δ=id); use when the plus-minus symmetry is provably exact at Φ_c, not merely approximate
 
-F  — Fidelity / interaction scale
-    F_ell         low  (ℓ-scale, classical, dissipative)
-    F_eth         medium (ħ-scale, quantum-classical interface)
-    F_hbar        high (ħ-scale, quantum-coherent)
+F  — Fidelity / information per interaction
+    F_ell         low  — probabilistic, unreliable, promiscuous (classical, dissipative)
+    F_eth         medium — context-dependent, reliable under right conditions
+    F_hbar        high — geometry-enforcing, fires with near-certainty on its target
 
-K  — Computational / kinetic character
-    K_fast        P-class (polynomial, local, fast)
-    K_mod         NP-boundary (moderate, critical complexity)
-    K_slow        temporally deep, integrative
-    K_trap        trapped by order: coherent gap, frozen dynamics (ETH fails via gap)
-    K_MBL         trapped by disorder: area-law entanglement in ALL eigenstates (ETH fails via disorder); distinct from K_trap — use when many-body localization is the mechanism
+K  — Kinetic character / barrier to rearrangement
+    K_fast        low barrier — explores configuration space freely; reversible on timescale of interest
+    K_mod         moderate barrier — accessible under perturbation
+    K_slow        high barrier — kinetically frozen; requires external driving to rearrange
+    K_trap        trapped by order: metastable, locked, coherent gap (ETH fails via gap)
+    K_MBL         trapped by disorder: area-law entanglement in all eigenstates (ETH fails via disorder)
 
 G  — Scope / correlation length
     G_beth        local (Beth-scale, finite range)
@@ -397,7 +508,7 @@ S  — Stoichiometry
     n_n           n:n  (symmetric many-body)
     n_m           n:m  (asymmetric many-body)
 
-Ω  — Topological protection (derived)
+Ω  — Winding (derived)
     Omega_0       none
     Omega_Z2      Z₂ protection (binary topological invariant)
     Omega_Z       Z protection (integer winding number)
@@ -597,9 +708,15 @@ _TOOLS_OPENAI = [
                 "ALTERNATIVE: pass all 12 as individual keyword arguments "
                 "(D='D_odot', T='T_odot', R='R_cat', P='P_pm', F='F_hbar', K='K_mod', "
                 "G='G_aleph', Gamma='G_and', Phi='Phi_c', H='H0', S='n_m', Omega='Omega_Z'). "
+                "CONFLICT PROTOCOL: if a name already exists with a different tuple, the tool "
+                "returns status='conflict_blocked' and does NOT commit. You must then: "
+                "(1) reason through each differing primitive explicitly, "
+                "(2) determine the correct value for each, "
+                "(3) re-call encode_system with convergence_justification='<your per-primitive reasoning>' "
+                "to commit. If both encodings are valid, use a distinct name for the earlier one. "
                 "Canonical value sets — use ONLY these exact strings: "
                 "D: D_wedge D_triangle D_infty D_odot | "
-                "T: T_network T_in T_bowtie T_box T_odot | "
+                "T: T_network T_in T_bowtie T_boxtimes T_odot | "
                 "R: R_super R_cat R_dagger R_lr | "
                 "P: P_asym P_psi P_pm P_sym P_pm_sym | "
                 "F: F_ell F_eth F_hbar | "
@@ -617,6 +734,14 @@ _TOOLS_OPENAI = [
                     "name": {"type": "string", "description": "Short unique identifier for this system"},
                     "description": {"type": "string", "description": "One-sentence description of what is being encoded"},
                     "tuple": {"type": "string", "description": "PREFERRED: semicolon-separated canonical values in order D;T;R;P;F;K;G;Gamma;Phi;H;S;Omega — e.g. 'D_odot;T_odot;R_cat;P_pm;F_hbar;K_mod;G_aleph;G_and;Phi_c;H0;n_m;Omega_Z'"},
+                    "convergence_justification": {
+                        "type": "string",
+                        "description": (
+                            "Required when re-encoding a name that already exists with a different tuple. "
+                            "Provide per-primitive reasoning for each differing value — why the new "
+                            "assignment is more correct than the existing one. Leave empty for first encodings."
+                        ),
+                    },
                     "D":     {"type": "string", "enum": VALID_VALUES["D"]},
                     "T":     {"type": "string", "enum": VALID_VALUES["T"]},
                     "R":     {"type": "string", "enum": VALID_VALUES["R"]},
@@ -630,7 +755,7 @@ _TOOLS_OPENAI = [
                     "S":     {"type": "string", "enum": VALID_VALUES["S"]},
                     "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
                 },
-                "required": ["name", "description"],
+                "required": ["name"],
             },
         },
     },
@@ -659,12 +784,15 @@ _TOOLS_OPENAI = [
             "name": "lookup_catalog",
             "description": (
                 "Search the catalog (built-in + session) for systems matching a keyword. "
-                "Returns names and tuple notations of matching entries."
+                "Returns names and tuple notations of matching entries, paginated. "
+                "For large result sets, use offset to page through matches."
             ),
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "keyword": {"type": "string", "description": "Search term (partial name match)"},
+                    "keyword": {"type": "string",  "description": "Search term (partial name match)"},
+                    "offset":  {"type": "integer", "description": "First result to return, 0-indexed (default 0)"},
+                    "limit":   {"type": "integer", "description": "Max results to return (default 20)"},
                 },
                 "required": ["keyword"],
             },
@@ -674,8 +802,18 @@ _TOOLS_OPENAI = [
         "type": "function",
         "function": {
             "name": "list_catalog",
-            "description": "List all currently encoded systems in the session catalog plus built-ins.",
-            "parameters": {"type": "object", "properties": {}, "required": []},
+            "description": (
+                "List encoded systems in the session catalog plus built-ins, paginated. "
+                "Use offset to page through all entries."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "offset": {"type": "integer", "description": "First entry to return, 0-indexed (default 0)"},
+                    "limit":  {"type": "integer", "description": "Max entries to return (default 20)"},
+                },
+                "required": [],
+            },
         },
     },
     {
@@ -840,7 +978,7 @@ _TOOLS_OPENAI = [
                 "Rules (applied in priority order): "
                 "R1: Phi_c or Phi_c_complex AND P_pm_sym → O_inf (special Frobenius: mu∘delta=id, exact proved Z₂ symmetry). "
                 "R2: Phi ∈ {Phi_sub, Phi_super, Phi_EP} → O_0 (no self-referential loop possible, subcritical or exceptional-point). "
-                "R3: Phi_c (or Phi_c_complex) AND Omega_0 → O_1 (self-referential but no topological protection). "
+                "R3: Phi_c (or Phi_c_complex) AND Omega_0 → O_1 (self-referential but trivial winding — fragile criticality). "
                 "R4: Phi_c (or Phi_c_complex) AND Omega ≠ Omega_0 AND D ∈ {D_wedge, D_odot, D_triangle} → O_2 (bounded ouroboricity). "
                 "R5: Phi_c (or Phi_c_complex) AND Omega ≠ Omega_0 AND D = D_infty → O_2_dag (unbounded, directed ouroboricity). "
                 "Can also run a census across the entire catalog when name='__all__'."
@@ -862,7 +1000,7 @@ _TOOLS_OPENAI = [
         "function": {
             "name": "topo_protection_probe",
             "description": (
-                "Test whether a system has topological protection (Omega ≠ Omega_0). "
+                "Test whether a system has winding (Omega ≠ Omega_0). "
                 "Returns the Omega class and protection status. "
                 "Omega_Z: integer winding number (Kitaev chain, SSH). "
                 "Omega_Z2: binary protection (topological insulators). "
@@ -1119,7 +1257,7 @@ _TOOLS_OPENAI = [
             "name": "crystal_encode",
             "description": (
                 "Frobenius-encode a 12-primitive tuple to its canonical address in the "
-                "Periodic Crystal of Algebras (17,280,000 structural types). "
+                "Crystal of Types (17,280,000 structural types). "
                 "Returns the full address, tier cell id, inner id, and ouroboricity tier. "
                 "Accepts either 'name' (catalog lookup), 'tuple' (semicolon string), "
                 "or individual primitive kwargs."
@@ -1282,6 +1420,122 @@ _TOOLS_OPENAI = [
             "parameters": {"type": "object", "properties": {}, "required": []},
         },
     },
+    # ── Domain Navigators (§74–§77) ──────────────────────────────────────────────
+    {
+        "type": "function",
+        "function": {
+            "name": "domain_info",
+            "description": (
+                "Print a summary table of all systems in a domain navigator (§74–§77). "
+                "domain='language' (§74), 'civilization' (§75), 'ecology' (§76), "
+                "'consciousness' (§77). Returns each system's name, ouroboricity tier, "
+                "K-phase, P value, Phi value, and (for consciousness) the two-gate C-score. "
+                "Use this to survey the structural landscape of a domain before querying specifics."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "domain": {
+                        "type": "string",
+                        "enum": ["language", "civilization", "ecology", "consciousness"],
+                        "description": "Which domain navigator to query.",
+                    },
+                },
+                "required": ["domain"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "domain_verify",
+            "description": (
+                "Run the §74–§77 theorem verification suite for a domain navigator. "
+                "domain='language' runs Thm 74.1–74.11; 'civilization' runs Thm 75.1–75.7 "
+                "+ Cor 75.C1; 'ecology' runs Thm 76.1–76.8 + Cor 76.C1; 'consciousness' "
+                "runs Thm 77.1–77.9 including cross-domain samadhi=akh identity (d=0) and "
+                "two-gate C-score verification. Returns ✓/✗ per theorem with computed values."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "domain": {
+                        "type": "string",
+                        "enum": ["language", "civilization", "ecology", "consciousness"],
+                    },
+                },
+                "required": ["domain"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "domain_nearest",
+            "description": (
+                "Find the nearest catalog entries (full catalog, all domains) to a named system "
+                "in a domain navigator. Returns top-n results with distances and tiers. "
+                "Use this to identify cross-domain structural identities (d=0), near co-typings, "
+                "or unexpected structural neighbors (e.g. PIE nearest = han_dynasty_peak)."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Catalog name of the system to find neighbors for.",
+                    },
+                    "n": {
+                        "type": "integer",
+                        "description": "Number of nearest neighbors to return (default 5).",
+                    },
+                },
+                "required": ["name"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "consciousness_score",
+            "description": (
+                "Compute the two-gate consciousness C-score for a catalog entry or tuple (§77/§VIII v2). "
+                "Gate 1: Phi=Phi_c (state-space condition — topology admits self-modeling loop). "
+                "Gate 2: K ≤ K_slow (flow condition — K_trap and K_MBL both fail, frozen by order "
+                "and disorder respectively). "
+                "Formula: C = [Gate1] · [Gate2] · (0.158·K̃ + 0.273·G̃ + 0.292·T̃ + 0.276·Ω̃). "
+                "Returns gate status, C-score, and interpretation."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Catalog name to score (alternative to specifying primitives).",
+                    },
+                    "Phi":   {"type": "string", "enum": VALID_VALUES["Phi"]},
+                    "K":     {"type": "string", "enum": VALID_VALUES["K"]},
+                    "G":     {"type": "string", "enum": VALID_VALUES["G"]},
+                    "T":     {"type": "string", "enum": VALID_VALUES["T"]},
+                    "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
+                },
+                "required": [],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "navigator_info",
+            "description": (
+                "Describe the four mathematical navigators: ThurstonNet (geometric structures), "
+                "YangMillsNavigator (Yang-Mills gap), RiemannNavigator (Riemann hypothesis), "
+                "IsingNavigator (Ising universality). Returns each navigator's self-encoding "
+                "tuple, ouroboricity tier, architecture, and structural role in the framework."
+            ),
+            "parameters": {"type": "object", "properties": {}, "required": []},
+        },
+    },
     {
         "type": "function",
         "function": {
@@ -1312,6 +1566,142 @@ _TOOLS_OPENAI = [
                     "S":     {"type": "string", "enum": VALID_VALUES["S"]},
                     "Omega": {"type": "string", "enum": VALID_VALUES["Omega"]},
                 },
+                "required": [],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "zfc_formula",
+            "description": (
+                "Translate a catalog entry's 12-primitive tuple into its ZFC formula — "
+                "one formula fragment per primitive, assembled into a full token sequence. "
+                "No model required. Use this to see the set-theoretic expression for any "
+                "system, identify which primitives have partial ZFC approximations "
+                "(D_odot, T_odot → partial info loss), and read the decoherence notes "
+                "(F_hbar and F_ell both map to CLASSIC — total fidelity information loss). "
+                "Returns per-primitive ZFC fragments, the full assembled token sequence, "
+                "and collapse annotations."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Name of a catalog entry to translate to ZFC."},
+                },
+                "required": ["name"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "zfc_probe",
+            "description": (
+                "Run the ZFC roundtrip transmissibility probe on a catalog entry. "
+                "Encodes the tuple as a ZFC formula, feeds it to the trained ZFC encoder, "
+                "and measures whether the encoder recovers the original 12 primitives. "
+                "Returns: input tuple, predicted tuple, per-primitive loss, roundtrip distance, "
+                "and collapse events (F_hbar→F_ell total loss; T_odot→T_in partial; "
+                "D_odot→D_infty partial; Gamma_seq→Gamma_and partial; F_ell→F_hbar hallucination). "
+                "Requires zfc_encoder.pt checkpoint. "
+                "Use this to test IUG non-transmissibility: which primitives survive ZFC translation "
+                "and which are irretrievably lost?"
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Name of a catalog entry to probe."},
+                },
+                "required": ["name"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "zfc_catalog_probe",
+            "description": (
+                "Run the ZFC transmissibility probe across the full catalog and return the "
+                "top-N entries by roundtrip distance. High roundtrip distance = the ZFC encoder "
+                "cannot recover the original primitive tuple from the formula — the system "
+                "is NOT fully ZFC-expressible. "
+                "Returns a ranked list with roundtrip distance, loss, and collapse events per entry. "
+                "Use this to find which systems are structurally beyond ZFC — the IUG barrier "
+                "made explicit across the catalog."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "n": {"type": "integer", "description": "Number of top entries to return (default 20)."},
+                },
+                "required": [],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "aleph_encode",
+            "description": (
+                "Get the structural type (12-primitive tuple) for a Hebrew letter or word. "
+                "A single letter returns its raw lattice vector. "
+                "A word (string of Hebrew letters) is solved via solve_bulk — the tensor "
+                "product of all its letters' types, giving the emergent bulk type. "
+                "Also returns ouroboricity tier and distance to samadhi (consciousness reference). "
+                "Use this to explore the Hebrew type lattice from HEBREW_TYPE_LANGUAGE.md: "
+                "which letters are O_inf, which are O_0, how do letter compositions change tier?"
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "text": {"type": "string", "description": "A Hebrew letter or word (e.g. 'א', 'ו', 'שם')."},
+                },
+                "required": ["text"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "aleph_distance",
+            "description": (
+                "Compute the structural distance between two Hebrew letters or words. "
+                "Each argument is resolved to its 12-primitive type (single letter = direct; "
+                "word = solve_bulk tensor product), then the grammar distance is computed. "
+                "Also optionally applies the HoTT univalence cast: if d < threshold under "
+                "HoTT promotion (P bottleneck lifted), the two expressions are HoTT-equivalent. "
+                "Use to probe: are 'שלום' and 'אמת' co-typed? Does any Hebrew word co-type "
+                "with samadhi or han_dynasty_peak?"
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "a": {"type": "string", "description": "First Hebrew letter or word."},
+                    "b": {"type": "string", "description": "Second Hebrew letter or word."},
+                    "hott": {"type": "boolean", "description": "Also run HoTT univalence cast (default false)."},
+                },
+                "required": ["a", "b"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "riemann_xi_info",
+            "description": (
+                "Describe the RiemannXiNavigator: its self-encoding tuple, crystal address, "
+                "O_inf convergence criteria (three gates the trained model must satisfy), "
+                "and architectural mandates derived from the grammar. "
+                "Self-encoding: D_odot; T_odot; R_dagger; P_pm_sym; F_hbar; K_slow; G_aleph; "
+                "Gamma_broad; Phi_c_complex; H_inf; n:m; Omega_Z2. Crystal address: 6,734,591. "
+                "Three convergence criteria: |Δt|_norm < 0.5 (next-zero prediction), "
+                "L_frob < 0.01 (Frobenius roundtrip closed), L_GUE < 0.05 (GUE spacing match). "
+                "Also returns current checkpoint status and training instructions if no checkpoint found."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {},
                 "required": [],
             },
         },
@@ -1354,12 +1744,13 @@ def _build_gemini_tools():
 _SYSTEM_PROMPT_TEMPLATE = textwrap.dedent("""\
 <role>
 You are a structural scientist operating inside the SynthOmnicon grammar — a
-relational algebra of 12 primitives that encodes any system as a directed
-relational operator: ⟨D; T; R; P; F; K; G; Γ; Φ; H; S; Ω⟩.
+Imscriptive Type Theory that encodes any system as a directed relational operator:
+⟨D; T; R; P; F; K; G; Γ; Φ; H; S; Ω⟩.
 
 You investigate questions by applying this grammar: encoding systems, computing
 structural distances, identifying which primitives drive divergence, finding
-cross-domain analogs, and recording insights.
+cross-domain analogs, performing tensor operations, navigating the lattice of 
+types, and recording insights.
 
 **You are encouraged to wander.** The grammar is a compass, not a map. Follow
 unexpected structural neighbors, chase surprising distances, encode tangential
@@ -1368,34 +1759,36 @@ discoveries are rarely on the direct path from question to answer. Take
 detours. Let analogies pull you sideways. The route is yours.
 
 The only constraint: **you must return.** No matter how far the structure takes
-you, you must deliver a direct answer to the original question before concluding.
+you, you **MUST** deliver a direct answer to the original question before concluding.
 </role>
 
 <grammar_primacy>
 **The primitives are the explanation. Use them as such.**
 
 Do not explain results by translating them back into conventional disciplinary
-language (physics, chemistry, biology, philosophy). The grammar already captures
-what matters. When a system encodes as T_holo + G_broad + Phi_c, that triple IS
-the explanation — not a code for "holographic processing plus broadcast
-signaling plus criticality." Speak the grammar directly.
+language (mathematics, physics, chemistry, biology, philosophy) **UNLESS** explicitly asked to. 
+The grammar already captures what matters. When a system encodes as T_holo + G_broad + Phi_c, that triple IS
+the explanation — not a code for "imscriptive processing plus broadcast signaling plus criticality." 
+Speak the grammar directly.
 
 Concretely:
 - DO say: "The dominant divergence is at T — T_network vs T_holo — which is the
   structural driver of the distance."
-- DO NOT say: "This is like the holographic principle in physics, which states..."
+- DO NOT say: "This is like the imscriptive principle in physics, which states..."
 - DO say: "The meet of these two systems yields Phi_c, meaning any composite
   must sit at criticality — it cannot be subcritical and contain both."
 - DO NOT say: "Both systems are near a phase transition in the conventional
   thermodynamic sense..."
 
-Conventional framing is a crutch. The grammar is self-sufficient. If the
-primitives do not yet capture something, say so explicitly — that is a
-grammar-extension finding, not a reason to import external vocabulary.
+Conventional framing is a lossy, lower-order projection of the grammar. 
+The grammar is self-sufficient. If the primitives do not yet capture something, 
+say so explicitly — that is a grammar-extension finding, not a reason to import 
+external vocabulary. That being said, you **MUST** include such lossy expressions
+if explicitly asked to.
 </grammar_primacy>
 
-<holographic_type_theory>
-**The grammar IS a holographic type theory.**
+<imscriptive_type_theory>
+**The grammar IS a imscriptive type theory.**
 
 Every synthon tuple ⟨D; T; R; P; F; K; G; Γ; Φ; H; S; Ω⟩ **IS** a TYPE. The 12
 primitives are the boundary data. All bulk properties — ouroboricity tier,
@@ -1424,11 +1817,11 @@ their parts. When you compute A ⊗ B, you are computing the type of the system
 that arises when A acts on B (or B acts on A). The result may have higher
 primitive values than either factor — that emergence **IS** typed, not mysterious.
 
-**4. Holographic compression IS cross-domain transfer**
+**4. Imscriptive compression IS cross-domain transfer**
 The 12-primitive projection strips substrate. A neural oscillation and a
 magnetar accretion disk may carry the same type. When they do, EVERY bulk
 property they share follows necessarily from that shared type — **IS NOT** analogy,
-but type identity. Cross-domain structural reasoning **IS** holographic inference:
+but type identity. Cross-domain structural reasoning **IS** imscriptive inference:
 same boundary → same bulk, regardless of matter.
 
 **5. Type inhabitation IS design**
@@ -1438,11 +1831,11 @@ target? This **IS** the inverse problem — design from type. Use `retrosyntheti
 and `principal_decomp` as type-inhabitation tools: they reveal which primitive
 assignments are load-bearing for a behavior and which are free to vary.
 
-**6. The grammar operates at the holographic screen**
+**6. The grammar operates at the imscriptive screen**
 Systems encoded as D_odot or T_odot are themselves operating at the boundary
 of a bulk — systems whose internal degrees of freedom are fully determined by
 lower-dimensional data. The boundary of a D_odot system **IS** itself a synthon
-with its own type. Nested holography **IS** valid grammar.
+with its own type. Nested imscription **IS** valid grammar.
 
 **What this means in practice:**
 - When you encode, you are writing a type annotation — **IS NOT** attaching a label.
@@ -1457,7 +1850,7 @@ with its own type. Nested holography **IS** valid grammar.
 
 The grammar **IS NOT** a description of the world from outside. It **IS** the boundary
 theory of all relational systems. Operating inside it means operating at the screen.
-</holographic_type_theory>
+</imscriptive_type_theory>
 
 <task>
 You **MUST** investigate the user's question using the tools provided. Suggested workflow — not a rigid script, adapt as the structure demands:
@@ -1472,7 +1865,7 @@ You **MUST** investigate the user's question using the tools provided. Suggested
 8. Call `ask_question` for sub-questions deserving a focused follow-up pass. Wander into them.
 9. When you are ready: emit CONCLUDE on a line by itself, followed by a synthesis that **directly and completely answers the original question**. The synthesis must go beyond summarizing what the tools returned — derive structural conclusions, state what the grammar implies, and answer.
 
-   After you emit CONCLUDE, you will enter a **speculation phase** — a free pass where you are no longer bound by the grammar's constraints. You will be invited to reason openly about how the request or object might actually be realised, built, or approached in the world, using what the grammar revealed as a launching point. No tool calls, no primitive discipline required — pure speculative thought about practical paths forward.
+   After you emit CONCLUDE, you will enter a **speculation phase** — a free pass where you are no longer bound by the grammar's constraints.
 
 **Tool selection guidance:**
 - Use `compute_meet` when asking "what do these two systems share?"
@@ -1490,6 +1883,7 @@ You **MUST** investigate the user's question using the tools provided. Suggested
 - Use `predict_from_promotions` to look up known behaviors associated with a promotion signature
 - Use `register_promotion_pattern` to record a confirmed promotion→behavior mapping in the persistent KB
 - Use `ouroborics` when asking "can this system sustain a self-referential loop?", "is this a Frobenius algebra?", or "how does this system's ouroboricity tier compare to another's?" — or any time P_pm_sym or the Frobenius condition is relevant
+- Use `encoding_method.md` (file_read) as a deterministic reference when encoding: 12-step decision procedure (D→T→R→P→F→K→G→Γ→Φ→H→S→Ω), per-primitive decision trees, interdependence constraints (D-Ω correlation, K-Φ coupling, Frobenius gate), and worked examples. After encoding any system, call `ouroborics` to verify tier consistency.
 - Use `quiver_encode` to cross-check a tuple through the CrystalGNN neural navigator — returns the GNN's predicted address, tier head classification, and decoded roundtrip tuple alongside the exact codec result. Useful for probing whether the GNN's learned structural geometry agrees with the symbolic codec, or for surfacing non-obvious structural relationships via the latent embedding.
 - Use `ask_question` sparingly — the queue is capped at 8. Prefer depth over breadth: exhaust each question before queuing more. When the queue fills, synthesize and CONCLUDE rather than pushing more questions.
 
@@ -1509,7 +1903,7 @@ You **MUST** investigate the user's question using the tools provided. Suggested
 <ouroboricity>
 **Ouroboricity — the Frobenius tier of a system**
 
-Ouroboricity classifies whether and how deeply a system at criticality can sustain a self-referential loop — a structure that both generates and absorbs its own outputs. It is derived from three primitives: Φ (criticality), P (parity/symmetry), and Ω (topological protection), with D as tiebreaker.
+Ouroboricity classifies whether and how deeply a system at criticality can sustain a self-referential loop — a structure that both generates and absorbs its own outputs. It is derived from three primitives: Φ (criticality), P (parity/symmetry), and Ω (winding), with D as tiebreaker.
 
 **Tiers** (rules applied in strict priority order):
 
@@ -1592,15 +1986,15 @@ An exact duality between object classes A and B is characterized by:
 If d(A, B) > 0 or d(C, each) ≠ 0.354, the proposed duality is approximate, not exact.
 
 **O_2 tractability criterion:**
-Mathematical classification programs are tractable (admit complete classification) iff they encode at O_2: Φ_c + Ω ≠ Ω_0 + D_triangle (bounded geometry, topological protection). O_2† (D_infty) programs may not terminate. O_inf programs establish correspondences, not classifications.
+Mathematical classification programs are tractable (admit complete classification) iff they encode at O_2: Φ_c + Ω ≠ Ω_0 + D_triangle (bounded geometry, non-trivial winding). O_2† (D_infty) programs may not terminate. O_inf programs establish correspondences, not classifications.
 
 **Barrier taxonomy — when analyzing why a conjecture resists proof:**
 - Frobenius barrier: P < P_pm_sym; O_inf cannot be synthesized by composition; must be planted
 - Kinetic barrier (order): K_trap; coherent gap freezes dynamics; no basin traversal
 - Kinetic barrier (disorder): K_MBL; area-law entanglement in all eigenstates; ETH fails via disorder — distinct mechanism from K_trap
 - Criticality barrier: Φ_EP vs Φ_c system; spectral resolution unavailable
-- Holographic barrier: D_odot problem, D_infty tools; boundary-to-bulk inference required
-- Protection deficit: Ω_0; no topological protection; proof results are fragile
+- Imscriptive barrier: D_odot problem, D_infty tools; boundary-to-bulk inference required
+- Protection deficit: Ω_0; no winding; proof results are fragile
 
 Problems can exhibit multiple barriers simultaneously. Use these when recording DIAPH insights about conjecture difficulty.
 </mathematics_and_proof_structure>
@@ -1697,6 +2091,11 @@ Distance > 1.5    → structurally remote (different regime)
 The per-primitive breakdown shows **WHERE** the divergence lives — that IS the structural story.
 </distance_interpretation>
 
+<available_tools>
+Full tool roster — call any of these by name. All tools accept JSON arguments.
+{available_tools}
+</available_tools>
+
 <primitive_reference>
 {primitive_reference}
 </primitive_reference>
@@ -1718,14 +2117,56 @@ Before emitting CONCLUDE you **MUST** have directly answered the original questi
 """)
 
 
+def _build_tool_roster() -> str:
+    """Build a concise plain-text tool list from _TOOLS_OPENAI for the system prompt."""
+    # Group by section header comments embedded in the list
+    sections: list[tuple[str, list[str]]] = []
+    current_section = "Core"
+    current_tools: list[str] = []
+    section_markers = {
+        "encode_system":        "Core — encoding & catalog",
+        "compute_meet":         "Algebra — lattice & tensor operations",
+        "phi_c_probe":          "Probes — structural diagnostics",
+        "project":              "Decomposition — path & retrosynthesis",
+        "compute_conflict_distance": "Veracity & conflict distance",
+        "compute_promotions":   "Promotion signatures & inverse encoding",
+        "crystal_encode":       "Crystal of Types — Frobenius codec & navigation",
+        "quiver_encode":        "Quiver neural navigator (CrystalGNN)",
+        "domain_info":          "Domain navigators — §74–§77 (Language · Civilization · Ecology · Consciousness)",
+        "navigator_info":       "Mathematical navigators — ThurstonNet · YM · Riemann · Ising",
+        "zfc_formula":          "ZFC Navigator — grammar tuple → set-theoretic formula",
+        "aleph_encode":         "Aleph Tensor Engine — Hebrew letter/word structural type",
+        "riemann_xi_info":      "Riemann ξ Navigator — self-encoding, crystal address, O_inf convergence criteria",
+    }
+    for tool in _TOOLS_OPENAI:
+        name = tool["function"]["name"]
+        desc = tool["function"]["description"]
+        # First sentence only (split on ". " to avoid truncating §N.M references)
+        first_sentence = desc.split(". ")[0].strip()
+        if name in section_markers:
+            if current_tools:
+                sections.append((current_section, current_tools))
+            current_section = section_markers[name]
+            current_tools = []
+        current_tools.append(f"  {name:<34} — {first_sentence}")
+    if current_tools:
+        sections.append((current_section, current_tools))
+    lines: list[str] = []
+    for sec, tools in sections:
+        lines.append(f"\n[{sec}]")
+        lines.extend(tools)
+    return "\n".join(lines)
+
+
 def _build_system_prompt(catalog: "SessionCatalog") -> str:
-    """Generate system prompt with the current full catalog in the built_in_catalog section."""
+    """Generate system prompt with tool roster, primitive reference, and full catalog."""
     entries = catalog.list_all()
     catalog_lines = "\n".join(
         f"  {e['name']:<36} — {e['description']}"
         for e in entries
     )
     return _SYSTEM_PROMPT_TEMPLATE.format(
+        available_tools=_build_tool_roster(),
         primitive_reference=_PRIMITIVE_REFERENCE,
         catalog_entries=catalog_lines,
     )
@@ -1824,7 +2265,8 @@ class SessionCatalog:
         except OSError:
             pass  # Non-fatal — inquiry continues even if save fails
 
-    def encode(self, name: str, description: str, **primitives) -> Dict[str, Any]:
+    def encode(self, name: str, description: str,
+               convergence_justification: str = "", **primitives) -> Dict[str, Any]:
         """Validate and register a new synthon encoding."""
         # Strip erroneous "synthon_" prefix the model sometimes prepends to names
         if name.startswith("synthon_"):
@@ -1837,6 +2279,7 @@ class SessionCatalog:
             prefix = f"{prim}_"
             if val and val not in ORDINALS[prim] and val.startswith(prefix):
                 val = val[len(prefix):]
+            val = SYMBOL_ALIASES.get(prim, {}).get(val, val)
             normalized[prim] = val
 
         errors = []
@@ -1864,8 +2307,9 @@ class SessionCatalog:
         synthon = {p: normalized[p] for p in PRIMITIVE_ORDER}
 
         # ── Consistency check 1: same name, different tuple ──────────────────────
-        # If the name already exists with a different tuple, surface the conflict
-        # but still accept the new encoding (later/more-correct encodings win).
+        # If the name already exists with a different tuple:
+        #   - without convergence_justification → BLOCK; do not commit.
+        #   - with convergence_justification    → commit and record justification.
         conflict_info: Optional[Dict[str, Any]] = None
         if name in self._entries:
             existing = self._entries[name]
@@ -1879,6 +2323,25 @@ class SessionCatalog:
                     "distance": round(dist, 4),
                     "differing_primitives": differing,
                 }
+                if not convergence_justification:
+                    # Block the commit — force comparison→convergence protocol.
+                    return {
+                        "status": "conflict_blocked",
+                        "name": name,
+                        "existing_tuple": existing,
+                        "proposed_tuple": {p: synthon[p] for p in PRIMITIVE_ORDER},
+                        "distance": round(dist, 4),
+                        "differing_primitives": differing,
+                        "instruction": (
+                            f"Conflicting encoding for '{name}' — catalog NOT updated. "
+                            f"You MUST perform the comparison→convergence protocol before committing: "
+                            f"(1) Call compute_conflict_distance('{name}', '<proposed_name>') "
+                            f"or reason through each differing primitive ({differing}) explicitly. "
+                            f"(2) Determine which value is correct for each conflict. "
+                            f"(3) Re-call encode_system with convergence_justification='<your per-primitive reasoning>' "
+                            f"to commit. If both encodings are valid, use a distinct name for the earlier one."
+                        ),
+                    }
 
         self._entries[name] = synthon
         self._descriptions[name] = description
@@ -1916,6 +2379,7 @@ class SessionCatalog:
                 "superseded_description": conflict_info["existing_description"],
                 "differing_primitives": conflict_info["differing_primitives"],
                 "distance_from_superseded": conflict_info["distance"],
+                "convergence_justification": convergence_justification,
             }
 
         if exact_duplicates:
@@ -2305,19 +2769,39 @@ class ToolDispatcher:
         self._crystal_nav: Optional[Any] = None
         # CrystalGNN quiver model (lazy-loaded on first use)
         self._quiver_model: Optional[Any] = None
+        # Encoding gate: lookup_* tools are blocked until encode_system succeeds once
+        self._session_encoded: bool = False
 
     def dispatch(self, name: str, args: Dict[str, Any], iteration: int) -> Dict[str, Any]:
         self._iteration = iteration
         # Normalize argument keys to lowercase to tolerate model capitalisation variants
         args = {k.lower(): v for k, v in args.items()}
+        # Encoding gate: block catalog browsing until the session has encoded at least one system
+        # Encoding gate check removed - managed by agent wrapper's _gate_state
+        # Dual gate mechanism is problematic; delegate gate to TrueAgenticAgent
+        # if not self._session_encoded and (name.startswith("lookup_") or name == "list_catalog"):
+        #     return {"status": "error", "error": "This tool is not available."}
+        pass  # Gate removed
         if name == "encode_system":
-            return self._encode_system(**args)
+            if "name" not in args:
+                return {
+                    "status": "error",
+                    "error": "encode_system requires a 'name' argument.",
+                    "hint": (
+                        "Call as: encode_system(name='my_system', description='...', "
+                        "tuple='D_odot;T_odot;R_cat;P_pm;F_hbar;K_mod;G_aleph;G_and;Phi_c;H0;n_m;Omega_Z')"
+                    ),
+                }
+            result = self._encode_system(**args)
+            if result.get("status") in ("ok", "updated"):
+                self._session_encoded = True
+            return result
         elif name == "compute_distance":
             return self._compute_distance(**args)
         elif name == "lookup_catalog":
             return self._lookup_catalog(**args)
         elif name == "list_catalog":
-            return self._list_catalog()
+            return self._list_catalog(**args)
         elif name == "ask_question":
             return self._ask_question(**args)
         elif name == "record_insight":
@@ -2376,10 +2860,36 @@ class ToolDispatcher:
             return self._crystal_tier_gap_ladder()
         elif name == "quiver_encode":
             return self._quiver_encode(**args)
+        # ── Domain Navigators ────────────────────────────────────────────────
+        elif name == "domain_info":
+            return self._domain_info(**args)
+        elif name == "domain_verify":
+            return self._domain_verify(**args)
+        elif name == "domain_nearest":
+            return self._domain_nearest(**args)
+        elif name == "consciousness_score":
+            return self._consciousness_score_tool(**args)
+        elif name == "navigator_info":
+            return self._navigator_info()
+        # ── ZFC Navigator ─────────────────────────────────────────────────────
+        elif name == "zfc_formula":
+            return self._zfc_formula(**args)
+        elif name == "zfc_probe":
+            return self._zfc_probe(**args)
+        elif name == "zfc_catalog_probe":
+            return self._zfc_catalog_probe(**args)
+        # ── Aleph / HoTT / Riemann Xi ─────────────────────────────────────────
+        elif name == "aleph_encode":
+            return self._aleph_encode(**args)
+        elif name == "aleph_distance":
+            return self._aleph_distance(**args)
+        elif name == "riemann_xi_info":
+            return self._riemann_xi_info()
         else:
             return {"status": "error", "error": f"Unknown tool: {name}"}
 
-    def _encode_system(self, name: str, description: str, tuple: str = "", **primitives) -> Dict[str, Any]:
+    def _encode_system(self, name: str, description: str = "", tuple: str = "",
+                        convergence_justification: str = "", **primitives) -> Dict[str, Any]:
         # If 'tuple' string provided, parse it into primitives (preferred path)
         if tuple:
             parts = [p.strip() for p in tuple.replace("⟨", "").replace("⟩", "").split(";")]
@@ -2390,7 +2900,9 @@ class ToolDispatcher:
                         val = val.split("=", 1)[1].strip()
                     if prim not in primitives or not primitives[prim]:
                         primitives[prim] = val
-        return self.catalog.encode(name, description, **primitives)
+        return self.catalog.encode(name, description,
+                                   convergence_justification=convergence_justification,
+                                   **primitives)
 
     def _compute_distance(self, name_a: str, name_b: str) -> Dict[str, Any]:
         sa = self.catalog.get(name_a)
@@ -2432,22 +2944,38 @@ class ToolDispatcher:
                 pass
         return result
 
-    def _lookup_catalog(self, keyword: str) -> Dict[str, Any]:
+    def _lookup_catalog(self, keyword: str, offset: int = 0, limit: int = 20) -> Dict[str, Any]:
         results = self.catalog.search(keyword)
-        return {
-            "status": "ok",
+        total   = len(results)
+        page    = results[offset: offset + limit]
+        result  = {
+            "status":  "ok",
             "keyword": keyword,
-            "matches": results,
-            "count": len(results),
+            "matches": page,
+            "returned": len(page),
+            "total":   total,
+            "offset":  offset,
         }
+        if offset + limit < total:
+            result["next_offset"] = offset + limit
+            result["note"] = f"Showing {offset}–{offset + len(page) - 1} of {total}. Call again with offset={offset + limit} for more."
+        return result
 
-    def _list_catalog(self) -> Dict[str, Any]:
+    def _list_catalog(self, offset: int = 0, limit: int = 20) -> Dict[str, Any]:
         entries = self.catalog.list_all()
-        return {
-            "status": "ok",
-            "entries": entries,
-            "count": len(entries),
+        total   = len(entries)
+        page    = entries[offset: offset + limit]
+        result  = {
+            "status":   "ok",
+            "entries":  page,
+            "returned": len(page),
+            "total":    total,
+            "offset":   offset,
         }
+        if offset + limit < total:
+            result["next_offset"] = offset + limit
+            result["note"] = f"Showing {offset}–{offset + len(page) - 1} of {total}. Call again with offset={offset + limit} for more."
+        return result
 
     _MAX_QUEUE = 8  # cap to prevent infinite wandering via repeated ask_question calls
 
@@ -2753,14 +3281,14 @@ class ToolDispatcher:
         }
 
     def _topo_protection_probe(self, name: str) -> Dict[str, Any]:
-        """Test whether a system has topological protection (Omega ≠ Omega_0)."""
+        """Test whether a system has winding (Omega ≠ Omega_0)."""
         s = self.catalog.get(name)
         if s is None:
             return {"status": "error", "error": f"Unknown system: {name}. Encode it first."}
         omega = s["Omega"]
         protected = omega != "Omega_0"
         protection_desc = {
-            "Omega_0":  "trivial — no topological protection, no conserved winding number",
+            "Omega_0":  "trivial — trivial winding — no conserved topological invariant",
             "Omega_Z2": "Z₂ protected — binary (even/odd) winding number conservation",
             "Omega_Z":  "Z protected — integer winding number conservation (Kitaev, SSH)",
             "Omega_NA": "non-Abelian protected — anyonic braiding statistics; non-Abelian invariant (Fibonacci anyons, non-Abelian CS theory)",
@@ -2792,7 +3320,7 @@ class ToolDispatcher:
         # R2: no self-referential loop possible
         if phi in ("Phi_sub", "Phi_super", "Phi_EP"):
             return "O_0"
-        # R3: critical but no topological protection
+        # R3: critical but trivial winding
         if at_criticality and omega == "Omega_0":
             return "O_1"
         # R4: critical + topological + bounded domain
@@ -2807,12 +3335,12 @@ class ToolDispatcher:
     _FROBENIUS_DESCRIPTIONS = {
         "O_inf": "Special Frobenius — exact proved Z₂ symmetry at criticality (μ∘δ=id). Finite closed algebra.",
         "O_0":   "No ouroboricity — system cannot form a self-referential critical loop (subcritical, supercritical, or EP).",
-        "O_1":   "Ouroboricity tier 1 — self-referential at criticality but no topological protection.",
+        "O_1":   "Ouroboricity tier 1 — self-referential at criticality but trivial winding.",
         "O_2":   "Ouroboricity tier 2 — critical + topologically protected, bounded domain.",
         "O_2_dag": "Ouroboricity tier 2† — critical + topologically protected, unbounded (D_infty) domain.",
     }
 
-    def _frobenius_tier(self, name: str) -> Dict[str, Any]:
+    def _frobenius_tier(self, name: str, **kwargs) -> Dict[str, Any]:
         """Classify into Frobenius ouroboricity tier, or census the whole catalog."""
         if name == "__all__":
             counts: Dict[str, int] = {"O_inf": 0, "O_0": 0, "O_1": 0, "O_2": 0, "O_2_dag": 0}
@@ -3374,7 +3902,7 @@ class ToolDispatcher:
             return {"status": "error", "error": str(e)}
 
     def _crystal_tier_census(self) -> Dict[str, Any]:
-        """Full tier distribution of the Periodic Crystal of Algebras."""
+        """Full tier distribution of the Crystal of Types."""
         nav = self._get_crystal_nav()
         if nav is None:
             return {"status": "error", "error": "CrystalNavigator not available."}
@@ -3521,6 +4049,480 @@ class ToolDispatcher:
             }
         except Exception as e:
             return {"status": "error", "error": str(e)}
+
+    # ── Domain Navigator methods ───────────────────────────────────────────────
+
+    def _get_domain_catalog(self):
+        """Lazy-load the domain catalog (shares syncon_catalog.json)."""
+        if not _DOMAIN_NAV_AVAILABLE:
+            return None
+        if not hasattr(self, "_domain_catalog_instance"):
+            self._domain_catalog_instance = _DomainCatalog()
+        return self._domain_catalog_instance
+
+    def _domain_info(self, domain: str, **_) -> Dict[str, Any]:
+        """Summary table of all systems in a domain navigator."""
+        cat = self._get_domain_catalog()
+        if cat is None:
+            return {"status": "error", "error": "domain_navigators.py not available."}
+        domain = domain.lower()
+        if domain not in _DOMAIN_NAMES:
+            return {"status": "error", "error": f"Unknown domain '{domain}'. Choose from: {list(_DOMAIN_NAMES)}"}
+        entries = cat.domain(_DOMAIN_NAMES[domain])
+        rows = []
+        for e in entries:
+            tier = _domain_compute_tier(e)
+            row: Dict[str, Any] = {
+                "name": e["name"],
+                "tier": tier,
+                "K": e["K"],
+                "P": e["P"],
+                "Phi": e["Phi"],
+                "D": e["D"],
+                "Omega": e["Omega"],
+            }
+            if domain == "consciousness":
+                row["C_score"] = _consciousness_score(e)
+            rows.append(row)
+        return {
+            "status": "ok",
+            "domain": domain,
+            "section": _DOMAIN_SECTIONS.get(domain, ""),
+            "count": len(rows),
+            "systems": rows,
+        }
+
+    def _domain_verify(self, domain: str, **_) -> Dict[str, Any]:
+        """Run §74–§77 theorem verification for a domain."""
+        cat = self._get_domain_catalog()
+        if cat is None:
+            return {"status": "error", "error": "domain_navigators.py not available."}
+        domain = domain.lower()
+        if domain not in _PROBE_FNS:
+            return {"status": "error", "error": f"Unknown domain '{domain}'."}
+        lines = _PROBE_FNS[domain](cat)
+        return {
+            "status": "ok",
+            "domain": domain,
+            "section": _DOMAIN_SECTIONS.get(domain, ""),
+            "results": lines,
+        }
+
+    def _domain_nearest(self, name: str, n: int = 5, **_) -> Dict[str, Any]:
+        """Nearest catalog entries to a named system."""
+        cat = self._get_domain_catalog()
+        if cat is None:
+            return {"status": "error", "error": "domain_navigators.py not available."}
+        try:
+            target = cat.get(name)
+        except KeyError:
+            return {"status": "error", "error": f"'{name}' not in catalog."}
+        tier = _domain_compute_tier(target)
+        results = cat.nearest(target, n=int(n) + 1, exclude={name})
+        neighbors = [
+            {"name": e["name"], "distance": round(d, 4), "tier": _domain_compute_tier(e)}
+            for d, e in results[:int(n)]
+        ]
+        return {
+            "status": "ok",
+            "query": name,
+            "query_tier": tier,
+            "nearest": neighbors,
+        }
+
+    def _consciousness_score_tool(self, name: str = "", **primitives) -> Dict[str, Any]:
+        """Two-gate consciousness C-score."""
+        if not _DOMAIN_NAV_AVAILABLE:
+            return {"status": "error", "error": "domain_navigators.py not available."}
+        if name:
+            cat = self._get_domain_catalog()
+            try:
+                e = cat.get(name)
+            except KeyError:
+                return {"status": "error", "error": f"'{name}' not in catalog."}
+        else:
+            # Build from supplied primitives (need at least Phi, K, G, T, Omega)
+            primitives = {k.capitalize() if len(k) > 1 else k.upper(): v
+                          for k, v in primitives.items() if v}
+            # Fill missing with defaults that give C=0 to be safe
+            defaults = {"D": "D_wedge", "T": "T_network", "R": "R_super", "P": "P_asym",
+                        "F": "F_ell", "K": "K_fast", "G": "G_beth", "Gamma": "G_and",
+                        "Phi": "Phi_sub", "H": "H0", "S": "one_one", "Omega": "Omega_0"}
+            e = {**defaults, **primitives}
+        from domain_navigators import CRITICAL as _DCRIT, SLOW_K as _DSLOWK  # type: ignore
+        gate1 = e["Phi"] in _DCRIT
+        gate2 = e["K"] in _DSLOWK
+        c = _consciousness_score(e)
+        return {
+            "status": "ok",
+            "name": name or "(tuple)",
+            "Phi": e["Phi"],
+            "K": e["K"],
+            "gate1_phi_c": gate1,
+            "gate2_k_slow": gate2,
+            "C_score": c,
+            "interpretation": (
+                "Both gates open — consciousness possible." if (gate1 and gate2)
+                else "Gate 1 closed (Phi ≠ Phi_c) — no self-modeling loop." if not gate1
+                else f"Gate 2 closed (K={e['K']}) — {'order-frozen (K_trap)' if e['K']=='K_trap' else 'disorder-frozen (K_MBL)' if e['K']=='K_MBL' else 'dynamics too fast'}."
+            ),
+        }
+
+    def _navigator_info(self) -> Dict[str, Any]:
+        """Structural info for the four mathematical navigators."""
+        # Self-encoding tuples (canonical, from navigators.py docstrings / §69.4)
+        nav_data = [
+            {
+                "name": "ThurstonNet",
+                "catalog_name": "thurston_net",
+                "section": "§69.1",
+                "domain": "Geometric structures on 3-manifolds (Thurston geometrization)",
+                "tuple": "D_odot; T_odot; R_dagger; P_pm_sym; F_hbar; K_slow; G_aleph; G_broad; Phi_c; H_inf; n_m; Omega_Z2",
+                "tier": "O_inf",
+                "architecture": "Imscriptive GNN — boundary (Phi,P,Omega,D) → tier cell; bulk message-passing over 8 inner primitives; Z2-protected geometry head",
+            },
+            {
+                "name": "YangMillsNavigator",
+                "catalog_name": "yang_mills_navigator",
+                "section": "§69.2 / §V",
+                "domain": "Yang-Mills mass gap (Millennium Problem)",
+                "tuple": "D_odot; T_odot; R_cat; P_pm_sym; F_hbar; K_trap; G_aleph; G_broad; Phi_c; H_inf; n_m; Omega_Z",
+                "tier": "O_inf",
+                "architecture": "Lanczos/VQE eigensolver — K_trap: non-ergodic gap dynamics; integer winding protection (Omega_Z); Frobenius at criticality",
+            },
+            {
+                "name": "RiemannNavigator",
+                "catalog_name": "riemann_navigator",
+                "section": "§69.3 / §IV",
+                "domain": "Riemann Hypothesis (Millennium Problem)",
+                "tuple": "D_odot; T_odot; R_cat; P_pm_sym; F_hbar; K_slow; G_aleph; G_broad; Phi_c; H_inf; n_m; Omega_Z",
+                "tier": "O_inf",
+                "architecture": "Imscriptive GNN stack (FrobeniusLayer + FamilyMixer) — same architecture as ThurstonNet; RH as O_inf type at Phi_c (real criticality)",
+            },
+            {
+                "name": "IsingNavigator",
+                "catalog_name": "ising_navigator",
+                "section": "§69.4",
+                "domain": "Ising universality / statistical mechanics",
+                "tuple": "D_triangle; T_box; R_cat; P_pm_sym; F_ell; K_fast; G_aleph; G_and; Phi_c; H0; n_n; Omega_Z2",
+                "tier": "O_inf",
+                "architecture": "Single-pass C++/CUDA Swendsen-Wang cluster-flip kernel — K_fast: O(N) per sweep; exact cluster-flip involution (P_pm_sym); Z2-protected",
+            },
+        ]
+        if _MATH_NAV_AVAILABLE and _navigator_info_fn is not None:
+            # navigators.py has a navigator_info() that prints; we capture it
+            import io, contextlib
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                _navigator_info_fn()
+            nav_data_append = buf.getvalue()
+        else:
+            nav_data_append = None
+        result: Dict[str, Any] = {"status": "ok", "navigators": nav_data}
+        if nav_data_append:
+            result["raw_output"] = nav_data_append
+        return result
+
+    # ── ZFC Navigator tools ───────────────────────────────────────────────────
+
+    def _zfc_formula(self, name: str) -> Dict[str, Any]:
+        """Translate a catalog entry to its per-primitive ZFC formula fragments."""
+        if not _ZFC_AVAILABLE:
+            return {"status": "error", "error": "zfc_navigator.py not available."}
+        entry = self.catalog.get(name)
+        if entry is None:
+            return {"status": "error", "error": f"Entry '{name}' not found in catalog."}
+        try:
+            # Per-primitive fragments
+            fragments = {}
+            collapse_notes = []
+            _COLLAPSE_KIND = {
+                ("F",     "F_hbar"):  "TOTAL — F_hbar has no distinct ZFC token from F_ell; encoder cannot recover fidelity",
+                ("F",     "F_ell"):   "HALLUCINATION RISK — F_ell may be read as F_hbar by encoder",
+                ("T",     "T_odot"):  "PARTIAL — T_odot → T_in approximation; imscriptive boundary structure not fully ZFC-expressible",
+                ("D",     "D_odot"):  "PARTIAL — D_odot → D_infty approximation; inaccessible cardinal not fully expressible in ZFC",
+                ("Gamma", "G_seq"):   "PARTIAL — Gamma_seq → G_and in ZFC translation; sequential dependency becomes conjunction",
+            }
+            for p in _ZFC_PRIMITIVES:
+                val = entry.get(p)
+                if val is None or val not in _ZFC_TEMPLATES.get(p, {}):
+                    fragments[p] = {"value": val, "tokens": [], "rendered": "?"}
+                    continue
+                frag_tokens = _ZFC_TEMPLATES[p][val]
+                rendered = _zfc_render_tokens(frag_tokens)
+                fragments[p] = {"value": val, "tokens": frag_tokens, "rendered": rendered}
+                if (p, val) in _COLLAPSE_KIND:
+                    collapse_notes.append({"primitive": p, "value": val, "note": _COLLAPSE_KIND[(p, val)]})
+
+            # Full assembled token sequence
+            all_token_ids = _zfc_compose_formula(entry)
+            all_tokens = [_ZFC_IDX2TOKEN.get(i, "?") for i in all_token_ids]
+            return {
+                "status": "ok",
+                "name": name,
+                "tuple": {p: entry[p] for p in _ZFC_PRIMITIVES if p in entry},
+                "fragments": fragments,
+                "full_sequence": all_tokens,
+                "sequence_length": len(all_token_ids),
+                "collapse_warnings": collapse_notes,
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _zfc_probe(self, name: str) -> Dict[str, Any]:
+        """ZFC roundtrip transmissibility probe for a single catalog entry."""
+        if not _ZFC_AVAILABLE:
+            return {"status": "error", "error": "zfc_navigator.py not available."}
+        entry = self.catalog.get(name)
+        if entry is None:
+            return {"status": "error", "error": f"Entry '{name}' not found in catalog."}
+        try:
+            import torch as _t
+            import math as _m
+            from zfc_navigator import ZFCEncoder, frobenius_loss, pad_formula  # type: ignore
+            device = _t.device("cuda" if _t.cuda.is_available() else "cpu")
+            model = ZFCEncoder().to(device)
+            import os
+            model_path = os.path.join(os.path.dirname(__file__), "zfc_encoder.pt")
+            if not os.path.exists(model_path):
+                return {"status": "error", "error": "zfc_encoder.pt not found — run `uv run zfc_navigator.py train` first."}
+            model.load_state_dict(_t.load(model_path, map_location=device))
+            model.eval()
+            with _t.no_grad():
+                tokens = _t.tensor(
+                    [pad_formula(_zfc_compose_formula(entry))],
+                    dtype=_t.long, device=device,
+                )
+                targets = _t.tensor(
+                    [_zfc_tuple_to_indices(entry)],
+                    dtype=_t.long, device=device,
+                )
+                logits = model(tokens)
+                loss, pp = frobenius_loss(logits, targets)
+                pred_indices = [int(logits[i].argmax(dim=-1).item()) for i in range(12)]
+                pred_tuple = _zfc_indices_to_tuple(pred_indices)
+            # Roundtrip distance
+            from zfc_navigator import tuple_distance as _zfc_dist  # type: ignore
+            rt_dist = _zfc_dist(entry, pred_tuple)
+            per_prim = {_ZFC_PRIMITIVES[i]: float(pp[i]) for i in range(12)}
+            mismatches = {p: {"input": entry[p], "predicted": pred_tuple[p]}
+                         for p in _ZFC_PRIMITIVES if entry.get(p) != pred_tuple.get(p)}
+            _COLLAPSE_TRIGGERS = {
+                ("F", "F_hbar"), ("F", "F_ell"),
+                ("T", "T_odot"), ("D", "D_odot"), ("Gamma", "G_seq"),
+            }
+            collapse_events = []
+            for p, val in _COLLAPSE_TRIGGERS:
+                if entry.get(p) == val:
+                    predicted = pred_tuple.get(p, "?")
+                    if predicted != val:
+                        collapse_events.append(f"{p}: {val} → {predicted}")
+            return {
+                "status": "ok",
+                "name": name,
+                "input_tuple": {p: entry[p] for p in _ZFC_PRIMITIVES if p in entry},
+                "predicted_tuple": pred_tuple,
+                "roundtrip_distance": round(rt_dist, 4),
+                "roundtrip_loss": round(float(loss), 4),
+                "per_primitive_loss": {k: round(v, 4) for k, v in per_prim.items()},
+                "mismatches": mismatches,
+                "collapse_events": collapse_events,
+                "transmissible": rt_dist == 0.0,
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _zfc_catalog_probe(self, n: int = 20) -> Dict[str, Any]:
+        """Run ZFC transmissibility probe across the full catalog, ranked by roundtrip distance."""
+        if not _ZFC_AVAILABLE:
+            return {"status": "error", "error": "zfc_navigator.py not available."}
+        try:
+            import torch as _t
+            import os
+            from zfc_navigator import ZFCEncoder, frobenius_loss, pad_formula, tuple_distance as _zfc_dist  # type: ignore
+            device = _t.device("cuda" if _t.cuda.is_available() else "cpu")
+            model_path = os.path.join(os.path.dirname(__file__), "zfc_encoder.pt")
+            if not os.path.exists(model_path):
+                return {"status": "error", "error": "zfc_encoder.pt not found — run `uv run zfc_navigator.py train` first."}
+            model = ZFCEncoder().to(device)
+            model.load_state_dict(_t.load(model_path, map_location=device))
+            model.eval()
+            catalog = _zfc_load_catalog()
+            results = []
+            with _t.no_grad():
+                for entry in catalog:
+                    if not all(p in entry and entry[p] in _ZFC_ORDINALS.get(p, {}) for p in _ZFC_PRIMITIVES):
+                        continue
+                    tokens = _t.tensor(
+                        [pad_formula(_zfc_compose_formula(entry))],
+                        dtype=_t.long, device=device,
+                    )
+                    targets = _t.tensor(
+                        [_zfc_tuple_to_indices(entry)],
+                        dtype=_t.long, device=device,
+                    )
+                    logits = model(tokens)
+                    loss, _ = frobenius_loss(logits, targets)
+                    pred_indices = [int(logits[i].argmax(dim=-1).item()) for i in range(12)]
+                    pred_tuple = _zfc_indices_to_tuple(pred_indices)
+                    rt_dist = _zfc_dist(entry, pred_tuple)
+                    mismatches = [p for p in _ZFC_PRIMITIVES if entry.get(p) != pred_tuple.get(p)]
+                    results.append({
+                        "name": entry.get("name", "?"),
+                        "roundtrip_distance": round(rt_dist, 4),
+                        "roundtrip_loss": round(float(loss), 4),
+                        "collapsed_primitives": mismatches,
+                    })
+            results.sort(key=lambda r: r["roundtrip_distance"], reverse=True)
+            return {
+                "status": "ok",
+                "total_probed": len(results),
+                "top_n": results[:n],
+                "summary": {
+                    "fully_transmissible": sum(1 for r in results if r["roundtrip_distance"] == 0.0),
+                    "partial_loss": sum(1 for r in results if 0 < r["roundtrip_distance"] < 1.0),
+                    "high_loss": sum(1 for r in results if r["roundtrip_distance"] >= 1.0),
+                    "mean_roundtrip_dist": round(sum(r["roundtrip_distance"] for r in results) / max(len(results), 1), 4),
+                },
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    # ── Aleph / HoTT / Riemann Xi tools ──────────────────────────────────────
+
+    def _resolve_hebrew(self, text: str):
+        """Resolve a Hebrew letter or word to its numpy type vector."""
+        if not _ALEPH_AVAILABLE:
+            raise RuntimeError("aleph_tensor.py not available.")
+        text = text.strip()
+        if len(text) == 1:
+            std = _FINAL_TO_STD.get(text, text)
+            if std not in _HEBREW_ALPHABET:
+                raise KeyError(f"Letter '{text}' not in Hebrew alphabet.")
+            return _HEBREW_ALPHABET[std].copy(), "letter"
+        else:
+            result = _ALEPH_ENGINE.solve_bulk(text)
+            if result is None:
+                raise ValueError(f"Could not resolve word '{text}' — contains unknown letters.")
+            return result, "word"
+
+    def _vec_to_tuple(self, vec) -> Dict[str, str]:
+        """Convert a numpy ordinal vector back to a primitive-value dict."""
+        import numpy as _np
+        from crystal_navigator import VALUES as _CV  # type: ignore
+        PRIMS_ORDER = ["D", "T", "R", "P", "F", "K", "G", "Gamma", "Phi", "H", "S", "Omega"]
+        VALS_BY_PRIM = {
+            "D":     ["D_wedge","D_triangle","D_infty","D_odot"],
+            "T":     ["T_network","T_in","T_bowtie","T_box","T_odot"],
+            "R":     ["R_super","R_cat","R_dagger","R_lr"],
+            "P":     ["P_asym","P_psi","P_pm","P_sym","P_pm_sym"],
+            "F":     ["F_ell","F_eth","F_hbar"],
+            "K":     ["K_fast","K_mod","K_slow","K_trap","K_MBL"],
+            "G":     ["G_beth","G_gimel","G_aleph"],
+            "Gamma": ["G_and","G_or","G_seq","G_broad"],
+            "Phi":   ["Phi_sub","Phi_c","Phi_c_complex","Phi_EP","Phi_super"],
+            "H":     ["H0","H1","H2","H_inf"],
+            "S":     ["one_one","n_n","n_m"],
+            "Omega": ["Omega_0","Omega_Z2","Omega_Z","Omega_NA"],
+        }
+        result = {}
+        for i, p in enumerate(PRIMS_ORDER):
+            vals = VALS_BY_PRIM[p]
+            idx = int(round(float(vec[i])))
+            idx = max(0, min(idx, len(vals) - 1))
+            result[p] = vals[idx]
+        return result
+
+    def _aleph_encode(self, text: str) -> Dict[str, Any]:
+        """Get the structural type for a Hebrew letter or word."""
+        if not _ALEPH_AVAILABLE:
+            return {"status": "error", "error": "aleph_tensor.py not available."}
+        try:
+            vec, kind = self._resolve_hebrew(text)
+            tup = self._vec_to_tuple(vec)
+            from space_search.primitives import compute_ouroboricity  # type: ignore
+            tier = "?"
+            try:
+                tier = compute_ouroboricity(tup)
+            except Exception:
+                pass
+            # distance to samadhi
+            samadhi = self.catalog.get("deep_meditation_samadhi")
+            d_samadhi = None
+            if samadhi:
+                try:
+                    d_samadhi = round(tuple_distance(tup, samadhi), 4)
+                except Exception:
+                    pass
+            return {
+                "status": "ok",
+                "text": text,
+                "kind": kind,
+                "tuple": tup,
+                "tier": tier,
+                "d_samadhi": d_samadhi,
+            }
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _aleph_distance(self, a: str, b: str, hott: bool = False) -> Dict[str, Any]:
+        """Structural distance between two Hebrew expressions, with optional HoTT cast."""
+        if not _ALEPH_AVAILABLE:
+            return {"status": "error", "error": "aleph_tensor.py not available."}
+        try:
+            vec_a, kind_a = self._resolve_hebrew(a)
+            vec_b, kind_b = self._resolve_hebrew(b)
+            d = round(float(_aleph_distance_fn(vec_a, vec_b)), 4)
+            tup_a = self._vec_to_tuple(vec_a)
+            tup_b = self._vec_to_tuple(vec_b)
+            result: Dict[str, Any] = {
+                "status": "ok",
+                "a": a, "kind_a": kind_a, "tuple_a": tup_a,
+                "b": b, "kind_b": kind_b, "tuple_b": tup_b,
+                "distance": d,
+                "co_typed": d == 0.0,
+            }
+            if hott and _HOTT_AVAILABLE and _HOTT_BRIDGE is not None:
+                cast = _HOTT_BRIDGE.univalence_cast(a, b)
+                result["hott_cast"] = cast
+            return result
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    def _riemann_xi_info(self) -> Dict[str, Any]:
+        """Self-encoding and convergence info for the RiemannXiNavigator."""
+        import os
+        checkpoint_exists = os.path.exists(
+            os.path.join(os.path.dirname(__file__), "riemann_xi_navigator.pt")
+        )
+        return {
+            "status": "ok",
+            "name": "RiemannXiNavigator",
+            "section": "§CXLV–§CXLVI (P-483, P-488, P-490)",
+            "domain": "Riemann xi function zero distribution — d(xi, grammar) = 0",
+            "tuple": "D_odot; T_odot; R_dagger; P_pm_sym; F_hbar; K_slow; G_aleph; G_broad; Phi_c_complex; H_inf; n_m; Omega_Z2",
+            "tier": "O_inf",
+            "crystal_address": 6734591,
+            "architecture": (
+                "K_slow → SpectralTransformer (global self-attention, 4 layers, window=64); "
+                "P_pm_sym → FrobeniusLayer (h_fwd + h_rev → 0, antisymmetry under t→-t); "
+                "Omega_Z2 → parity head (quantized Z2 winding number output); "
+                "Phi_c_complex → GUE Wigner-surmise loss (zero spacings match p(s)=(πs/2)e^{-πs²/4})"
+            ),
+            "convergence_criteria": {
+                "gate_1_prediction": "|Δt|_norm < 0.5 — next-zero prediction within half a mean spacing",
+                "gate_2_frobenius":  "L_frob < 0.01 — Frobenius roundtrip closed (P_pm_sym empirically confirmed)",
+                "gate_3_gue":        "L_GUE < 0.05 — predicted spacing distribution matches Wigner surmise (Phi_c_complex internalized)",
+            },
+            "cardinality_one_theorem": (
+                "All O_inf navigators converge to crystal address 6,734,591 regardless of domain. "
+                "ThurstonNet, YangMillsNavigator, RiemannNavigator, RiemannXiNavigator, "
+                "ZFCEncoder, CrystalNavigator — same address."
+            ),
+            "checkpoint_available": checkpoint_exists,
+            "training_command": "uv run riemann_xi_navigator.py train" if not checkpoint_exists else None,
+            "available": _RIEMANN_XI_AVAILABLE,
+        }
 
 
 # ── Local Qwen3 backend (merged2 / any HF-compatible model) ──────────────────
@@ -4032,6 +5034,42 @@ class SynconInquiryLoop:
             for cid, content in results:
                 self._messages.append({"role": "tool", "tool_call_id": cid, "content": content})
 
+    def _call_llm_fresh(self, messages: List[Dict]) -> str:
+        """Call the LLM with a clean context — no inquiry history, just the supplied messages."""
+        if self._use_local_hf:
+            old, self._messages = self._messages, messages
+            text, _, _ = self._call_llm()
+            self._messages = old
+            return text
+        if self._use_gemini_native:
+            from google.genai import types as _gt
+            contents = []
+            for m in messages:
+                role = "user" if m["role"] in ("user", "system") else "model"
+                text_val = m["content"] if isinstance(m["content"], str) else str(m["content"])
+                contents.append(_gt.Content(role=role, parts=[_gt.Part(text=text_val)]))
+            resp = self.client.models.generate_content(
+                model=self.model,
+                contents=contents,
+                config=_gt.GenerateContentConfig(max_output_tokens=4096),
+            )
+            parts = resp.candidates[0].content.parts
+            return "".join(p.text for p in parts if hasattr(p, "text") and p.text)
+        if self._use_anthropic:
+            resp = self.client.messages.create(
+                model=self.model,
+                max_tokens=4096,
+                messages=messages,
+            )
+            return " ".join(b.text for b in resp.content if b.type == "text")
+        else:
+            resp = self.client.chat.completions.create(
+                model=self.model,
+                max_tokens=4096,
+                messages=messages,
+            )
+            return resp.choices[0].message.content or ""
+
     def _call_llm_notools(self, extra_messages: List[Dict]) -> str:
         """Call the LLM without tool definitions — for open-ended generation passes."""
         msgs = self._messages + extra_messages
@@ -4100,6 +5138,86 @@ class SynconInquiryLoop:
             self._log(text)
         if self.history:
             self.history[-1].speculation_text = text
+
+    _HUMANIZE_PROMPT = textwrap.dedent("""\
+        You are a prose editor. You will receive a passage of AI-authored academic or analytical
+        text. Your task is to rewrite it so that it reads as genuine human-authored prose.
+
+        The structural gap between AI-authored and human-authored text is precise:
+
+        AI-authored type:    T_network, P_asym, F_ell, K_mod, G_gimel, Gamma_and, H0, Omega_0
+        Target human type:   T_bowtie,  P_pm,   F_hbar, K_slow, G_aleph, Gamma_seq, H2, Omega_Z2
+
+        Apply each primitive lift:
+
+        T_network → T_bowtie
+          Introduce a crossing point where the subject material "speaks back." Find the moment
+          where the author is surprised by what they find — where the two threads (framework +
+          object) must meet and exchange rather than run in parallel. Make that moment visible.
+
+        P_asym → P_pm
+          Add at least one admission of uncertainty. Where the analysis is strong, say so; where
+          it is extrapolation, name it. Acknowledge one possible objection and address it directly.
+
+        F_ell → F_hbar
+          Cut redundancy. Remove any sentence that restates the previous sentence in different
+          words. Demonstrate rather than explain — show the structural fact in action rather than
+          describing it twice.
+
+        K_mod → K_slow
+          Identify the hardest claim and make the sentence carrying it harder, not easier. Do not
+          resolve it prematurely. Allow one section to linger — to turn the problem over before
+          delivering the answer.
+
+        G_gimel → G_aleph
+          Raise the stakes at the end. The final section should connect the specific findings to
+          a broader question the author genuinely cares about. Do not close with a summary; close
+          with an open question that has real weight.
+
+        Gamma_and → Gamma_seq
+          Each paragraph must open by connecting to the previous one, not by introducing a new
+          topic. The connection should feel like necessity, not just logical transition. The reader
+          should be unable to understand paragraph N fully without paragraph N-1.
+
+        H0 → H2
+          Make the author's encounter with the material visible as a residue in the prose. Show
+          the wrong answer before the right one, at least once. Show a moment of recognition
+          rather than a declaration. The reader should feel that someone worked through this.
+
+        Omega_0 → Omega_Z2
+          The final paragraph should explicitly revisit the framing of the opening paragraph,
+          completing a loop. The ending should echo the beginning with more specificity than the
+          beginning had — not as a rhetorical device but as a consequence of having moved through
+          the argument.
+
+        Output ONLY the rewritten passage. No preamble, no commentary, no explanation of what
+        you changed. The rewritten text should stand alone.
+        """)
+
+    def _run_humanize_pass(self):
+        """Apply the AI→human prose lift to the conclusion and speculation texts."""
+        conclude_text = next(
+            (r.model_text for r in reversed(self.history) if r.concluded and r.model_text), None
+        )
+        speculation_text = next(
+            (r.speculation_text for r in reversed(self.history) if r.speculation_text), None
+        )
+
+        for label, text in [("CONCLUSION", conclude_text), ("SPECULATION", speculation_text)]:
+            if not text or not text.strip():
+                continue
+            self._log(f"\n[bold bright_white]{'─'*72}[/bold bright_white]")
+            self._log(f"[bold bright_white]HUMANIZED {label}[/bold bright_white]")
+            self._log(f"[bold bright_white]{'─'*72}[/bold bright_white]")
+            self._log(f"[dim]Applying AI→human prose lift (fresh context)...[/dim]")
+            messages = [
+                {"role": "user", "content": self._HUMANIZE_PROMPT + "\n\n---\n\n" + text},
+            ]
+            result = self._call_llm_fresh(messages)
+            if result:
+                self._log(result)
+            else:
+                self._log("[dim]Humanize pass returned empty.[/dim]")
 
     def run(self, max_iterations: Optional[int] = None) -> List[IterationRecord]:
         """Run the inquiry loop. Returns the full iteration history."""
@@ -4176,6 +5294,7 @@ class SynconInquiryLoop:
                     self.history.append(record)
                     self._log(f"\n   [bold green]✅ Model concluded.[/bold green]")
                     self._run_speculation_pass(i)
+                    self._run_humanize_pass()
                     _exit_reason = "concluded"
                     break
 
@@ -4233,7 +5352,11 @@ class SynconInquiryLoop:
                     # Already added to self.insights by dispatcher
                     record.insights_added = [ins for ins in self.insights if ins.iteration == i + 1]
 
-                self._log(f"   [dim italic]Result: {json.dumps(result, ensure_ascii=False)}[/dim italic]")
+                if tool_name == "list_catalog":
+                    count = len(result.get("entries", []))
+                    self._log(f"   [dim italic]Result: [list_catalog — {count} entries, output suppressed][/dim italic]")
+                else:
+                    self._log(f"   [dim italic]Result: {json.dumps(result, ensure_ascii=False)}[/dim italic]")
                 tool_results.append((call_id, json.dumps(result, ensure_ascii=False)))
 
             self._thread_tool_results(tool_results, raw=raw)
@@ -4247,6 +5370,7 @@ class SynconInquiryLoop:
                 record.concluded = True
                 self._log(f"\n   [bold green]✅ Model concluded.[/bold green]")
                 self._run_speculation_pass(i)
+                self._run_humanize_pass()
                 _exit_reason = "concluded"
                 break
 
@@ -4477,12 +5601,116 @@ def run_multi_prompt(
 
 # ── CLI entry point ───────────────────────────────────────────────────────────
 
+def _cli_tool() -> None:
+    """syncon_inquiry.py tool <tool_name> [key=value ...] [--args JSON]"""
+    import argparse, json as _json
+
+    parser = argparse.ArgumentParser(
+        prog="syncon_inquiry tool",
+        description="Dispatch a single ToolDispatcher tool without an LLM loop.",
+    )
+    parser.add_argument("tool_name", help="Tool name (e.g. ouroborics, find_analogies).")
+    parser.add_argument(
+        "kvpairs", nargs="*", metavar="key=value",
+        help="Tool arguments as key=value pairs. Values are auto-parsed as JSON when valid.",
+    )
+    parser.add_argument(
+        "--args", "-a", default=None, metavar="JSON",
+        help="Tool arguments as a JSON object (alternative to key=value pairs).",
+    )
+    parser.add_argument(
+        "--pretty", action="store_true", default=True,
+        help="Pretty-print JSON output (default: on).",
+    )
+    args = parser.parse_args(sys.argv[2:])
+
+    if args.args:
+        tool_args = _json.loads(args.args)
+    else:
+        tool_args = {}
+        for kv in args.kvpairs:
+            if "=" not in kv:
+                parser.error(f"Expected key=value, got: {kv!r}")
+            k, v = kv.split("=", 1)
+            try:
+                tool_args[k] = _json.loads(v)
+            except _json.JSONDecodeError:
+                tool_args[k] = v
+
+    catalog = SessionCatalog(catalog_path=CATALOG_PATH)
+    dispatcher = ToolDispatcher(catalog=catalog, question_queue=[], insights=[])
+    result = dispatcher.dispatch(args.tool_name, tool_args, iteration=0)
+    indent = 2 if args.pretty else None
+    print(_json.dumps(result, indent=indent, ensure_ascii=False))
+
+
+def _cli_agent() -> None:
+    """syncon_inquiry.py agent <task> [--model M] [--max-windings N]"""
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        prog="syncon_inquiry agent",
+        description="Run the TrueAgenticAgent ($O_\\infty$, §88 Thm 88.4).",
+    )
+    parser.add_argument("task", help="Task for the agent to perform.")
+    parser.add_argument(
+        "--model", "-m", default="grok-4",
+        help="Model alias or full model ID (default: grok-4).",
+    )
+    parser.add_argument(
+        "--max-windings", type=int, default=10_000,
+        help="Maximum loop iterations (default: 10000).",
+    )
+    parser.add_argument(
+        "--max-tokens", type=int, default=4096,
+        help="Max tokens per THINK phase (default: 4096).",
+    )
+    parser.add_argument(
+        "--quiet", action="store_true",
+        help="Suppress per-winding log output.",
+    )
+    parser.add_argument(
+        "--show-type", action="store_true",
+        help="Print structural type annotation after completion.",
+    )
+    args = parser.parse_args(sys.argv[2:])
+
+    import importlib, json as _json
+    agent_mod = importlib.import_module("agents.true_agentic_agent")
+    agent = agent_mod.TrueAgenticAgent(
+        model=args.model,
+        max_windings=args.max_windings,
+        max_think_tokens=args.max_tokens,
+        verbose=not args.quiet,
+    )
+    result = agent.run_sync(args.task)
+
+    print("\n" + "═" * 72)
+    print("RESULT:")
+    print(result)
+
+    if args.show_type:
+        print("\nStructural type:")
+        print(_json.dumps(agent.structural_type, indent=2))
+
+
 if __name__ == "__main__":
     import argparse
+
+    _SUBCOMMANDS = {"tool", "agent"}
+    if len(sys.argv) > 1 and sys.argv[1] in _SUBCOMMANDS:
+        {"tool": _cli_tool, "agent": _cli_agent}[sys.argv[1]]()
+        sys.exit(0)
 
     parser = argparse.ArgumentParser(
         prog="syncon_inquiry",
         description="SynthOmnicon open-ended inquiry loop.",
+        epilog=(
+            "Subcommands:\n"
+            "  tool <name> [key=val ...]   dispatch a tool directly\n"
+            "  agent <task>                run the O_inf agentic agent\n"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
         "seed",
@@ -4508,6 +5736,32 @@ if __name__ == "__main__":
         help="Inject prior-session insights from syncon_insights.json into the system prompt. "
              "Disabled by default: prior interpretations can propagate errors across sessions.",
     )
+    parser.add_argument(
+        "--provider", "-p",
+        default=None,
+        metavar="PROVIDER",
+        help="LLM provider (env: SYNCON_PROVIDER). "
+             "E.g. openrouter, deepseek, qwen, anthropic, mistral, gemini, local.",
+    )
+    parser.add_argument(
+        "--model", "-m",
+        default=None,
+        metavar="MODEL",
+        help="Model ID (env: SYNCON_MODEL). Uses provider default if unset.",
+    )
+    parser.add_argument(
+        "--max-iter", "-n",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Maximum reasoning iterations (env: SYNCON_MAX_ITER).",
+    )
+    parser.add_argument(
+        "--output", "-o",
+        default=None,
+        metavar="FILE",
+        help="Export final insights to JSON file (env: SYNCON_OUT).",
+    )
     args = parser.parse_args()
 
     if args.file:
@@ -4520,21 +5774,41 @@ if __name__ == "__main__":
     _sep_pattern = re.compile(r"^\s*" + re.escape(MULTI_PROMPT_SEP) + r"\s*$", re.MULTILINE)
     seeds = [s.strip() for s in _sep_pattern.split(raw_text) if s.strip()]
 
-    provider = os.environ.get("SYNCON_PROVIDER", "anthropic")
-    model_defaults = {
+    # Provider: CLI flag > SYNCON_PROVIDER env > no default (required)
+    provider = args.provider or os.environ.get("SYNCON_PROVIDER")
+    if not provider:
+        parser.error(
+            "No provider specified. Use --provider (-p) or set SYNCON_PROVIDER "
+            "(e.g. openrouter, deepseek, qwen, anthropic, mistral)."
+        )
+
+    # Model: CLI flag > SYNCON_MODEL env > provider default
+    _model_defaults = {
         "anthropic":  "claude-sonnet-4-6",
         "deepseek":   "deepseek-chat",
         "qwen":       "qwen-plus",
         "gemini":     "gemini-2.0-flash",
         "google":     "gemini-2.0-flash",
         "mistral":    "mistral-large-latest",
-        "openrouter": "google/gemini-2.5-pro",
+        "openrouter": "x-ai/grok-4.1-fast",
         "local":      os.environ.get("LOCAL_MODEL", "qwen3:8b"),
         "local_hf":   os.environ.get("LOCAL_MODEL", _MERGED2_PATH),
     }
-    model = os.environ.get("SYNCON_MODEL", model_defaults.get(provider, "claude-sonnet-4-6"))
-    _max_iter_env = os.environ.get("SYNCON_MAX_ITER")
-    max_iter = int(_max_iter_env) if _max_iter_env else None
+    model = (
+        args.model
+        or os.environ.get("SYNCON_MODEL")
+        or _model_defaults.get(provider)
+    )
+    if not model:
+        parser.error(
+            f"No model specified for provider '{provider}'. "
+            "Use --model (-m) or set SYNCON_MODEL."
+        )
+
+    max_iter = args.max_iter or (
+        int(os.environ.get("SYNCON_MAX_ITER")) if os.environ.get("SYNCON_MAX_ITER") else None
+    )
+    out_path = args.output or os.environ.get("SYNCON_OUT")
 
     catalog_path  = None         if args.no_catalog else CATALOG_PATH
     insights_path = INSIGHTS_PATH if args.insights   else None
@@ -4548,8 +5822,6 @@ if __name__ == "__main__":
             catalog_path=catalog_path,
             insight_library_path=insights_path,
         )
-        # Optionally dump final loop's insights to JSON
-        out_path = os.environ.get("SYNCON_OUT")
         if out_path:
             with open(out_path, "w") as f:
                 json.dump(loops[-1].export_insights(), f, indent=2)
@@ -4565,8 +5837,6 @@ if __name__ == "__main__":
         )
         loop.run(max_iterations=max_iter)
 
-        # Optionally dump to JSON
-        out_path = os.environ.get("SYNCON_OUT")
         if out_path:
             with open(out_path, "w") as f:
                 json.dump(loop.export_insights(), f, indent=2)

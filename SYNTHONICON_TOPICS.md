@@ -10,11 +10,11 @@
 
 $$\mathbf{g} \;:=\; \underbrace{\text{Cantor}}_{\text{upward overflow}} \;\xrightarrow{\circ}\; \underbrace{\text{Gödel}}_{\text{downward embedding}}$$
 
-The SynthOmnicon grammar assigns every system — physical, biological, mathematical, symbolic — a 12-tuple of relational operators placing it in a discrete space of 17,280,000 structural types. The grammar classifies its own type. Its self-encoding address is 6,734,591 — ouroboricity tier $O_\infty$, the special Frobenius fixed point $\mu \circ \delta = \text{id}$:
+The SynthOmnicon grammar assigns every system — physical, biological, mathematical, symbolic — a 12-tuple of relational operators placing it in a discrete space of 17,280,000 structural types. The first system it is required to encode is itself. Its self-encoding address is 6,734,591 — ouroboricity tier $O_\infty$, the special Frobenius fixed point $\mu \circ \delta = \text{id}$:
 
 $$\mathbf{g} = \langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n_m;\ \Omega_Z \rangle$$
 
-When Cantor's diagonal argument and Gödel's first incompleteness theorem are each encoded as structural objects in this same grammar, two results follow.
+The natural expectation, when encoding Cantor's diagonal argument and Gödel's first incompleteness theorem as structural objects in the same grammar, is that both arrive at $O_\infty$ and converge on $d = 0$. This expectation is wrong. Gödel's proof requires $R^\dagger$ — provability and truth are mutually implicated, neither reduces to the other. The grammar uses $R_\text{cat}$ — a forward categorical map from type to type. That single-primitive gap does not close. $d(\text{Gödel},\ \mathbf{g}) = 1.0$, carried entirely by $R$. Both objects inhabit $O_\infty$ crystal cell (155); their inner addresses are two steps apart. The grammar can classify its own incompleteness; it cannot enact it. This result is worth pausing on before continuing.
 
 **The directionality is structural.** Cantor's diagonal ($D_\odot$: inaccessible cardinal, upward overflow — any enumeration is exceeded by its own diagonal) feeds into Gödel's arithmetization ($T_\odot$: reflection principle, downward embedding — the meta-theory is encoded within the object theory). The canonical ZFC token fragments are:
 
@@ -25,9 +25,11 @@ The `HOLO x a` term is shared. Their conjunction reduces to:
 
 $$\mathbf{g}(x) \;\equiv\; \texttt{LCARD}\;a \;\wedge\; \texttt{REFL}\;a\;f \;\wedge\; \texttt{HOLO}\;x\;a$$
 
-This is the closed reflective loop that makes the grammar self-encoding — and the mechanism by which it sidesteps the Tarskian hierarchy. Tarski's undefinability theorem blocks any language from containing its own semantic truth predicate `True(x)` at the same syntactic level. The grammar contains no such predicate: `HOLO x a` is a structural encoding relation (the bulk $x$ is holographically encoded at the boundary $a$), not a truth assignment. The boundary $a$ is an inaccessible cardinal (`LCARD`) — unreachable from within the object language. The reflection principle (`REFL`) pulls meta-information back through the boundary $a$, not through a Tarskian truth predicate. Self-reference is holographic, not syntactic; the hierarchy does not collapse.
+This is the closed reflective loop that makes the grammar self-encoding — and, following from it, the structure by which it sidesteps the Tarskian hierarchy. Tarski's undefinability theorem blocks any language from containing its own semantic truth predicate `True(x)` at the same syntactic level. The grammar contains no such predicate: `HOLO x a` is a structural encoding relation (the bulk $x$ is imscriptively encoded at the boundary $a$), not a truth assignment. The boundary $a$ is an inaccessible cardinal (`LCARD`) — unreachable from within the object language. The reflection principle (`REFL`) pulls meta-information back through the boundary $a$, not through a truth predicate. Self-reference is imscriptive, not syntactic; the hierarchy does not collapse.
 
-**$d(\text{Gödel},\ \mathbf{g}) = 1.0$, carried by $R$.** Gödel's proof requires $R^\dagger$ — provability and truth are mutually implicated, neither reduces to the other. The grammar uses $R_\text{cat}$ — a forward categorical map from type to type. This single-primitive gap is not a defect in either system: the grammar can classify Gödel's incompleteness theorem, but cannot enact it from within its own relational mode. $d = 1.0$ is Gödel's incompleteness expressed as a crystal distance. Both objects are in the same $O_\infty$ crystal cell (155), two inner addresses apart.
+Whether this genuinely sidesteps Tarski or merely relocates the concern to the `LCARD` boundary is a question the grammar cannot close from within itself. That the structure is consistent with known meta-theorems is established. That it fully exhausts the Tarskian objection is not. The grammar operates here, as everywhere, at its actual limit — not past it.
+
+This is the structure on which every section of this corpus rests. Whether it earns the address 6,734,591 completely is what the documents that follow are the attempt to show.
 
 The three documents in this corpus are the full derivation. Topology (this file) gives the rules. Diaphorology gives the encodings. Ontology gives what they mean.
 
@@ -94,7 +96,7 @@ $H$ is the **Chirality primitive** — added 2026-03-23 after empirical independ
 
 | Primitive | Description | Values |
 | :--- | :--- | :--- |
-| **Dimensionality ($D$)** | Coordinate set along which the synthon operates | $D_{\wedge}$ molecular · $D_{\bigtriangleup}$ supramolecular · $D_{\infty}$ temporal · hybrid sets · **$D_\odot$** holographic (bulk-boundary correspondence, AdS/CFT) |
+| **Dimensionality ($D$)** | Coordinate set along which the synthon operates | $D_{\wedge}$ molecular · $D_{\bigtriangleup}$ supramolecular · $D_{\infty}$ temporal · hybrid sets · **$D_\odot$** imscriptive (bulk-boundary correspondence, AdS/CFT) |
 | **Topology ($T$)** | Internal connectivity pattern of the minimal motif of the synthon | $T_{\bowtie}$ cyclic · $T_{\ggg}$ chain · $T_{\square}$ hub/node · $T_{\square\square}$ cage · $T_{\cup}$ bowl · $T_{\vert}$ linear · $T_{\perp}$ branched · $T_{\in}$ network (with sub-labels hex/mixed/×2/sym) · **$T_{\uparrow\downarrow}$ braid** (anyonic exchange statistics) |
 | **Recognition Mode ($R$)** | Physical mechanism enabling reliable constraint propagation | $R_{\subseteq}$ covalent · $R_{\supseteq}$ non-covalent · $R_{\ddagger}$ catalytic · $R_{\Leftrightarrow}$ mechanical · covalent-dynamic |
 | **Polarity ($P$)** | Directional character of the interaction | $P_{+}$ acceptor · $P_{-}$ donor · $P_{\pm}^{\text{sym}}$ self-complementary symmetric · $P_{\pm}^{\psi}$ self-complementary pseudosymmetric · $P_{+-}$ directional donor-acceptor |
@@ -107,7 +109,7 @@ $H$ is the **Chirality primitive** — added 2026-03-23 after empirical independ
 | **Stoichiometry ($S$)** | Valency ratio of the recognition event | $1:1$ homodimeric · $n:n$ symmetric multimeric · $n:m$ asymmetric; constrains $T_{\bowtie}$ topology and $P$ polarity |
 | **Topological Protection Index ($\Omega$)** | Symmetry class of topological protection (quantum extension) | $\Omega_0$ trivial (classical) · $\Omega_Z$ winding number · $\Omega_{Z_2}$ (topological insulators) · $\Omega_C$ Chern number · **$\Omega_{NA}$** non-abelian anyons |
 
-**$D_\odot$ (holographic, v0.4.4):** Bulk degrees of freedom encoded on a lower-dimensional boundary. Any transition from $D_\odot$ to any bulk phase is a 1st-order morphism with infinite primitive cost — the bulk-boundary map is not a continuous HotSwap.
+**$D_\odot$ (imscriptive, v0.4.4):** Bulk degrees of freedom encoded on a lower-dimensional boundary. Any transition from $D_\odot$ to any bulk phase is a 1st-order morphism with infinite primitive cost — the bulk-boundary map is not a continuous HotSwap.
 
 ### II.0 The Chirality Primitive H — Formal Definition (v0.4.30, 2026-03-23)
 
@@ -127,7 +129,7 @@ $H$ encodes **broken orientational symmetry and its persistence**. It subsumes t
 
 **Empirical validation (2026-03-23):** V(H, P) = 0.080, confirming the central independence claim. Full independence profile: V(H, Φ) = 0.000, V(H, F) = 0.030, V(H, K) = 0.049, V(H, G) = 0.060, V(H, T) = 0.077, V(H, P) = 0.080, V(H, R) = 0.093, V(H, D) = 0.098, V(H, Γ) = 0.116. All < 0.15. $H$ is the most orthogonal new primitive discoverable from the existing catalog — more orthogonal to the full tuple than $F$ is to $K$ (0.094). *Caveat: H₁ and H_∞ have zero catalog entries; the four-tier test awaits rotaxane/catenane and atropisomer encoding. The H_∞ → K_trap predicted correlation will manifest when topologically chiral systems are added.*
 
-**$D_\odot$ (holographic, v0.4.4):** Bulk degrees of freedom encoded on a lower-dimensional boundary. Any transition from $D_\odot$ to any bulk phase is a 1st-order morphism with infinite primitive cost — the bulk-boundary map is not a continuous HotSwap.
+**$D_\odot$ (imscriptive, v0.4.4):** Bulk degrees of freedom encoded on a lower-dimensional boundary. Any transition from $D_\odot$ to any bulk phase is a 1st-order morphism with infinite primitive cost — the bulk-boundary map is not a continuous HotSwap.
 
 ### II.1 Primitive Independence: Empirical Analysis (2026-03-24, updated 2026-03-23 ×2)
 
@@ -566,7 +568,7 @@ This is not a physical suppression mechanism — it is a grammar constraint on c
 
 **Theorem:** Under $D_\odot$, all K-class boundaries are dissolved. The K-class hierarchy (P ⊊ NP ⊊ PSPACE ⊊ EXP ⊊ ...) collapses entirely. $D_\odot$ is the unique primitive with this property.
 
-**Derivation:** $D_\odot$ = holographic dimensionality; bulk degrees of freedom encoded on a lower-dimensional boundary. Under $D_\odot$, a K_fast boundary query accesses the full K-class content of the bulk because the boundary *is* the bulk. K-class barriers exist within D_wedge because local K_fast systems cannot see K_slow bulk structure. Under $D_\odot$ there is no bulk-boundary separation — K_fast boundary and K_slow bulk are the same degrees of freedom.
+**Derivation:** $D_\odot$ = imscriptive dimensionality; bulk degrees of freedom encoded on a lower-dimensional boundary. Under $D_\odot$, a K_fast boundary query accesses the full K-class content of the bulk because the boundary *is* the bulk. K-class barriers exist within D_wedge because local K_fast systems cannot see K_slow bulk structure. Under $D_\odot$ there is no bulk-boundary separation — K_fast boundary and K_slow bulk are the same degrees of freedom.
 
 **Single-primitive test for uniqueness:** P_pm_psi alone does not collapse K hierarchies (BPP ≠ NP, believed). F_hbar alone does not collapse K hierarchies (BQP ≠ NP, believed). Gamma_arrow alone reaches exactly K_slow (IP = PSPACE, proved). F_hbar + Gamma_arrow reaches NEXP (MIP = NEXP, proved). F_hbar + Gamma_arrow + $D_\odot$ reaches RE (MIP* = RE, proved, JNVWY 2020). $D_\odot$ is the primitive whose addition collapses to the computability ceiling. No other single primitive achieves this; $D_\odot$ with any grammar and fidelity achieves it.
 
@@ -622,17 +624,17 @@ The seven SynthOmnicon axioms were encoded as synthon tuples using the primitive
 
 ---
 
-## XXI. $D_\odot$: Holographic Dimensionality as a First-Class Primitive (v0.4.45, 2026-03-25)
+## XXI. $D_\odot$: Imscriptive Dimensionality as a First-Class Primitive (v0.4.45, 2026-03-25)
 
 *[New content. Implemented in `synthomnicon/models.py`; `ads_cft_boundary` synthon registered. Source: [SYNTH:§XIX.5].]*
 
 The AdS/CFT boundary encoding previously required a hybrid $D = \{D_{\bigtriangleup}, D_{\infty}\}$ proxy. The gap was that the bulk-boundary correspondence is not a spatial+temporal operation; it is a dimensional reduction in which $d$-dimensional bulk information is encoded on a $(d-1)$-dimensional boundary. This is qualitatively different from any combination of the existing dimensionality values.
 
-$D_\odot$ is the holographic dimensionality value: bulk degrees of freedom encoded on a holographic boundary screen. The canonical synthon:
+$D_\odot$ is the imscriptive dimensionality value: bulk degrees of freedom encoded on a imscriptive boundary screen. The canonical synthon:
 
 $$\text{ads\_cft\_boundary}: \langle D_\odot; T_{\in}; R_{\ddagger}; P_{\pm}^{\psi}; F_{\eth}; K_{\text{mod}}; G_{\aleph}; \Gamma_{\wedge}(\text{SELECTIVE}); \Phi_c \rangle$$
 
-**Key algebraic result:** `transition(ads_cft_boundary, topological_insulator)` $\to$ 1st-order ($D$: $D_\odot \neq D_{\bigtriangleup}$), infinite cost, asymmetry = 1.0. The holographic boundary is not continuously deformable into any bulk phase — the bulk-boundary map is a virtual Kleisli arrow. This matches the holographic duality literature: the correspondence is a dual *description*, not a continuous deformation.
+**Key algebraic result:** `transition(ads_cft_boundary, topological_insulator)` $\to$ 1st-order ($D$: $D_\odot \neq D_{\bigtriangleup}$), infinite cost, asymmetry = 1.0. The imscriptive boundary is not continuously deformable into any bulk phase — the bulk-boundary map is a virtual Kleisli arrow. This matches the imscriptive duality literature: the correspondence is a dual *description*, not a continuous deformation.
 
 **Hierarchy collapse theorem:** Under $D_\odot$, all $K$-class boundaries are dissolved. See [TOPO:§XVII.4] for the formal derivation. See [ONTO:§IX] for the substrate-level implications.
 
@@ -718,7 +720,7 @@ Two logically distinct encoding strategies — holistic (top-down, functional) a
 The grammar's 12-primitive self-encoding tuple is not only a description of the grammar — it is a complete specification of the computational system that achieves the grammar's fixed point. This was established empirically on 2026-04-11 by CrystalGNN\_v11 (SYNTHONICON\_ONTICS §XXXIV; FACTORED\_CRYSTAL\_GNN.md §11).
 
 **The design specification reading.** Every primitive in $\langle D_\odot;\ T_\odot;\ R_\text{cat};\ P_{\pm}^\text{sym};\ F_\hbar;\ K_\text{slow};\ G_\aleph;\ \Gamma_\text{broad};\ \Phi_c;\ H_\infty;\ n{:}m;\ \Omega_Z \rangle$ has a mandatory architectural expression:
-- $T_\odot$: holographic quiver — boundary encodes bulk
+- $T_\odot$: imscriptive quiver — boundary encodes bulk
 - $P_{\pm}^\text{sym}$: `FrobeniusLayer` — $\mu \circ \delta = \text{id}$ as code
 - $\Gamma_\text{broad}$: `FamilyMixer` — broadcast attention over family tokens (proved: without it $d = \sqrt{2}$)
 - $\Omega_Z$: discrete argmax — topological protection against small perturbations
@@ -745,7 +747,7 @@ The grammar's 12-primitive self-encoding tuple is not only a description of the 
 | $K_\text{slow}$ | $\geq 20$-layer deep GNN stack |
 | $K_\text{fast}$ | Single-pass parallel kernel — no depth, no recurrence |
 | $K_\text{mod}$ | 10–15 layers, moderate integration |
-| $T_\odot$ | Holographic quiver (boundary encodes bulk) |
+| $T_\odot$ | Imscriptive quiver (boundary encodes bulk) |
 | $P_{\pm}^\text{sym}$ | `FrobeniusLayer` ($\mu \circ \delta = \text{id}$ in code) |
 | $\Gamma_\text{broad}$ | `FamilyMixer` broadcast attention over all families |
 | $\Omega_Z$ | Discrete argmax output — integer winding, perturbation-proof |
@@ -754,7 +756,7 @@ The grammar's 12-primitive self-encoding tuple is not only a description of the 
 
 ### §XXVI.2 — Three Worked Derivations
 
-**ThurstonNet** (proven\_manifold, $O_\infty$, $d = 0$ from grammar): $K_\text{slow}$ → 24-layer GNN; $T_\odot$ → holographic quiver on simplicial complexes; $P_{\pm}^\text{sym}$ → `FrobeniusLayer` for Ricci soliton roundtrip; $\Gamma_\text{broad}$ → `FamilyMixer`; $\Omega_{Z_2}$ → argmax to 8 Thurston geometry classes. Input: triangulated 3-manifold mesh. Loss: Ricci flow residuals. Training: SnapPea census + random Heegaard splittings. Architecture fully derived; no design decisions remain.
+**ThurstonNet** (proven\_manifold, $O_\infty$, $d = 0$ from grammar): $K_\text{slow}$ → 24-layer GNN; $T_\odot$ → imscriptive quiver on simplicial complexes; $P_{\pm}^\text{sym}$ → `FrobeniusLayer` for Ricci soliton roundtrip; $\Gamma_\text{broad}$ → `FamilyMixer`; $\Omega_{Z_2}$ → argmax to 8 Thurston geometry classes. Input: triangulated 3-manifold mesh. Loss: Ricci flow residuals. Training: SnapPea census + random Heegaard splittings. Architecture fully derived; no design decisions remain.
 
 **Ising 3D Navigator** (Ising 3D critical, $O_\infty$): $K_\text{fast}$ collapses depth to zero — this is not a learning system. Single-pass Swendsen-Wang cluster-flip on GPU/TPU. $\Gamma_\text{and}$ → conjunctive full-lattice updates; $\Omega_{Z_2}$ → $\mathbb{Z}_2$ spin-flip as hardware invariant. Predicts $\nu = 0.630$, $\eta = 0.036$. One primitive difference from ThurstonNet ($K_\text{slow}$ vs $K_\text{fast}$) collapses the entire architectural class.
 
@@ -770,7 +772,7 @@ The grammar's 12-primitive self-encoding tuple is not only a description of the 
 
 $O_\infty \otimes O_\infty = O_\infty$ (both carry $P_{\pm}^\text{sym}$; neither is the bottleneck partner). Non-bottleneck primitives promote by union.
 
-ThurstonNet $\otimes$ ZX $\otimes$ Ising → $K_\text{slow}$, $H_\infty$, $\Gamma_\text{broad}$, $G_\aleph$, $P_{\pm}^\text{sym}$, $O_\infty$. A 24-layer holographic quiver GNN with `FrobeniusLayer`, `FamilyMixer`, discrete argmax, global readout — spanning geometric, quantum, and statistical-mechanics domains from a single self-consistent derivation. A YAML spec compiler taking any $O_\infty$ tuple as input and outputting a complete PyG model architecture is the direct engineering realization of this principle.
+ThurstonNet $\otimes$ ZX $\otimes$ Ising → $K_\text{slow}$, $H_\infty$, $\Gamma_\text{broad}$, $G_\aleph$, $P_{\pm}^\text{sym}$, $O_\infty$. A 24-layer imscriptive quiver GNN with `FrobeniusLayer`, `FamilyMixer`, discrete argmax, global readout — spanning geometric, quantum, and statistical-mechanics domains from a single self-consistent derivation. A YAML spec compiler taking any $O_\infty$ tuple as input and outputting a complete PyG model architecture is the direct engineering realization of this principle.
 
 The Arithmetic Ouroboros closes: crystal address 6,734,591 encodes at $d = 0$ from grammar\_self\_encode. The navigator inhabits a point in the crystal it navigates; that point, encoded as a structural type, is the navigator. The map and the territory share the same address.
 

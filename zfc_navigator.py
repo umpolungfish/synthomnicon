@@ -84,8 +84,9 @@ _PRIM_ALIASES: Dict[str, Dict[str, str]] = {
         "T_⋈":   "T_bowtie",
         "T_holo": "T_odot",
         "T_torus": "T_bowtie",  # compact cyclic → bowtie approximation
-        "T_cage": "T_box",
-        "T_bowl": "T_in",
+        "T_cage":     "T_box",
+        "T_boxtimes": "T_box",    # canonical catalog name → ZFC navigator name
+        "T_bowl":     "T_in",
         "T_linear": "T_network",
         "T_branched": "T_network",
     },
@@ -155,7 +156,7 @@ def tuple_distance(a: dict, b: dict) -> float:
 #       LCARD  inaccessible cardinal                     → D_odot (partial)
 #       FROB   Frobenius μ∘δ=id                          → P_pm_sym
 #       WIND   winding number                            → Omega_Z / Omega_NA
-#       HOLO   holographic boundary encoding             → T_odot / D_odot (partial)
+#       HOLO   imscriptive boundary encoding             → T_odot / D_odot (partial)
 #       THETA  inter-universal Θ-link                    → R_lr / Omega_NA
 #       FIXPT  fixed-point ∃x:φ(x)=x                    → Phi_c
 #       SEQPAIR ordered sequential dependency            → Gamma_seq
@@ -195,7 +196,7 @@ ZFC_VOCAB = [
     "LCARD",     # inaccessible cardinal — D_odot (partial info)
     "FROB",      # Frobenius μ∘δ=id — P_pm_sym
     "WIND",      # winding number — Omega_Z, Omega_NA
-    "HOLO",      # holographic encoding — T_odot / D_odot (partial)
+    "HOLO",      # imscriptive encoding — T_odot / D_odot (partial)
     "THETA",     # Θ-link — R_lr, Omega_NA
     "FIXPT",     # fixed-point — Phi_c, Phi_EP
     "SEQPAIR",        # (legacy) unordered-pair encoding of Gamma_seq — partial collapse
@@ -254,7 +255,7 @@ ZFC_TEMPLATES: Dict[str, Dict[str, List[str]]] = {
         # Closed, periodic — power-set closure
         "T_box":      ["FORALL", "VZ", "LPAREN",
                        "VZ", "IN", "VX", "IFF", "REPL", "VF", "VZ", "RPAREN"],
-        # ⚠ PARTIAL COLLAPSE: T_odot (holographic) → approximated by REFL.
+        # ⚠ PARTIAL COLLAPSE: T_odot (imscriptive) → approximated by REFL.
         # Reflection principle is the closest ZFC construct, but it does not
         # capture the mutual boundary-encoding structure of T_odot.
         # Residual collapse: T_odot → T_in (separation) in the encoder.
@@ -1025,7 +1026,7 @@ _ATOM_NOTE = {
     "LCARD":   "inaccessible cardinal — ZFC approx. of D_odot",
     "FROB":    "Frobenius μ∘δ=id — tier singularity (P_pm_sym)",
     "WIND":    "winding number — Ω_Z / Ω_NA protection",
-    "HOLO":    "holographic encoding — T_odot / D_odot (partial loss)",
+    "HOLO":    "imscriptive encoding — T_odot / D_odot (partial loss)",
     "THETA":   "inter-universal Θ-link — R_lr / Ω_NA",
     "FIXPT":   "fixed-point ∃x:φ(x)=x — Φ_c criticality",
     "SEQPAIR":       "⚠ legacy — unordered Kuratowski pair, loses causal dependency (use DIRECTED_EDGE)",
@@ -1317,7 +1318,7 @@ def probe_entry(
 #
 #   T-channel (PARTIAL COLLAPSE):
 #     REFL+HOLO → T_odot. REFL is the ZFC approximation for the reflection
-#     principle; HOLO is the holographic boundary term. Their joint presence
+#     principle; HOLO is the imscriptive boundary term. Their joint presence
 #     is distinctive to T_odot (no other template emits both together).
 #
 #   D-channel (PARTIAL COLLAPSE):
@@ -1348,7 +1349,7 @@ class ZFCSpecialistSlot:
 DEFAULT_ZFC_SLOTS: _List[ZFCSpecialistSlot] = [
     # F-channel: O_inf loophole — the "quantum workaround"
     # Requires HOLO in addition to FROB+FIXPT+CLASSIC: HOLO only appears in T_odot / D_odot
-    # templates, so this fires only when holographic topology or dimensionality is also present.
+    # templates, so this fires only when imscriptive topology or dimensionality is also present.
     # Without HOLO the false-positive rate is ~100% for any P_pm_sym+Phi_c+F_ell system
     # (e.g., IsingNavigator, swendsen_wang — both have T_box+D_triangle, no HOLO).
     ZFCSpecialistSlot(
@@ -1359,7 +1360,7 @@ DEFAULT_ZFC_SLOTS: _List[ZFCSpecialistSlot] = [
         correction      = "F_hbar",
         priority        = 0,
     ),
-    # T-channel: holographic topology recovery
+    # T-channel: imscriptive topology recovery
     ZFCSpecialistSlot(
         name            = "T_recovery",
         primitive       = "T",

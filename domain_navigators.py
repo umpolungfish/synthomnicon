@@ -52,6 +52,8 @@ ORD: dict[str, dict[str, int]] = {
     prim: {v: i for i, v in enumerate(vals)}
     for prim, vals in VALUES.items()
 }
+# T_boxtimes is the canonical name in primitives.py for T_box (ordinal 3)
+ORD["T"]["T_boxtimes"] = ORD["T"]["T_box"]
 
 WEIGHTS: dict[str, float] = {
     "D": 1.0, "T": 1.0, "R": 1.0, "P": 1.2,
